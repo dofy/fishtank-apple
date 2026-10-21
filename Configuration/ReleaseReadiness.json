@@ -1,0 +1,42 @@
+{
+  "version": "0.4.0",
+  "releaseReady": false,
+  "distributionChannels": {
+    "macOS": "direct-download",
+    "iPadOS": "TestFlight"
+  },
+  "automatedDraggingAllowed": false,
+  "selectedTeam": {
+    "name": "YANG YU",
+    "id": "2RTHE5H9TX",
+    "localCacheType": "Personal Team",
+    "distributionMembershipVerified": false,
+    "membershipStatus": "not-enrolled-user-confirmed",
+    "membershipEvidence": "2026-10-21 用户确认尚未加入 Apple Developer Program。"
+  },
+  "knownIssues": [
+    {
+      "id": "cross-screen-window-jump",
+      "status": "resolved-user-verified",
+      "description": "2026-10-21 用户在 Fishtank-QA-no-recenter.app 手动确认：跨屏正常，抓取点稳定。QA 与审阅包的机器代码、双架构 UUID 和 28 个资源重新核对一致；不扩大为所有屏幕布局或显示器拔插验收。禁止自动拖动的要求继续有效。"
+    },
+    {
+      "id": "mac-file-panel-confirmation",
+      "status": "unverified",
+      "description": "Mac 系统文件面板尚未可靠完成导入和导出确认。"
+    },
+    {
+      "id": "desktop-bottom-boundary",
+      "status": "resolved-user-verified",
+      "description": "2026-10-21 用户在 Fishtank-QA-bottom-bounds.app 手动确认：底部限位正常，上下跨屏和回拖也正常。QA 与审阅包机器代码、双架构 UUID 和 28 个资源重新核对一致；10 项几何测试及共 45 项核心测试通过。不扩大为其他未验组合，禁止自动拖动仍有效。"
+    }
+  ],
+  "pendingGates": [
+    "Mac 多桌面、减少动态效果、音频中断和睡眠唤醒",
+    "iPad 真机与最低系统验收",
+    "YANG YU 团队分发会员资格、有效证书与正式签名",
+    "公开支持/隐私地址与 TestFlight 发布资料",
+    "具体候选审核及公证/上传授权"
+  ],
+  "note": "人工维护的未完成门槛，打包仅随产物携带；不代表自动验收或发布授权。"
+}

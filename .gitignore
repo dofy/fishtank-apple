@@ -1,0 +1,44 @@
+.build/
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+.DS_Store
+
+
+.playwright-cli/
+
+__pycache__/
+# Local build, distribution and diagnostic output
+.swiftpm/
+*.app/
+*.xcarchive/
+*.dSYM/
+*.ipa
+*.zip
+*.log
+*.crash
+*.ips
+
+# Player saves, exported progress and local acceptance snapshots
+/saves/
+/backups/
+/exports/
+/validation/
+/snapshots/
+aquarium-v1.json*
+*.save.json
+*.backup.json
+*.snapshot.json
+
+# Credentials, provisioning and machine-specific settings
+.env
+.env.*
+!.env.example
+*.p12
+*.p8
+*.pem
+*.key
+*.mobileprovision
+*.provisionprofile
+*.xcconfig.local

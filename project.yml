@@ -1,0 +1,97 @@
+name: FishtankApple
+options:
+  bundleIdPrefix: net.yahaha
+  deploymentTarget:
+    macOS: '13.0'
+    iOS: '16.0'
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    GENERATE_INFOPLIST_FILE: YES
+    MARKETING_VERSION: '0.4.0'
+    CURRENT_PROJECT_VERSION: 3
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: 2RTHE5H9TX
+targets:
+  FishtankMac:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources
+        excludes: [Resources]
+      - path: Sources/Resources/Audio
+        buildPhase: resources
+      - path: Sources/Resources/Fonts
+        buildPhase: resources
+      - path: Sources/Resources/Assets.xcassets
+        buildPhase: resources
+      - path: Sources/Resources/FishtankIcon.icns
+        buildPhase: resources
+      - path: Sources/Resources/PrivacyInfo.xcprivacy
+        buildPhase: resources
+      - path: LICENSE
+        buildPhase: resources
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+        INFOPLIST_FILE: Configuration/FishtankMac-Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: net.yahaha.fishtank.mac
+        INFOPLIST_KEY_CFBundleDisplayName: Fishtank
+        INFOPLIST_KEY_LSUIElement: YES
+        ENABLE_APP_SANDBOX: YES
+        ENABLE_HARDENED_RUNTIME: YES
+    entitlements:
+      path: Configuration/FishtankMac.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
+  FishtankPad:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+        excludes: [Resources]
+      - path: Sources/Resources/Audio
+        buildPhase: resources
+      - path: Sources/Resources/Fonts
+        buildPhase: resources
+      - path: Sources/Resources/Assets.xcassets
+        buildPhase: resources
+      - path: Sources/Resources/PrivacyInfo.xcprivacy
+        buildPhase: resources
+      - path: LICENSE
+        buildPhase: resources
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: PadIcon
+        PRODUCT_BUNDLE_IDENTIFIER: net.yahaha.fishtank.apple.pad
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+        TARGETED_DEVICE_FAMILY: '2'
+        SUPPORTS_MACCATALYST: NO
+        INFOPLIST_KEY_CFBundleDisplayName: Fishtank
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+  FishtankPadUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: FishtankPad
+    settings:
+      base:
+        IPHONEOS_DEPLOYMENT_TARGET: 17.0
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        PRODUCT_BUNDLE_IDENTIFIER: net.yahaha.fishtank.apple.uitests
+        TARGETED_DEVICE_FAMILY: '2'
+schemes:
+  FishtankMac:
+    build:
+      targets:
+        FishtankMac: all
+  FishtankPad:
+    build:
+      targets:
+        FishtankPad: all
+    test:
+      targets: [FishtankPadUITests]
