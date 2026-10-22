@@ -7,8 +7,8 @@ for bundle in (mac, pad):
     root = bundle / 'Contents' if macos else bundle
     resources = root / 'Resources' if macos else root
     info = plistlib.loads((root / 'Info.plist').read_bytes())
-    assert info['CFBundleShortVersionString'] == '1.0.0', info
-    assert info['CFBundleVersion'] == '6', info
+    assert info['CFBundleShortVersionString'] == '1.0.1', info
+    assert info['CFBundleVersion'] == '7', info
     if macos:
         assert info['CFBundleIdentifier'] == 'net.yahaha.fishtank.mac'
         assert info['CFBundleIconFile'] == 'FishtankIcon.icns'

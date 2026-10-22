@@ -234,10 +234,6 @@ final class AquariumScene: SKScene {
     }
 
     private func renderSwimmers() {
-        if let arch = decorRoot.childNode(withName: "arch") {
-            let passing = ecology.swimmers.values.contains { $0.visit == "arch" && $0.withdrawal == nil }
-            arch.zPosition = draggedID == "arch" ? 1 : passing ? 4.5 : Double(currentDecor.firstIndex { $0.id == "arch" } ?? 0) * 0.01
-        }
         electricRoot.removeAllChildren()
         for a in ecology.swimmers.values where a.discharging > 0 || a.shocked > 0 {
             // Stepped electric bolts remain legible in both the desktop tank and iPad.
@@ -279,8 +275,16 @@ final class AquariumScene: SKScene {
             if let existing = fishNodes[id] { node = existing }
             else {
                 node = SKSpriteNode(texture: PixelArt.texture(fish: a.fish))
-                node.size = CGSize(width: 32, height: 24); node.zPosition = 5
+                node.size = CGSize(width: 32, height: 24)
                 fishNodes[id] = node; tankRoot.addChild(node)
+            }
+            // Move only this swimmer behind the arch. Decorations retain their saved
+            // relative order, including while dragging and while other fish pass.
+            if a.visit == "arch", a.withdrawal == nil, draggedID != "arch",
+               let arch = decorRoot.childNode(withName: "arch") {
+                node.zPosition = decorRoot.zPosition + arch.zPosition - 0.005
+            } else {
+                node.zPosition = 5
             }
             node.position = CGPoint(x: a.x.rounded(), y: a.y.rounded())
             let frame = reducedMotion || a.shocked > 0 ? 0 : PixelArt.animationFrame(for: a.fish.species, time: a.motionTime)
@@ -390,7 +394,7 @@ final class AquariumScene: SKScene {
         guard draggedID == nil else { return true }
         let local = decorRoot.convert(point, from: self)
         if let node = decorRoot.nodes(at: local).compactMap({ $0 as? SKSpriteNode }).filter({ $0.name != nil }).max(by: { $0.zPosition < $1.zPosition }) {
-            draggedID = node.name; node.zPosition = 1
+            draggedID = node.name
             ecology.setActiveDecoration(node.name)
             return true
         }
