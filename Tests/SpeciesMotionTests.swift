@@ -127,4 +127,55 @@ final class SpeciesMotionTests: XCTestCase {
             XCTAssertEqual(a.resting, 0); XCTAssertNil(a.school)
         }
     }
+    func testVelocityEasesThroughAccelerationBrakingAndReversalForEverySpecies() {
+        for species in FishCatalog.all {
+            let profile = species.swimProfile
+            var a = AquariumEcology.Swimmer(fish: fish(species.id, 1), x: 160, y: 80, baseY: 80)
+            a.easeVelocity(x: 30, y: 0, response: profile.accelerationTime, dt: 1.0 / 60)
+            XCTAssertGreaterThan(a.velocityX, 0)
+            XCTAssertLessThan(a.velocityX, 4)
+            for _ in 0..<180 { a.easeVelocity(x: 30, y: 0, response: profile.accelerationTime, dt: 1.0 / 60) }
+            XCTAssertGreaterThan(a.velocityX, 29)
+            let moving = a.velocityX
+            a.easeVelocity(x: 0, y: 0, response: profile.stoppingTime, dt: 1.0 / 60)
+            XCTAssertGreaterThan(a.velocityX, moving * 0.8)
+            XCTAssertLessThan(a.velocityX, moving)
+            a.easeVelocity(x: -30, y: 0, response: profile.accelerationTime, dt: 1.0 / 60)
+            XCTAssertGreaterThan(a.velocityX, 0, "Reversal must brake before swimming backward")
+            for _ in 0..<180 { a.easeVelocity(x: -30, y: 0, response: profile.accelerationTime, dt: 1.0 / 60) }
+            XCTAssertLessThan(a.velocityX, -29)
+        }
+    }
+    func testTurnCompletesSmoothlyEvenWhenRestingAndIsFrameRateIndependent() {
+        for species in FishCatalog.all {
+            var samples: [AquariumEcology.Swimmer] = []
+            for fps in [30, 60, 120] {
+                var a = AquariumEcology.Swimmer(fish: fish(species.id, 1), x: 160, y: 80, baseY: 80)
+                a.direction = -1; a.resting = 4
+                for _ in 0..<(fps * 2) {
+                    let old = a.facing
+                    a.easeFacing(duration: species.swimProfile.turningTime, dt: 1 / Double(fps))
+                    a.easeVelocity(x: 20, y: 5, response: species.swimProfile.accelerationTime, dt: 1 / Double(fps))
+                    XCTAssertLessThanOrEqual(abs(a.facing - old), 0.2)
+                    XCTAssertLessThanOrEqual(a.facing, old)
+                }
+                XCTAssertEqual(a.facing, -1, accuracy: 0.000001)
+                samples.append(a)
+            }
+            for a in samples { XCTAssertEqual(a.velocityX, samples[0].velocityX, accuracy: 0.000001) }
+        }
+        XCTAssertGreaterThan(FishCatalog.byID["jadeturtle"]!.swimProfile.turningTime,
+                             FishCatalog.byID["neonstreak"]!.swimProfile.turningTime)
+    }
+    func testStartleChangesMotionTempoGradually() {
+        let animal = fish("goldfin", 1)
+        var scene = AquariumEcology(seed: 8); scene.sync([animal], decorations: [])
+        scene.shake(); scene.update(1.0 / 60)
+        let first = scene.swimmers[animal.id]!
+        XCTAssertGreaterThan(first.motionRate, 1)
+        XCTAssertLessThan(first.motionRate, 1.2)
+        for _ in 0..<60 { scene.update(1.0 / 60) }
+        XCTAssertGreaterThan(scene.swimmers[animal.id]!.motionRate, 2)
+    }
+
 }

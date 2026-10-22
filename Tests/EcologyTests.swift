@@ -26,7 +26,9 @@ final class EcologyTests: XCTestCase {
         }
         scene.update(0.1)
         for a in scene.swimmers.values {
-            XCTAssertGreaterThan(abs(a.x - initial[a.fish.id]!.x), 7)
+            // Startle now accelerates over time instead of jumping to 85 points/s.
+            XCTAssertGreaterThan(abs(a.x - initial[a.fish.id]!.x), 0.1)
+            XCTAssertLessThan(hypot(a.velocityX, a.velocityY), 85)
         }
         for _ in 0..<28 { scene.update(0.1) }
         XCTAssertTrue(scene.swimmers.values.allSatisfy { $0.scared > 0 })

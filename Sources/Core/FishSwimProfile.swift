@@ -11,6 +11,27 @@ struct FishSwimProfile: Equatable {
     var restEvery: Double = 30
     var restDuration: Double = 5
     var schoolingRate: Double = 0
+
+    // Seconds: smaller schooling fish react promptly; heavier/gliding animals coast.
+    var accelerationTime: Double {
+        switch family {
+        case .fish: return speed >= 15 ? 0.22 : 0.35
+        case .seaSnake: return 0.4
+        case .eel: return 0.48
+        case .seahorse: return 0.5
+        case .jellyfish: return 0.65
+        case .turtle, .ray: return 0.7
+        }
+    }
+    var stoppingTime: Double { accelerationTime * 0.55 }
+    var turningTime: Double {
+        switch family {
+        case .fish: return speed >= 15 ? 0.55 : 0.75
+        case .seaSnake, .eel: return 0.95
+        case .seahorse: return 1.05
+        case .turtle, .ray, .jellyfish: return 1.2
+        }
+    }
 }
 
 extension FishSpecies {

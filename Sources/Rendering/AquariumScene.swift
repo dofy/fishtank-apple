@@ -295,7 +295,7 @@ final class AquariumScene: SKScene {
             node.alpha = a.alpha
             node.color = color(0xD8FAFF)
             node.colorBlendFactor = a.shocked > 0 ? (reducedMotion ? 0.3 : 0.35 + 0.3 * abs(sin(ecology.time * 16))) : 0
-            node.zRotation = reducedMotion ? 0 : a.shocked > 0 ? sin(ecology.time * 25) * 0.12 : a.pitch * (facing >= 0 ? 1 : -1)
+            node.zRotation = reducedMotion ? 0 : a.shocked > 0 ? sin(ecology.time * 25) * 0.12 : a.pitch * facing
         }
         let active = Set(ecology.foods.map(\.id))
         for id in Array(foodNodes.keys) where !active.contains(id) { foodNodes.removeValue(forKey: id)?.removeFromParent() }

@@ -31,6 +31,8 @@ struct AquariumEcology {
         var dropping = false
         var individuality = FishIndividuality(id: UUID(uuid: (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)))
         var motionTime = 0.0
+        var motionRate = 1.0
+        var heading = 0.0
         var resting = 0.0
         var restIn = 20.0
         var restX = 0.0
@@ -41,6 +43,17 @@ struct AquariumEcology {
         var velocityY = 0.0
         var pitch = 0.0
         var facing = 1.0
+        mutating func easeVelocity(x targetX: Double, y targetY: Double, response: Double, dt: Double) {
+            let blend = 1 - exp(-dt / response)
+            velocityX += (targetX - velocityX) * blend
+            velocityY += (targetY - velocityY) * blend
+        }
+        mutating func easeFacing(duration: Double, dt: Double) {
+            let target = direction > 0 ? 0.0 : Double.pi
+            let step = Double.pi * dt / duration
+            heading += max(-step, min(step, target - heading))
+            facing = cos(heading)
+        }
         var alpha: Double { withdrawal.map { max(0, $0 / withdrawalDuration) } ?? 1 }
         var available: Bool { withdrawal == nil && !dropping && scared <= 0 && shocked <= 0 && discharging <= 0 && resting <= 0 }
         var puffAmount: Double { puff <= 0 ? 0 : min(1, min((1.8 - puff) / 0.12, puff / 0.6)) }
@@ -109,6 +122,7 @@ struct AquariumEcology {
                     baseY: y, dropping: dropping, individuality: individuality)
                 swimmer.motionTime = individuality.phase
                 swimmer.facing = swimmer.direction
+                swimmer.heading = swimmer.direction > 0 ? 0 : .pi
                 swimmer.restIn = profile.restEvery * (0.55 + individuality.pace * 0.45)
                 swimmer.turnIn = 12 + individuality.phase * 3
                 swimmers[fish.id] = swimmer
@@ -222,7 +236,9 @@ struct AquariumEcology {
             a.age += dt
             let profile = a.fish.species.swimProfile
             if !reducedMotion {
-                a.motionTime += dt * profile.tempo * a.individuality.pace * (a.resting > 0 ? 0.14 : a.scared > 0 ? 2.4 : 1)
+                let targetRate = a.resting > 0 ? 0.14 : a.scared > 0 ? 2.4 : 1.0
+                a.motionRate += (targetRate - a.motionRate) * (1 - exp(-dt / profile.accelerationTime))
+                a.motionTime += dt * profile.tempo * a.individuality.pace * a.motionRate
             }
             a.resting = max(0, a.resting - dt)
             a.restIn = max(0, a.restIn - dt); a.turnIn = max(0, a.turnIn - dt)
@@ -230,7 +246,7 @@ struct AquariumEcology {
             a.puff = reducedMotion ? 0 : max(0, a.puff - dt)
             a.discharging = max(0, a.discharging - dt); a.zapCooldown = max(0, a.zapCooldown - dt)
             a.eatCooldown = max(0, a.eatCooldown - dt); a.sceneryCooldown = max(0, a.sceneryCooldown - dt)
-            if reducedMotion { a.school = nil; a.visit = nil; a.resting = 0; a.dropping = false; a.y = a.baseY; a.pitch = 0; a.facing = a.direction }
+            if reducedMotion { a.school = nil; a.visit = nil; a.resting = 0; a.dropping = false; a.y = a.baseY; a.pitch = 0; a.facing = a.direction; a.heading = a.direction > 0 ? 0 : .pi; a.velocityX = 0; a.velocityY = 0 }
             swimmers[id] = a
         }
         if reducedMotion {
@@ -252,8 +268,12 @@ struct AquariumEcology {
                 if random.next() < 0.32 { a.direction *= -1 }
                 a.roamOffset = (random.next() - 0.5) * (height - 60) * 0.2
             }
+            // Start braking before the glass rather than hitting it at full speed.
+            let margin = min(35, 5 + abs(a.velocityX) * profile.accelerationTime * 1.8)
+            if a.x < 23 + margin && a.direction < 0 { a.direction = 1 }
+            if a.x > 297 - margin && a.direction > 0 { a.direction = -1 }
             var (targetX, targetY, speed) = cruise(for: a)
-            let oldX = a.x, oldY = a.y
+            var arriving = false
             if a.dropping {
                 a.y -= 70 * dt
                 if a.y <= a.baseY { a.y = a.baseY; a.dropping = false }
@@ -268,6 +288,7 @@ struct AquariumEcology {
             } else if a.eatCooldown <= 0, let food = closestFood(to: a) {
                 a.school = nil; a.visit = nil; a.sceneryCooldown = 10
                 a.resting = 0; a.restIn = max(a.restIn, 8)
+                arriving = true
                 targetX = food.x; targetY = food.y; speed = min(38, profile.speed * 2 + 6)
                 if hypot(a.x - food.x, a.y - food.y) < 7 {
                     foods.removeAll { $0.id == food.id }; a.eatCooldown = 9; events.append("eat")
@@ -278,12 +299,14 @@ struct AquariumEcology {
                     if let leader = swimmers[leaderID], leader.available, leader.school == nil {
                         let followers = ids.filter { $0 == id || swimmers[$0]?.school == leaderID }
                         let slot = Double(followers.firstIndex(of: id) ?? 0)
+                        arriving = true
                         targetX = min(292, max(28, leader.x - leader.direction * (16 + slot.truncatingRemainder(dividingBy: 4) * 9)))
                         targetY = leader.y + (slot.truncatingRemainder(dividingBy: 3) - 1) * 8
                         speed = profile.speed * 1.25 + min(12, abs(targetX - a.x) * 0.1)
                     } else { a.school = nil; a.sceneryCooldown = 10 }
                 }
                 if let visit = a.visit, let decor = decorations.first(where: { $0.id == visit }) {
+                    arriving = true
                     let center = decor.x * 320
                     targetX = a.passedArch ? center + a.direction * 38 : center
                     let width = max(18, (DecorCatalog.byID[visit]?.width ?? 58) * 0.48)
@@ -315,29 +338,33 @@ struct AquariumEcology {
                 a.resting = profile.restDuration * (0.7 + random.next() * 0.6)
                 a.restIn = a.resting + profile.restEvery * (0.7 + random.next() * 0.6)
                 a.restX = a.x; a.restY = a.y
-                a.facing = a.direction // Finish turning before an idle pose, never freeze edge-on.
+
             }
+            var desiredX = 0.0, desiredY = 0.0
             if a.resting > 0 {
-                a.x = max(23, min(297, a.restX + sin(a.age * 0.35 + a.individuality.phase) * 0.35))
-                a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.restY + sin(a.age * 0.6) * 0.5))
-                a.velocityX = 0; a.velocityY = 0; a.pitch *= max(0, 1 - dt * 4)
-                swimmers[id] = a; continue
+                // Coast to rest. Tiny water drift remains after momentum dissipates.
+                desiredY = cos(a.age * 0.6) * 0.18
+            } else {
+                let dx = targetX - a.x, dy = targetY - a.y, distance = hypot(dx, dy)
+                if distance > 0.1 {
+                    let arrivalSpeed = arriving ? min(speed, distance / max(0.2, profile.accelerationTime * 2)) : speed
+                    desiredX = dx / distance * arrivalSpeed
+                    desiredY = dy / distance * arrivalSpeed
+                    if abs(dx) > 1.5 { a.direction = dx > 0 ? 1 : -1 }
+                }
             }
-            let dx = targetX - a.x, dy = targetY - a.y, distance = hypot(dx, dy)
-            if distance > 0.1 {
-                let move = min(distance, speed * dt)
-                a.x += dx / distance * move; a.y += dy / distance * move
-                if abs(dx) > 0.5 { a.direction = dx > 0 ? 1 : -1 }
-            }
-            if a.x < 23 { a.x = 23; a.direction = 1 }
-            if a.x > 297 { a.x = 297; a.direction = -1 }
+            let slowing = hypot(desiredX, desiredY) < hypot(a.velocityX, a.velocityY)
+            let response = slowing ? profile.stoppingTime : profile.accelerationTime
+            a.easeVelocity(x: desiredX, y: desiredY, response: response, dt: dt)
+            a.x += a.velocityX * dt; a.y += a.velocityY * dt
+            if a.x < 23 { a.x = 23; a.direction = 1; a.velocityX = max(0, a.velocityX) }
+            if a.x > 297 { a.x = 297; a.direction = -1; a.velocityX = min(0, a.velocityX) }
             a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.y))
-            a.velocityX = (a.x - oldX) / dt; a.velocityY = (a.y - oldY) / dt
             let desiredPitch = profile.family == .seahorse ? sin(a.motionTime * 2 * .pi / 2.4) * 0.065 + min(0.08, abs(a.velocityX) * 0.009)
                 : profile.family == .jellyfish ? sin(a.motionTime * 0.6) * 0.045
                 : max(-0.2, min(0.2, atan2(a.velocityY, max(2, abs(a.velocityX))) * 0.22))
             a.pitch += (desiredPitch - a.pitch) * min(1, dt * 5)
-            a.facing += (a.direction - a.facing) * min(1, dt * 7)
+            a.easeFacing(duration: profile.turningTime, dt: dt)
             swimmers[id] = a
         }
     }
