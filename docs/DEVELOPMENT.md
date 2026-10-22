@@ -1,6 +1,6 @@
 # 开发与验证
 
-当前版本为 **0.5.0（构建 4）**，核心回归 105 项通过；Mac 通用 Release、iPad Release Archive 与资源核对通过。正式分发门槛仍见 [发布清单](RELEASE_CHECKLIST.md)。
+当前版本为 **0.5.1（构建 5）**，核心回归 114 项通过；Mac 通用 Release、iPad Release Archive 与资源核对通过。正式分发门槛仍见 [发布清单](RELEASE_CHECKLIST.md)。
 
 以下记录保留早期开发与验收背景，当前产品介绍见 [README](../README.md)，当前版本变化见 [更新日志](../CHANGELOG.md)。历史测试数量与候选路径不代表当前版本。
 
@@ -83,7 +83,7 @@ FISHTANK_SIMULATOR_ID=<existing-device-uuid> tools/verify-release.sh
 
 检查脚本只构建和测试，不安装依赖、不登录账号、不签发正式证书、不上传。
 
-检查通过后可运行 `tools/package-local.sh`，在 `build/distribution/0.4.0-candidate/` 生成本机签名 Mac 应用、试玩 ZIP、源码 ZIP 和 SHA-256 清单。Mac 优先使用唯一的 Apple Development 身份，缺少身份时使用 ad-hoc 签名。iPad 未签名 Archive 位于 `build/FishtankPad.xcarchive`，需选定自己的签名团队后才能导出安装包。
+检查通过后可运行 `tools/package-local.sh`，在 `build/distribution/0.5.1-candidate/` 生成本机签名 Mac 应用、试玩 ZIP、源码 ZIP 和 SHA-256 清单。Mac 优先使用唯一的 Apple Development 身份，缺少身份时使用 ad-hoc 签名。iPad 未签名 Archive 位于 `build/FishtankPad.xcarchive`，需选定自己的签名团队后才能导出安装包。
 
 打包会拒绝覆盖正在运行的候选应用；可用 `tools/package-local.sh build/distribution/新的目录名` 在独立目录生成审阅副本，不退出个人鱼缸。自定义输出目录必须尚不存在。清单携带 [当前发布门槛](Configuration/ReleaseReadiness.json)、构建 UUID 和文件哈希；生成本地包不会清除未解决项或自动获得发布资格。
 

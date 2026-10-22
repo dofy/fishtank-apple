@@ -30,7 +30,7 @@ enum PixelTheme {
     }
     static var filterButtonWidth: CGFloat {
         switch L10n.language {
-        case .english: return metric(96, 96)
+        case .english: return metric(84, 96)
         case .japanese: return metric(64, 88)
         default: return metric(48, 56)
         }
@@ -348,6 +348,7 @@ struct PixelIcon: View {
 struct PixelWindowChrome: View {
     let title: String
     let closeLabel: String
+    var bottomSpacing: CGFloat = 12
     let close: () -> Void
     var body: some View {
         HStack(spacing: 12) {
@@ -361,7 +362,7 @@ struct PixelWindowChrome: View {
             Button(action: close) { PixelIcon("close", color: PixelTheme.pink) }
                 .buttonStyle(PixelButtonStyle(fixedWidth: 40)).accessibilityLabel(closeLabel)
         }.padding(.horizontal, 12).padding(.vertical, 8)
-            .background(PixelTheme.shell).padding(.bottom, 12)
+            .background(PixelTheme.shell).padding(.bottom, bottomSpacing)
     }
 }
 

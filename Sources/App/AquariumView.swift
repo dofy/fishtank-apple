@@ -58,10 +58,11 @@ struct AquariumView: View {
                     pageContent(landscape: geometry.size.width > geometry.size.height,
                                 width: max(1, geometry.size.width - 40))
                 }
-                .padding(20)
+                .padding(.horizontal, 20).padding(.vertical, PixelTheme.metric(12, 20))
                 .frame(maxWidth: managementWidth, alignment: .leading)
                 .frame(maxWidth: .infinity)
             }
+            .accessibilityIdentifier("aquarium.content")
             .id(tab)
             .onChange(of: tab) { _ in
                 selected = []; page = 0; search = ""; tierFilter = -1
@@ -300,12 +301,19 @@ struct AquariumView: View {
     #endif
 
     private var sharedInformation: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: PixelTheme.metric(6, 10)) {
+            #if os(macOS)
+            compactHeading
+            #else
             heading
+            #endif
             Text(store.message)
-                .font(PixelTheme.captionFont()).foregroundStyle(gold).lineLimit(2).lineSpacing(4)
+                .font(PixelTheme.captionFont()).foregroundStyle(gold).lineLimit(PixelTheme.isPad ? 2 : 1).lineSpacing(PixelTheme.metric(0, 4))
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .frame(height: PixelTheme.metric(32, 44), alignment: .topLeading)
+                .frame(height: PixelTheme.metric(20, 44), alignment: .topLeading)
+                #if os(macOS)
+                .help(store.message)
+                #endif
                 .accessibilityAddTraits(.updatesFrequently)
             if let title = store.achievementToast {
                 HStack {
@@ -315,9 +323,46 @@ struct AquariumView: View {
                     Button(L10n.text("收好")) { store.achievementToast = nil }
                 }.padding(12).pixelPanel(PixelTheme.panel, selected: true)
             }
-        }.padding(.horizontal, 20).padding(.top, 12)
+        }.padding(.horizontal, 20).padding(.top, PixelTheme.metric(8, 12)).padding(.bottom, PixelTheme.metric(4, 0))
             .frame(maxWidth: managementWidth, alignment: .leading).frame(maxWidth: .infinity)
+            .accessibilityElement(children: .contain).accessibilityIdentifier("aquarium.status")
     }
+
+    #if os(macOS)
+    private var compactHeading: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 12) {
+                HStack(spacing: 8) {
+                    PixelIcon("fish", color: gold)
+                    Text(L10n.text("像素海洋")).font(PixelTheme.font(18)).foregroundStyle(gold)
+                        .accessibilityIdentifier("aquarium.heading")
+                    Text("Lv.\(store.state.level)").foregroundStyle(PixelTheme.muted)
+                }.fixedSize(horizontal: true, vertical: false)
+                Spacer(minLength: 16)
+                compactExperience
+            }
+            HStack(spacing: 16) { heartSummary; collectionSummary; tankSummary; Spacer(minLength: 0) }
+        }
+    }
+
+    private var compactExperience: some View {
+        Group {
+            if let next = store.state.nextLevelExp {
+                HStack(spacing: 8) {
+                    PixelMeter(value: Double(store.state.exp - FishBalance.levelThresholds[store.state.level - 1]),
+                               total: Double(next - FishBalance.levelThresholds[store.state.level - 1])).frame(width: 120)
+                    Text("\(store.state.exp) / \(next)").font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted)
+                }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(L10n.text("累计经验 \(store.state.exp) / \(next) · 下一级增加一个展示位"))
+                .help(L10n.text("累计经验 \(store.state.exp) / \(next) · 下一级增加一个展示位"))
+            } else {
+                Text(L10n.text("鱼缸已满级 · 累计经验 \(store.state.exp)"))
+                    .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted)
+            }
+        }.fixedSize(horizontal: true, vertical: false)
+    }
+    #endif
 
     private var heading: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -360,11 +405,12 @@ struct AquariumView: View {
             GeometryReader { geometry in
                 HStack(spacing: 24) {
                     PixelAquariumPreview(scene: scene, store: store, paused: scenePaused)
-                        .frame(width: min(320, geometry.size.width), height: min(320, geometry.size.width) * 9 / 16)
+                        .frame(width: min(192, geometry.size.width), height: min(192, geometry.size.width) * 9 / 16)
+                        #if os(macOS)
+                        .help(L10n.text("工作间隙，\n看看这一小缸海。"))
+                        #endif
                     if geometry.size.width > 650 {
                         VStack(alignment: .leading, spacing: 16) {
-                            Text(L10n.text("工作间隙，\n看看这一小缸海。")).font(PixelTheme.font(24)).lineSpacing(8)
-                                .fixedSize(horizontal: false, vertical: true).foregroundStyle(gold)
                             Text(L10n.text("装饰 \(store.state.decorations.count)/\(store.state.capacity) · 勋章 \(store.state.displayedAchievements.count) 枚"))
                                 .foregroundStyle(PixelTheme.muted)
                             Button(L10n.text("布置鱼缸")) { tab = .decor }
@@ -372,7 +418,7 @@ struct AquariumView: View {
                         Spacer(minLength: 0)
                     }
                 }
-            }.frame(height: 180)
+            }.frame(height: 108)
             tankInventory
         }
     }
@@ -380,7 +426,7 @@ struct AquariumView: View {
     private var tankInventory: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text(L10n.text("我的鱼群")).font(PixelTheme.font(24))
+                Text(L10n.text("我的鱼群")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
                 Spacer()
                 Button { scene.feed(reducedMotion: reducedMotion); store.sound.play("feed"); store.message = L10n.text("撒下鱼食，看小鱼慢慢追过来。") } label: {
                     HStack(spacing: 6) { PixelIcon("food"); Text(L10n.text("投喂")) }
@@ -397,19 +443,37 @@ struct AquariumView: View {
         case tier = "星级", grade = "品阶", uses = "繁育次数", displayed = "展示", acquired = "获得时间"
     }
 
-    private var fishSorting: some View {
+    private var fishSortDirection: some View {
+        Button(sortDescending ? L10n.text("降序") : L10n.text("升序")) { sortDescending.toggle(); page = 0 }
+            .accessibilityIdentifier("fish.sort.direction")
+    }
+    private var stackedFishSorting: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text(L10n.text("鱼群排序")).foregroundStyle(gold)
                 Spacer()
-                Button(sortDescending ? L10n.text("降序") : L10n.text("升序")) { sortDescending.toggle(); page = 0 }
-                    .accessibilityIdentifier("fish.sort.direction")
+                fishSortDirection
             }
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: 8) { fishSortButtons }
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: L10n.language == .english ? 2 : 3), spacing: 8) { fishSortButtons }
             }
         }
+    }
+    private var fishSorting: some View {
+        #if os(macOS)
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) {
+                Text(L10n.text("鱼群排序")).foregroundStyle(gold).fixedSize()
+                HStack(spacing: 8) { fishSortButtons }.fixedSize(horizontal: true, vertical: false)
+                Spacer(minLength: 0)
+                fishSortDirection.fixedSize()
+            }
+            stackedFishSorting
+        }
+        #else
+        stackedFishSorting
+        #endif
     }
 
     private var fishSortButtons: some View {
@@ -433,11 +497,11 @@ struct AquariumView: View {
 
     private var breedContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("两条亲代，一次新的相遇。")).font(PixelTheme.font(24))
+            Text(L10n.text("两条亲代，一次新的相遇。")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
             Text(L10n.text("每次消耗 1 颗爱心。初始鱼繁育后冷却 3 分钟；其他鱼消耗繁育次数。锁定不影响繁育。"))
                 .font(PixelTheme.font()).lineSpacing(4).foregroundStyle(PixelTheme.muted)
             VStack(alignment: .leading, spacing: 12) {
-                Text(L10n.text("亲代筛选")).foregroundStyle(gold)
+                if PixelTheme.isPad { Text(L10n.text("亲代筛选")).foregroundStyle(gold) }
                 filters
             }.frame(maxWidth: .infinity, alignment: .leading).padding(14).pixelPanel()
             ViewThatFits(in: .horizontal) {
@@ -474,7 +538,7 @@ struct AquariumView: View {
                 }.joined(separator: "  ")).foregroundStyle(gold)
                     .accessibilityIdentifier("breed.odds")
             } else {
-                Text(L10n.text("点击鱼卡或推荐配对，选满 2 条后繁育。"))
+                Text(PixelTheme.isPad ? L10n.text("点击鱼卡或推荐配对，选满 2 条后繁育。") : L10n.text("请选择两条不同的亲代鱼。"))
                     .foregroundStyle(PixelTheme.muted)
             }
         }.font(PixelTheme.captionFont()).lineSpacing(4).fixedSize(horizontal: false, vertical: true)
@@ -497,7 +561,7 @@ struct AquariumView: View {
 
     private var mergeContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("十条小鱼，汇成新的星光。")).font(PixelTheme.font(24))
+            Text(L10n.text("十条小鱼，汇成新的星光。")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
             Text(L10n.text("消耗 10 条 1–4 星鱼，继承最高品阶；同星材料必定升一星。混星时，每条材料为自己的星级 +1 投一票。初始鱼、5 星鱼和锁定鱼不可选。"))
                 .font(PixelTheme.font()).lineSpacing(4).foregroundStyle(PixelTheme.muted)
             VStack(alignment: .leading, spacing: 12) {
@@ -562,7 +626,7 @@ struct AquariumView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(L10n.text("已选择 \(selected.count)/10 条材料")).foregroundStyle(PixelTheme.text)
             if selected.isEmpty {
-                Text(L10n.text("点击鱼卡或自动选材，凑齐 10 条后合成。"))
+                Text(PixelTheme.isPad ? L10n.text("点击鱼卡或自动选材，凑齐 10 条后合成。") : L10n.text("合成需要 10 条不同的鱼。"))
                     .foregroundStyle(PixelTheme.muted)
             } else {
                 let picked = store.state.fish.filter { selected.contains($0.id) }
@@ -586,10 +650,19 @@ struct AquariumView: View {
     }
 
     private func selectionActionBar<Readout: View, Action: View>(readout: Readout, action: Action) -> some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 16) { readout.frame(minWidth: 180, alignment: .leading); Spacer(minLength: 16); action }
-            VStack(alignment: .leading, spacing: 10) { readout; HStack { Spacer(minLength: 0); action } }
-        }.padding(12).frame(maxWidth: .infinity, alignment: .leading)
+        Group {
+            #if os(macOS)
+            HStack(spacing: 16) {
+                readout.frame(maxWidth: .infinity, alignment: .leading)
+                action
+            }.padding(.horizontal, 12).padding(.vertical, 8)
+            #else
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 16) { readout.frame(minWidth: 180, alignment: .leading); Spacer(minLength: 16); action }
+                VStack(alignment: .leading, spacing: 10) { readout; HStack { Spacer(minLength: 0); action } }
+            }.padding(12)
+            #endif
+        }.frame(maxWidth: .infinity, alignment: .leading)
             .background(PixelTheme.panel)
             .overlay(alignment: .top) { Rectangle().fill(PixelTheme.highlight.opacity(0.25)).frame(height: 1) }
     }
@@ -602,16 +675,32 @@ struct AquariumView: View {
         })
     }
 
-    private var filters: some View {
+    private var fishSearch: some View {
+        TextField(L10n.text("搜索鱼种"), text: $search).textFieldStyle(.plain)
+            .padding(12).background(PixelTheme.ink).pixelPanel(PixelTheme.ink)
+            .onChange(of: search) { _ in page = 0 }
+    }
+    private var stackedFilters: some View {
         VStack(alignment: .leading, spacing: 10) {
-            TextField(L10n.text("搜索鱼种"), text: $search).textFieldStyle(.plain)
-                .padding(12).background(PixelTheme.ink).pixelPanel(PixelTheme.ink)
-                .onChange(of: search) { _ in page = 0 }
+            fishSearch
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: 6) { tierButtons }
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: PixelTheme.filterButtonWidth), spacing: 6)], alignment: .leading, spacing: 6) { tierButtons }
             }
         }
+    }
+    private var filters: some View {
+        #if os(macOS)
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) {
+                fishSearch.frame(minWidth: 160)
+                HStack(spacing: 6) { tierButtons }.fixedSize(horizontal: true, vertical: false)
+            }
+            stackedFilters
+        }
+        #else
+        stackedFilters
+        #endif
     }
     private var tierButtons: some View {
         ForEach(-1...5, id: \.self) { tier in
@@ -673,7 +762,7 @@ struct AquariumView: View {
                     portrait(fish.species, grade: fish.grade).padding(6).frame(height: 68).frame(maxWidth: .infinity)
                         .background(PixelSpecimenWell())
                     Text(fish.name).font(PixelTheme.font()).lineLimit(PixelTheme.isPad ? 1 : 2)
-                        .frame(maxWidth: .infinity, alignment: .leading).frame(height: PixelTheme.metric(32, 24), alignment: .topLeading)
+                        .frame(maxWidth: .infinity, alignment: .leading).frame(height: PixelTheme.metric(L10n.language == .english ? 38 : 32, 24), alignment: .topLeading)
                     Text(L10n.text("\(fish.tier == 0 ? L10n.text("初始鱼") : String(repeating: "★", count: fish.tier)) · 品阶 \(fish.grade)"))
                         .font(PixelTheme.captionFont()).foregroundStyle(gold)
                     breedingHearts(fish)
@@ -814,7 +903,7 @@ struct AquariumView: View {
 private extension AquariumView {
     var chrome: some View {
         #if os(macOS)
-        PixelWindowChrome(title: L10n.text("Fishtank / 口袋海洋"), closeLabel: L10n.text("关闭养成手册")) { NSApp.keyWindow?.close() }
+        PixelWindowChrome(title: L10n.text("Fishtank / 口袋海洋"), closeLabel: L10n.text("关闭养成手册"), bottomSpacing: 0) { NSApp.keyWindow?.close() }
         #else
         EmptyView()
         #endif
@@ -859,7 +948,22 @@ private extension AquariumView {
     }
 
     var decorContent: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: PixelTheme.metric(14, 18)) {
+            #if os(macOS)
+            HStack(alignment: .center, spacing: 20) {
+                PixelAquariumPreview(scene: scene, store: store, paused: scenePaused)
+                    .frame(width: 256, height: 144).accessibilityIdentifier("decor.preview")
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Text(L10n.text("布置一小片海底")).font(PixelTheme.font(18)).foregroundStyle(gold)
+                        Spacer(minLength: 8)
+                        Text(L10n.text("\(store.state.decorations.count)/\(store.state.capacity) 位")).foregroundStyle(PixelTheme.muted)
+                    }
+                    Text(L10n.text("在鱼缸中直接拖动造景调整位置。顶挂灯与海底造景共用槽位，勋章不占位。"))
+                        .foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
+                }.frame(maxWidth: .infinity, alignment: .leading)
+            }
+            #else
             HStack {
                 Text(L10n.text("布置一小片海底")).font(PixelTheme.font(24)).foregroundStyle(gold)
                 Spacer()
@@ -869,27 +973,28 @@ private extension AquariumView {
                 .frame(maxWidth: 640).frame(maxWidth: .infinity)
             Text(L10n.text("在鱼缸中直接拖动造景调整位置。顶挂灯与海底造景共用槽位，勋章不占位。"))
                 .foregroundStyle(PixelTheme.muted)
+            #endif
             LazyVGrid(columns: [GridItem(.adaptive(minimum: PixelTheme.metric(184, 232)), spacing: 12)], spacing: 12) {
                 ForEach(DecorCatalog.all) { item in
                     let placed = store.state.decorations.first { $0.id == item.id }
                     let unlocked = store.state.level >= item.unlockLevel
                     ZStack(alignment: .bottomTrailing) {
                         Button { store.toggleDecoration(item.id) } label: {
-                            VStack(alignment: .leading, spacing: 12) {
+                            VStack(alignment: .leading, spacing: PixelTheme.metric(8, 12)) {
                                 HStack {
                                     Text(item.top ? L10n.text("顶挂") : L10n.text("海底")).foregroundStyle(PixelTheme.muted)
                                     Spacer()
                                     if !unlocked { PixelIcon("lock") }
                                 }.frame(height: PixelTheme.metric(20, 24))
                                 Image(decorative: DecorArt.image(item), scale: 1).interpolation(.none).resizable().scaledToFit()
-                                    .padding(6).frame(height: 76).frame(maxWidth: .infinity).opacity(unlocked ? 1 : 0.3)
+                                    .padding(6).frame(height: PixelTheme.metric(64, 76)).frame(maxWidth: .infinity).opacity(unlocked ? 1 : 0.3)
                                     .background(PixelSpecimenWell())
-                                Text(item.name).foregroundStyle(PixelTheme.text).lineLimit(1).frame(height: PixelTheme.metric(16, 24), alignment: .leading)
+                                Text(item.name).foregroundStyle(PixelTheme.text).lineLimit(2).frame(height: PixelTheme.metric(L10n.language == .english ? 38 : 28, 24), alignment: .topLeading)
                                 Text(unlocked ? (placed == nil ? L10n.text("已解锁") : L10n.text("可拖动调整位置")) : L10n.text("Lv.\(item.unlockLevel) 解锁"))
                                     .foregroundStyle(unlocked ? PixelTheme.green : PixelTheme.muted)
                                     .lineLimit(1).frame(height: PixelTheme.metric(16, 24), alignment: .leading)
                                 Spacer(minLength: PixelTheme.metric(40, 52))
-                            }.padding(14).frame(maxWidth: .infinity, alignment: .leading).frame(height: PixelTheme.metric(264, 300))
+                            }.padding(PixelTheme.metric(12, 14)).frame(maxWidth: .infinity, alignment: .leading).frame(height: PixelTheme.metric(L10n.language == .english ? 240 : 224, 300))
                                 .pixelCard(displayed: placed != nil).contentShape(Rectangle())
                         }.buttonStyle(.plain).disabled(!unlocked)
                             .accessibilityIdentifier("decor.card." + item.id)
