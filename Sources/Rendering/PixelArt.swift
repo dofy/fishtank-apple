@@ -57,13 +57,13 @@ enum PixelArt {
     }
 
     static func animationFrameCount(for species: FishSpecies) -> Int {
-        species.form == "eel" || species.form == "seasnake" ? 16 : 3
+        species.form == "eel" || species.form == "seasnake" ? 16 : 8
     }
 
     static func animationFrame(for species: FishSpecies, time: Double) -> Int {
         guard time.isFinite, time > 0 else { return 0 }
         let count = animationFrameCount(for: species)
-        let fps = count == 3 ? 4.0 : 12.0
+        let fps = count == 16 ? 12.0 : 4.0
         return Int((time.truncatingRemainder(dividingBy: Double(count) / fps) * fps).rounded(.down)) % count
     }
 
@@ -86,34 +86,92 @@ enum PixelArt {
         let scale = hsl(hue, species.saturation * 0.85, min(0.86, species.lightness + 0.07))
         let undulating = frameCount == 16
         let phase = Double(frame) * 2 * .pi / Double(frameCount)
-        func spine(_ x: Double) -> Double { 11 + sin((x + Double(variant % 5)) * 0.23 + phase) * 4 }
+        func spine(_ x: Double) -> Double {
+            let amplitude: Double, frequency: Double
+            switch species.silhouette {
+            case "krait": amplitude = 5; frequency = 0.36
+            case "amber-eel": amplitude = 2.4; frequency = 0.22
+            case "electric-eel": amplitude = 3.2; frequency = 0.29
+            case "ribbon-eel": amplitude = 4.8; frequency = 0.19
+            default: amplitude = 4.5; frequency = 0.27
+            }
+            return 11 + sin(x * frequency + phase) * amplitude * (0.3 + (29 - x) / 29 * 0.7)
+        }
 
         func inside(_ xi: Int, _ yi: Int) -> Bool {
             let x = Double(xi) / 2
-            let finOffset = undulating ? 0 : Double([0, 1, -1][frame])
+            let finOffset = undulating ? 0 : sin(phase) * 1.5
             let y = Double(yi) / 2 + (x < 10 ? finOffset * (10 - x) / 8 : 0)
             func ellipse(_ cx: Double, _ cy: Double, _ rx: Double, _ ry: Double) -> Bool {
                 pow((x - cx) / rx, 2) + pow((y - cy) / ry, 2) <= 1
             }
             switch species.form {
             case "jellyfish":
-                return (y <= 12 && ellipse(16, 12, 10, 9))
-                    || (y >= 12 && y < 22 && (Int(x) + (Int(y) / 3 + frame) % 2) % 4 == 0 && abs(x - 16) < 8)
-                    || (species.tier == 5 && y < 7 && y > 1 && Int(x) % 5 == 1 && abs(x - 16) < 8)
+                let squeeze = max(0, sin(phase))
+                let radius = species.silhouette == "saucer-jelly" ? 10.5 : species.silhouette == "crown-jelly" ? 11 : 9
+                let bell = y <= 12 && ellipse(16, 12, radius - squeeze * 2, (species.silhouette == "saucer-jelly" ? 6 : 8.5) - squeeze * 1.8)
+                let tentacleLength = species.silhouette == "saucer-jelly" ? 19.0 : 23.0
+                let stems: [Double] = [10, 14, 18, 22]
+                let tentacleWidth = species.silhouette == "ribbon-jelly" ? 0.9 : 0.55
+                let tentacleWave = sin((y - 12) * 0.5 - phase) * (y - 12) / 9
+                let onStem = stems.contains { abs(x - $0 - tentacleWave) < tentacleWidth }
+                let tentacles = y >= 11.5 && y < tentacleLength && onStem
+                let crown = species.silhouette == "crown-jelly" && x > 10 && x < 23 && y > 1 && y < 7
+                    && abs(x - 16) < 7 - y && (Int(x) % 4 < 2 || y > 5)
+                return bell || tentacles || crown
             case "seahorse":
-                return ellipse(18, 6, 5, 4) || (x >= 20 && x <= 27 && y >= 5 && y <= 8)
-                    || ellipse(15, 13, 4, 6) || (y >= 17 && y <= 22 && abs(x - (12 + sin(y) * 3)) < 1.6)
-                    || (x >= 8 && x <= 12 && y >= 9 && y <= 15 && (Int(x) + Int(y)) % 2 == 0)
+                let leafy = species.silhouette == "leafy-seahorse"
+                let curlX = 13.0 + sin(phase) * 0.5, curlY = 19.0
+                let curlRadius = hypot(x - curlX, y - curlY)
+                let tail = curlRadius > 1.7 && curlRadius < 3.0 && (x < curlX + 0.4 || y > curlY)
+                    || x >= 14 && x <= 17 && y >= 14 && y <= 20
+                let fronds = leafy ? (ellipse(9, 11, 3.5, 1.3) || ellipse(10, 15, 3, 1.5) || ellipse(15, 2.5, 2.8, 1.5))
+                    : (x >= 10 && x <= 13 && y >= 8 && y <= 16 && Int(y) % 3 < 1)
+                return ellipse(18, 6, leafy ? 4.5 : 5, 4) || (x >= 20 && x <= 27 && y >= 5 && y <= 7)
+                    || ellipse(15, 12, 4, 5.5) || tail || fronds
             case "eel", "seasnake":
-                return x >= 2 && x <= 29 && abs(y - spine(x)) < (x > 22 ? 2.4 : 1.8)
-                    || (species.tier >= 4 && x > 8 && x < 22 && abs(y - (spine(x) - 2.2)) < 1.3 && Int(x) % 3 == 0)
+                let dy = y - spine(x)
+                switch species.silhouette {
+                case "krait":
+                    return (x >= 3 && x <= 27 && abs(dy) < 1.15)
+                        || ellipse(27, spine(27), 2.4, 1.7) || ellipse(3.5, spine(3.5), 2, 1.6)
+                case "amber-eel":
+                    let radius = 0.6 + x / 29 * 2.2
+                    return (x >= 2 && x <= 28 && abs(dy) < radius)
+                        || ellipse(27, spine(27), 2.7, 2.5)
+                        || (x >= 5 && x <= 23 && dy > radius - 0.3 && dy < radius + 0.9)
+                case "electric-eel":
+                    let radius = 0.65 + x / 29 * 1.5
+                    let ridge = 1.8 + (Int(x) % 4 < 2 ? 1.8 : 0.4)
+                    return (x >= 2 && x <= 28 && abs(dy) < radius)
+                        || ellipse(27, spine(27), 2.8, 1.9)
+                        || (x >= 7 && x <= 24 && dy < 0 && dy > -ridge)
+                case "ribbon-eel":
+                    let ribbon = 2.8 + sin(x * 0.42 + phase) * 1.2
+                    return (x >= 2 && x <= 28 && abs(dy) < 0.95)
+                        || ellipse(27.5, spine(27.5), 2.1, 1.5)
+                        || (x >= 4 && x <= 25 && dy < 0 && dy > -ribbon)
+                default:
+                    let radius = 0.8 + x / 29 * 1.6
+                    let crest = 2.3 + (Int(x) % 4 < 2 ? 2.5 : 0.5)
+                    let horn = x >= 24 && x <= 27 && y > spine(26) - 6 && y < spine(26) - 1
+                        && abs(x - 25.5) < (y - spine(26) + 6) * 0.35
+                    return (x >= 2 && x <= 28 && abs(dy) < radius)
+                        || ellipse(27, spine(27), 3.2, 2.1) || horn
+                        || (x >= 8 && x <= 23 && dy < 0 && dy > -crest)
+                }
             case "ray":
-                return abs(x - 16) / 13 + abs(y - 10) / 8 < 1
-                    || (y >= 13 && y <= 23 && abs(x - (16 + (y - 13) * 0.28)) < 1)
+                let lift = sin(phase) * 1.6
+                return abs(x - 16) / 13 + abs(y - 10 - abs(x - 16) / 13 * lift) / 7 < 1
+                    || (y >= 12 && y <= 23 && abs(x - (16 + (y - 13) * 0.28)) < 0.8)
             case "turtle":
-                return ellipse(15, 11, 8, 6) || ellipse(25, 10, 4, 3)
-                    || ellipse(10, 5, 4, 2) || ellipse(10, 17, 4, 2)
-                    || ellipse(21, 5, 3, 2) || ellipse(21, 17, 3, 2)
+                let stroke = sin(phase), reach = cos(phase)
+                return ellipse(15, 11, 8, 6) || ellipse(25, 10, 4, 2.6)
+                    || ellipse(10 + reach, 5 + stroke * 1.4, 4, 1.8)
+                    || ellipse(10 - reach, 17 - stroke * 1.4, 4, 1.8)
+                    || ellipse(21 - reach, 5 - stroke, 3.5, 1.8)
+                    || ellipse(21 + reach, 17 + stroke, 3.5, 1.8)
+                    || (x >= 4 && x <= 9 && abs(y - 11) < (x - 3) * 0.35)
             default:
                 let depth = max(3.0, species.depth * 8) * (species.silhouette == "spiky-puffer" ? 1 + Double(puffLevel) / 3 * 0.28 : 1)
                 let tailWidth = 4 + species.tail * 11
@@ -121,19 +179,27 @@ enum PixelArt {
                 switch species.silhouette {
                 case "rhomboid-barb", "diamond-tetra": body = abs(x - 18) / 9 + abs(y - 11) / (depth + 1) < 1
                 case "beak-butterfly", "moorish-idol", "unicorn-tang": body = ellipse(17, 11, 6.5, depth + 0.8)
-                case "wrasse", "minnow": body = ellipse(18, 11, 10, depth * 0.85)
+                case "wrasse", "minnow", "tetra", "fire-goby": body = ellipse(18, 11, 10, depth * 0.72)
+                case "catfish": body = ellipse(17, 12, 10, depth * 0.75)
+                case "banner-cardinal": body = abs(x - 18) / 7 + abs(y - 11) / (depth + 2) < 1
+                case "damsel": body = ellipse(18, 11, 7, depth + 0.5)
+                case "crown-butterfly": body = ellipse(17, 11, 6.5, depth + 1.3)
                 default: body = ellipse(18, 11, 8, depth)
                 }
                 let veil = ["goldfish", "veil-koi", "lyretail"].contains(species.silhouette)
                 let tail = x >= 2 && x <= 2 + tailWidth && abs(y - 11) <= (2 + tailWidth - x) * (veil ? 1.1 : 0.72)
                     && (!veil || x > 4 || abs(y - 11) > 1.2)
                 let dorsal = x > 12 && x < 22 && y >= 11 - depth - species.dorsal * (1 + (22 - x) * 0.45) && y < 11 - depth + 2
+                let streamer = species.silhouette == "moorish-idol" && x > 12 && x < 18 && y > 1 && y < 11 - depth + 2
+                    && abs(x - (18 - y * 0.65)) < 0.8
+                let sail = species.silhouette == "fire-goby" && x > 14 && x < 18 && y > 2 && y < 10
+                let whiskers = species.silhouette == "catfish" && x > 24 && x < 30 && abs(y - (11 + (x - 24) * 0.6)) < 0.5
                 let ventral = x > 14 && x < 19 && y > 11 + depth - 1 && y < 11 + depth + (19 - x) * 0.65
                 let beak = ["beak-butterfly", "unicorn-tang", "moorish-idol"].contains(species.silhouette)
                     && x >= 24 && x <= 29 && y >= 9 && y <= 11
                 let puffer = species.silhouette == "spiky-puffer" && (Int(x) % 3 == 0 || Int(y) % 3 == 0) && ellipse(18, 11, 9, depth + 1)
                 let wings = species.silhouette == "glider-fish" && abs(x - 15) < 6 && abs(y - 12) < 9 && Int(x) % 2 == 0
-                return body || tail || dorsal || ventral || beak || puffer || wings
+                return body || tail || dorsal || ventral || beak || puffer || wings || streamer || sail || whiskers
             }
         }
 
@@ -166,10 +232,20 @@ enum PixelArt {
                         if py < 11 && abs(px - 16) < 6 && (x % 8 < 2) { color = belly }
                         if abs(py - 12) < 0.6 { color = accent }
                     } else if species.form == "eel" || species.form == "seasnake" {
-                        if inside(x, y - 2) && !inside(x, y + 3) { color = belly }
+                        let dy = py - spine(px)
+                        if dy > 0.4 { color = belly }
+                        if species.silhouette == "krait" {
+                            let pale = grade == 1 ? [UInt8(225), 230, 210, 255] : light
+                            let dark = grade == 1 ? [UInt8(32), 52, 67, 255] : shade
+                            color = Int(px / 2.5) % 2 == 0 ? pale : dark
+                        }
+                        if species.silhouette == "amber-eel" && abs(dy) < 0.45 { color = shade }
+                        if species.silhouette == "electric-eel" && dy < -1.5 { color = accent }
+                        if species.silhouette == "ribbon-eel" && dy < -0.9 { color = fin }
+                        if species.silhouette == "sea-dragon" && Int(px) % 4 < 1 { color = light }
                     }
                 }
-                let eyeX = species.form == "seahorse" ? 20 : species.form == "ray" ? 18 : species.form == "jellyfish" ? 18 : 24
+                let eyeX = species.form == "seahorse" ? 20 : species.form == "ray" ? 18 : species.form == "jellyfish" ? 18 : undulating ? 27 : 24
                 let eyeY = undulating ? Int((spine(Double(eyeX)) - 0.5).rounded()) : species.form == "seahorse" ? 5 : species.form == "jellyfish" ? 10 : 9
                 if abs(x - eyeX * 2) <= 2 && abs(y - eyeY * 2) <= 2 { color = [255, 244, 211, 255] }
                 if abs(x - (eyeX * 2 + 1)) <= 1 && abs(y - eyeY * 2) <= 1 { color = [15, 25, 39, 255] }

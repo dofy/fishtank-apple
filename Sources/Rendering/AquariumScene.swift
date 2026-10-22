@@ -283,13 +283,15 @@ final class AquariumScene: SKScene {
                 fishNodes[id] = node; tankRoot.addChild(node)
             }
             node.position = CGPoint(x: a.x.rounded(), y: a.y.rounded())
-            let frame = reducedMotion || a.shocked > 0 ? 0 : PixelArt.animationFrame(for: a.fish.species, time: ecology.time)
+            let frame = reducedMotion || a.shocked > 0 ? 0 : PixelArt.animationFrame(for: a.fish.species, time: a.motionTime)
             node.texture = PixelArt.texture(fish: a.fish, frame: frame, puffLevel: Int((a.puffAmount * 3).rounded()))
-            node.xScale = a.direction; node.yScale = 1
+            let facing = a.fish.species.swimProfile.family == .jellyfish ? 1 : a.facing
+            node.xScale = facing * a.individuality.size
+            node.yScale = a.individuality.size * (a.resting > 0 && !reducedMotion ? 1 + sin(a.age * 1.7) * 0.012 : 1)
             node.alpha = a.alpha
             node.color = color(0xD8FAFF)
             node.colorBlendFactor = a.shocked > 0 ? (reducedMotion ? 0.3 : 0.35 + 0.3 * abs(sin(ecology.time * 16))) : 0
-            node.zRotation = a.shocked > 0 && !reducedMotion ? sin(ecology.time * 25) * 0.12 : 0
+            node.zRotation = reducedMotion ? 0 : a.shocked > 0 ? sin(ecology.time * 25) * 0.12 : a.pitch * (facing >= 0 ? 1 : -1)
         }
         let active = Set(ecology.foods.map(\.id))
         for id in Array(foodNodes.keys) where !active.contains(id) { foodNodes.removeValue(forKey: id)?.removeFromParent() }

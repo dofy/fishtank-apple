@@ -4,6 +4,15 @@ import XCTest
 final class EcologyTests: XCTestCase {
     private let date = Date(timeIntervalSince1970: 1_800_000_000)
     private func fish(_ species: String) -> AquariumFish { .make(species: FishCatalog.byID[species]!, at: date, adult: true) }
+    private func advanceWithoutAutomaticDischarges(_ scene: inout AquariumEcology, seconds: Double) {
+        let original = scene.reducedMotion
+        scene.reducedMotion = true
+        for _ in 0..<Int(ceil(seconds / 0.1)) { scene.update(0.1) }
+        scene.reducedMotion = original
+    }
+    private func makeElectricReady(_ scene: inout AquariumEcology, id: UUID) {
+        advanceWithoutAutomaticDischarges(&scene, seconds: scene.swimmers[id]!.zapCooldown + 0.1)
+    }
     func testTankShakeStartlesEveryFishForThreeToFiveSecondsThenRecovers() {
         let population = [fish("goldfin"), fish("greyminnow"), fish("ambereel"), fish("jadeturtle")]
         var scene = AquariumEcology(seed: 35); scene.sync(population, decorations: [])
@@ -94,6 +103,53 @@ final class EcologyTests: XCTestCase {
         for _ in 0..<31 { scene.update(0.1) }
         XCTAssertEqual(scene.swimmers[other.id]!.shocked, 0)
         XCTAssertNotEqual(scene.swimmers[other.id]!.x, victim.x)
+    }
+
+    func testAutomaticDischargesRespectFiveMinuteCooldownAfterEveryZap() {
+        let eel = fish("volteel"), other = fish("goldfin")
+        var scene = AquariumEcology(seed: 35); scene.sync([eel, other], decorations: [])
+        XCTAssertTrue((300...480).contains(scene.swimmers[eel.id]!.zapCooldown))
+        for _ in 0..<3 {
+            for _ in 0..<5 { XCTAssertEqual(scene.tap(eel.id, x: 1), "scare") }
+            XCTAssertEqual(scene.tap(eel.id, x: 1), "zap")
+            let cooldown = scene.swimmers[eel.id]!.zapCooldown
+            XCTAssertTrue((300...480).contains(cooldown))
+            for _ in 0..<2990 {
+                scene.update(0.1)
+                XCTAssertFalse(scene.events.contains("zap"), "Automatic discharge bypassed cooldown")
+            }
+            XCTAssertEqual(scene.swimmers[eel.id]!.discharging, 0)
+            XCTAssertEqual(scene.swimmers[other.id]!.shocked, 0)
+        }
+    }
+    func testManualDischargeBypassesAndResetsAutomaticCooldown() {
+        let eel = fish("ambereel"), other = fish("goldfin")
+        var scene = AquariumEcology(seed: 42); scene.sync([eel, other], decorations: [])
+        for _ in 0..<3 {
+            XCTAssertGreaterThan(scene.swimmers[eel.id]!.zapCooldown, 0)
+            for _ in 0..<5 { XCTAssertEqual(scene.tap(eel.id, x: 1), "scare") }
+            XCTAssertEqual(scene.tap(eel.id, x: 1), "zap")
+            XCTAssertEqual(scene.swimmers[other.id]!.shocked, 3)
+            XCTAssertTrue((300...480).contains(scene.swimmers[eel.id]!.zapCooldown))
+        }
+    }
+    func testAutomaticDischargesAreRareAfterCooldown() {
+        var eel = fish("volteel"), other = fish("goldfin")
+        eel.id = UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
+        other.id = UUID(uuidString: "00000000-0000-0000-0000-000000000002")!
+        var discharges = 0
+        // Independent fixed seeds test a ten-second eligible window per tank.
+        // The old rate discharged in roughly a third of these windows.
+        for seed in 1...120 {
+            var scene = AquariumEcology(seed: UInt32(seed)); scene.sync([eel, other], decorations: [])
+            makeElectricReady(&scene, id: eel.id)
+            for _ in 0..<100 {
+                scene.update(0.1)
+                if scene.events.contains("zap") { discharges += 1; break }
+            }
+        }
+        XCTAssertGreaterThan(discharges, 0, "Automatic discharge should remain possible")
+        XCTAssertLessThanOrEqual(discharges, 18, "Automatic discharges are too frequent")
     }
 
     func testPufferTimingAndReducedMotion() {

@@ -6,7 +6,7 @@ if [[ $# -gt 1 || "${1:-}" == --* ]]; then
   printf 'Usage: %s [output-directory]\n' "$0" >&2
   exit 1
 fi
-candidate_dir="${1:-build/distribution/0.5.1-candidate}"
+candidate_dir="${1:-build/distribution/1.0.0-candidate}"
 if [[ $# -eq 1 && -e "$candidate_dir" ]]; then
   printf 'Choose a new output directory; refusing to overwrite: %s\n' "$candidate_dir" >&2
   exit 1
@@ -46,7 +46,7 @@ PY_SIGN
 fi
 codesign --force --options runtime --entitlements Configuration/FishtankMac.entitlements --sign "$local_sign_identity" "$candidate_dir/Fishtank.app"
 codesign --verify --deep --strict --verbose=2 "$candidate_dir/Fishtank.app"
-ditto -c -k --sequesterRsrc --keepParent "$candidate_dir/Fishtank.app" "$candidate_dir/Fishtank-0.5.1-mac-local.zip"
+ditto -c -k --sequesterRsrc --keepParent "$candidate_dir/Fishtank.app" "$candidate_dir/Fishtank-1.0.0-mac-local.zip"
 python3 - "$candidate_dir" <<'PY'
 import hashlib, json, os, pathlib, subprocess, sys, zipfile
 root=pathlib.Path(sys.argv[1]).resolve()
@@ -54,16 +54,16 @@ files=subprocess.check_output(['git','ls-files','--cached','--others','--exclude
 files=sorted({f for f in files if f and pathlib.Path(f).is_file()
               and not pathlib.Path(f).resolve().is_relative_to(root)})
 digest=hashlib.sha256()
-with zipfile.ZipFile(root/'Fishtank-0.5.1-source.zip','w',compression=zipfile.ZIP_DEFLATED) as archive:
+with zipfile.ZipFile(root/'Fishtank-1.0.0-source.zip','w',compression=zipfile.ZIP_DEFLATED) as archive:
  for name in files:
   data=pathlib.Path(name).read_bytes()
   digest.update(name.encode()+b'\0'+data+b'\0')
   archive.write(name,arcname='fishtank-apple/'+name)
 readiness=json.loads(pathlib.Path('Configuration/ReleaseReadiness.json').read_text())
-assert readiness['version']=='0.5.1' and readiness['releaseReady'] is False
+assert readiness['version']=='1.0.0' and readiness['releaseReady'] is False
 binary=root/'Fishtank.app/Contents/MacOS/FishtankMac'
 pad_archive=pathlib.Path('build/FishtankPad.xcarchive').resolve()
-manifest={'version':'0.5.1','status':'local-candidate-pending-platform-acceptance',
+manifest={'version':'1.0.0','status':'local-candidate-pending-platform-acceptance',
  'macArchitectures':['arm64','x86_64'],'macSigning':('ad-hoc-local-only' if 'Signature=adhoc' in subprocess.run(['codesign','-dv',str(root/'Fishtank.app')],capture_output=True,text=True,check=True).stderr else 'development-local-only'),
  'iPadArchive':os.path.relpath(pad_archive,root)+' (unsigned; not an installable IPA)',
  'distributionChannels':readiness['distributionChannels'],

@@ -3,6 +3,10 @@ import Foundation
 /// Transient visual simulation. Its RNG never consumes the saved breeding RNG.
 /// Positions use a 320 × 180 tank, with the origin at the sand (SpriteKit convention).
 struct AquariumEcology {
+    private static let minimumZapCooldown = 300.0
+    private static let zapCooldownSpread = 180.0
+    private static let automaticZapRate = 0.005
+
     struct Swimmer {
         var fish: AquariumFish
         var x: Double
@@ -13,7 +17,7 @@ struct AquariumEcology {
         var scared = 0.0
         var shocked = 0.0
         var discharging = 0.0
-        var zapCooldown = 12.0
+        var zapCooldown = AquariumEcology.minimumZapCooldown
         var eatCooldown = 0.0
         var withdrawal: Double?
         var withdrawalDuration = 0.55
@@ -25,8 +29,20 @@ struct AquariumEcology {
         var sceneryCooldown = 8.0
         var baseY: Double
         var dropping = false
+        var individuality = FishIndividuality(id: UUID(uuid: (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)))
+        var motionTime = 0.0
+        var resting = 0.0
+        var restIn = 20.0
+        var restX = 0.0
+        var restY = 0.0
+        var turnIn = 18.0
+        var roamOffset = 0.0
+        var velocityX = 0.0
+        var velocityY = 0.0
+        var pitch = 0.0
+        var facing = 1.0
         var alpha: Double { withdrawal.map { max(0, $0 / withdrawalDuration) } ?? 1 }
-        var available: Bool { withdrawal == nil && !dropping && scared <= 0 && shocked <= 0 && discharging <= 0 }
+        var available: Bool { withdrawal == nil && !dropping && scared <= 0 && shocked <= 0 && discharging <= 0 && resting <= 0 }
         var puffAmount: Double { puff <= 0 ? 0 : min(1, min((1.8 - puff) / 0.12, puff / 0.6)) }
     }
     struct Food: Identifiable {
@@ -63,6 +79,8 @@ struct AquariumEcology {
             guard var swimmer = swimmers[id] else { continue }
             swimmer.y = project(swimmer.y)
             swimmer.baseY = project(swimmer.baseY)
+            swimmer.roamOffset *= (nextHeight - 60) / (oldHeight - 60)
+            if swimmer.resting > 0 { swimmer.restY = project(swimmer.restY) }
             swimmers[id] = swimmer
         }
         for index in foods.indices { foods[index].y = project(foods[index].y) }
@@ -82,11 +100,18 @@ struct AquariumEcology {
                 current.fish = fish; current.withdrawal = nil
                 swimmers[fish.id] = current
             } else {
-                let y = 30 + Double(15 + index * 31 % 102) * (height - 60) / 120
+                let individuality = FishIndividuality(id: fish.id)
+                let profile = fish.species.swimProfile
+                let y = 30 + min(0.92, max(0.06, profile.depth + individuality.lane)) * (height - 60)
                 let dropping = hasPopulated && !reducedMotion
-                swimmers[fish.id] = Swimmer(fish: fish, x: Double(45 + index * 53 % 232), y: dropping ? height + 12 : y,
-                    direction: index % 2 == 0 ? 1 : -1, zapCooldown: 8 + random.next() * 14,
-                    baseY: y, dropping: dropping)
+                var swimmer = Swimmer(fish: fish, x: Double(45 + index * 53 % 232), y: dropping ? height + 12 : y,
+                    direction: index % 2 == 0 ? 1 : -1, zapCooldown: Self.minimumZapCooldown + random.next() * Self.zapCooldownSpread,
+                    baseY: y, dropping: dropping, individuality: individuality)
+                swimmer.motionTime = individuality.phase
+                swimmer.facing = swimmer.direction
+                swimmer.restIn = profile.restEvery * (0.55 + individuality.pace * 0.45)
+                swimmer.turnIn = 12 + individuality.phase * 3
+                swimmers[fish.id] = swimmer
             }
         }
         if nextDecor != decorations {
@@ -125,12 +150,12 @@ struct AquariumEcology {
     mutating func tap(_ id: UUID, x: Double) -> String? {
         guard var a = swimmers[id], a.withdrawal == nil, !a.dropping else { return nil }
         interrupt(id)
-        a.school = nil; a.visit = nil; a.sceneryCooldown = 10
+        a.school = nil; a.visit = nil; a.resting = 0; a.restIn = max(a.restIn, 8); a.sceneryCooldown = 10
         if a.fish.species.silhouette == "spiky-puffer" && !reducedMotion { a.puff = 1.8 }
         a.clicks = a.clicks.filter { time - $0 <= 30 }; a.clicks.append(time)
         swimmers[id] = a
         if a.fish.species.electric && a.clicks.count >= 6 {
-            swimmers[id]?.clicks = []; discharge(id); return "zap"
+            discharge(id); return "zap"
         }
         a.scared = reducedMotion ? 0 : 1.35
         a.direction = a.x < 65 ? 1 : a.x > 255 ? -1 : a.x >= x ? 1 : -1
@@ -156,18 +181,21 @@ struct AquariumEcology {
 
     private mutating func interrupt(_ id: UUID) {
         swimmers[id]?.school = nil; swimmers[id]?.visit = nil; swimmers[id]?.sceneryCooldown = 10
+        let nextRest = max(8, swimmers[id]?.restIn ?? 0)
+        swimmers[id]?.resting = 0; swimmers[id]?.restIn = nextRest
         for other in Array(swimmers.keys) where swimmers[other]?.school == id {
             swimmers[other]?.school = nil; swimmers[other]?.sceneryCooldown = 10
         }
     }
 
     private mutating func discharge(_ id: UUID) {
-        guard swimmers[id]?.fish.species.electric == true, swimmers[id]?.withdrawal == nil else { return }
+        guard let source = swimmers[id], source.fish.species.electric, source.withdrawal == nil else { return }
         interrupt(id)
         swimmers[id]?.shocked = 0
         swimmers[id]?.scared = 0
         swimmers[id]?.discharging = 0.85
-        swimmers[id]?.zapCooldown = 22 + random.next() * 18
+        swimmers[id]?.zapCooldown = Self.minimumZapCooldown + random.next() * Self.zapCooldownSpread
+        swimmers[id]?.clicks = []
         for other in Array(swimmers.keys) where other != id && swimmers[other]?.withdrawal == nil && swimmers[other]?.dropping == false {
             interrupt(other)
             swimmers[other]?.shocked = 3; swimmers[other]?.scared = 0; swimmers[other]?.puff = 0
@@ -192,11 +220,17 @@ struct AquariumEcology {
                 swimmers[id] = a; continue
             }
             a.age += dt
+            let profile = a.fish.species.swimProfile
+            if !reducedMotion {
+                a.motionTime += dt * profile.tempo * a.individuality.pace * (a.resting > 0 ? 0.14 : a.scared > 0 ? 2.4 : 1)
+            }
+            a.resting = max(0, a.resting - dt)
+            a.restIn = max(0, a.restIn - dt); a.turnIn = max(0, a.turnIn - dt)
             a.scared = max(0, a.scared - dt); a.shocked = max(0, a.shocked - dt)
             a.puff = reducedMotion ? 0 : max(0, a.puff - dt)
             a.discharging = max(0, a.discharging - dt); a.zapCooldown = max(0, a.zapCooldown - dt)
             a.eatCooldown = max(0, a.eatCooldown - dt); a.sceneryCooldown = max(0, a.sceneryCooldown - dt)
-            if reducedMotion { a.school = nil; a.visit = nil; a.dropping = false; a.y = a.baseY }
+            if reducedMotion { a.school = nil; a.visit = nil; a.resting = 0; a.dropping = false; a.y = a.baseY; a.pitch = 0; a.facing = a.direction }
             swimmers[id] = a
         }
         if reducedMotion {
@@ -206,27 +240,35 @@ struct AquariumEcology {
         updateFood(dt)
         let ids = swimmers.keys.sorted { $0.uuidString < $1.uuidString }
         let activeCount = ids.filter { swimmers[$0]?.withdrawal == nil }.count
+        let schoolLeaders = Set(swimmers.values.compactMap(\.school))
         for id in ids {
             guard var a = swimmers[id], a.withdrawal == nil else { continue }
-            if a.fish.species.electric && a.available && a.zapCooldown <= 0 && activeCount > 1 && random.next() < dt * 0.04 {
+            if a.fish.species.electric && a.available && a.zapCooldown <= 0 && activeCount > 1 && random.next() < dt * Self.automaticZapRate {
                 discharge(id); events.append("zap"); a = swimmers[id]!
             }
-            var targetX = a.x + a.direction * 30, targetY = a.baseY + sin(time * 1.5 + a.baseY) * 3
-            var speed = 8.0 + a.fish.species.length * 0.35
+            let profile = a.fish.species.swimProfile
+            if a.turnIn <= 0 && a.available && a.school == nil && a.visit == nil {
+                a.turnIn = 15 + random.next() * 24
+                if random.next() < 0.32 { a.direction *= -1 }
+                a.roamOffset = (random.next() - 0.5) * (height - 60) * 0.2
+            }
+            var (targetX, targetY, speed) = cruise(for: a)
+            let oldX = a.x, oldY = a.y
             if a.dropping {
                 a.y -= 70 * dt
                 if a.y <= a.baseY { a.y = a.baseY; a.dropping = false }
                 swimmers[id] = a; continue
             }
             if a.shocked > 0 {
-                a.school = nil; a.visit = nil; a.sceneryCooldown = 10
-                a.y = max(30, min(height - 29, a.y + sin(time * 24) * dt * 2)); swimmers[id] = a; continue
+                a.school = nil; a.visit = nil; a.resting = 0; a.sceneryCooldown = 10
+                a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.y + sin(time * 24) * dt * 2)); swimmers[id] = a; continue
             }
             if a.scared > 0 {
-                speed = 85 * min(1, a.scared * 2); a.school = nil; a.visit = nil; a.sceneryCooldown = 10
+                speed = 85 * min(1, a.scared * 2); a.school = nil; a.visit = nil; a.resting = 0; a.sceneryCooldown = 10
             } else if a.eatCooldown <= 0, let food = closestFood(to: a) {
                 a.school = nil; a.visit = nil; a.sceneryCooldown = 10
-                targetX = food.x; targetY = food.y; speed = 38
+                a.resting = 0; a.restIn = max(a.restIn, 8)
+                targetX = food.x; targetY = food.y; speed = min(38, profile.speed * 2 + 6)
                 if hypot(a.x - food.x, a.y - food.y) < 7 {
                     foods.removeAll { $0.id == food.id }; a.eatCooldown = 9; events.append("eat")
                 }
@@ -234,9 +276,11 @@ struct AquariumEcology {
                 if time >= a.activityUntil { a.school = nil; a.visit = nil }
                 if let leaderID = a.school {
                     if let leader = swimmers[leaderID], leader.available, leader.school == nil {
-                        let slot = Double(ids.firstIndex(of: id) ?? 0)
+                        let followers = ids.filter { $0 == id || swimmers[$0]?.school == leaderID }
+                        let slot = Double(followers.firstIndex(of: id) ?? 0)
                         targetX = min(292, max(28, leader.x - leader.direction * (16 + slot.truncatingRemainder(dividingBy: 4) * 9)))
-                        targetY = leader.y + (slot.truncatingRemainder(dividingBy: 3) - 1) * 9; speed = 22
+                        targetY = leader.y + (slot.truncatingRemainder(dividingBy: 3) - 1) * 8
+                        speed = profile.speed * 1.25 + min(12, abs(targetX - a.x) * 0.1)
                     } else { a.school = nil; a.sceneryCooldown = 10 }
                 }
                 if let visit = a.visit, let decor = decorations.first(where: { $0.id == visit }) {
@@ -247,16 +291,17 @@ struct AquariumEcology {
                     speed = 15
                     if visit == "arch", !a.passedArch, abs(a.x - center) < 8 { a.passedArch = true; a.activityUntil = min(a.activityUntil, time + 3) }
                     if visit == "kelp", abs(a.x - center) < 3 { speed = 0; a.y += sin(time * 2) * dt }
-                } else if a.school == nil && a.sceneryCooldown <= 0 {
+                } else if a.school == nil && a.sceneryCooldown <= 0 && a.available {
                     if a.fish.species.form == "seahorse", activeDecoration != "kelp", decorations.contains(where: { $0.id == "kelp" }), random.next() < dt * 0.12 {
                         a.visit = "kelp"; a.activityUntil = time + 18; a.sceneryCooldown = 25
                     } else if a.fish.species.form == "fish", a.fish.species.length <= 14, a.fish.species.depth < 0.72,
                               activeDecoration != "arch", decorations.contains(where: { $0.id == "arch" }), random.next() < dt * 0.12 {
                         a.visit = "arch"; a.passedArch = false; a.activityUntil = time + 12; a.sceneryCooldown = 20
-                    } else if random.next() < dt * 0.18 {
+                    } else if profile.schoolingRate > 0 && random.next() < dt * profile.schoolingRate {
                         // A follower never leads another fish. Same species only, groups of 2–5.
                         let peers = ids.filter { $0 != id && swimmers[$0]?.fish.speciesID == a.fish.speciesID
-                            && swimmers[$0]?.available == true && swimmers[$0]?.school == nil }
+                            && swimmers[$0]?.available == true && swimmers[$0]?.school == nil
+                            && hypot((swimmers[$0]?.x ?? 0) - a.x, (swimmers[$0]?.y ?? 0) - a.y) < 100 }
                         let leaders = Set(swimmers.values.compactMap(\.school))
                         if !leaders.contains(id), let leader = peers.first(where: { candidate in swimmers.values.filter { $0.school == candidate }.count < 4 }),
                            swimmers.values.filter({ $0.school == leader }).count < 4 {
@@ -264,6 +309,19 @@ struct AquariumEcology {
                         }
                     }
                 }
+            }
+            if a.available && a.school == nil && a.visit == nil && !schoolLeaders.contains(id)
+                && a.restIn <= 0 && profile.restEvery > 0 {
+                a.resting = profile.restDuration * (0.7 + random.next() * 0.6)
+                a.restIn = a.resting + profile.restEvery * (0.7 + random.next() * 0.6)
+                a.restX = a.x; a.restY = a.y
+                a.facing = a.direction // Finish turning before an idle pose, never freeze edge-on.
+            }
+            if a.resting > 0 {
+                a.x = max(23, min(297, a.restX + sin(a.age * 0.35 + a.individuality.phase) * 0.35))
+                a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.restY + sin(a.age * 0.6) * 0.5))
+                a.velocityX = 0; a.velocityY = 0; a.pitch *= max(0, 1 - dt * 4)
+                swimmers[id] = a; continue
             }
             let dx = targetX - a.x, dy = targetY - a.y, distance = hypot(dx, dy)
             if distance > 0.1 {
@@ -274,8 +332,47 @@ struct AquariumEcology {
             if a.x < 23 { a.x = 23; a.direction = 1 }
             if a.x > 297 { a.x = 297; a.direction = -1 }
             a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.y))
+            a.velocityX = (a.x - oldX) / dt; a.velocityY = (a.y - oldY) / dt
+            let desiredPitch = profile.family == .seahorse ? sin(a.motionTime) * 0.035
+                : profile.family == .jellyfish ? sin(a.motionTime * 0.6) * 0.045
+                : max(-0.2, min(0.2, atan2(a.velocityY, max(2, abs(a.velocityX))) * 0.22))
+            a.pitch += (desiredPitch - a.pitch) * min(1, dt * 5)
+            a.facing += (a.direction - a.facing) * min(1, dt * 7)
             swimmers[id] = a
         }
+    }
+
+    private func cruise(for a: Swimmer) -> (Double, Double, Double) {
+        let p = a.fish.species.swimProfile, phase = a.individuality.phase
+        let t = a.motionTime
+        var x = a.x + a.direction * 30, y = a.baseY + a.roamOffset
+        var speed = p.speed * a.individuality.pace
+        switch p.family {
+        case .fish:
+            y += sin(a.age * 0.65 + phase) * p.sway + sin(a.age * 0.17 + phase) * p.sway * 0.3
+            speed *= 0.8 + 0.2 * pow(sin(t * 1.4), 2)
+        case .seaSnake:
+            y += sin(t * 1.3 + phase) * p.sway
+            speed *= 0.85 + 0.15 * sin(t * 1.3)
+        case .eel:
+            y += sin(t * 0.65 + phase) * p.sway
+            speed *= 0.85 + 0.15 * cos(t)
+        case .jellyfish:
+            let pulse = pow(max(0, sin(t * .pi)), 5)
+            let drift = sin(a.age * 0.22 + phase) * 1.4
+            let lift = (pulse * 14 - 2.5) * p.speed / 3 + (a.baseY + a.roamOffset - a.y) * 0.14
+            x = a.x + drift; y = a.y + lift; speed = hypot(drift, lift)
+        case .seahorse:
+            x = a.x + a.direction * 8
+            y += sin(a.age * 0.5 + phase) * p.sway
+        case .turtle:
+            y += sin(a.age * 0.17 + phase) * p.sway
+            speed *= 0.3 + 0.7 * pow(max(0, sin(t * .pi)), 2)
+        case .ray:
+            y += sin(a.age * 0.24 + phase) * p.sway
+            speed *= 0.75 + 0.25 * sin(t * .pi) * sin(t * .pi)
+        }
+        return (x, y, speed)
     }
 
     private func closestFood(to a: Swimmer) -> Food? {
