@@ -370,7 +370,7 @@ struct AquariumEcology {
             speed *= 0.35 + 0.65 * pow((1 + sin(beat)) * 0.5, 2)
         case .turtle:
             y += sin(a.age * 0.17 + phase) * p.sway
-            speed *= 0.3 + 0.7 * pow(max(0, sin(t * .pi)), 2)
+            speed *= 0.3 + 0.7 * pow(max(0, sin(t * 2 * .pi / 2.8)), 2)
         case .ray:
             y += sin(a.age * 0.24 + phase) * p.sway
             speed *= 0.75 + 0.25 * sin(t * .pi) * sin(t * .pi)

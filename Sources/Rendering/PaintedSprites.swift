@@ -87,9 +87,14 @@ enum PaintedSprites {
                 sy -= sin(wave) * amplitude * pow(along, 0.8)
                 sx -= cos(wave) * along * 0.7
             case "jellyfish":
-                let tentacle = max(0, (sy - 20) / 24)
-                sx -= sin(phase + sy * 0.2) * tentacle * 2.2
-                sy = 20 + (sy - 20) / (1 + sin(phase) * 0.07)
+                let tentacle = max(0, min(1, (sy - 21) / 23))
+                let bell = max(0, min(1, (25 - sy) / 8))
+                let contraction = pow(max(0, sin(phase)), 3)
+                // Bell contracts to propel; trailing tentacles respond later.
+                sx = 32 + (sx - 32) / (1 - contraction * bell * 0.22)
+                sy = 22 + (sy - 22) / (1 + contraction * bell * 0.12)
+                sx -= sin(phase - tentacle * 3) * tentacle * 3.2
+                sy -= sin(phase - 0.8) * tentacle * 1.8
             case "seahorse":
                 // Keep the snout and torso steady. The lower tail flexes slowly,
                 // while the small dorsal fin beats twice per body cycle.
@@ -98,11 +103,61 @@ enum PaintedSprites {
                 sy -= cos(phase - tailWeight * 2.8) * tailWeight * 1.2
                 let finWeight = max(0, 1 - abs(sy - 23) / 8) * max(0, min(1, (29 - sx) / 8))
                 sx -= sin(phase * 2) * finWeight * 1.8
-            case "turtle", "ray":
-                let wing = min(1, abs(sy - 23) / 12)
-                sy -= sin(phase) * wing * (species.form == "ray" ? 2.5 : 1.8)
+            case "turtle":
+                // Shoulder/hip anchors keep the shell still. Front flippers sweep
+                // together; hind flippers recover out of phase below the shell.
+                let lower = max(0, min(1, (sy - 23) / 10))
+                let upper = max(0, min(1, (17 - sy) / 8))
+                let rear = max(0, min(1, (29 - sx) / 9))
+                let stroke = sin(phase - rear * 1.7)
+                let limb = lower * lower * (3 - 2 * lower)
+                sx -= stroke * limb * (4.5 - rear) + sin(phase + 1.2) * upper * 1.6
+                sy -= cos(phase - rear * 1.7) * limb * 2.2
+            case "ray":
+                // Flex the broad wing tips, leaving the central body in place.
+                let spread = max(0, abs(sy - 24) - 3)
+                let wing = min(1, spread / 13)
+                let side = sy < 24 ? -1.0 : 1.0
+                sy -= side * sin(phase - wing * 0.8) * wing * 4.8
+                sx -= cos(phase - wing * 0.8) * wing * 1.8
             default:
-                sy -= sin(phase) * tail * 2.5
+                if species.silhouette == "glider-fish" {
+                    // Both long pectoral fins open and fold around the body axis.
+                    let spread = max(0, abs(sy - 24) - 3)
+                    let wing = min(1, spread / 12)
+                    let side = sy < 24 ? -1.0 : 1.0
+                    sy -= side * sin(phase) * wing * 5.5
+                    sx -= cos(phase) * wing * 2.5
+                    sy -= sin(phase) * tail * 0.8
+                } else {
+                    // Most fish propel from the caudal peduncle, not by bending
+                    // the entire painted body. Different fin shapes get different strokes.
+                    let caudal = max(0, min(1, (29 - sx) / 24))
+                    let edge = max(0, min(1, (abs(sy - 24) - 9) / 10))
+                    switch species.silhouette {
+                    case "spiky-puffer":
+                        let fin = max(0, min(1, (abs(sx - 32) - 12) / 7))
+                            * max(0, 1 - abs(sy - 26) / 9)
+                            * max(0, min(1, (46 - sx) / 8))
+                        sy -= sin(phase * 3) * fin * 2.8
+                    case "goldfish", "veil-koi", "lyretail":
+                        sy -= sin(phase - caudal * 1.2) * caudal * 4.5
+                        sy -= sin(phase - 1) * edge * 1.8
+                    case "beak-butterfly", "crown-butterfly", "banner-cardinal", "moorish-idol":
+                        sy -= sin(phase) * caudal * 1.8
+                        sx -= sin(phase * 2 - sy * 0.12) * edge * 2.2
+                    case "fire-goby":
+                        sy -= sin(phase) * caudal * 2.4
+                        sx -= sin(phase - 0.7) * max(0, (18 - sy) / 14) * 3
+                    case "catfish":
+                        sy -= sin(phase) * caudal * 1.8
+                        sx -= sin(phase * 2) * max(0, (sy - 29) / 12) * 1.4
+                    default:
+                        sy -= sin(phase) * caudal * 3.2
+                        let fin = max(0, 1 - abs(sx - 36) / 10) * max(0, min(1, (sy - 28) / 9))
+                        sx -= sin(phase * 2) * fin * 1.3
+                    }
+                }
             }
             if species.id == "creampuff" {
                 let puff = Double(puffLevel)

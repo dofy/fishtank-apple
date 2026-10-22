@@ -37,6 +37,29 @@ import UniformTypeIdentifiers
                 precondition(bytes(PixelArt.image(species: species, grade: 1, frame: frame)) == bytes(rendered), "Legacy renderer used \(species.id)")
             }
             precondition(frames.count >= 3, "Static motion: \(species.id)")
+            if ["jadeturtle", "skywing", "voidray"].contains(species.id) {
+                // Limb-region changes must be visible without relying on tail motion.
+                let a = [UInt8](bytes(PaintedSprites.fish(species, grade: 1, frame: 8, puffLevel: 0)!))
+                let b = [UInt8](bytes(PaintedSprites.fish(species, grade: 1, frame: 24, puffLevel: 0)!))
+                var changed = 0
+                for y in 28..<44 { for x in 24..<48 {
+                    let i = (y * 64 + x) * 4
+                    if a[i + 3] != b[i + 3] { changed += 1 }
+                } }
+                precondition(changed >= 12, "Frozen limb silhouette: \(species.id) (\(changed))")
+                print("PASS animated limb silhouette: \(species.id), \(changed) changed pixels")
+            }
+            if ["jadeturtle", "creampuff"].contains(species.id) {
+                // The shell / puffer torso must remain rigid while appendages move.
+                let first = [UInt8](bytes(PaintedSprites.fish(species, grade: 1, frame: 0, puffLevel: 0)!))
+                for frame in 1..<count {
+                    let pose = [UInt8](bytes(PaintedSprites.fish(species, grade: 1, frame: frame, puffLevel: 0)!))
+                    for y in 18..<23 { for x in 27..<37 {
+                        let offset = (y * 64 + x) * 4
+                        precondition(Array(first[offset..<offset + 4]) == Array(pose[offset..<offset + 4]), "Torso wobble: \(species.id)")
+                    } }
+                }
+            }
             for grade in 1...5 {
                 let image = PixelArt.image(species: species, grade: grade)
                 grades.insert(bytes(image)); save(image, to: root.appendingPathComponent("\(species.id)-grade-\(grade).png"))
