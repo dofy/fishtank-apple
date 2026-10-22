@@ -19,7 +19,7 @@ func runClaudeHookValidation(directory: URL) -> Never {
     }
     let presenter = ClaudeToastPresenter()
     func sample(_ event: String, session: String = "a") -> ClaudeHookEvent {
-        ClaudeHookEvent(id: UUID().uuidString, sessionID: session, project: "fishtank-apple-长项目名称和状态在最小尺寸下也需要清晰可读", event: event,
+        ClaudeHookEvent(id: UUID().uuidString, sessionID: session, project: L10n.text("fishtank-apple-长项目名称和状态在最小尺寸下也需要清晰可读"), event: event,
                         notificationType: nil, sentAt: Date())
     }
     let a = sample("PermissionRequest")
@@ -102,8 +102,8 @@ func runClaudeHookValidation(directory: URL) -> Never {
                 try? bitmap.representation(using: .png, properties: [:])?.write(to: directory.appendingPathComponent("toast-\(event.agent.rawValue)-\(event.event)-\(width).png"))
             }
         }
-    }, report: { message in
-        if message.contains("失败") || message.contains("无法") { exit(2) }
+    }, report: { status in
+        if !status.isReady { exit(2) }
     })
     bridge.start()
     // The caller owns process lifetime. This mode never displays a desktop panel.

@@ -45,18 +45,18 @@ enum AquariumError: String, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .needsTwo: return "请选择两条不同的亲代鱼。"
-        case .noHearts: return "爱心不足，每 7 分钟恢复一颗。"
-        case .notAdult: return "幼鱼或冷却中的初始鱼暂时不能繁育。"
-        case .noUses: return "所选亲代的繁育次数已用尽。"
-        case .wrongCount: return "合成需要 10 条不同的鱼。"
-        case .starterMaterial: return "初始鱼不能作为合成材料。"
-        case .maxTier: return "5 星鱼不能继续合成。"
-        case .lockedMaterial: return "请先解锁被保护的材料鱼。"
-        case .tankFull: return "鱼缸展示位已满，升级或先收回一条鱼。"
-        case .protectedFish: return "初始鱼和锁定鱼不能放生。"
-        case .inventoryFull: return "背包已达到 20,000 条鱼的上限。"
-        case .invalidSave: return "存档格式或内容无效。"
+        case .needsTwo: return L10n.text("请选择两条不同的亲代鱼。")
+        case .noHearts: return L10n.text("爱心不足，每 7 分钟恢复一颗。")
+        case .notAdult: return L10n.text("幼鱼或冷却中的初始鱼暂时不能繁育。")
+        case .noUses: return L10n.text("所选亲代的繁育次数已用尽。")
+        case .wrongCount: return L10n.text("合成需要 10 条不同的鱼。")
+        case .starterMaterial: return L10n.text("初始鱼不能作为合成材料。")
+        case .maxTier: return L10n.text("5 星鱼不能继续合成。")
+        case .lockedMaterial: return L10n.text("请先解锁被保护的材料鱼。")
+        case .tankFull: return L10n.text("鱼缸展示位已满，升级或先收回一条鱼。")
+        case .protectedFish: return L10n.text("初始鱼和锁定鱼不能放生。")
+        case .inventoryFull: return L10n.text("背包已达到 20,000 条鱼的上限。")
+        case .invalidSave: return L10n.text("存档格式或内容无效。")
         }
     }
 }

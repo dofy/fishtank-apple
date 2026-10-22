@@ -261,7 +261,7 @@ enum PixelArt {
     static var menuIcon: NSImage {
         let icon = NSImage(cgImage: image(monochrome: true), size: NSSize(width: 24, height: 15))
         icon.isTemplate = true
-        icon.accessibilityDescription = "像素鱼缸"
+        icon.accessibilityDescription = L10n.text("像素鱼缸")
         return icon
     }
     #endif

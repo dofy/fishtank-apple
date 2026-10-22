@@ -4,6 +4,19 @@ import Network
 
 /// A bounded, authenticated loopback HTTP endpoint. Runs all socket state on one queue.
 final class ClaudeHookBridge {
+    enum Status {
+        case ready, configurationFailed, startupFailed
+
+        var isReady: Bool { self == .ready }
+        var message: String {
+            switch self {
+            case .ready: return L10n.text("Claude Code · 接收器已就绪")
+            case .configurationFailed: return L10n.text("Claude Code · 无法保存接入配置")
+            case .startupFailed: return L10n.text("Claude Code · 接收器启动失败")
+            }
+        }
+    }
+
     static var defaultConfigurationURL: URL {
         #if DEBUG
         if let id = ProcessInfo.processInfo.environment["FISHTANK_UI_TEST_ID"], UUID(uuidString: id) != nil {
@@ -19,9 +32,9 @@ final class ClaudeHookBridge {
     private let token = UUID().uuidString + UUID().uuidString
     private let configurationURL: URL
     private let receiveEvent: (ClaudeHookEvent) -> Void
-    private let report: (String) -> Void
+    private let report: (Status) -> Void
 
-    init(configurationURL: URL? = nil, receive: @escaping (ClaudeHookEvent) -> Void, report: @escaping (String) -> Void) {
+    init(configurationURL: URL? = nil, receive: @escaping (ClaudeHookEvent) -> Void, report: @escaping (Status) -> Void) {
         receiveEvent = receive
         self.report = report
         self.configurationURL = configurationURL ?? Self.defaultConfigurationURL
@@ -50,15 +63,15 @@ final class ClaudeHookBridge {
                                 self.configurationURL.path.withCString { destination in rename(source, destination) }
                             }
                             guard result == 0 else { throw CocoaError(.fileWriteUnknown) }
-                            self.report("Claude Code · 接收器已就绪")
-                        } catch { self.report("Claude Code · 无法保存接入配置") ; server?.cancel() }
-                    case .failed: self.report("Claude Code · 接收器启动失败")
+                            self.report(.ready)
+                        } catch { self.report(.configurationFailed) ; server?.cancel() }
+                    case .failed: self.report(.startupFailed)
                     default: break
                     }
                 }
                 server.newConnectionHandler = { [weak self] connection in self?.accept(connection) }
                 server.start(queue: queue)
-            } catch { report("Claude Code · 接收器启动失败") }
+            } catch { report(.startupFailed) }
         }
     }
 

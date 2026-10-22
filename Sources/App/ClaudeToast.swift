@@ -3,6 +3,7 @@ import AppKit
 import SwiftUI
 
 struct ClaudeToastView: View {
+    @ObservedObject private var localization = AppLocalization.shared
     let event: ClaudeHookEvent
     let dismiss: () -> Void
     private var accent: Color { Color(hex: event.status?.colorHex ?? 0xACB9C4) }
@@ -10,7 +11,7 @@ struct ClaudeToastView: View {
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Rectangle().fill(accent).frame(width: 4)
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: L10n.language == .english ? 4 : 8) {
                 HStack(spacing: 8) {
                     Text(event.agentTitle).foregroundStyle(sourceColor)
                         .padding(.horizontal, 6).padding(.vertical, 2)
@@ -18,23 +19,23 @@ struct ClaudeToastView: View {
                     Text(event.project).foregroundStyle(PixelTheme.muted).lineLimit(1).truncationMode(.middle)
                     Spacer(minLength: 0)
                 }
-                Text(event.status?.title ?? "状态更新").foregroundStyle(PixelTheme.text).lineLimit(1)
+                Text(event.status?.title ?? L10n.text("状态更新")).foregroundStyle(PixelTheme.text).lineLimit(1)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Button(action: dismiss) {
-                Text("×").font(.system(size: 20, weight: .medium, design: .monospaced))
+                Text("×").font(PixelTheme.font(24))
                     .frame(width: 24, height: 28)
             }
             .buttonStyle(.plain).foregroundStyle(PixelTheme.muted)
-            .accessibilityLabel("关闭 \(event.agentTitle) 提醒")
+            .accessibilityLabel(L10n.text("关闭 \(event.agentTitle) 提醒"))
         }
         .font(PixelTheme.font(12))
-        .padding(12)
+        .padding(L10n.language == .english ? 10 : 12)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(PixelOutline(cut: 6, steps: 2).fill(PixelTheme.panel))
         .overlay(PixelOutline(cut: 6, steps: 2).strokeBorderFallback(accent))
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("\(event.agentTitle)，\(event.project)，\(event.status?.title ?? "状态更新")")
+        .accessibilityLabel("\(event.agentTitle)，\(event.project)，\(event.status?.title ?? L10n.text("状态更新"))")
     }
 }
 
@@ -77,6 +78,12 @@ final class ClaudeToastPresenter {
     func remove(source: ClaudeHookEvent.Source) { stack.remove(source: source); reconcile() }
     func clear() { stack.clear(); reconcile() }
 
+    func refreshLocalization() {
+        for event in stack.visible {
+            entries[event.id]?.panel.setAccessibilityLabel(L10n.text("\(event.agentTitle) 提醒气泡"))
+        }
+    }
+
     func setVisible(_ value: Bool) {
         visible = value
         position()
@@ -111,7 +118,7 @@ final class ClaudeToastPresenter {
                 styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
             panel.isOpaque = false; panel.backgroundColor = .clear
             panel.hasShadow = false; panel.hidesOnDeactivate = false; panel.isReleasedWhenClosed = false
-            panel.setAccessibilityLabel("\(event.agentTitle) 提醒气泡")
+            panel.setAccessibilityLabel(L10n.text("\(event.agentTitle) 提醒气泡"))
             panel.contentView = NSHostingView(rootView: ClaudeToastView(event: event,
                 dismiss: { [weak self] in self?.dismiss(id: event.id) }))
             let entry = Entry(panel: panel)

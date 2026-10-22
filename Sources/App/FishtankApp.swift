@@ -5,6 +5,7 @@ import AppKit
 
 @main
 struct FishtankApp: App {
+    @ObservedObject private var localization = AppLocalization.shared
     init() { PixelTheme.registerFont() }
     #if os(macOS)
     @NSApplicationDelegateAdaptor(AquariumApplicationDelegate.self) private var delegate
@@ -17,7 +18,7 @@ struct FishtankApp: App {
         Settings { EmptyView() }
             .commands {
                 CommandGroup(replacing: .appSettings) {
-                    Button("设置…") { delegate.aquarium.showAgentSettings() }.keyboardShortcut(",", modifiers: .command)
+                    Button(L10n.text("设置…")) { delegate.aquarium.showAgentSettings() }.keyboardShortcut(",", modifiers: .command)
                 }
             }
         #else

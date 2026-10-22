@@ -18,7 +18,9 @@ targets:
     platform: macOS
     sources:
       - path: Sources
-        excludes: [Resources]
+        excludes: [Resources, Core/Resources]
+      - path: Sources/Core/Resources/Localizations
+        buildPhase: resources
       - path: Sources/Resources/Audio
         buildPhase: resources
       - path: Sources/Resources/Fonts
@@ -57,7 +59,9 @@ targets:
     platform: iOS
     sources:
       - path: Sources
-        excludes: [Resources]
+        excludes: [Resources, Core/Resources]
+      - path: Sources/Core/Resources/Localizations
+        buildPhase: resources
       - path: Sources/Resources/Audio
         buildPhase: resources
       - path: Sources/Resources/Fonts
@@ -70,6 +74,7 @@ targets:
         buildPhase: resources
     settings:
       base:
+        INFOPLIST_FILE: Configuration/FishtankPad-Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: PadIcon
         PRODUCT_BUNDLE_IDENTIFIER: net.yahaha.fishtank.apple.pad
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO

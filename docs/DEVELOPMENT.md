@@ -94,3 +94,6 @@ FISHTANK_SIMULATOR_ID=<existing-device-uuid> tools/verify-release.sh
 个人存档、导出文件、验收快照、构建目录、安装包、Xcode 用户状态以及签名私钥和描述文件均不应提交。常见路径和文件类型已列入 `.gitignore`。Mac 正式应用标识为 `net.yahaha.fishtank.mac`，存档保存在其沙盒容器中，不在源码目录中。
 
 `Tests/Fixtures` 中的 JSON 是工具生成的合成测试样本，不是玩家存档，用于跨版本和网页版导入兼容性回归。签名团队 ID 属于构建元数据，证书和私钥由本机钥匙串管理。
+
+
+四语文案、字体与维护检查见 [Localization](LOCALIZATION.md)。

@@ -29,10 +29,17 @@ for bundle in (mac, pad):
 
     else:
         assert (resources / 'Assets.car').is_file()
-    assert (resources / 'FusionPixel.otf').stat().st_size > 1_000_000
+    assert info['CFBundleDevelopmentRegion'] == 'en'
+    assert set(info['CFBundleLocalizations']) == {'en', 'zh-Hans', 'zh-Hant', 'ja'}
+    for face in ['FusionPixel', 'FusionPixel-Latin', 'FusionPixel-Traditional', 'FusionPixel-Japanese']:
+        assert (resources / (face + '.otf')).stat().st_size > 1_000_000
+    assert (resources / 'DepartureMono-Regular.otf').stat().st_size > 10_000
+    assert (resources / 'DepartureMono-OFL.txt').is_file()
+    catalogs = [json.loads((resources / (language + '.json')).read_text()) for language in ['en', 'zh-Hans', 'zh-Hant', 'ja']]
+    assert len(catalogs[0]) >= 538 and all(set(catalog) == set(catalogs[0]) for catalog in catalogs)
     assert (resources / 'OFL.txt').is_file() and (resources / 'LICENSE').is_file()
     audio = sorted(resources.glob('*.wav'))
-    assert len(audio) == 20, len(audio)
+    assert len(audio) == 23, len(audio)
     privacy = plistlib.loads((resources / 'PrivacyInfo.xcprivacy').read_bytes())
     assert privacy['NSPrivacyTracking'] is False
     assert privacy['NSPrivacyCollectedDataTypes'] == []
@@ -44,4 +51,4 @@ for bundle in (mac, pad):
         assert info['UIDeviceFamily'] == [2]
         assert len(info['UISupportedInterfaceOrientations']) == 4
         assert info['ITSAppUsesNonExemptEncryption'] is False
-    print(f'PASS {bundle.name}: version, icon, font, licenses, privacy, 20 WAVs and platform metadata')
+    print(f'PASS {bundle.name}: version, icon, font, licenses, privacy, 23 WAVs and platform metadata')

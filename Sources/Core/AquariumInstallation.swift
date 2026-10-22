@@ -16,6 +16,7 @@ struct AquariumInstallation: Codable {
         var pixelScale: Int?
         var floatingFrame: String?
         var remindersEnabled: Bool
+        var languagePreference: String?
 
         init(defaults: UserDefaults) {
             pinned = defaults.object(forKey: "aquarium.pinned") as? Bool
@@ -23,11 +24,14 @@ struct AquariumInstallation: Codable {
             pixelScale = defaults.object(forKey: "aquarium.pixelScale") as? Int
             floatingFrame = defaults.string(forKey: "NSWindow Frame FishtankFloatingAquarium")
             remindersEnabled = defaults.bool(forKey: "remindersEnabled")
+            languagePreference = defaults.string(forKey: L10n.preferenceKey)
+                .flatMap(L10n.Preference.init(rawValue:))?.rawValue
         }
         var isValid: Bool {
             (waterOpacity.map { $0.isFinite && (0...1).contains($0) } ?? true)
             && (pixelScale.map { (1...3).contains($0) } ?? true)
             && (floatingFrame.map { $0.count <= 1024 } ?? true)
+            && (languagePreference.map { L10n.Preference(rawValue: $0) != nil } ?? true)
         }
         func apply(to defaults: UserDefaults) {
             if let pinned { defaults.set(pinned, forKey: "aquarium.pinned") }
@@ -35,6 +39,7 @@ struct AquariumInstallation: Codable {
             if let pixelScale { defaults.set(pixelScale, forKey: "aquarium.pixelScale") }
             if let floatingFrame { defaults.set(floatingFrame, forKey: "NSWindow Frame FishtankFloatingAquarium") }
             defaults.set(remindersEnabled, forKey: "remindersEnabled")
+            if let languagePreference { defaults.set(languagePreference, forKey: L10n.preferenceKey) }
         }
     }
     var format = "fishtank-installation-transfer"

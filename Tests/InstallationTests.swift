@@ -8,6 +8,7 @@ final class InstallationTests: XCTestCase {
         defaults.set(2, forKey: "aquarium.pixelScale")
         defaults.set("100 200 640 360 0 0 1920 1080", forKey: "NSWindow Frame FishtankFloatingAquarium")
         defaults.set(true, forKey: "remindersEnabled")
+        defaults.set("ja", forKey: L10n.preferenceKey)
         return AquariumInstallation(sourceBundleID: AquariumInstallation.legacyBundleID,
             state: .newGame(at: Date(timeIntervalSince1970: 1_800_000_000)),
             preferences: .init(defaults: defaults), recovery: ["aquarium-v1.json.recent.json": Data("raw previous save".utf8)])
@@ -31,6 +32,18 @@ final class InstallationTests: XCTestCase {
             XCTAssertEqual(AquariumInstallation.Preferences(defaults: target), snapshot.preferences)
             XCTAssertEqual(try Data(contentsOf: directory.appendingPathComponent("aquarium-v1.json.recent.json")), snapshot.recovery.values.first)
             XCTAssertTrue(FileManager.default.fileExists(atPath: directory.appendingPathComponent("installation-transfer.json").path))
+        }
+    }
+    func testOlderTransferWithoutLanguagePreferenceStillDecodes() throws {
+        try withDefaults { source, _ in
+            let snapshot = fixture(source)
+            var object = try JSONSerialization.jsonObject(with: JSONEncoder().encode(snapshot)) as! [String: Any]
+            var preferences = object["preferences"] as! [String: Any]
+            preferences.removeValue(forKey: "languagePreference")
+            object["preferences"] = preferences
+            let restored = try AquariumInstallation.decode(JSONSerialization.data(withJSONObject: object))
+            XCTAssertNil(restored.preferences.languagePreference)
+            XCTAssertEqual(restored.state, snapshot.state)
         }
     }
     func testExistingDestinationCannotBeOverwrittenOrPreferencesChanged() throws {

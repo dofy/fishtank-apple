@@ -29,10 +29,10 @@ final class AppIconStore: ObservableObject {
     func apply(_ design: AppIconDesign) {
         error = nil
         guard AppIconCatalog.all.contains(where: { $0.id == design.id }), let image = Self.image(design, bundle: bundle) else {
-            error = "图标资源未能读取，请重新打开应用后再试。"; return
+            error = L10n.text("图标资源未能读取，请重新打开应用后再试。"); return
         }
         guard AppIconCatalog.isUnlocked(design, discovered: discovered()) else {
-            error = "发现对应品种后解锁此图标。"; return
+            error = L10n.text("发现对应品种后解锁此图标。"); return
         }
         let target = bundle.bundleURL.standardizedFileURL.resolvingSymlinksInPath()
         // Finder's custom icon metadata lives outside Contents. Never replace signed resources.
@@ -52,20 +52,20 @@ final class AppIconStore: ObservableObject {
         }
         if !NSWorkspace.shared.setIcon(finderImage, forFile: target.path) {
             let panel = NSOpenPanel()
-            panel.title = "允许更换图标"; panel.prompt = "允许"
-            panel.message = "请选择当前的 \(target.lastPathComponent)，允许更换访达中的应用图标。应用内容保持不变。"
+            panel.title = L10n.text("允许更换图标"); panel.prompt = L10n.text("允许")
+            panel.message = L10n.text("请选择当前的 \(target.lastPathComponent)，允许更换访达中的应用图标。应用内容保持不变。")
             panel.canChooseFiles = true; panel.canChooseDirectories = false; panel.allowsMultipleSelection = false
             panel.canCreateDirectories = false; panel.treatsFilePackagesAsDirectories = false
             panel.allowedContentTypes = [.applicationBundle]; panel.directoryURL = target.deletingLastPathComponent()
             panel.nameFieldStringValue = target.lastPathComponent
             guard panel.runModal() == .OK, let url = panel.url else { return }
             guard url.standardizedFileURL.resolvingSymlinksInPath() == target else {
-                error = "请选择正在运行的 \(target.lastPathComponent)。"; return
+                error = L10n.text("请选择正在运行的 \(target.lastPathComponent)。"); return
             }
             let accessing = url.startAccessingSecurityScopedResource()
             defer { if accessing { url.stopAccessingSecurityScopedResource() } }
             guard NSWorkspace.shared.setIcon(finderImage, forFile: target.path) else {
-                error = "未能更新应用图标。请确认应用可写，然后再试。"; return
+                error = L10n.text("未能更新应用图标。请确认应用可写，然后再试。"); return
             }
             if let data = try? url.bookmarkData(options: [.withSecurityScope], includingResourceValuesForKeys: nil, relativeTo: nil) {
                 defaults.set(data, forKey: Self.bookmarkKey)

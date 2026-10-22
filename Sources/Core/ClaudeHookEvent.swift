@@ -35,14 +35,14 @@ struct ClaudeHookEvent: Codable, Equatable {
         case ready, working, permission, input, responded, failed, interrupted, ended
         var title: String {
             switch self {
-            case .ready: return "会话已连接"
-            case .working: return "正在处理"
-            case .permission: return "等待你的授权"
-            case .input: return "等待你的输入"
-            case .responded: return "本轮回复已结束"
-            case .failed: return "本轮运行出错"
-            case .interrupted: return "本轮已中断"
-            case .ended: return "会话已结束"
+            case .ready: return L10n.text("会话已连接")
+            case .working: return L10n.text("正在处理")
+            case .permission: return L10n.text("等待你的授权")
+            case .input: return L10n.text("等待你的输入")
+            case .responded: return L10n.text("本轮回复已结束")
+            case .failed: return L10n.text("本轮运行出错")
+            case .interrupted: return L10n.text("本轮已中断")
+            case .ended: return L10n.text("会话已结束")
             }
         }
         var colorHex: Int {
@@ -122,9 +122,9 @@ struct ClaudeHookLedger {
         let active = sessions.values.filter { $0.event.agent == source && now.timeIntervalSince($0.updatedAt) < 900 && $0.status != .ended }
         let waiting = active.filter { $0.status.holdsToast }.count
         let working = active.filter { $0.status == .working }.count
-        if waiting > 0 { return "\(title) · \(waiting) 个会话等待处理" }
-        if working > 0 { return "\(title) · \(working) 个会话处理中" }
-        return active.isEmpty ? "\(title) · 等待事件" : "\(title) · \(active.count) 个近期会话"
+        if waiting > 0 { return L10n.text("\(title) · \(waiting) 个会话等待处理") }
+        if working > 0 { return L10n.text("\(title) · \(working) 个会话处理中") }
+        return active.isEmpty ? L10n.text("\(title) · 等待事件") : L10n.text("\(title) · \(active.count) 个近期会话")
     }
 }
 

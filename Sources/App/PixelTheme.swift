@@ -16,13 +16,24 @@ enum PixelTheme {
     static let pink = Color(hex: 0xEC9FAD)
     static let highlight = Color(hex: 0xC9E0DF)
     static var fontName = "FusionPixel-12px-monospaced-zh_hans"
+    private static var fontNames: [L10n.Language: String] = [:]
 
     static func registerFont() {
-        guard let url = Bundle.main.url(forResource: "FusionPixel", withExtension: "otf") else { return }
-        CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
-        if let descriptors = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL) as? [CTFontDescriptor],
-           let descriptor = descriptors.first,
-           let name = CTFontDescriptorCopyAttribute(descriptor, kCTFontNameAttribute) as? String { fontName = name }
+        for language in L10n.Language.allCases where fontNames[language] == nil {
+            guard let url = Bundle.main.url(forResource: language.fontResource, withExtension: "otf") else { continue }
+            CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
+            if let descriptors = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL) as? [CTFontDescriptor],
+               let descriptor = descriptors.first,
+               let name = CTFontDescriptorCopyAttribute(descriptor, kCTFontNameAttribute) as? String { fontNames[language] = name }
+        }
+        if let name = fontNames[L10n.language] { fontName = name }
+    }
+    static var filterButtonWidth: CGFloat {
+        switch L10n.language {
+        case .english: return metric(96, 96)
+        case .japanese: return metric(64, 88)
+        default: return metric(48, 56)
+        }
     }
     static var isPad: Bool {
         #if os(iOS)
@@ -32,10 +43,39 @@ enum PixelTheme {
         #endif
     }
     static func metric(_ mac: CGFloat, _ pad: CGFloat) -> CGFloat { isPad ? pad : mac }
-    static func font(_ size: CGFloat = 12) -> Font {
-        .custom(fontName, fixedSize: size == 12 ? metric(12, 18) : size)
+    private static func fontPoints(_ size: CGFloat, language: L10n.Language) -> CGFloat {
+        language == .english
+            ? (size == 12 ? metric(13.75, 16.5) : max(16.5, (size / 11).rounded() * 11))
+            : (size == 12 ? metric(13, 18) : size)
     }
-    static func captionFont() -> Font { .custom(fontName, fixedSize: metric(12, 15)) }
+    /// Popup width includes the complete localized label, measured in its actual face.
+    static func textWidth(_ text: String, language: L10n.Language? = nil) -> CGFloat {
+        let language = language ?? L10n.language
+        let font = CTFontCreateWithName((fontNames[language] ?? fontName) as CFString, fontPoints(12, language: language), nil)
+        let line = CTLineCreateWithAttributedString(NSAttributedString(string: text, attributes: [
+            NSAttributedString.Key(kCTFontAttributeName as String): font
+        ]))
+        return ceil(CTLineGetTypographicBounds(line, nil, nil, nil))
+    }
+    static func font(_ size: CGFloat = 12, language: L10n.Language? = nil) -> Font {
+        let language = language ?? L10n.language
+        let points = fontPoints(size, language: language)
+        let name = fontNames[language] ?? fontName
+        if language == .english {
+            let fallback = CTFontDescriptorCreateWithAttributes([
+                kCTFontNameAttribute: fontNames[.simplifiedChinese] ?? "Fusion-Pixel-12px-Mono-zh-Hans-Regular"
+            ] as CFDictionary)
+            let descriptor = CTFontDescriptorCreateWithAttributes([
+                kCTFontNameAttribute: name, kCTFontCascadeListAttribute: [fallback]
+            ] as CFDictionary)
+            return Font(CTFontCreateWithFontDescriptor(descriptor, points, nil))
+        }
+        return .custom(name, fixedSize: points)
+    }
+    static func captionFont() -> Font {
+        if L10n.language == .english { return font() }
+        return .custom(fontName, fixedSize: metric(13, 15))
+    }
 }
 
 extension Color {
@@ -96,18 +136,19 @@ struct PixelWindowFrame: ViewModifier {
 
 /// A collection milestone, using the same flat pixel tags as display badges.
 struct PixelDiscoveryBadge: View {
+    @ObservedObject private var localization = AppLocalization.shared
     var newSpecies: Bool
     var body: some View {
         HStack(spacing: 6) {
             PixelIcon(newSpecies ? "fish" : "book", color: PixelTheme.ink)
-            Text(newSpecies ? "新鱼种" : "新外观")
+            Text(newSpecies ? L10n.text("新鱼种") : L10n.text("新外观"))
         }
         .font(PixelTheme.font()).foregroundStyle(PixelTheme.ink)
         .padding(.horizontal, 12).padding(.vertical, 6)
         .background(PixelOutline().fill(newSpecies ? PixelTheme.gold : PixelTheme.green))
         .overlay(PixelOutline().stroke(PixelTheme.ink, lineWidth: 1).allowsHitTesting(false))
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(newSpecies ? "首次发现新鱼种" : "首次获得此鱼种的品阶外观")
+        .accessibilityLabel(newSpecies ? L10n.text("首次发现新鱼种") : L10n.text("首次获得此鱼种的品阶外观"))
     }
 }
 
@@ -165,12 +206,26 @@ struct PixelButtonStyle: ButtonStyle {
     var primary = false
     var compact = false
     var fixedWidth: CGFloat? = nil
+    func makeBody(configuration: Configuration) -> some View {
+        PixelButtonBody(configuration: configuration, primary: primary, compact: compact, fixedWidth: fixedWidth)
+    }
+}
+
+/// Own the locale observation inside the rendered body. An unchanged label must
+/// update its font without waiting for a press/hover to invalidate ButtonStyle.
+private struct PixelButtonBody: View {
+    let configuration: ButtonStyleConfiguration
+    var primary: Bool
+    var compact: Bool
+    var fixedWidth: CGFloat?
+    @ObservedObject private var localization = AppLocalization.shared
     @Environment(\.isEnabled) private var enabled
     @Environment(\.pixelClick) private var click
-    func makeBody(configuration: Configuration) -> some View {
+    var body: some View {
         configuration.label
             .font(PixelTheme.font())
             .lineLimit(1)
+            .fixedSize(horizontal: fixedWidth != nil, vertical: false)
             .foregroundStyle(primary ? PixelTheme.ink : PixelTheme.text)
             .padding(.horizontal, fixedWidth == nil ? (compact ? PixelTheme.metric(12, 16) : PixelTheme.metric(16, 18)) : 8)
             .frame(width: fixedWidth.map { PixelTheme.isPad ? max(56, $0) : $0 }, height: PixelTheme.metric(40, 48))
@@ -189,6 +244,14 @@ struct PixelButtonStyle: ButtonStyle {
 
 struct PixelToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {
+        PixelToggleBody(configuration: configuration)
+    }
+}
+
+private struct PixelToggleBody: View {
+    let configuration: ToggleStyleConfiguration
+    @ObservedObject private var localization = AppLocalization.shared
+    var body: some View {
         Button { configuration.isOn.toggle() } label: {
             HStack(spacing: 10) {
                 ZStack {
@@ -201,7 +264,7 @@ struct PixelToggleStyle: ToggleStyle {
                 Spacer(minLength: 0)
             }
         }.buttonStyle(PixelButtonStyle())
-            .accessibilityValue(configuration.isOn ? "已开启" : "已关闭")
+            .accessibilityValue(configuration.isOn ? L10n.text("已开启") : L10n.text("已关闭"))
     }
 }
 
@@ -245,6 +308,7 @@ struct PixelIcon: View {
         case "medal": return ["##...##.",".##.##..","..###...",".#####..",".##.##..",".#####..","..###...","........"]
         case "lock": return ["..###...",".#...#..",".#...#..",".#####..",".##.##..",".##.##..",".#####..","........"]
         case "unlock": return ["....##..","...#..#.","...#....",".#####..",".##.##..",".##.##..",".#####..","........"]
+        case "infinity": return ["........",".##..##.","#..##..#","#..##..#",".##..##.","........","........","........"]
         case "check": return ["........","......#.",".....##.","#...##..","##.##...",".###....","..#.....","........"]
         case "close": return ["#.....#.",".#...#..","..#.#...","...#....","..#.#...",".#...#..","#.....#.","........"]
         case "sun": return ["...#....",".#...#..","..###...","#.###.#.","..###...",".#...#..","...#....","........"]
@@ -292,7 +356,8 @@ struct PixelWindowChrome: View {
                     PixelIcon("fish", color: PixelTheme.ink)
                     Text(title).font(PixelTheme.font(18)).foregroundStyle(PixelTheme.ink)
                 }.padding(.leading, 10).allowsHitTesting(false)
-            }.frame(height: 44).accessibilityLabel("拖动窗口")
+            }.frame(height: 44).accessibilityLabel(L10n.text("拖动窗口"))
+                .accessibilityIdentifier("window.dragBar")
             Button(action: close) { PixelIcon("close", color: PixelTheme.pink) }
                 .buttonStyle(PixelButtonStyle(fixedWidth: 40)).accessibilityLabel(closeLabel)
         }.padding(.horizontal, 12).padding(.vertical, 8)
@@ -304,7 +369,10 @@ struct PixelDragBar: NSViewRepresentable {
     func makeNSView(context: Context) -> NSView { Region() }
     func updateNSView(_ nsView: NSView, context: Context) {}
     private final class Region: NSView {
-        override func mouseDown(with event: NSEvent) { window?.performDrag(with: event) }
+        override func mouseDown(with event: NSEvent) {
+            NotificationCenter.default.post(name: .aquariumWindowWillDrag, object: window)
+            window?.performDrag(with: event)
+        }
     }
 }
 #endif

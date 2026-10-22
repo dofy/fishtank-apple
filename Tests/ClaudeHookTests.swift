@@ -30,10 +30,10 @@ final class ClaudeHookTests: XCTestCase {
         var ledger = ClaudeHookLedger()
         _ = ledger.accept(event("PermissionRequest"), now: now)
         _ = ledger.accept(event("UserPromptSubmit", session: "two"), now: now)
-        XCTAssertEqual(ledger.summary(now: now), "Claude Code · 1 个会话等待处理")
+        XCTAssertEqual(ledger.summary(now: now), L10n.render("{0} · {1} 个会话等待处理", arguments: ["Claude Code", "1"], language: L10n.language))
         _ = ledger.accept(event("SessionEnd", session: "one", offset: 1), now: now.addingTimeInterval(1))
-        XCTAssertEqual(ledger.summary(now: now), "Claude Code · 1 个会话处理中")
-        XCTAssertEqual(ledger.summary(now: now.addingTimeInterval(901)), "Claude Code · 等待事件")
+        XCTAssertEqual(ledger.summary(now: now), L10n.render("{0} · {1} 个会话处理中", arguments: ["Claude Code", "1"], language: L10n.language))
+        XCTAssertEqual(ledger.summary(now: now.addingTimeInterval(901)), L10n.render("{0} · 等待事件", arguments: ["Claude Code", "1"], language: L10n.language))
         for i in 0..<100 { _ = ledger.accept(event("Stop", session: "\(i)"), now: now) }
         XCTAssertEqual(ledger.sessions.count, 64)
     }
@@ -50,8 +50,8 @@ final class ClaudeHookTests: XCTestCase {
         XCTAssertEqual(ledger.accept(claude, now: now), true)
         XCTAssertEqual(ledger.accept(codex, now: now), true)
         XCTAssertEqual(ledger.sessions.count, 2)
-        XCTAssertEqual(ledger.summary(source: .codex, now: now), "Codex · 1 个会话处理中")
-        XCTAssertEqual(ledger.summary(now: now), "Claude Code · 1 个会话等待处理")
+        XCTAssertEqual(ledger.summary(source: .codex, now: now), L10n.render("{0} · {1} 个会话处理中", arguments: ["Codex", "1"], language: L10n.language))
+        XCTAssertEqual(ledger.summary(now: now), L10n.render("{0} · {1} 个会话等待处理", arguments: ["Claude Code", "1"], language: L10n.language))
         codex = event("Interrupt", session: "shared-id", offset: 1)
         codex.source = .codex
         XCTAssertEqual(codex.status, .interrupted)

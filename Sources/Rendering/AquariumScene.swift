@@ -125,6 +125,12 @@ final class AquariumScene: SKScene {
         layoutViewport()
     }
 
+    func refreshLocalizedFont() {
+        enumerateChildNodes(withName: "//appVersion") { node, _ in
+            (node as? SKLabelNode)?.fontName = PixelTheme.fontName
+        }
+    }
+
     /// Keep square pixels and sprite proportions: extend the water and swimming
     /// space to the viewport instead of stretching or cropping the 16:9 scene.
     func setViewportSize(_ viewport: CGSize?) {

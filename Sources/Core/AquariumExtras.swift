@@ -9,11 +9,26 @@ struct PlacedDecoration: Codable, Equatable, Identifiable {
 
 enum AquariumLighting: String, Codable, CaseIterable {
     case auto, day, night
-    var title: String { switch self { case .auto: return "自动"; case .day: return "白昼"; case .night: return "夜晚" } }
+    var title: String { switch self { case .auto: return L10n.text("自动"); case .day: return L10n.text("白昼"); case .night: return L10n.text("夜晚") } }
     func isNight(at date: Date) -> Bool {
         if self != .auto { return self == .night }
         let hour = Calendar.current.component(.hour, from: date)
         return hour < 7 || hour >= 19
+    }
+}
+
+enum AquariumMusicTrack: String, CaseIterable {
+    case lofi, tide, chiptune, japanese, taiwan, jazz
+
+    var title: String {
+        switch self {
+        case .lofi: return L10n.text("珊瑚礁 Lo-Fi")
+        case .tide: return L10n.text("深海潮汐")
+        case .chiptune: return L10n.text("液晶八音盒")
+        case .japanese: return L10n.text("日系庭院")
+        case .taiwan: return L10n.text("台式怀旧")
+        case .jazz: return L10n.text("月光 Jazz")
+        }
     }
 }
 
@@ -25,7 +40,7 @@ struct AquariumAudio: Codable, Equatable {
     var track = "lofi"
     var isValid: Bool {
         sfxVolume.isFinite && musicVolume.isFinite && (0...1).contains(sfxVolume)
-            && (0...1).contains(musicVolume) && ["lofi", "tide", "chiptune"].contains(track)
+            && (0...1).contains(musicVolume) && AquariumMusicTrack(rawValue: track) != nil
     }
 }
 
@@ -145,10 +160,10 @@ enum AquariumExtraError: String, LocalizedError {
     case decorLocked, decorFull, invalidDecoration, medalLocked
     var errorDescription: String? {
         switch self {
-        case .decorLocked: return "鱼缸升级后会解锁这件装饰。"
-        case .decorFull: return "装饰位已满，请先收回一件装饰。"
-        case .invalidDecoration: return "请先放入这件装饰。"
-        case .medalLocked: return "只能挂上已经获得的勋章。"
+        case .decorLocked: return L10n.text("鱼缸升级后会解锁这件装饰。")
+        case .decorFull: return L10n.text("装饰位已满，请先收回一件装饰。")
+        case .invalidDecoration: return L10n.text("请先放入这件装饰。")
+        case .medalLocked: return L10n.text("只能挂上已经获得的勋章。")
         }
     }
 }

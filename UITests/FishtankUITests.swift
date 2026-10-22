@@ -5,6 +5,7 @@ final class FishtankUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(zh-Hans)"]
         app.launchEnvironment["FISHTANK_UI_TEST_ID"] = UUID().uuidString
         XCUIDevice.shared.orientation = .portrait
         app.launch()

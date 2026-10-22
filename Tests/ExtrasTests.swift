@@ -112,4 +112,25 @@ final class ExtrasTests: XCTestCase {
         state.decorations[0].x = -1
         XCTAssertFalse(state.isValid)
     }
+
+    func testMusicStylesPreserveSaveAndIndependentAudioPreferences() throws {
+        XCTAssertEqual(AquariumMusicTrack.allCases.map(\.rawValue),
+                       ["lofi", "tide", "chiptune", "japanese", "taiwan", "jazz"])
+        for track in AquariumMusicTrack.allCases {
+            var state = AquariumState.newGame(at: now)
+            let fish = state.fish, random = state.random
+            state.audio.track = track.rawValue
+            state.audio.musicEnabled = false
+            state.audio.musicVolume = 0.17
+            state.audio.sfxEnabled = false
+            let restored = try AquariumSave.decode(JSONEncoder().encode(state))
+            XCTAssertEqual(restored.audio, state.audio)
+            XCTAssertEqual(restored.fish, fish)
+            XCTAssertEqual(restored.random, random)
+            XCTAssertFalse(track.title.isEmpty)
+        }
+        var invalid = AquariumState.newGame(at: now)
+        invalid.audio.track = "unknown-track"
+        XCTAssertThrowsError(try AquariumSave.decode(JSONEncoder().encode(invalid)))
+    }
 }

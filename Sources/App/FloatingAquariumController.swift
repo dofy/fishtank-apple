@@ -112,7 +112,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         }
     }
     @Published private(set) var isVisible = false
-    @Published private(set) var claudeSummary = "Claude Code · 正在启动接收器"
+    @Published private(set) var claudeSummary = L10n.text("Claude Code · 正在启动接收器")
     let agentSettings = AgentSettingsStore()
     lazy var appIcons = AppIconStore(discovered: { [weak self] in self?.store.state.discovered ?? [] })
     var claudeHooksEnabled: Bool {
@@ -163,7 +163,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
     private func previewMenuIcon(_ event: ClaudeHookEvent) {
         guard let status = event.status else { return }
         clearMenuPreview()
-        menuPreview = .init(state: .init(status), detail: "预览 · \(event.agentTitle) · \(status.title)")
+        menuPreview = .init(state: .init(status), detail: L10n.text("预览 · \(event.agentTitle) · \(status.title)"))
         menuIndicatorRevision += 1
         menuPreviewTask = Task { @MainActor [weak self] in
             try? await Task.sleep(nanoseconds: 8_000_000_000)
@@ -175,10 +175,11 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
     private let claudeToast = ClaudeToastPresenter()
     private lazy var claudeBridge = ClaudeHookBridge(receive: { [weak self] event in
         Task { @MainActor in self?.receiveClaude(event) }
-    }, report: { [weak self] message in
+    }, report: { [weak self] status in
         Task { @MainActor in
-            self?.claudeSummary = message
-            self?.agentSettings.receiverReady = message.contains("已就绪")
+            self?.receiverStatus = status
+            self?.claudeSummary = status.message
+            self?.agentSettings.receiverReady = status.isReady
         }
     })
 
@@ -221,7 +222,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             case .interrupted: eventName = agent.source == .claudeCode ? "Stop" : "Interrupt"; kind = nil
             case .ended: eventName = "SessionEnd"; kind = nil
             }
-            var event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:settings-\(index)", project: "效果预览",
+            var event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:settings-\(index)", project: L10n.text("效果预览"),
                 event: eventName, notificationType: kind, sentAt: Date(), source: agent.source)
             event.previewStatus = state
             event.displayName = agent.name; event.displayColor = agent.colorHex
@@ -234,9 +235,9 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
 
     func previewClaudeToast() {
         let samples: [(ClaudeHookEvent.Source, String, String)] = [
-            (.codex, "UserPromptSubmit", "Codex · 处理预览"),
-            (.claudeCode, "PermissionRequest", "Claude · 授权预览"),
-            (.codex, "Stop", "Codex · 结束预览")
+            (.codex, "UserPromptSubmit", L10n.text("Codex · 处理预览")),
+            (.claudeCode, "PermissionRequest", L10n.text("Claude · 授权预览")),
+            (.codex, "Stop", L10n.text("Codex · 结束预览"))
         ]
         for (index, sample) in samples.enumerated() {
             let event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:\(index)",
@@ -257,6 +258,8 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
     private var motionObserver: NSObjectProtocol?
     private var renderRecoveryObservers: [NSObjectProtocol] = []
     private var stateObserver: AnyCancellable?
+    private var localizationObserver: AnyCancellable?
+    private var receiverStatus: ClaudeHookBridge.Status?
     private var animationWatchdog: AnyCancellable?
     private var renderWatchdog = AquariumRenderWatchdog()
     private var wakeRecoveryTask: Task<Void, Never>?
@@ -307,7 +310,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             self.clearMenuPreview(); self.menuIndicatorRevision += 1
         }
 
-        panel.title = "Fishtank · 悬浮鱼缸"
+        panel.title = L10n.text("Fishtank · 悬浮鱼缸")
         panel.delegate = self
         panel.isReleasedWhenClosed = false
         panel.hidesOnDeactivate = false
@@ -330,9 +333,9 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         spriteView.allowsTransparency = true
         spriteView.autoresizingMask = [.width, .height]
         spriteView.preferredFramesPerSecond = 30
-        spriteView.toolTip = "拖动水面移动鱼缸，拖造景布置，单击空白处投喂，右键晃动惊鱼；菜单栏可调透明度、大小与置顶。"
+        spriteView.toolTip = L10n.text("拖动水面移动鱼缸，拖造景布置，单击空白处投喂，右键晃动惊鱼；菜单栏可调透明度、大小与置顶。")
         spriteView.feed = { [weak self] x in self?.feed(at: x) }
-        spriteView.setAccessibilityLabel("半透明悬浮像素鱼缸")
+        spriteView.setAccessibilityLabel(L10n.text("半透明悬浮像素鱼缸"))
         scene.setWaterOpacity(CGFloat(waterOpacity))
         spriteView.presentScene(scene)
         scene.populate(with: store.state.tankFish)
@@ -343,6 +346,20 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         stateObserver = store.$state.sink { [weak self] state in
             self?.scene.populate(with: state.tankFish)
             self?.scene.syncExtras(from: state, at: Date())
+        }
+        localizationObserver = NotificationCenter.default.publisher(for: .aquariumLanguageDidChange).sink { [weak self] _ in
+            guard let self else { return }
+            self.panel.title = L10n.text("Fishtank · 悬浮鱼缸")
+            self.managementWindow?.title = L10n.text("Fishtank · 养成手册")
+            self.agentSettingsWindow?.title = L10n.text("Fishtank · 设置")
+            self.spriteView.toolTip = L10n.text("拖动水面移动鱼缸，拖造景布置，单击空白处投喂，右键晃动惊鱼；菜单栏可调透明度、大小与置顶。")
+            self.spriteView.setAccessibilityLabel(L10n.text("半透明悬浮像素鱼缸"))
+            self.scene.refreshLocalizedFont()
+            self.claudeToast.refreshLocalization()
+            self.clearMenuPreview()
+            self.claudeSummary = self.claudeLedger.sessions.isEmpty
+                ? (self.receiverStatus?.message ?? L10n.text("Claude Code · 正在启动接收器")) : self.claudeLedger.summary()
+            self.menuIndicatorRevision += 1
         }
         applyWindowLevel()
         if !NSScreen.screens.contains(where: { $0.visibleFrame.intersects(panel.frame) }) {
@@ -407,9 +424,10 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
 
     func showManagement() {
         if managementWindow == nil {
-            let window = AquariumManagementWindow(contentRect: NSRect(x: 0, y: 0, width: 980, height: 900),
-                                  styleMask: [.borderless, .resizable], backing: .buffered, defer: false)
-            window.title = "Fishtank · 养成手册"
+            let size = AquariumManagementWindow.contentSize
+            let window = AquariumManagementWindow(contentRect: NSRect(origin: .zero, size: size),
+                                  styleMask: [.borderless], backing: .buffered, defer: false)
+            window.title = L10n.text("Fishtank · 养成手册")
             window.isReleasedWhenClosed = false
             window.hasShadow = true
             window.isOpaque = false
@@ -417,9 +435,12 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             window.hidesOnDeactivate = false
             window.becomesKeyOnlyIfNeeded = false
             window.delegate = self
-            window.minSize = NSSize(width: 600, height: 540)
             window.level = .normal
-            window.contentView = NSHostingView(rootView: AquariumView(store: store, openAgentSettings: { [weak self] in self?.showAgentSettings() }))
+            let content = NSHostingView(rootView: AquariumView(store: store, openAgentSettings: { [weak self] in self?.showAgentSettings() })
+                .frame(width: size.width, height: size.height))
+            content.sizingOptions = [.minSize, .maxSize]
+            window.contentView = content
+            window.lockContentSize()
             window.center()
             managementWindow = window
         }
@@ -433,10 +454,10 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
 
     func showAgentSettings() {
         if agentSettingsWindow == nil {
-            let size = NSSize(width: 880, height: 660)
+            let size = AquariumManagementWindow.contentSize
             let window = AquariumManagementWindow(contentRect: NSRect(origin: .zero, size: size),
                 styleMask: [.borderless], backing: .buffered, defer: false)
-            window.title = "Fishtank · 设置"; window.isReleasedWhenClosed = false
+            window.title = L10n.text("Fishtank · 设置"); window.isReleasedWhenClosed = false
             window.hasShadow = true; window.isOpaque = false; window.backgroundColor = .clear
             window.hidesOnDeactivate = false; window.becomesKeyOnlyIfNeeded = false; window.level = .normal
             window.delegate = self
@@ -445,9 +466,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             content.sizingOptions = [.minSize, .maxSize]
             window.contentView = content
             // A fixed root gives SwiftUI the same minimum and maximum after every layout pass.
-            window.contentMinSize = size; window.contentMaxSize = size
-            window.setContentSize(size)
-            window.collectionBehavior.insert(.fullScreenNone)
+            window.lockContentSize()
             window.center(); agentSettingsWindow = window
         }
         NSApp.setActivationPolicy(.regular); NSApp.activate(ignoringOtherApps: true)
@@ -532,7 +551,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             replacement.autoresizingMask = [.width, .height]
             replacement.toolTip = spriteView.toolTip
             replacement.feed = { [weak self] x in self?.feed(at: x) }
-            replacement.setAccessibilityLabel("半透明悬浮像素鱼缸")
+            replacement.setAccessibilityLabel(L10n.text("半透明悬浮像素鱼缸"))
             replacement.presentScene(scene)
             spriteView = replacement
             panel.contentView = replacement
@@ -584,7 +603,34 @@ private final class AquariumPanel: NSPanel {
 
 }
 
-private final class AquariumManagementWindow: NSPanel {
+final class AquariumManagementWindow: NSPanel {
+    static let contentSize = NSSize(width: 880, height: 660)
+    private var lockedFrameSize: NSSize?
+
+    func lockContentSize() {
+        contentMinSize = Self.contentSize
+        contentMaxSize = Self.contentSize
+        setContentSize(Self.contentSize)
+        lockedFrameSize = frame.size
+        collectionBehavior.insert(.fullScreenNone)
+    }
+
+    override func setFrame(_ frameRect: NSRect, display flag: Bool) {
+        var target = frameRect
+        if let size = lockedFrameSize { target.size = size }
+        super.setFrame(target, display: flag)
+    }
+
+    override func setFrame(_ frameRect: NSRect, display flag: Bool, animate: Bool) {
+        var target = frameRect
+        if let size = lockedFrameSize { target.size = size }
+        super.setFrame(target, display: flag, animate: animate)
+    }
+
+    override func setContentSize(_ size: NSSize) {
+        super.setContentSize(lockedFrameSize == nil ? size : Self.contentSize)
+    }
+
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { true }
     override func accessibilityRole() -> NSAccessibility.Role? { .window }

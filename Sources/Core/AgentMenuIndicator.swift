@@ -6,15 +6,15 @@ enum AgentMenuIndicator {
         case idle, paused, ready, working, permission, input, responded, failed, interrupted, ended
         init(_ status: ClaudeHookEvent.Status) { self = Self(rawValue: status.rawValue)! }
         var title: String {
-            if self == .idle { return "等待 Agent 事件" }
-            if self == .paused { return "Agent 提醒已暂停" }
+            if self == .idle { return L10n.text("等待 Agent 事件") }
+            if self == .paused { return L10n.text("Agent 提醒已暂停") }
             return ClaudeHookEvent.Status(rawValue: rawValue)!.title
         }
     }
     struct Presentation: Equatable {
         var state: State
         var detail: String
-        static let idle = Self(state: .idle, detail: State.idle.title)
+        static var idle: Self { Self(state: .idle, detail: State.idle.title) }
     }
     static func lifetime(_ status: ClaudeHookEvent.Status) -> TimeInterval {
         switch status {

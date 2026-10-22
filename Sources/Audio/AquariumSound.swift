@@ -58,7 +58,7 @@ private final class AquariumPlayback: @unchecked Sendable {
             if effects.count >= 8 { effects.removeFirst().stop() }
             effects.append(player)
             player.play()
-        } catch { reportError?("音效不可用：\(error.localizedDescription)") }
+        } catch { reportError?(L10n.text("音效不可用：\(error.localizedDescription)")) }
     }
     private func updateMusic() {
         guard unlocked, !suspended, configuration.musicEnabled, configuration.musicVolume > 0.001 else { music?.pause(); return }
@@ -71,7 +71,7 @@ private final class AquariumPlayback: @unchecked Sendable {
             }
             music?.volume = Float(configuration.musicVolume)
             if music?.isPlaying != true { music?.play() }
-        } catch { reportError?("音乐不可用：\(error.localizedDescription)") }
+        } catch { reportError?(L10n.text("音乐不可用：\(error.localizedDescription)")) }
     }
     private func prepareSession() throws {
         #if os(iOS)

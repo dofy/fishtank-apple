@@ -4,6 +4,7 @@ import SwiftUI
 struct PixelChoice: Identifiable {
     let id: String
     let title: String
+    var language: L10n.Language? = nil
 }
 
 @MainActor final class PixelChoiceController: ObservableObject {
@@ -39,6 +40,7 @@ struct PixelChoiceAnchors: PreferenceKey {
 
 /// Popup contents render inside the pixel window, avoiding platform popup chrome and scroll clipping.
 struct PixelChoiceField: View {
+    @ObservedObject private var localization = AppLocalization.shared
     let id: String
     let label: String
     @Binding var selection: String
@@ -50,7 +52,8 @@ struct PixelChoiceField: View {
             controller.toggle(id: id, choices: choices, selected: selection) { selection = $0 }
         } label: {
             HStack(spacing: 12) {
-                Text(choices.first { $0.id == selection }?.title ?? label).font(PixelTheme.font()).lineLimit(1)
+                Text(choices.first { $0.id == selection }?.title ?? label)
+                    .font(PixelTheme.font(language: choices.first { $0.id == selection }?.language)).lineLimit(1)
                 Spacer(minLength: 8)
                 Text(controller.menu?.id == id ? "▴" : "▾").font(PixelTheme.font())
             }.frame(maxWidth: .infinity).contentShape(Rectangle())
@@ -66,6 +69,7 @@ struct PixelChoiceField: View {
 }
 
 struct PixelChoicePopup: View {
+    @ObservedObject private var localization = AppLocalization.shared
     @ObservedObject var controller: PixelChoiceController
     let menu: PixelChoiceController.Menu
     @FocusState private var focused: Bool
@@ -74,8 +78,9 @@ struct PixelChoicePopup: View {
             ForEach(Array(menu.choices.enumerated()), id: \.element.id) { index, item in
                 Button { controller.choose(item.id) } label: {
                     HStack(spacing: 10) {
-                        Text(item.id == menu.selected ? "✓" : " ").frame(width: 16)
-                        Text(item.title).lineLimit(1)
+                        PixelIcon("check", color: index == controller.highlighted ? PixelTheme.ink : PixelTheme.text)
+                            .opacity(item.id == menu.selected ? 1 : 0).frame(width: 16)
+                        Text(item.title).font(PixelTheme.font(language: item.language)).lineLimit(1)
                         Spacer(minLength: 0)
                     }.font(PixelTheme.font()).foregroundStyle(index == controller.highlighted ? PixelTheme.ink : PixelTheme.text)
                         .padding(.horizontal, 12).frame(height: 36).frame(maxWidth: .infinity)
@@ -112,6 +117,7 @@ private struct PixelNoSystemFocus: ViewModifier {
 }
 
 struct PixelTextField: View {
+    @ObservedObject private var localization = AppLocalization.shared
     let prompt: String
     @Binding var text: String
     let id: String
