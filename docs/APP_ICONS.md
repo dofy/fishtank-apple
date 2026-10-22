@@ -30,8 +30,8 @@
 设计目录：`Sources/Core/AppIconCatalog.swift`；像素绘制：`Sources/Rendering/AppIconArt.swift`。使用项目原有 `PixelArt` 鱼类素材，无外部生成模型或第三方素材。
 
 ```sh
-xcrun swiftc -parse-as-library Sources/Core/*.swift Sources/Rendering/PixelArt.swift Sources/Rendering/AppIconArt.swift tools/generate-icon-variants.swift -o /tmp/fishtank-icon-generator
-/tmp/fishtank-icon-generator
+xcrun swiftc -parse-as-library Sources/Core/*.swift Sources/Rendering/PixelArt.swift Sources/Rendering/PaintedSprites.swift Sources/Rendering/AppIconArt.swift tools/generate-icon-variants.swift -o /tmp/fishtank-icon-generator
+FISHTANK_ART_ROOT=Sources/Resources/PixelSprites /tmp/fishtank-icon-generator
 ```
 
 输出在 `Sources/Resources/AppIcons/`，每款包含 512px PNG 预览与完整 16–1024px ICNS。Mac 打包资源共 29 对，另含默认 ICNS 与品种清单 AppIconCatalog.json，iPad 默认图标不变。`tools/check-release-bundle.py` 检查数量、格式、尺寸、设计不重复及原有发布要求。

@@ -35,7 +35,7 @@ struct FishPreview {
                 context.draw(PixelArt.image(species: species, grade: grade), in: CGRect(x: x + 9 + (grade - 1) * 36, y: y + 9, width: 32, height: 24))
             }
         }
-        text("游动三帧", 24, 118)
+        text("游动姿态", 24, 118)
         for frame in 0..<3 {
             context.draw(PixelArt.image(species: FishCatalog.byID["goldfin"]!, grade: 1, frame: frame),
                          in: CGRect(x: 24 + frame * 88, y: 48, width: 64, height: 48))

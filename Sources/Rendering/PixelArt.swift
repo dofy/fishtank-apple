@@ -1,9 +1,10 @@
 import SpriteKit
+import ImageIO
 #if os(macOS)
 import AppKit
 #endif
 
-/// Original hand-authored pixel art. No PC FISH artwork is bundled or copied.
+/// Original pixel artwork. No PC FISH artwork is bundled or copied.
 enum PixelArt {
     private static var speciesImages: [String: CGImage] = [:]
     private static var speciesTextures: [String: SKTexture] = [:]
@@ -57,13 +58,22 @@ enum PixelArt {
     }
 
     static func animationFrameCount(for species: FishSpecies) -> Int {
-        species.form == "eel" || species.form == "seasnake" ? 16 : 8
+        32
+    }
+
+    static func animationCycleDuration(for species: FishSpecies) -> Double {
+        switch species.form {
+        case "eel", "seasnake": return 1.6
+        case "seahorse": return 2.4
+        case "turtle", "ray": return 2.8
+        default: return 2
+        }
     }
 
     static func animationFrame(for species: FishSpecies, time: Double) -> Int {
         guard time.isFinite, time > 0 else { return 0 }
         let count = animationFrameCount(for: species)
-        let fps = count == 16 ? 12.0 : 4.0
+        let fps = Double(count) / animationCycleDuration(for: species)
         return Int((time.truncatingRemainder(dividingBy: Double(count) / fps) * fps).rounded(.down)) % count
     }
 
@@ -73,8 +83,11 @@ enum PixelArt {
         let frame = max(0, frame) % frameCount, puffLevel = max(0, min(3, puffLevel))
         let key = "\(species.id):\(grade):\(frame):\(puffLevel)"
         if let cached = speciesImages[key] { return cached }
+        if let image = PaintedSprites.fish(species, grade: grade, frame: frame, puffLevel: puffLevel) {
+            speciesImages[key] = image
+            return image
+        }
         let width = 64, height = 48
-        let variant = species.id.utf8.reduce(0) { $0 + Int($1) }
         let hue = (species.hue + Double(grade - 1) * 43).truncatingRemainder(dividingBy: 360)
         let main = hsl(hue, species.saturation, species.lightness)
         let shade = hsl(hue, species.saturation, max(0.2, species.lightness - 0.18))
@@ -84,7 +97,7 @@ enum PixelArt {
         let fin = hsl((hue + 12).truncatingRemainder(dividingBy: 360), species.saturation * 0.8, species.lightness + 0.08)
         let belly = hsl(hue, species.saturation * 0.65, min(0.82, species.lightness + 0.12))
         let scale = hsl(hue, species.saturation * 0.85, min(0.86, species.lightness + 0.07))
-        let undulating = frameCount == 16
+        let undulating = species.form == "eel" || species.form == "seasnake"
         let phase = Double(frame) * 2 * .pi / Double(frameCount)
         func spine(_ x: Double) -> Double {
             let amplitude: Double, frequency: Double
@@ -97,6 +110,29 @@ enum PixelArt {
             }
             return 11 + sin(x * frequency + phase) * amplitude * (0.3 + (29 - x) / 29 * 0.7)
         }
+
+        // Anatomy is a continuous contour; the pixel grid is the rendering style,
+        // not a substitute for a recognizable head, neck, belly and curled tail.
+        let horse = CGMutablePath()
+        horse.move(to: CGPoint(x: 15, y: 3))
+        horse.addCurve(to: CGPoint(x: 21, y: 5), control1: CGPoint(x: 18, y: 1.5), control2: CGPoint(x: 21, y: 2.5))
+        horse.addLine(to: CGPoint(x: 26, y: 6.5))
+        horse.addLine(to: CGPoint(x: 25.5, y: 8))
+        horse.addLine(to: CGPoint(x: 20.5, y: 7.5))
+        horse.addCurve(to: CGPoint(x: 16.5, y: 9), control1: CGPoint(x: 19.5, y: 9), control2: CGPoint(x: 17.5, y: 7.5))
+        horse.addCurve(to: CGPoint(x: 20, y: 14), control1: CGPoint(x: 16, y: 10.5), control2: CGPoint(x: 20, y: 10.5))
+        horse.addCurve(to: CGPoint(x: 17, y: 18), control1: CGPoint(x: 20.5, y: 16), control2: CGPoint(x: 18, y: 17.5))
+        horse.addCurve(to: CGPoint(x: 13, y: 22), control1: CGPoint(x: 17, y: 21), control2: CGPoint(x: 15, y: 23))
+        horse.addCurve(to: CGPoint(x: 11, y: 18.5), control1: CGPoint(x: 10, y: 22), control2: CGPoint(x: 9.5, y: 20))
+        horse.addCurve(to: CGPoint(x: 14.5, y: 18.5), control1: CGPoint(x: 12, y: 17), control2: CGPoint(x: 14, y: 17))
+        horse.addLine(to: CGPoint(x: 14, y: 19.5))
+        horse.addCurve(to: CGPoint(x: 12, y: 19.5), control1: CGPoint(x: 13, y: 18.5), control2: CGPoint(x: 12, y: 18.5))
+        horse.addCurve(to: CGPoint(x: 14.5, y: 20), control1: CGPoint(x: 11, y: 21), control2: CGPoint(x: 14, y: 21.5))
+        horse.addCurve(to: CGPoint(x: 14.5, y: 16), control1: CGPoint(x: 16, y: 19), control2: CGPoint(x: 15, y: 17))
+        horse.addCurve(to: CGPoint(x: 12.5, y: 12), control1: CGPoint(x: 13, y: 15), control2: CGPoint(x: 12, y: 14))
+        horse.addCurve(to: CGPoint(x: 14, y: 7), control1: CGPoint(x: 12.5, y: 10), control2: CGPoint(x: 15, y: 8))
+        horse.addCurve(to: CGPoint(x: 15, y: 3), control1: CGPoint(x: 12.5, y: 6), control2: CGPoint(x: 13.5, y: 4))
+        horse.closeSubpath()
 
         func inside(_ xi: Int, _ yi: Int) -> Bool {
             let x = Double(xi) / 2
@@ -121,14 +157,14 @@ enum PixelArt {
                 return bell || tentacles || crown
             case "seahorse":
                 let leafy = species.silhouette == "leafy-seahorse"
-                let curlX = 13.0 + sin(phase) * 0.5, curlY = 19.0
-                let curlRadius = hypot(x - curlX, y - curlY)
-                let tail = curlRadius > 1.7 && curlRadius < 3.0 && (x < curlX + 0.4 || y > curlY)
-                    || x >= 14 && x <= 17 && y >= 14 && y <= 20
-                let fronds = leafy ? (ellipse(9, 11, 3.5, 1.3) || ellipse(10, 15, 3, 1.5) || ellipse(15, 2.5, 2.8, 1.5))
-                    : (x >= 10 && x <= 13 && y >= 8 && y <= 16 && Int(y) % 3 < 1)
-                return ellipse(18, 6, leafy ? 4.5 : 5, 4) || (x >= 20 && x <= 27 && y >= 5 && y <= 7)
-                    || ellipse(15, 12, 4, 5.5) || tail || fronds
+                let finReach = 1.4 + (sin(phase) + 1) * 0.65
+                let dorsal = x >= 12 - finReach && x <= 13.5 && y >= 10 && y <= 14
+                    && abs(y - 12) < (x - 12 + finReach) * 1.2
+                let crown = x > 14 && x < 17.5 && y > 1 && y < 4 && x + y > 17
+                let spines = !leafy && y >= 8 && y <= 15 && Int(y * 2) % 5 < 2
+                    && x > 11.5 && x < 13.5
+                let leaf = leafy && (ellipse(11.5, 9, 1.5, 0.65) || ellipse(12, 15, 1.5, 0.65))
+                return horse.contains(CGPoint(x: x, y: y)) || dorsal || crown || spines || leaf
             case "eel", "seasnake":
                 let dy = y - spine(x)
                 switch species.silhouette {
@@ -161,9 +197,13 @@ enum PixelArt {
                         || (x >= 8 && x <= 23 && dy < 0 && dy > -crest)
                 }
             case "ray":
-                let lift = sin(phase) * 1.6
-                return abs(x - 16) / 13 + abs(y - 10 - abs(x - 16) / 13 * lift) / 7 < 1
-                    || (y >= 12 && y <= 23 && abs(x - (16 + (y - 13) * 0.28)) < 0.8)
+                let span = abs(x - 16) / 13
+                let lift = sin(phase) * 1.5
+                let wings = span <= 1 && y >= 5 + span * 3 + span * lift
+                    && y <= 16 - pow(span, 0.55) * 7 + span * lift
+                let lobes = (ellipse(13.5, 5.5, 1.2, 3) || ellipse(18.5, 5.5, 1.2, 3))
+                return wings || ellipse(16, 10, 3.8, 6) || lobes
+                    || (y >= 14 && y <= 23 && abs(x - (16 + sin((y - 14) * 0.2 + phase) * 1.5)) < 0.55)
             case "turtle":
                 let stroke = sin(phase), reach = cos(phase)
                 return ellipse(15, 11, 8, 6) || ellipse(25, 10, 4, 2.6)
@@ -187,8 +227,9 @@ enum PixelArt {
                 default: body = ellipse(18, 11, 8, depth)
                 }
                 let veil = ["goldfish", "veil-koi", "lyretail"].contains(species.silhouette)
-                let tail = x >= 2 && x <= 2 + tailWidth && abs(y - 11) <= (2 + tailWidth - x) * (veil ? 1.1 : 0.72)
-                    && (!veil || x > 4 || abs(y - 11) > 1.2)
+                let tail = x >= 2 && x <= 11.5 && abs(y - 11) <= max(0.9, (11.5 - x) * (veil ? 0.8 : 0.5))
+                    && (x > 4 || abs(y - 11) > (veil ? 1.5 : 0.7))
+                    && abs(y - 11) < tailWidth * 0.75
                 let dorsal = x > 12 && x < 22 && y >= 11 - depth - species.dorsal * (1 + (22 - x) * 0.45) && y < 11 - depth + 2
                 let streamer = species.silhouette == "moorish-idol" && x > 12 && x < 18 && y > 1 && y < 11 - depth + 2
                     && abs(x - (18 - y * 0.65)) < 0.8
@@ -198,7 +239,8 @@ enum PixelArt {
                 let beak = ["beak-butterfly", "unicorn-tang", "moorish-idol"].contains(species.silhouette)
                     && x >= 24 && x <= 29 && y >= 9 && y <= 11
                 let puffer = species.silhouette == "spiky-puffer" && (Int(x) % 3 == 0 || Int(y) % 3 == 0) && ellipse(18, 11, 9, depth + 1)
-                let wings = species.silhouette == "glider-fish" && abs(x - 15) < 6 && abs(y - 12) < 9 && Int(x) % 2 == 0
+                let wings = species.silhouette == "glider-fish" && x > 6 && x < 21
+                    && abs(y - 11) < (21 - x) * 0.65 && abs(y - 11) > (21 - x) * 0.22
                 return body || tail || dorsal || ventral || beak || puffer || wings || streamer || sail || whiskers
             }
         }
@@ -211,9 +253,6 @@ enum PixelArt {
                 let edge = !inside(x - 1, y) || !inside(x + 1, y) || !inside(x, y - 1) || !inside(x, y + 1)
                 var color = edge ? outline : (py < 9 ? light : py > 13 ? shade : main)
                 if !edge {
-                    if species.pattern == "bands" && (Int(px) + variant) % 7 < 2 { color = accent }
-                    if species.pattern == "stripes" && (Int(py) + variant) % 5 == 0 { color = accent }
-                    if species.pattern == "spots" && (Int(px) * 13 + Int(py) * 7 + variant) % 17 < 2 { color = light }
                     if species.form == "fish" {
                         // Fin rays follow the tail fan; the belly and gill describe volume.
                         if px < 10 || py < 7 || py > 16 {
@@ -225,12 +264,52 @@ enum PixelArt {
                         if px > 21 && px < 22 && py > 9 && py < 13 { color = shade }
                         if px > 18 && px < 21 && abs(py - (12 + (21 - px) * 0.45)) < 0.6 { color = fin }
                         if px > 25 && py > 11 && py < 11.6 { color = shade }
+                        // Markings follow the anatomy: vertical bars, lateral stripes,
+                        // koi patches and puffer spots, never random confetti.
+                        switch species.silhouette {
+                        case "beak-butterfly", "crown-butterfly", "moorish-idol", "banner-cardinal", "rhomboid-barb":
+                            if px > 11 && px < 25 && Int((px + py * 0.18) / 3.2) % 2 == 0 { color = shade }
+                            if species.silhouette == "banner-cardinal" && px < 22 && x % 7 == 0 && y % 6 == 0 { color = light }
+                        case "wrasse", "tetra", "minnow":
+                            if px > 8 && px < 25 && abs(py - (10.5 + (px - 16) * 0.04)) < 0.65 { color = light }
+                            if px > 10 && px < 24 && py > 11.5 && py < 12.2 { color = shade }
+                        case "veil-koi":
+                            if pow((px - 15) / 3, 2) + pow((py - 9) / 2.5, 2) < 1
+                                || pow((px - 21) / 2.4, 2) + pow((py - 13) / 3, 2) < 1 { color = accent }
+                        case "spiky-puffer", "catfish":
+                            if py < 12.5 && px > 12 && px < 24 && x % 8 < 2 && y % 7 < 2 { color = shade }
+                            if py > 12 { color = belly }
+                        case "lyretail": if px < 11 { color = accent }
+                        case "fire-goby": if px > 19 { color = belly }
+                        case "glider-fish":
+                            if abs(py - 11) > 3 { color = x % 5 < 1 ? shade : fin }
+                        default: break
+                        }
+                    } else if species.form == "seahorse" {
+                        color = px > 16 ? belly : main
+                        if px < 13.5 && py > 9 { color = fin }
+                        if py > 9 && py < 17 && px > 13 && px < 19 && y % 5 == 0 { color = shade }
+                        if px > 15.5 && px < 16.5 && py > 9 && py < 16 { color = light }
+                        if px > 21 && py > 7 { color = shade }
                     } else if species.form == "turtle" {
-                        if px < 22 && ((x + y / 2) % 10 == 0 || y % 9 == 0) { color = shade }
-                        if px < 20 && py < 10 && x % 6 < 2 { color = light }
+                        let shell = pow((px - 15) / 7.3, 2) + pow((py - 11) / 5.3, 2)
+                        color = shell < 1 ? main : fin
+                        if shell > 0.77 && shell < 1 { color = belly }
+                        if shell < 0.77 && (abs(px - 15) < 0.4 || abs(py - 8.5) < 0.35 || abs(py - 12.5) < 0.35
+                            || abs(abs(px - 15) - 3.5) < 0.35) { color = shade }
+                        if px > 23 && py > 10.5 { color = belly }
                     } else if species.form == "jellyfish" {
-                        if py < 11 && abs(px - 16) < 6 && (x % 8 < 2) { color = belly }
-                        if abs(py - 12) < 0.6 { color = accent }
+                        color = py < 8 ? light : py < 11 ? main : fin
+                        if py > 7 && py < 11 {
+                            let ring = hypot((px - 16) / 1.5, py - 9)
+                            if ring > 1.2 && ring < 1.8 { color = belly }
+                        }
+                        if abs(py - 12) < 0.6 { color = shade }
+                        if py > 13 && abs(px - 16) < 3 { color = belly }
+                    } else if species.form == "ray" {
+                        color = abs(px - 16) < 3 ? light : main
+                        if py > 10 && abs(px - 16) > 4 { color = shade }
+                        if abs(px - 16) > 3 && abs(px - 16) < 9 && x % 7 == 0 && y % 6 == 0 { color = belly }
                     } else if species.form == "eel" || species.form == "seasnake" {
                         let dy = py - spine(px)
                         if dy > 0.4 { color = belly }
@@ -243,13 +322,15 @@ enum PixelArt {
                         if species.silhouette == "electric-eel" && dy < -1.5 { color = accent }
                         if species.silhouette == "ribbon-eel" && dy < -0.9 { color = fin }
                         if species.silhouette == "sea-dragon" && Int(px) % 4 < 1 { color = light }
+                        if px > 26 && dy > 0.5 && dy < 1 { color = shade }
+                        if px > 23.5 && px < 24.2 && abs(dy) < 1.2 { color = shade }
                     }
                 }
-                let eyeX = species.form == "seahorse" ? 20 : species.form == "ray" ? 18 : species.form == "jellyfish" ? 18 : undulating ? 27 : 24
-                let eyeY = undulating ? Int((spine(Double(eyeX)) - 0.5).rounded()) : species.form == "seahorse" ? 5 : species.form == "jellyfish" ? 10 : 9
-                if abs(x - eyeX * 2) <= 2 && abs(y - eyeY * 2) <= 2 { color = [255, 244, 211, 255] }
-                if abs(x - (eyeX * 2 + 1)) <= 1 && abs(y - eyeY * 2) <= 1 { color = [15, 25, 39, 255] }
-                if x == eyeX * 2 && y == eyeY * 2 - 1 { color = [255, 255, 240, 255] }
+                let eyeX = species.form == "seahorse" ? 19 : species.form == "ray" ? (px < 16 ? 13 : 19) : undulating ? 27 : 24
+                let eyeY = undulating ? Int((spine(Double(eyeX)) - 0.5).rounded()) : species.form == "seahorse" ? 5 : species.form == "ray" ? 7 : 9
+                if species.form != "jellyfish" && abs(x - eyeX * 2) <= 1 && abs(y - eyeY * 2) <= 1 { color = [255, 244, 211, 255] }
+                if species.form != "jellyfish" && x == eyeX * 2 + 1 && abs(y - eyeY * 2) <= 1 { color = [15, 25, 39, 255] }
+                if species.form != "jellyfish" && x == eyeX * 2 && y == eyeY * 2 - 1 { color = [255, 255, 240, 255] }
                 bytes += color
             }
         }

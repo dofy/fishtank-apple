@@ -9,6 +9,11 @@ struct AquariumDecor: Identifiable, Equatable {
     let hue: Double
     let width: Double
     let height: Double
+
+    /// Shared display geometry: scene, thumbnail and raster sampling must agree.
+    var displayWidth: Double { (id == "fairylights" ? 64 : max(18, width * 0.48)) * (id == "chest" ? 2 : 1) }
+    var displayHeight: Double { (id == "fairylights" ? 32 : max(12, height * 0.4)) * (id == "chest" ? 2 : 1) }
+    var displayAspectRatio: Double { displayWidth / displayHeight }
 }
 
 enum DecorCatalog {

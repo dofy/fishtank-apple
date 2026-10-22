@@ -4,6 +4,10 @@
 
 ## 视觉方向
 
+当前素材方案：29 个物种与 18 件造景采用用户确认的第二版像素样板风格，减少写实纹理，强调大色块和物种轮廓。原始 PNG 位于 `Sources/Resources/PixelSprites`，生成提示词见 [PIXEL_ART_PROMPTS.md](PIXEL_ART_PROMPTS.md)。`PaintedSprites` 统一处理透明边界、固定像素采样、品阶配色及各体型的变形动画；旧程序绘图仅作缺资源时的保底，发布前验证不得走保底。
+
+使用 `tools/verify-painted-sprites.swift` 可检查全部 47 项并导出与 App 共用渲染结果的完整动画图鉴；运行时设置 `FISHTANK_ART_ROOT=Sources/Resources/PixelSprites`。输出只含合成预览，不读取真实存档。装饰采样补偿实际显示宽高比，落地与顶挂素材分别对齐底部和顶部。小鱼缸使用 320×180 点、鱼体 32×24 点；采样图像为 64×48，显示使用 nearest 过滤。
+
 参考 PC FISH Steam 商店公开画面中的小型桌面鱼缸、半透明海水、模块化收藏面板、鱼卡与底部工具栏；没有复制其鱼类贴图、Logo、音轨或交易系统。
 
 参考页：https://store.steampowered.com/app/4842670/PC_FISH_Taskbar_Aquarium/
@@ -77,8 +81,8 @@ Fusion Pixel：TakWolf，版本 `2026.10.16`，12px monospaced latin / zh-Hans /
 像素素材总览：`docs/previews/pixel-assets.png`。可通过下列命令重绘全部资源，检查原生像素图是否有效：
 
 ```sh
-swiftc Sources/Core/*.swift Sources/Rendering/PixelArt.swift Sources/Rendering/DecorArt.swift tools/render-art-preview.swift -o /tmp/fishtank-art-preview
-/tmp/fishtank-art-preview
+swiftc Sources/Core/*.swift Sources/Rendering/PixelArt.swift Sources/Rendering/PaintedSprites.swift Sources/Rendering/DecorArt.swift tools/render-art-preview.swift -o /tmp/fishtank-art-preview
+FISHTANK_ART_ROOT=Sources/Resources/PixelSprites /tmp/fishtank-art-preview
 ```
 
 ## 0.4.0 补充
@@ -117,3 +121,10 @@ iPad 正文与按钮为 18pt，辅助信息为 15pt，标题为 24pt；按钮高
 `FishSwimProfile` 为每个物种定义速度、水层、摆动幅度、节奏、休息与结群倾向。鱼类巡游后短暂停留，海蛇大幅 S 形摆动，电鳗低幅蜿行，水母收缩推进，海马慢游悬停，海龟划鳍滑行，鳐鱼摆翼滑翔。同种个体根据稳定 ID 获得轻微体型差异及独立速度、相位和水层，不改变存档与繁育随机序列。结群仅限指定物种的同种 2–5 条；休息、追食、受惊与装饰互动有明确的优先次序，减少动态效果时保持静态姿态。
 
 `SpeciesMotionTests` 验证自主休息、互动唤醒、群体边界、轨迹与空间边界；`tools/verify-creature-art.swift` 检查轮廓差异并输出原生像素动画，`tools/verify-species-scene.swift` 在隔离的 SpriteKit 窗口中验证实际渲染。
+
+## 具像化轮廓与材质
+
+- 全部物种使用与身体结构一致的配色：条带、侧线、锦鲤色斑、河豚斑点；减少随机亮点及大块异色。
+- 海马采用连续的长吻、弯颈、鼓腹和内卷尾；背鳍轻摆，两种海马保留小刺与叶状附肢的区别。水母保留伞缘与触手，去除卡通眼睛；海龟突出甲片，鳐采用曲线胸鳍与头鳍。
+- 18 件造景细化植物叶片、岩石切面、开合贝壳、珊瑚分枝、五角海星、石拱楔形砖缝、晶柱、拱盖宝箱、金属船锚及悬挂灯具。
+- 以 PC FISH 官方公开画面的物种辨识度作为方向参考，保持原创绘制与 nearest 像素采样。鱼缸、图鉴、繁育结果共用同一套造型。

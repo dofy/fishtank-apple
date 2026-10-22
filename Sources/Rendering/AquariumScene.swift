@@ -286,7 +286,7 @@ final class AquariumScene: SKScene {
             } else {
                 node.zPosition = 5
             }
-            node.position = CGPoint(x: a.x.rounded(), y: a.y.rounded())
+            node.position = CGPoint(x: a.x, y: a.y)
             let frame = reducedMotion || a.shocked > 0 ? 0 : PixelArt.animationFrame(for: a.fish.species, time: a.motionTime)
             node.texture = PixelArt.texture(fish: a.fish, frame: frame, puffLevel: Int((a.puffAmount * 3).rounded()))
             let facing = a.fish.species.swimProfile.family == .jellyfish ? 1 : a.facing
@@ -350,8 +350,7 @@ final class AquariumScene: SKScene {
             let texture = SKTexture(cgImage: DecorArt.image(item)); texture.filteringMode = .nearest
             let node = SKSpriteNode(texture: texture)
             node.name = placed.id
-            node.size = CGSize(width: max(18, item.width * 0.48), height: max(12, item.height * 0.4))
-            if placed.id == "fairylights" { node.size = CGSize(width: 64, height: 32) }
+            node.size = CGSize(width: item.displayWidth, height: item.displayHeight)
             node.anchorPoint = CGPoint(x: 0.5, y: item.top ? 1 : 0)
             node.position = CGPoint(x: placed.x * 320, y: item.top ? Double(size.height - 6) : AquariumFloor.decorationBase(at: placed.x * 320, width: Double(node.size.width)))
             node.xScale = CGFloat(placed.flip)

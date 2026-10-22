@@ -333,7 +333,7 @@ struct AquariumEcology {
             if a.x > 297 { a.x = 297; a.direction = -1 }
             a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.y))
             a.velocityX = (a.x - oldX) / dt; a.velocityY = (a.y - oldY) / dt
-            let desiredPitch = profile.family == .seahorse ? sin(a.motionTime) * 0.035
+            let desiredPitch = profile.family == .seahorse ? sin(a.motionTime * 2 * .pi / 2.4) * 0.065 + min(0.08, abs(a.velocityX) * 0.009)
                 : profile.family == .jellyfish ? sin(a.motionTime * 0.6) * 0.045
                 : max(-0.2, min(0.2, atan2(a.velocityY, max(2, abs(a.velocityX))) * 0.22))
             a.pitch += (desiredPitch - a.pitch) * min(1, dt * 5)
@@ -363,8 +363,11 @@ struct AquariumEcology {
             let lift = (pulse * 14 - 2.5) * p.speed / 3 + (a.baseY + a.roamOffset - a.y) * 0.14
             x = a.x + drift; y = a.y + lift; speed = hypot(drift, lift)
         case .seahorse:
+            let beat = t * 2 * .pi / 2.4
             x = a.x + a.direction * 8
-            y += sin(a.age * 0.5 + phase) * p.sway
+            y += sin(a.age * 0.5 + phase) * p.sway + sin(beat) * 1.2
+            // Gentle propulsion alternates with suspended drifting, never a hard stop.
+            speed *= 0.35 + 0.65 * pow((1 + sin(beat)) * 0.5, 2)
         case .turtle:
             y += sin(a.age * 0.17 + phase) * p.sway
             speed *= 0.3 + 0.7 * pow(max(0, sin(t * .pi)), 2)

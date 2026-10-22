@@ -23,8 +23,11 @@ struct ArtPreview {
         for (i,item) in DecorCatalog.all.enumerated() {
             let x=CGFloat(i%6*156+14),y=CGFloat(592-i/6*136)
             c.setFillColor(NSColor(red:0.13,green:0.29,blue:0.39,alpha:1).cgColor);c.fill(CGRect(x:x,y:y,width:146,height:126))
-            let image=DecorArt.image(item),scale=min(100/CGFloat(image.width),80/CGFloat(image.height))
-            let w=CGFloat(image.width)*floor(max(1,scale)),h=CGFloat(image.height)*floor(max(1,scale))
+            let image=DecorArt.image(item)
+            let actualW = item.displayWidth
+            let actualH = item.displayHeight
+            let scale = min(110 / actualW, 80 / actualH)
+            let w = actualW * scale, h = actualH * scale
             c.interpolationQuality = .none
             c.draw(image,in:CGRect(x:x+(146-w)/2,y:y+32,width:w,height:h))
             text(item.name,x+8,y+11)

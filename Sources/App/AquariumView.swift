@@ -986,7 +986,8 @@ private extension AquariumView {
                                     Spacer()
                                     if !unlocked { PixelIcon("lock") }
                                 }.frame(height: PixelTheme.metric(20, 24))
-                                Image(decorative: DecorArt.image(item), scale: 1).interpolation(.none).resizable().scaledToFit()
+                                Image(decorative: DecorArt.image(item), scale: 1).interpolation(.none).resizable()
+                                    .aspectRatio(item.displayAspectRatio, contentMode: .fit)
                                     .padding(6).frame(height: PixelTheme.metric(64, 76)).frame(maxWidth: .infinity).opacity(unlocked ? 1 : 0.3)
                                     .background(PixelSpecimenWell())
                                 Text(item.name).foregroundStyle(PixelTheme.text).lineLimit(2).frame(height: PixelTheme.metric(L10n.language == .english ? 38 : 28, 24), alignment: .topLeading)
