@@ -116,7 +116,7 @@ final class AquariumScene: SKScene {
         if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String, !version.isEmpty {
             let label = SKLabelNode(fontNamed: PixelTheme.fontName)
             label.name = "appVersion"; label.text = "v" + version
-            label.fontSize = 6; label.fontColor = color(0x493E31)
+            label.fontSize = 8; label.fontColor = color(0x142F40)
             label.horizontalAlignmentMode = .left; label.verticalAlignmentMode = .center
             label.position = CGPoint(x: 11, y: AquariumFloor.height(at: 24) / 2 + 2); label.zPosition = 81
             tankRoot.addChild(label)
