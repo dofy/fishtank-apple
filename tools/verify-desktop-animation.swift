@@ -17,7 +17,9 @@ import SpriteKit
             item.label.map { ($0, item.value) }
         })
         let scene = fields["scene"] as! AquariumScene
-        let view = fields["spriteView"] as! SKView
+        func currentView() -> SKView {
+            Mirror(reflecting: controller).children.first { $0.label == "spriteView" }!.value as! SKView
+        }
         let panel = fields["panel"] as! NSPanel
         panel.setFrameOrigin(NSPoint(x: 40, y: 80))
         controller.show()
@@ -31,18 +33,34 @@ import SpriteKit
             await wait(2)
             let initial = await advancing(); precondition(initial, "Initial frames must advance")
             let originalFrame = panel.frame
+            let originalRoots = scene.children.map(ObjectIdentifier.init)
+            let beforeSleepView = ObjectIdentifier(currentView())
+            NSWorkspace.shared.notificationCenter.post(name: NSWorkspace.screensDidSleepNotification, object: NSWorkspace.shared)
+            scene.isPaused = true
+            await wait(14)
+            let missedWakeAdvanced = await advancing()
+            precondition(missedWakeAdvanced && !scene.isPaused, "Missing a wake notification must not permanently suspend recovery")
+            precondition(ObjectIdentifier(currentView()) != beforeSleepView, "Stalled suspension must rebuild its renderer")
+            precondition(scene.children.map(ObjectIdentifier.init) == originalRoots, "Rebuilding the view preserves the scene graph")
+            print("PASS missed wake rebuilds renderer and preserves scene graph")
+            let wakeView = ObjectIdentifier(currentView())
+            NSWorkspace.shared.notificationCenter.post(name: NSWorkspace.screensDidWakeNotification, object: NSWorkspace.shared)
+            await wait(2)
+            let woke = await advancing()
+            precondition(ObjectIdentifier(currentView()) != wakeView && woke, "Wake must replace the stale surface and resume frames")
+            print("PASS wake replaces render surface")
             scene.isPaused = true
             await wait(8)
             let sceneAdvanced = await advancing(); precondition(!scene.isPaused && sceneAdvanced, "Watchdog must recover paused scene")
             print("PASS scene pause recovered")
-            view.isPaused = true
+            currentView().isPaused = true
             await wait(8)
-            let viewAdvanced = await advancing(); precondition(!view.isPaused && viewAdvanced, "Watchdog must recover paused view")
+            let viewAdvanced = await advancing(); precondition(!currentView().isPaused && viewAdvanced, "Watchdog must recover paused view")
             print("PASS view pause recovered")
             precondition(panel.frame == originalFrame, "Recovery must not move the tank")
             controller.hide()
             await wait(7)
-            precondition(view.isPaused && scene.isPaused, "Hidden tank must remain paused")
+            precondition(currentView().isPaused && scene.isPaused, "Hidden tank must remain paused")
             controller.show()
             await wait(2)
             let reopened = await advancing(); precondition(reopened, "Showing must resume frames")

@@ -10,6 +10,8 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
     private let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let menu = NSMenu()
     private var observer: AnyCancellable?
+    private var indicatorObserver: AnyCancellable?
+    private var indicator = AgentMenuIndicator.Presentation.idle
     private var tracking = false
     private var latestTitle = ""
 
@@ -22,7 +24,7 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
         item.autosaveName = "FishtankStatusMenu"
         item.isVisible = true
         item.menu = menu
-        item.button?.image = PixelArt.menuIcon
+        item.button?.image = MenuFishArt.image(.idle)
         item.button?.imagePosition = .imageLeading
         item.button?.toolTip = "Fishtank · 口袋海洋"
         observer = store.$state.combineLatest(store.$now).map { state, now in
@@ -30,9 +32,20 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
         }.removeDuplicates().sink { [weak self] title in
             self?.latestTitle = title
             if self?.tracking == false { self?.item.button?.title = title }
-            if let self { self.item.button?.toolTip = "\(self.store.state.fish.count) 条鱼 · 可用繁育爱心 \(self.store.state.hearts) 颗（每次繁育消耗一颗）" }
+            self?.updateTooltip()
+        }
+        indicatorObserver = store.$now.combineLatest(aquarium.$menuIndicatorRevision).sink { [weak self] _, _ in
+            guard let self else { return }
+            let next = self.aquarium.menuIndicator(now: Date())
+            guard next != self.indicator else { return }
+            if next.state != self.indicator.state { self.item.button?.image = MenuFishArt.image(next.state) }
+            self.indicator = next; self.updateTooltip()
         }
         rebuild()
+    }
+    private func updateTooltip() {
+        item.button?.toolTip = "\(indicator.detail)\n\(store.state.fish.count) 条鱼 · 可用繁育爱心 \(store.state.hearts) 颗（每次繁育消耗一颗）"
+        item.button?.setAccessibilityLabel("Fishtank，" + indicator.detail)
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -66,9 +79,10 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
         row.isEnabled = false
         menu.addItem(row)
     }
-    private func submenu(_ title: String, icon: String) -> NSMenu {
+    private func submenu(_ title: String, icon: String, enabled: Bool = true) -> NSMenu {
         let row = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         setIcon(icon, on: row)
+        row.isEnabled = enabled
         let child = NSMenu(title: title); child.autoenablesItems = false
         row.submenu = child; menu.addItem(row)
         return child
@@ -81,36 +95,32 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
     private func rebuild() {
         menu.removeAllItems()
         let aquarium = self.aquarium, store = self.store
-        caption("FISHTANK")
-        caption("鱼群 \(store.state.fish.count) 条 · 可配对 \(store.state.fish.filter { $0.canBreed(at: store.now) }.count) 条")
-        let growing = store.state.fish.filter { !$0.expBanked && !$0.isAdult(at: store.now) }.count
-        let cooling = store.state.fish.filter { $0.expBanked && !$0.isAdult(at: store.now) }.count
-        caption("成长中 \(growing) 条 · 冷却中 \(cooling) 条")
-        caption("繁育爱心 " + String(repeating: "♥", count: store.state.hearts) + String(repeating: "♡", count: 5 - store.state.hearts))
-        if let date = store.state.nextMaturity(after: store.now) {
-            caption("下次就绪 \(date.formatted(date: .omitted, time: .shortened))")
-        }
+        caption("鱼 \(store.state.fish.count) · 爱心 \(store.state.hearts)/5")
+        if let date = store.state.nextMaturity(after: store.now) { caption("下次就绪 \(date.formatted(date: .omitted, time: .shortened))") }
         menu.addItem(.separator())
-        action("打开养成手册", icon: "book", key: "o") { aquarium.showManagement() }
+        action("养成手册", icon: "book", key: "o") { aquarium.showManagement() }
         action(aquarium.isVisible ? "隐藏鱼缸" : "显示鱼缸", icon: "eye") {
             aquarium.isVisible ? aquarium.hide() : aquarium.show()
         }
-        action("鱼缸全局置顶", icon: "pin", checked: aquarium.isPinned) { aquarium.isPinned.toggle() }
-        let opacity = submenu("水体不透明度", icon: "drop")
+        action("置顶", icon: "pin", checked: aquarium.isPinned) { aquarium.isPinned.toggle() }
+        let opacity = submenu("透明度", icon: "drop")
         for (title, value) in [("50% · 默认", 0.5), ("75% · 更深", 0.75), ("100% · 不透明", 1.0)] {
             action(title, checked: aquarium.waterOpacity == value, in: opacity) { aquarium.waterOpacity = value }
         }
-        let size = submenu("鱼缸大小", icon: "size")
+        let size = submenu("大小", icon: "size")
         for (title, value) in [("小 · 320 × 180", 1), ("中 · 640 × 360", 2), ("大 · 960 × 540", 3)] {
             action(title, checked: aquarium.pixelScale == value, in: size) { aquarium.pixelScale = value }
         }
-        action("移回当前屏幕", icon: "move") { aquarium.moveToCurrentScreen() }
+        action("移回屏幕", icon: "move") { aquarium.moveToCurrentScreen() }
         action("投喂", icon: "food") { aquarium.feed() }
-        action("成长 / 冷却 / 爱心回满提醒", icon: "bell", checked: store.remindersEnabled) {
+        action("养成提醒", icon: "bell", checked: store.remindersEnabled) {
             store.setReminders(!store.remindersEnabled)
         }
         menu.addItem(.separator())
-        caption("拖动水面移动鱼缸 · 拖造景布置 · 双击投喂")
+        action("设置…", icon: "gearshape", key: ",") { aquarium.showAgentSettings() }
+        action("暂停 Agent 提醒", icon: "bell", checked: aquarium.agentSettings.paused) { aquarium.agentSettings.paused.toggle() }
+        action("提醒声音", icon: "bell", checked: aquarium.agentSoundsEnabled) { aquarium.agentSoundsEnabled.toggle() }
+        menu.addItem(.separator())
         action("退出 Fishtank", icon: "power", key: "q") { NSApp.terminate(nil) }
     }
 }

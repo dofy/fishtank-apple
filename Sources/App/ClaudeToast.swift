@@ -1,0 +1,139 @@
+#if os(macOS)
+import AppKit
+import SwiftUI
+
+struct ClaudeToastView: View {
+    let event: ClaudeHookEvent
+    let dismiss: () -> Void
+    private var accent: Color { Color(hex: event.status?.colorHex ?? 0xACB9C4) }
+    private var sourceColor: Color { Color(hex: event.agentColorHex) }
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Rectangle().fill(accent).frame(width: 4)
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Text(event.agentTitle).foregroundStyle(sourceColor)
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(sourceColor.opacity(0.13))
+                    Text(event.project).foregroundStyle(PixelTheme.muted).lineLimit(1).truncationMode(.middle)
+                    Spacer(minLength: 0)
+                }
+                Text(event.status?.title ?? "状态更新").foregroundStyle(PixelTheme.text).lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            Button(action: dismiss) {
+                Text("×").font(.system(size: 20, weight: .medium, design: .monospaced))
+                    .frame(width: 24, height: 28)
+            }
+            .buttonStyle(.plain).foregroundStyle(PixelTheme.muted)
+            .accessibilityLabel("关闭 \(event.agentTitle) 提醒")
+        }
+        .font(PixelTheme.font(12))
+        .padding(12)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(PixelOutline(cut: 6, steps: 2).fill(PixelTheme.panel))
+        .overlay(PixelOutline(cut: 6, steps: 2).strokeBorderFallback(accent))
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("\(event.agentTitle)，\(event.project)，\(event.status?.title ?? "状态更新")")
+    }
+}
+
+private extension PixelOutline {
+    func strokeBorderFallback(_ color: Color) -> some View {
+        stroke(color, lineWidth: 2).padding(1).allowsHitTesting(false)
+    }
+}
+
+/// Independent child panels keep gaps transparent to mouse input and timers isolated.
+@MainActor
+final class ClaudeToastPresenter {
+    private final class Entry {
+        let panel: ClaudeToastPanel
+        var dismissal: Task<Void, Never>?
+        init(panel: ClaudeToastPanel) { self.panel = panel }
+    }
+    private weak var parent: NSWindow?
+    private var entries: [String: Entry] = [:]
+    private var stack = AgentToastStack()
+    var current: ClaudeHookEvent? { stack.visible.first }
+    var visibleEvents: [ClaudeHookEvent] { stack.visible }
+    private var visible = false
+    private let duration: (ClaudeHookEvent) -> TimeInterval
+
+    init(duration: @escaping (ClaudeHookEvent) -> TimeInterval = { event in
+        if event.isPreview { return 8 }
+        if event.status?.holdsToast == true { return 12 }
+        return event.status == .working || event.status == .ready ? 6 : 8
+    }) { self.duration = duration }
+
+    func attach(to parent: NSWindow) { self.parent = parent; reconcile() }
+
+    func receive(_ event: ClaudeHookEvent, notify: Bool) {
+        stack.receive(event, notify: notify)
+        reconcile()
+    }
+    func dismiss(id: String) { stack.dismiss(id: id); reconcile() }
+    func dismiss() { if let event = current { dismiss(id: event.id) } }
+    func remove(source: ClaudeHookEvent.Source) { stack.remove(source: source); reconcile() }
+    func clear() { stack.clear(); reconcile() }
+
+    func setVisible(_ value: Bool) {
+        visible = value
+        position()
+        for entry in entries.values {
+            if value { entry.panel.orderFrontRegardless() } else { entry.panel.orderOut(nil) }
+        }
+    }
+
+    func position() {
+        guard let parent else { return }
+        let frames = ClaudeToastPlacement.frames(tank: parent.frame,
+            visibleFrame: parent.screen?.visibleFrame ?? parent.frame, count: stack.visible.count)
+        for (event, frame) in zip(stack.visible, frames) {
+            guard let panel = entries[event.id]?.panel else { continue }
+            panel.level = parent.level
+            panel.collectionBehavior = parent.collectionBehavior
+            panel.setFrame(frame, display: true)
+        }
+    }
+
+    private func reconcile() {
+        let ids = Set(stack.visible.map(\.id))
+        for id in Array(entries.keys) where !ids.contains(id) {
+            guard let entry = entries.removeValue(forKey: id) else { continue }
+            entry.dismissal?.cancel()
+            parent?.removeChildWindow(entry.panel)
+            entry.panel.orderOut(nil)
+            entry.panel.close()
+        }
+        for event in stack.visible where entries[event.id] == nil {
+            let panel = ClaudeToastPanel(contentRect: NSRect(x: 0, y: 0, width: 320, height: 70),
+                styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
+            panel.isOpaque = false; panel.backgroundColor = .clear
+            panel.hasShadow = false; panel.hidesOnDeactivate = false; panel.isReleasedWhenClosed = false
+            panel.setAccessibilityLabel("\(event.agentTitle) 提醒气泡")
+            panel.contentView = NSHostingView(rootView: ClaudeToastView(event: event,
+                dismiss: { [weak self] in self?.dismiss(id: event.id) }))
+            let entry = Entry(panel: panel)
+            entries[event.id] = entry
+            parent?.addChildWindow(panel, ordered: .above)
+            let seconds = duration(event)
+            entry.dismissal = Task { [weak self] in
+                do { try await Task.sleep(nanoseconds: UInt64(max(0.001, seconds) * 1_000_000_000)) }
+                catch { return }
+                guard !Task.isCancelled else { return }
+                self?.dismiss(id: event.id)
+            }
+        }
+        position()
+        for entry in entries.values {
+            if visible { entry.panel.orderFrontRegardless() } else { entry.panel.orderOut(nil) }
+        }
+    }
+}
+
+private final class ClaudeToastPanel: NSPanel {
+    override var canBecomeKey: Bool { false }
+    override var canBecomeMain: Bool { false }
+}
+#endif

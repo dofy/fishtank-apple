@@ -30,7 +30,7 @@ def main():
         with (args.output / name).open("xb") as output:
             plistlib.dump(value, output, sort_keys=True)
     plan = {
-        "version": "0.4.0", "build": "1", "teamID": args.team_id,
+        "version": "0.5.0", "build": "4", "teamID": args.team_id,
         "macOS": {"bundleID": "net.yahaha.fishtank.mac", "channel": "direct-download",
                   "requires": ["Developer ID Application", "notarization", "stapling", "Gatekeeper acceptance"]},
         "iPadOS": {"bundleID": "net.yahaha.fishtank.apple.pad", "channel": "TestFlight",

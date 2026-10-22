@@ -1,80 +1,68 @@
-# Fishtank Apple
+<div align="center">
+  <img src="Sources/Resources/AppIcons/FishtankIcon-duet.png" width="112" alt="Fishtank 像素鱼缸图标">
+  <h1>Fishtank</h1>
+  <p>在桌面养一小缸海，等一条新鱼，也等一条好消息。</p>
+  <p>像素鱼缸 · 繁育收集 · Agent 提醒</p>
+  <p>
+    <a href="https://github.com/dofy/fishtank-apple"><img alt="项目地址" src="https://img.shields.io/badge/GitHub-项目地址-224555?style=for-the-badge&logo=github"></a>
+    <a href="CHANGELOG.md"><img alt="更新日志" src="https://img.shields.io/badge/0.5.0-更新日志-8CC5A5?style=for-the-badge"></a>
+    <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-F0C66E?style=for-the-badge"></a>
+  </p>
+</div>
 
-面向 **macOS + iPadOS** 的独立原生像素鱼缸项目。美术方向是 PC FISH 式的**彩色像素感**。鱼、造景、勋章和界面使用原创像素图，不捆绑 PC FISH 素材。
+Fishtank 是一款面向 **Mac 和 iPad** 的像素养鱼应用。在 Mac 上，它是一只住在桌面角落的小鱼缸：鱼儿慢慢游，气泡轻轻冒，你可以随手投一粒食物，也可以让它陪你安静工作。
 
-当前开发版 **0.4.0** 已迁移养成、繁育、合成、图鉴、装饰、音频和永久成就。全界面使用中文像素字体与统一像素组件。网页版源项目保持独立。
+当前版本 **0.5.0**。项目已开放源码，Mac 与 iPad 的正式安装渠道仍在准备中。
 
-## 已有能力
+![桌面像素鱼缸](docs/screenshots/aquarium.png)
 
-- 共用 SwiftUI 界面与 SpriteKit 鱼缸；29 种鱼的彩色像素体型、游动、气泡、观赏投喂；不同品阶拥有不同色相。
-- macOS 无边框、无标题栏的悬浮鱼缸；拖动移动，双击投喂。打开养成手册时显示 Dock 图标，支持 Cmd+Tab 切换；菜单栏显示鱼数量和繁育爱心。
-- 默认全局置顶，可从菜单栏取消；置顶时加入所有桌面空间，并配置全屏辅助面板行为。普通应用切换不隐藏鱼缸，全屏应用组合仍需实测。
-- 水体默认 50% 不透明度，能透出背后桌面和其他 App；菜单栏提供 50% / 75% / 100% 不透明度。仅水体透明，鱼、海草、珊瑚和底砂保持清晰。
-- 菜单栏可隐藏/显示、调整三档整数像素尺寸、移回当前屏幕、投喂和切换提醒；置顶、大小和水体不透明度保存到本地偏好。
-- iPad 专用应用目标，横竖屏与窄窗口自适应。
-- 本地 JSON 原子保存、恢复后按时间结算成年与爱心，爱心上限 5、恢复间隔 7 分钟。
-- 用户主动开启后，分别安排下一次幼鱼成年、初始鱼冷却结束与爱心回满提醒；默认关闭。关闭开关会取消本应用的待发提醒。
-- 30 FPS 场景；Mac 主动隐藏时暂停，切换到其他 App 时可继续观赏，可见窗口停止出帧时自动恢复；iPad 非活跃时暂停。两端尊重“减少动态效果”。
+## 从两条小鱼，养出一片海
 
-养成界面包含鱼群、繁育、合成、图鉴与设置。保留原版数值、冷却、经验拆分、等级扩容、推荐配对、自动选材、锁定保护和永久图鉴。Mac 从菜单栏“打开养成手册”进入操作面板。详见 [迁移记录与验证](docs/GAMEPLAY_MIGRATION.md)。
+收集 **29 种鱼**，从初始小鱼一路繁育到稀有品种。每次配对都可能遇见新的颜色、新的外观，甚至一条还没见过的鱼。
 
-已迁移 18 件装饰、3 首背景音乐与 17 个音效资源、14 项成就勋章。桌面与手册支持拖动造景、翻转、切换灯光和多枚勋章挂载。详见 [像素设计与新增系统](docs/PIXEL_DESIGN.md)。
+- 看幼鱼长大，选择下一次配对，把新发现收入图鉴。
+- 合成进阶、扩充鱼缸，也能锁定想留下的鱼。
+- 收集成就勋章，把喜欢的成果挂在鱼缸上。
+- 进度自动保存，离开一会儿再回来，成长依然有惊喜。
 
-已补齐显式存档导入/导出、自动备份与恢复，以及河豚、电鳗、追食、浮游生物、结群、海马休息和穿拱门等观赏彩蛋。保留原版昼夜、串灯和音频设定。当前不提供云同步。
+![养成手册与鱼群](docs/screenshots/collection.png)
 
-## 打开与运行
+## 不只是看着它游
 
-打开 `FishtankApple.xcodeproj`：
+**单击空白处投喂**，食物会从鼠标对应的位置落下。**右键晃动鱼缸**，听一声轻响，看所有鱼受惊快游 3～5 秒。也可以轻点鱼儿，观察不同品种的小反应。
 
-```sh
-open FishtankApple.xcodeproj
-```
+用海草、珊瑚、宝箱等 **18 件装饰**布置自己的水下角落，配上昼夜灯光和轻音乐。细看还能发现追食、结群、海马休息、穿拱门等小彩蛋。
 
-- **FishtankMac**：选择 My Mac 后运行，桌面只显示半透明像素鱼缸。拖动鱼缸移动，双击投喂；点击菜单栏像素鱼，打开养成手册后可布置装饰、查看勋章或调整音乐，也可隐藏/显示、切换全局置顶、调节水体不透明度和尺寸。退出使用菜单里的“退出 Fishtank”。
-- **FishtankPad**：选择 iPad 模拟器，或设置自己的签名团队后在 iPad 真机运行。
-- 工程已生成并随源码保留；修改 `project.yml` 后用已安装的 `xcodegen generate` 更新。
-- 最低目标：macOS 13 / iPadOS 16。当前只在本机 SDK 上编译，最低系统兼容性需单独验证。
+Mac 鱼缸支持三种大小、水体透明度和置顶开关；需要专心时，随时隐藏它。
 
-## 验证
+## 让工作消息，也游进鱼缸
 
-```sh
-swift test
-xcodebuild -project FishtankApple.xcodeproj -scheme FishtankMac -derivedDataPath build/Mac CODE_SIGNING_ALLOWED=NO build
-xcodebuild -project FishtankApple.xcodeproj -scheme FishtankPad -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build/Pad CODE_SIGNING_ALLOWED=NO build
-```
+接入 **Claude Code 或 Codex** 后，处理进度、待授权、待输入和回复结束会变成鱼缸上方的像素气泡。多条提醒可以同时出现，不同 Agent 用不同颜色辨认，不同状态配上轻音效。
 
-`swift test` 当前含 61 项测试，其中直接对照网页版生成的 105 组繁育与 15 组合成样本，并覆盖离线成长、经验拆分、保护规则、合成拒绝路径、图鉴、彩蛋、存档迁移与恢复。通知由系统调度，用户设置、专注模式等可能影响实际呈现。
+每个来源都能单独开关、调色和预览；声音也可以随时关闭。Cursor、Gemini CLI 和 OpenCode 提供手动接入预设。
 
-早期原型的验证记录（不是本轮候选验收）：22 项核心测试和双端 Debug 构建通过。Mac 经本地 ad-hoc 签名运行，鱼缸尺寸 640×360，无标题栏按钮；水体 alpha=0.4、底砂 alpha=1.0，菜单切换 20% 后水体 alpha=0.2。置顶层级 3、取消后 0，再启用后 3；隐藏/显示、鼠标拖动、推荐配对、繁育、收下和重启恢复曾执行验证。0.4.0 仍须补做当前构建的 Mac 交互验收，不能直接沿用旧结论。
+提醒只在本机接收，不上传你的对话内容。具体设置见 [Agent 接入指南](docs/AGENT_SETTINGS.md)。
 
-存档位于应用容器内 Application Support 下的 `FishtankApplePrototype/aquarium-v1.json`（现为 schema 3）；旧平台原型先备份再迁移。与网页 `localStorage` 隔离；坏档保留原文件并停止覆盖，当前会话临时预览。没有登录、服务器或外部依赖。
+![Agent 提醒设置](docs/screenshots/agents.png)
 
-详细选型与分阶段计划见 [可行性评估](docs/FEASIBILITY.md)。
+## 发现一条鱼，也解锁一个图标
 
-最新候选证据见 [发布清单](docs/RELEASE_CHECKLIST.md) 和 [隐私说明](docs/PRIVACY.md)。Mac 通用 Release 与 iPad Release Archive 已构建。iPad 模拟器已验证繁育、重启保留、设置持久化、系统导出窗口、横竖屏和 320 点窄布局。2026-10-21 解锁 Mac 后，已实测手册输入、四档透明度、三档尺寸与拖动、置顶/取消遮挡、原生全屏空间、窗口生命周期、繁育与离线成年不重复；实际发现并修复桌面造景拖动冲突。用户确认三首音乐和音效正常。普通多桌面切换、系统减少动态效果、音频中断、睡眠唤醒、Mac 完整文件面板、最低系统及 iPad 真机仍待验。当前不能称为已完成公开发布。
+**30 款像素图标**，沿用同一只小鱼缸的设计，让不同鱼种和装饰住进应用图标里。发现对应品种后即可使用；还没解锁的图标也能先看看，挑好下一次收集的目标。
 
-首发渠道已确定为 **Mac 直接下载 + iPad TestFlight**。签名团队和有效证书仍待配置；[分发说明](docs/DISTRIBUTION.md) 包含具体目标与本地导出准备工具。工具不登录、签名或上传。
+![图标选择与繁育解锁](docs/screenshots/icons.png)
 
-当前 61 项核心回归通过；此前 5 条 iPad 端到端流程通过，包含完整合成与锁定保护、实际后台通知送达。确认/结果弹窗会隔离背景操作。正式发布前的未验项目仍保留在清单中。
+## 保留自己的小世界
 
-完整本地检查：
+无需注册账号，养成进度保存在本机。支持导入、导出、自动备份与恢复，Mac 和 iPad 目前各自保存进度，暂不支持云同步。
 
-```sh
-tools/verify-release.sh
-# 同时检查已有模拟器：
-FISHTANK_SIMULATOR_ID=<existing-device-uuid> tools/verify-release.sh
-```
+- [查看更新日志](CHANGELOG.md)
+- [前往项目主页](https://github.com/dofy/fishtank-apple)
+- [反馈问题或提出想法](https://github.com/dofy/fishtank-apple/issues)
+- [了解隐私说明](docs/PRIVACY.md)
+- [开发与运行指南](docs/DEVELOPMENT.md)
 
-检查脚本只构建和测试，不安装依赖、不登录账号、不签发正式证书、不上传。
+截图使用演示鱼缸与演示进度。
 
-检查通过后可运行 `tools/package-local.sh`，在 `build/distribution/0.4.0-candidate/` 生成本机签名 Mac 应用、试玩 ZIP、源码 ZIP 和 SHA-256 清单。Mac 优先使用唯一的 Apple Development 身份，缺少身份时使用 ad-hoc 签名。iPad 未签名 Archive 位于 `build/FishtankPad.xcarchive`，需选定自己的签名团队后才能导出安装包。
+## 开源许可
 
-打包会拒绝覆盖正在运行的候选应用；可用 `tools/package-local.sh build/distribution/新的目录名` 在独立目录生成审阅副本，不退出个人鱼缸。自定义输出目录必须尚不存在。清单携带 [当前发布门槛](Configuration/ReleaseReadiness.json)、构建 UUID 和文件哈希；生成本地包不会清除未解决项或自动获得发布资格。
-
-## 仓库内容与本机数据
-
-仓库包含原生源码、像素与音频资源、Xcode 工程、测试和构建工具。繁育与合成结果会用金色「新鱼种」或薄荷绿「新外观」徽标标识首次收藏；重复获得不显示徽标。
-
-个人存档、导出文件、验收快照、构建目录、安装包、Xcode 用户状态以及签名私钥和描述文件均不应提交。常见路径和文件类型已列入 `.gitignore`。Mac 正式应用标识为 `net.yahaha.fishtank.mac`，存档保存在其沙盒容器中，不在源码目录中。
-
-`Tests/Fixtures` 中的 JSON 是工具生成的合成测试样本，不是玩家存档，用于跨版本和网页版导入兼容性回归。签名团队 ID 属于构建元数据，证书和私钥由本机钥匙串管理。
+项目采用 [MIT License](LICENSE)。像素字体 Fusion Pixel 使用其独立的 [SIL Open Font License](Sources/Resources/Fonts/OFL.txt)。

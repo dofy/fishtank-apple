@@ -4,6 +4,43 @@ import XCTest
 final class EcologyTests: XCTestCase {
     private let date = Date(timeIntervalSince1970: 1_800_000_000)
     private func fish(_ species: String) -> AquariumFish { .make(species: FishCatalog.byID[species]!, at: date, adult: true) }
+    func testTankShakeStartlesEveryFishForThreeToFiveSecondsThenRecovers() {
+        let population = [fish("goldfin"), fish("greyminnow"), fish("ambereel"), fish("jadeturtle")]
+        var scene = AquariumEcology(seed: 35); scene.sync(population, decorations: [])
+        let initial = scene.swimmers
+        scene.shake()
+        for a in scene.swimmers.values {
+            XCTAssertTrue((3...5).contains(a.scared))
+            XCTAssertEqual(a.shocked, 0); XCTAssertEqual(a.discharging, 0)
+            XCTAssertNil(a.school); XCTAssertNil(a.visit)
+            XCTAssertEqual(a.fish, initial[a.fish.id]?.fish)
+        }
+        scene.update(0.1)
+        for a in scene.swimmers.values {
+            XCTAssertGreaterThan(abs(a.x - initial[a.fish.id]!.x), 7)
+        }
+        for _ in 0..<28 { scene.update(0.1) }
+        XCTAssertTrue(scene.swimmers.values.allSatisfy { $0.scared > 0 })
+        scene.shake() // Repeated clicks refresh the interval instead of accumulating it.
+        XCTAssertTrue(scene.swimmers.values.allSatisfy { (3...5).contains($0.scared) })
+        for _ in 0..<51 { scene.update(0.1) }
+        XCTAssertTrue(scene.swimmers.values.allSatisfy { $0.scared == 0 && $0.available })
+        XCTAssertEqual(scene.lampColors, [1,4,1])
+    }
+    func testTankShakeRespectsReducedMotionAndDoesNotReviveWithdrawingFish() {
+        let population = [fish("goldfin"), fish("greyminnow")]
+        var scene = AquariumEcology(seed: 12); scene.sync(population, decorations: [])
+        scene.sync([population[0]], decorations: [])
+        scene.shake()
+        XCTAssertEqual(scene.swimmers[population[1].id]?.scared, 0)
+        XCTAssertNotNil(scene.swimmers[population[1].id]?.withdrawal)
+        scene.reducedMotion = true
+        let x = scene.swimmers[population[0].id]!.x
+        for _ in 0..<51 { scene.update(0.1) }
+        scene.shake();scene.update(0.1)
+        XCTAssertEqual(scene.swimmers[population[0].id]?.scared, 0)
+        XCTAssertEqual(scene.swimmers[population[0].id]?.x, x)
+    }
     func testViewportResizePreservesFishAndKeepsFoodAndSwimmersInsideWater() {
         let population = [fish("goldfin"), fish("greyminnow"), fish("ambereel")]
         var scene = AquariumEcology(seed: 35)

@@ -9,6 +9,7 @@ final class AquariumScene: SKScene {
     private var currentDecor: [PlacedDecoration] = []
     private(set) var lastFrameUptime: TimeInterval?
     private var previousTime: TimeInterval?
+    private var lastShakeUptime: TimeInterval = -.infinity
     private var railLights = AquariumRailLights()
     private var railNodes: [SKSpriteNode] = []
     private var lampNodes: [(node: SKSpriteNode, lamp: Int)] = []
@@ -21,6 +22,8 @@ final class AquariumScene: SKScene {
     var effect: ((String) -> Void)?
     private let tankRoot = SKCropNode()
     private let glassRoot = SKNode()
+    private let agentSignalRoot = SKNode()
+    private var lastAgentSignal: [ClaudeHookEvent.Source: TimeInterval] = [:]
     private var lastExtras: (AquariumState, Date)?
     private var installed = false
     private var waterOpacity: CGFloat = 1
@@ -44,6 +47,8 @@ final class AquariumScene: SKScene {
     override func didMove(to view: SKView) {
         guard !installed else { return }
         installed = true
+        agentSignalRoot.zPosition = 48
+        tankRoot.addChild(agentSignalRoot)
         let mask = SKShapeNode(path: PixelOutline(cut: 8, steps: 4).path(in: CGRect(x: 0, y: 0, width: 320, height: 180)).cgPath)
         mask.fillColor = .white; mask.strokeColor = .clear; mask.isAntialiased = false
         tankRoot.maskNode = mask
@@ -107,6 +112,16 @@ final class AquariumScene: SKScene {
             bubble.alpha = 0.4; tankRoot.addChild(bubble); bubbles.append(bubble)
             bubble.run(.repeatForever(.sequence([.moveBy(x: 0, y: 160, duration: Double(16 + index)), .moveBy(x: 0, y: -160, duration: 0)])))
         }
+        #if os(macOS)
+        if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String, !version.isEmpty {
+            let label = SKLabelNode(fontNamed: PixelTheme.fontName)
+            label.name = "appVersion"; label.text = "v" + version
+            label.fontSize = 6; label.fontColor = color(0x493E31)
+            label.horizontalAlignmentMode = .left; label.verticalAlignmentMode = .center
+            label.position = CGPoint(x: 11, y: AquariumFloor.height(at: 24) / 2 + 2); label.zPosition = 81
+            tankRoot.addChild(label)
+        }
+        #endif
         layoutViewport()
     }
 
@@ -191,6 +206,8 @@ final class AquariumScene: SKScene {
         ecology.sync(fish, decorations: currentDecor)
         renderSwimmers()
     }
+
+    func resetFrameClock() { previousTime = nil }
 
     override func update(_ currentTime: TimeInterval) {
         lastFrameUptime = ProcessInfo.processInfo.systemUptime
@@ -385,11 +402,68 @@ final class AquariumScene: SKScene {
         decorationMoved?(id, Double(node.position.x / 320))
     }
 
-    func feed(reducedMotion: Bool) {
+    func containsTankPoint(_ point: CGPoint) -> Bool {
+        (tankRoot.maskNode as? SKShapeNode)?.path?.contains(point) ?? CGRect(origin: .zero, size: size).contains(point)
+    }
+
+    func feed(reducedMotion: Bool, x: Double = 160) {
         self.reducedMotion = reducedMotion
-        ecology.feed()
+        ecology.feed(x: x)
         renderSwimmers()
     }
+    func shake() {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard now - lastShakeUptime >= 0.18 else { return }
+        lastShakeUptime = now
+        ecology.reducedMotion = reducedMotion
+        ecology.shake()
+        effect?("scare")
+        tankRoot.removeAction(forKey: "tankShake")
+        tankRoot.position = .zero
+        guard !reducedMotion else { return }
+        let duration = 0.48
+        let motion = SKAction.customAction(withDuration: duration) { node, elapsed in
+            let progress = min(1, Double(elapsed) / duration)
+            let amplitude = 1 - progress
+            node.position = CGPoint(x: sin(progress * .pi * 10) * 3 * amplitude,
+                                    y: sin(progress * .pi * 6) * amplitude)
+        }
+        tankRoot.run(.sequence([motion, .run { [weak self] in self?.tankRoot.position = .zero }]), withKey: "tankShake")
+    }
+
+    /// Local status feedback only: no food, fish inventory, lighting preference or gameplay RNG changes.
+    func showAgentSignal(_ event: ClaudeHookEvent) {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard now - (lastAgentSignal[event.agent] ?? -.infinity) >= 0.5 else { return }
+        lastAgentSignal[event.agent] = now
+        while agentSignalRoot.children.count >= 3 { agentSignalRoot.children.first?.removeFromParent() }
+        let signal = SKNode(); agentSignalRoot.addChild(signal)
+        let statusColor = color(event.status?.colorHex ?? event.agentColorHex)
+        let brandColor = color(event.agentColorHex)
+        if reducedMotion {
+            let marker = SKSpriteNode(color: statusColor, size: CGSize(width: 5, height: 3))
+            marker.position = CGPoint(x: event.agent == .codex ? 148 : 172, y: size.height - 5)
+            signal.addChild(marker)
+        } else {
+            for index in 0..<(event.status == .responded ? 5 : 3) {
+                let bubble = SKShapeNode(rectOf: CGSize(width: 3, height: 3))
+                bubble.strokeColor = brandColor; bubble.fillColor = .clear; bubble.lineWidth = 1
+                bubble.isAntialiased = false
+                bubble.position = CGPoint(x: 144 + index * 8, y: Int(size.height) - 28 - (index % 2) * 6)
+                signal.addChild(bubble)
+                bubble.run(.sequence([.wait(forDuration: Double(index) * 0.08),
+                    .group([.moveBy(x: CGFloat(index % 2 == 0 ? -3 : 3), y: 23, duration: 1.1), .fadeOut(withDuration: 1.1)])]))
+            }
+            if event.status?.needsAttention == true {
+                let reflection = SKSpriteNode(color: statusColor, size: CGSize(width: 110, height: 2))
+                reflection.position = CGPoint(x: 160, y: size.height - 4); reflection.alpha = 0.25
+                signal.addChild(reflection)
+                reflection.run(.repeat(.sequence([.fadeAlpha(to: 0.55, duration: 0.25), .fadeAlpha(to: 0.15, duration: 0.35)]), count: 2))
+            }
+        }
+        signal.run(.sequence([.wait(forDuration: reducedMotion ? 0.8 : 1.6), .removeFromParent()]))
+    }
+
     func setWaterOpacity(_ opacity: CGFloat) {
         waterOpacity = max(0, min(1, opacity)); waterBands.forEach { $0.alpha = waterOpacity }
     }

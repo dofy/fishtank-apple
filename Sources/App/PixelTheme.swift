@@ -175,6 +175,7 @@ struct PixelButtonStyle: ButtonStyle {
             .padding(.horizontal, fixedWidth == nil ? (compact ? PixelTheme.metric(12, 16) : PixelTheme.metric(16, 18)) : 8)
             .frame(width: fixedWidth.map { PixelTheme.isPad ? max(56, $0) : $0 }, height: PixelTheme.metric(40, 48))
             .frame(minWidth: fixedWidth == nil && !compact ? PixelTheme.metric(64, 84) : nil)
+            .contentShape(Rectangle())
             .background(PixelOutline().fill(primary ? PixelTheme.green : PixelTheme.card))
             .overlay(PixelOutline().stroke(PixelTheme.ink, lineWidth: 1))
             .overlay(PixelOutline(cut: 3).stroke(PixelTheme.highlight.opacity(primary ? 0.45 : 0.18), lineWidth: 1).padding(2))
@@ -279,6 +280,26 @@ struct PixelIcon: View {
 }
 
 #if os(macOS)
+/// Shared chrome for the handbook and settings; native drag behavior, pixel visuals.
+struct PixelWindowChrome: View {
+    let title: String
+    let closeLabel: String
+    let close: () -> Void
+    var body: some View {
+        HStack(spacing: 12) {
+            PixelDragBar().overlay(alignment: .leading) {
+                HStack(spacing: 8) {
+                    PixelIcon("fish", color: PixelTheme.ink)
+                    Text(title).font(PixelTheme.font(18)).foregroundStyle(PixelTheme.ink)
+                }.padding(.leading, 10).allowsHitTesting(false)
+            }.frame(height: 44).accessibilityLabel("拖动窗口")
+            Button(action: close) { PixelIcon("close", color: PixelTheme.pink) }
+                .buttonStyle(PixelButtonStyle(fixedWidth: 40)).accessibilityLabel(closeLabel)
+        }.padding(.horizontal, 12).padding(.vertical, 8)
+            .background(PixelTheme.shell).padding(.bottom, 12)
+    }
+}
+
 struct PixelDragBar: NSViewRepresentable {
     func makeNSView(context: Context) -> NSView { Region() }
     func updateNSView(_ nsView: NSView, context: Context) {}

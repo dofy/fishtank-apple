@@ -1,0 +1,272 @@
+[
+  {
+    "id" : "classic",
+    "name" : "经典金鳍",
+    "resourceName" : "FishtankIcon",
+    "secondarySpeciesID" : "",
+    "speciesID" : "goldfin",
+    "speciesName" : "金鳍初始鱼",
+    "tier" : 0
+  },
+  {
+    "id" : "greyminnow",
+    "name" : "浅滩灰鲦",
+    "resourceName" : "FishtankIcon-greyminnow",
+    "secondarySpeciesID" : "",
+    "speciesID" : "greyminnow",
+    "speciesName" : "灰鲦鱼",
+    "tier" : 0
+  },
+  {
+    "id" : "coral",
+    "name" : "珊瑚蝶影",
+    "resourceName" : "FishtankIcon-coral",
+    "secondarySpeciesID" : "",
+    "speciesID" : "copperband",
+    "speciesName" : "铜带蝶鱼",
+    "tier" : 1
+  },
+  {
+    "id" : "moon",
+    "name" : "月角青礁",
+    "resourceName" : "FishtankIcon-moon",
+    "secondarySpeciesID" : "",
+    "speciesID" : "moonhorn",
+    "speciesName" : "月角刺尾鱼",
+    "tier" : 1
+  },
+  {
+    "id" : "neoncleaner",
+    "name" : "蓝线珊瑚",
+    "resourceName" : "FishtankIcon-neoncleaner",
+    "secondarySpeciesID" : "",
+    "speciesID" : "neoncleaner",
+    "speciesName" : "霓虹清洁隆头鱼",
+    "tier" : 1
+  },
+  {
+    "id" : "mossback",
+    "name" : "苔岸精灵",
+    "resourceName" : "FishtankIcon-mossback",
+    "secondarySpeciesID" : "",
+    "speciesID" : "mossback",
+    "speciesName" : "苔背小精灵",
+    "tier" : 1
+  },
+  {
+    "id" : "sapphire",
+    "name" : "蓝宝石湾",
+    "resourceName" : "FishtankIcon-sapphire",
+    "secondarySpeciesID" : "",
+    "speciesID" : "sapphiredamsel",
+    "speciesName" : "蓝宝石雀鲷",
+    "tier" : 1
+  },
+  {
+    "id" : "banggai",
+    "name" : "月夜天竺",
+    "resourceName" : "FishtankIcon-banggai",
+    "secondarySpeciesID" : "",
+    "speciesID" : "banggai",
+    "speciesName" : "邦盖天竺鲷",
+    "tier" : 1
+  },
+  {
+    "id" : "moonjelly",
+    "name" : "海月微光",
+    "resourceName" : "FishtankIcon-moonjelly",
+    "secondarySpeciesID" : "",
+    "speciesID" : "moonjelly",
+    "speciesName" : "海月水母",
+    "tier" : 1
+  },
+  {
+    "id" : "treasure",
+    "name" : "金蝶宝藏",
+    "resourceName" : "FishtankIcon-treasure",
+    "secondarySpeciesID" : "",
+    "speciesID" : "goldbutterfly",
+    "speciesName" : "黄金蝶鱼",
+    "tier" : 2
+  },
+  {
+    "id" : "neon",
+    "name" : "霓虹海蕈",
+    "resourceName" : "FishtankIcon-neon",
+    "secondarySpeciesID" : "",
+    "speciesID" : "neonstreak",
+    "speciesName" : "霓虹灯鱼",
+    "tier" : 2
+  },
+  {
+    "id" : "blushingfire",
+    "name" : "绯红海葵",
+    "resourceName" : "FishtankIcon-blushingfire",
+    "secondarySpeciesID" : "",
+    "speciesID" : "blushingfire",
+    "speciesName" : "绯红雷达鱼",
+    "tier" : 2
+  },
+  {
+    "id" : "puffer",
+    "name" : "奶油海星",
+    "resourceName" : "FishtankIcon-puffer",
+    "secondarySpeciesID" : "",
+    "speciesID" : "creampuff",
+    "speciesName" : "奶油河豚",
+    "tier" : 2
+  },
+  {
+    "id" : "seahorse",
+    "name" : "绯色海马",
+    "resourceName" : "FishtankIcon-seahorse",
+    "secondarySpeciesID" : "",
+    "speciesID" : "coralseahorse",
+    "speciesName" : "珊瑚海马",
+    "tier" : 2
+  },
+  {
+    "id" : "bandedkrait",
+    "name" : "环纹石隙",
+    "resourceName" : "FishtankIcon-bandedkrait",
+    "secondarySpeciesID" : "",
+    "speciesID" : "bandedkrait",
+    "speciesName" : "环纹海蛇",
+    "tier" : 2
+  },
+  {
+    "id" : "ambereel",
+    "name" : "琥珀宝藏",
+    "resourceName" : "FishtankIcon-ambereel",
+    "secondarySpeciesID" : "",
+    "speciesID" : "ambereel",
+    "speciesName" : "琥珀电鳗",
+    "tier" : 2
+  },
+  {
+    "id" : "crystal",
+    "name" : "紫晶金尾",
+    "resourceName" : "FishtankIcon-crystal",
+    "secondarySpeciesID" : "",
+    "speciesID" : "royalgoldtail",
+    "speciesName" : "皇家金尾鲷",
+    "tier" : 3
+  },
+  {
+    "id" : "skywing",
+    "name" : "天翼浮礁",
+    "resourceName" : "FishtankIcon-skywing",
+    "secondarySpeciesID" : "",
+    "speciesID" : "skywing",
+    "speciesName" : "天翼飞鱼",
+    "tier" : 3
+  },
+  {
+    "id" : "emberbarb",
+    "name" : "余烬珊瑚",
+    "resourceName" : "FishtankIcon-emberbarb",
+    "secondarySpeciesID" : "",
+    "speciesID" : "emberbarb",
+    "speciesName" : "余烬虎皮鱼",
+    "tier" : 3
+  },
+  {
+    "id" : "volteel",
+    "name" : "蓝弧紫晶",
+    "resourceName" : "FishtankIcon-volteel",
+    "secondarySpeciesID" : "",
+    "speciesID" : "volteel",
+    "speciesName" : "蓝弧电鳗",
+    "tier" : 3
+  },
+  {
+    "id" : "jelly",
+    "name" : "樱花水母",
+    "resourceName" : "FishtankIcon-jelly",
+    "secondarySpeciesID" : "",
+    "speciesID" : "crystaljelly",
+    "speciesName" : "樱花水晶水母",
+    "tier" : 3
+  },
+  {
+    "id" : "goldenmoorish",
+    "name" : "黄金神殿",
+    "resourceName" : "FishtankIcon-goldenmoorish",
+    "secondarySpeciesID" : "",
+    "speciesID" : "goldenmoorish",
+    "speciesName" : "黄金神像鱼",
+    "tier" : 4
+  },
+  {
+    "id" : "ray",
+    "name" : "深海鳐影",
+    "resourceName" : "FishtankIcon-ray",
+    "secondarySpeciesID" : "",
+    "speciesID" : "voidray",
+    "speciesName" : "虚空魔鬼鳐",
+    "tier" : 4
+  },
+  {
+    "id" : "auroraeel",
+    "name" : "极光晶湾",
+    "resourceName" : "FishtankIcon-auroraeel",
+    "secondarySpeciesID" : "",
+    "speciesID" : "auroraeel",
+    "speciesName" : "极光彩带鳗",
+    "tier" : 4
+  },
+  {
+    "id" : "goldenseahorse",
+    "name" : "金叶珊瑚",
+    "resourceName" : "FishtankIcon-goldenseahorse",
+    "secondarySpeciesID" : "",
+    "speciesID" : "goldenseahorse",
+    "speciesName" : "黄金海马",
+    "tier" : 4
+  },
+  {
+    "id" : "turtle",
+    "name" : "翡翠沉木",
+    "resourceName" : "FishtankIcon-turtle",
+    "secondarySpeciesID" : "",
+    "speciesID" : "jadeturtle",
+    "speciesName" : "翡翠海龟",
+    "tier" : 4
+  },
+  {
+    "id" : "koi",
+    "name" : "锦鲤城堡",
+    "resourceName" : "FishtankIcon-koi",
+    "secondarySpeciesID" : "",
+    "speciesID" : "prismkoi",
+    "speciesName" : "棱镜锦鲤",
+    "tier" : 5
+  },
+  {
+    "id" : "leviathanfry",
+    "name" : "海龙遗迹",
+    "resourceName" : "FishtankIcon-leviathanfry",
+    "secondarySpeciesID" : "",
+    "speciesID" : "leviathanfry",
+    "speciesName" : "利维坦海龙",
+    "tier" : 5
+  },
+  {
+    "id" : "astraljelly",
+    "name" : "星冕幽光",
+    "resourceName" : "FishtankIcon-astraljelly",
+    "secondarySpeciesID" : "",
+    "speciesID" : "astraljelly",
+    "speciesName" : "星冕帝王水母",
+    "tier" : 5
+  },
+  {
+    "id" : "duet",
+    "name" : "金银同游",
+    "resourceName" : "FishtankIcon-duet",
+    "secondarySpeciesID" : "greyminnow",
+    "speciesID" : "goldfin",
+    "speciesName" : "金银同游",
+    "tier" : 0
+  }
+]

@@ -11,6 +11,7 @@ private enum AquariumTab: String, CaseIterable, Identifiable {
 
 struct AquariumView: View {
     @ObservedObject var store: AquariumStore
+    var openAgentSettings: (() -> Void)? = nil
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reducedMotion
     @State private var scene = AquariumScene()
@@ -808,18 +809,11 @@ struct AquariumView: View {
 
 private extension AquariumView {
     var chrome: some View {
-        HStack(spacing: 12) {
-            #if os(macOS)
-            PixelDragBar().overlay(alignment: .leading) {
-                HStack(spacing: 8) { PixelIcon("fish", color: PixelTheme.ink); Text("Fishtank / 口袋海洋").font(PixelTheme.font(18)).foregroundStyle(PixelTheme.ink) }
-                    .padding(.leading, 10).allowsHitTesting(false)
-            }.frame(height: 44)
-            Button { NSApp.keyWindow?.close() } label: { PixelIcon("close", color: PixelTheme.pink) }
-                .buttonStyle(PixelButtonStyle(fixedWidth: 40))
-                .accessibilityLabel("关闭养成手册")
-            #endif
-        }.padding(.horizontal, 12).padding(.vertical, 8)
-            .background(PixelTheme.shell).padding(.bottom, 12)
+        #if os(macOS)
+        PixelWindowChrome(title: "Fishtank / 口袋海洋", closeLabel: "关闭养成手册") { NSApp.keyWindow?.close() }
+        #else
+        EmptyView()
+        #endif
     }
 
     var navigationBar: some View {
@@ -961,6 +955,16 @@ private extension AquariumView {
 
     var settingsContent: some View {
         VStack(alignment: .leading, spacing: 20) {
+            #if os(macOS)
+            HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("应用设置").foregroundStyle(gold)
+                    Text("管理接入、气泡和提示音").foregroundStyle(PixelTheme.muted)
+                }
+                Spacer()
+                Button("打开设置…") { openAgentSettings?() }.disabled(openAgentSettings == nil)
+            }.padding(16).pixelPanel()
+            #endif
             Text("声音与海的颜色").font(PixelTheme.font(24)).foregroundStyle(gold)
             VStack(alignment: .leading, spacing: 10) {
                 audioRow("操作音效", volumeTitle: "音效音量", enabled: \.sfxEnabled, volume: \.sfxVolume)
@@ -1088,6 +1092,7 @@ private extension AquariumView {
 private struct PixelAquariumPreview: View {
     let scene: AquariumScene
     @ObservedObject var store: AquariumStore
+    var openAgentSettings: (() -> Void)? = nil
     var paused: Bool
     @Environment(\.accessibilityReduceMotion) private var reducedMotion
     var body: some View {

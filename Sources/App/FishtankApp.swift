@@ -15,6 +15,11 @@ struct FishtankApp: App {
     var body: some Scene {
         #if os(macOS)
         Settings { EmptyView() }
+            .commands {
+                CommandGroup(replacing: .appSettings) {
+                    Button("设置…") { delegate.aquarium.showAgentSettings() }.keyboardShortcut(",", modifiers: .command)
+                }
+            }
         #else
         WindowGroup {
             #if DEBUG

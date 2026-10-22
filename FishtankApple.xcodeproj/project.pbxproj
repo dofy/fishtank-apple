@@ -7,98 +7,194 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		018270C9A4A97EDA49D3F22E /* AquariumRenderWatchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA9B0A3561383BB4766C2CC /* AquariumRenderWatchdog.swift */; };
 		02F7FD90B07608CDBBE40D68 /* AquariumEcology.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F14B53C731F68D1078B92BE /* AquariumEcology.swift */; };
+		04BCBDFC3344664873E0F3CD /* FishtankIcon-duet.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4FA1B9D485774F7A08EB274E /* FishtankIcon-duet.icns */; };
 		056D6413A3A95E076E56410F /* release.wav in Resources */ = {isa = PBXBuildFile; fileRef = AA27B224D5E187D3CD441BCC /* release.wav */; };
+		06C315AC0C0DBF815A75D0EE /* FishtankIcon-greyminnow.icns in Resources */ = {isa = PBXBuildFile; fileRef = E46AA2B7817F464A130A91F6 /* FishtankIcon-greyminnow.icns */; };
+		07EE8AE3A858E2301696E6E7 /* AgentSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D0D63F8824B5F38A0CAB0 /* AgentSettingsView.swift */; };
 		080EB4A6364E7BCCAF547D66 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2D89F7D8650B80BF147C2FA7 /* LICENSE.txt */; };
 		08A00CD6458217BA6EC07385 /* breed.wav in Resources */ = {isa = PBXBuildFile; fileRef = EEE765D980B7F0B28B3A7174 /* breed.wav */; };
+		08C95ADC02B099701F206864 /* ClaudeHookEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C368DC9BB68608363A84416 /* ClaudeHookEvent.swift */; };
+		0BBED29FF8D9E67DF89C72DE /* FishtankIcon-neoncleaner.png in Resources */ = {isa = PBXBuildFile; fileRef = 95E00EDD3894E4BDE69B8FEF /* FishtankIcon-neoncleaner.png */; };
 		0E9A823E18034352F380D3F8 /* FloatingAquariumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AC129EF8C25046CD887327 /* FloatingAquariumController.swift */; };
 		0F5B8713D5E050E444BA92E8 /* FishtankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC57FBC64D6E1EFA75653FCD /* FishtankApp.swift */; };
+		0F9FF34B6469ED56F8DA21D5 /* FishtankIcon-bandedkrait.png in Resources */ = {isa = PBXBuildFile; fileRef = FA23F99CB4D0CE430259EFE0 /* FishtankIcon-bandedkrait.png */; };
+		115203198EC186180D480E8B /* FishtankIcon-sapphire.icns in Resources */ = {isa = PBXBuildFile; fileRef = 376F59EE755E955BCF5F8626 /* FishtankIcon-sapphire.icns */; };
 		14366436D9D56A7B2E97851E /* reveal-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E51A3B1B5E735AA855D1F4C /* reveal-1.wav */; };
 		143FDDFA9EAA4B4E86EB3028 /* error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0AE100E6BE3DCB6E63297083 /* error.wav */; };
 		15CD9278A372052CDB09EE80 /* eat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5DB4F0C2CDF6E0FA4DDAD95A /* eat.wav */; };
+		16F37CA124C17EE5FF5E7C2C /* AppIconSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E29E5CC8EC604FB0477EAA /* AppIconSettingsView.swift */; };
+		173D9B663E4D615940F55294 /* AppIconSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E29E5CC8EC604FB0477EAA /* AppIconSettingsView.swift */; };
+		1A11DD4D3247793316616C38 /* ClaudeHookValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1A5AFD1944196A2A1A4F1E /* ClaudeHookValidation.swift */; };
 		1A781B97C9DE34389BCE15B0 /* AquariumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3790DDE0A29B90A1320B25 /* AquariumRepository.swift */; };
 		1EBC93E8A03C12B5D7B072B4 /* reveal-5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 40C304034CF9D3B60C53CD3C /* reveal-5.wav */; };
+		2112F31286D4E414D0AC6463 /* FishtankIcon-treasure.png in Resources */ = {isa = PBXBuildFile; fileRef = B7A048EDF3347AC336C0AD6E /* FishtankIcon-treasure.png */; };
 		257E88E9528EF80D5DE7F3F4 /* AquariumSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FCD6FDBB8EF612FCF2E5FB /* AquariumSound.swift */; };
+		25F7C63280990F9EC197704E /* FishtankIcon-goldenmoorish.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ACE5324423C2F8FB7D7F46 /* FishtankIcon-goldenmoorish.png */; };
+		27CC37EED8B8681120555D38 /* FishtankIcon-coral.icns in Resources */ = {isa = PBXBuildFile; fileRef = B1B2BC8F55BDFBA18554B595 /* FishtankIcon-coral.icns */; };
 		2858942EF8A913F4CB4E8CFD /* merge.wav in Resources */ = {isa = PBXBuildFile; fileRef = 903860297660714FD3E26CC4 /* merge.wav */; };
 		2A6DAA960CB1C7D0A51E3312 /* music-chiptune.wav in Resources */ = {isa = PBXBuildFile; fileRef = E0A971F53FBBD44C0C6D9187 /* music-chiptune.wav */; };
+		2AC41D7810FEAAE035465860 /* FishtankIcon-puffer.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0ADBC20D606C907AA3FC4CDA /* FishtankIcon-puffer.icns */; };
+		2BD8BC9D5CF23CB453C3FE72 /* FishtankIcon-seahorse.png in Resources */ = {isa = PBXBuildFile; fileRef = DDE9DCB8F9E307E98AF84098 /* FishtankIcon-seahorse.png */; };
+		2C5AA9AD8C7A1A27B0086E67 /* FishtankIcon-auroraeel.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0395FDE5DFAE781FA58B7B3C /* FishtankIcon-auroraeel.icns */; };
+		2C73A49CAE9094B4BA0A2392 /* AgentAlertSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084B62018D48709FB8FA9A3A /* AgentAlertSound.swift */; };
 		2DCDA77CC026B0F99AD937E5 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0CFBF060D8B2B4EF7E6E5CD6 /* click.wav */; };
 		2F090BE679EB274E1682956C /* select.wav in Resources */ = {isa = PBXBuildFile; fileRef = EEA12903523ACC4239C7DD86 /* select.wav */; };
+		2F2AB4749299F35BAB865ECB /* AgentSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D0D63F8824B5F38A0CAB0 /* AgentSettingsView.swift */; };
+		30D313AC7BEEC7464DEDA45B /* FishtankIcon-astraljelly.png in Resources */ = {isa = PBXBuildFile; fileRef = 69802F2B7DC4A6664D22759B /* FishtankIcon-astraljelly.png */; };
 		30F3828EB9F4574EDAD98778 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 205785638C0B1486A88A506A /* PrivacyInfo.xcprivacy */; };
+		327DCF29AE3DE618A32C07B4 /* AgentSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A780F0B451C4E069B0C510 /* AgentSettingsStore.swift */; };
 		33C44C564388EA7B0BC09542 /* AquariumState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DDAE8D46170789C97C9B78 /* AquariumState.swift */; };
 		34ECD7D95BF0132BF0BB366B /* eat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5DB4F0C2CDF6E0FA4DDAD95A /* eat.wav */; };
 		353B49362074C875A84A2142 /* NativeAquariumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1D649D83FDAEDC2CB5B78F /* NativeAquariumView.swift */; };
+		359DF5C466A37BED0E790DE7 /* AgentRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D8D7FFACD809373FCFD12B /* AgentRegistration.swift */; };
 		3A6665BD88044702F179FBAD /* reveal-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54E2707DAAC79E66B40CFEFC /* reveal-3.wav */; };
+		3BA0A397796E4BC81B3564F4 /* ClaudeToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */; };
+		3C1F2D0A453256E66144C57F /* AgentToastStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55BA44CD7B79DB959044F8F /* AgentToastStack.swift */; };
+		40833137496470A2B4516CB9 /* AppIconStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B91E22DEA111C06A1615B6 /* AppIconStore.swift */; };
 		409ECC8A399E91F690C0A229 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 755026CB7C674E4129BC8342 /* OFL.txt */; };
 		44095B54BD1C9EB4341D24C8 /* select.wav in Resources */ = {isa = PBXBuildFile; fileRef = EEA12903523ACC4239C7DD86 /* select.wav */; };
+		440E211C629820EDFF5B03E8 /* FishtankIcon-crystal.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5AD57DBB9FF2F1EBDF5C05 /* FishtankIcon-crystal.png */; };
+		443F96C67EAF7C3C22EFC5FC /* FishtankIcon-moon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ED965F0BAE946487E7C8B35A /* FishtankIcon-moon.icns */; };
 		44C3D6825B071437346F79CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C372E2F206F7600ED87FDD /* Assets.xcassets */; };
+		458346FB819484A5F246A194 /* FishtankIcon-moonjelly.png in Resources */ = {isa = PBXBuildFile; fileRef = 48977ABD32A861624E2C52F0 /* FishtankIcon-moonjelly.png */; };
 		45E2E811A73EFA10363CE16B /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 755026CB7C674E4129BC8342 /* OFL.txt */; };
+		4606103A82BFB62596F8ABD9 /* FishtankIcon-ambereel.icns in Resources */ = {isa = PBXBuildFile; fileRef = D28EA2C44B6FCC4F68D6664F /* FishtankIcon-ambereel.icns */; };
+		4670391292724815FF1DAE50 /* FishtankIcon-neon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A94A72F5D15E1FF21D35922 /* FishtankIcon-neon.png */; };
 		46C835837A6AC1AD3B9E0DE9 /* AquariumBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E9E4D605765D9EEE989BC /* AquariumBackup.swift */; };
 		489F557FEC58883E5B40CB95 /* AquariumEcology.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F14B53C731F68D1078B92BE /* AquariumEcology.swift */; };
+		49E240BE33EA61CAD4590B6C /* FishtankIcon-bandedkrait.icns in Resources */ = {isa = PBXBuildFile; fileRef = E78EABC33E0846D7C83C214C /* FishtankIcon-bandedkrait.icns */; };
+		4B0EA63E4E403A447A83C48F /* AgentBridgeProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E1E3695FEC9C1F1316E0BC /* AgentBridgeProbe.swift */; };
+		4B8321E410C482F383DC6501 /* FishtankIcon-astraljelly.icns in Resources */ = {isa = PBXBuildFile; fileRef = E4AAEA34194F24F8DE3A7F40 /* FishtankIcon-astraljelly.icns */; };
+		4CDBC11F8543B4916BA84FB0 /* ClaudeHookBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D797A72EFCC848D58E8FC /* ClaudeHookBridge.swift */; };
 		4DB5D4ABC40112B189D9FFEF /* AquariumSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */; };
 		4E7B76CBC69721D5B3C423CF /* reveal-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5881868A637F9C34BAD3FC3D /* reveal-2.wav */; };
+		4F7FF1A737FC4B10D284A2A0 /* AppIconArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B1967027B95D9812EEFE28 /* AppIconArt.swift */; };
+		5041B0CC878803ACBDC660C2 /* FishtankIcon-emberbarb.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E56FE4534FFD512224CB1BE /* FishtankIcon-emberbarb.png */; };
 		5238DF50D2BED25A12E6FEEC /* zap.wav in Resources */ = {isa = PBXBuildFile; fileRef = B0257215479F455DC129D236 /* zap.wav */; };
+		52B1A32ACEA7D99C4DFCBFAB /* FishtankIcon-mossback.icns in Resources */ = {isa = PBXBuildFile; fileRef = A32E6B92DFB9AB98C50C8D5F /* FishtankIcon-mossback.icns */; };
+		5588BE58D0A6F79EEF156E96 /* FishtankIcon-duet.png in Resources */ = {isa = PBXBuildFile; fileRef = 751DFCB97C44C9DDD33C8BB7 /* FishtankIcon-duet.png */; };
 		5625DC4D3AA9EA926221162D /* AquariumStatusMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E21A11D8DBD082E9E3C3C10 /* AquariumStatusMenu.swift */; };
 		562ECBBD34F03D1D8B294C65 /* reveal-4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4244B84E1C7DFDE1C989D670 /* reveal-4.wav */; };
 		566E2FBDA479B20B138D9CC6 /* AquariumState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DDAE8D46170789C97C9B78 /* AquariumState.swift */; };
 		594005DC7B36D44256AF6DBF /* release.wav in Resources */ = {isa = PBXBuildFile; fileRef = AA27B224D5E187D3CD441BCC /* release.wav */; };
 		5A9D6BBAF66239ED8587A86F /* AquariumStatusMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E21A11D8DBD082E9E3C3C10 /* AquariumStatusMenu.swift */; };
+		5C970079D9501C1C4AE75171 /* FishtankIcon-volteel.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4590315A9F6789B39D079BE8 /* FishtankIcon-volteel.icns */; };
+		5D406B52C98E2B50FD5E8913 /* FishtankIcon-moonjelly.icns in Resources */ = {isa = PBXBuildFile; fileRef = F83AC8E9F1789EC83106B7D0 /* FishtankIcon-moonjelly.icns */; };
 		5D992FFFA6B9C04E9BBA9DC9 /* scare.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C201E7CB2402FA29669AAC3 /* scare.wav */; };
+		5DF7A45743076A365DA8CF6A /* MenuFishArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E47A33DE85703204586E20 /* MenuFishArt.swift */; };
+		5E252D884A26CD90D8CF0A91 /* AgentAlertTone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */; };
+		5F220190E7DC15A09EDE6863 /* FishtankIcon-ray.icns in Resources */ = {isa = PBXBuildFile; fileRef = 461F7E09030105AEB2197AD3 /* FishtankIcon-ray.icns */; };
 		6376EE98B2E051FD8DE32B2F /* FishtankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC57FBC64D6E1EFA75653FCD /* FishtankApp.swift */; };
+		6476568CE3086BAB5CA2D99D /* FishtankIcon-emberbarb.icns in Resources */ = {isa = PBXBuildFile; fileRef = 62B2D73CF578B9F9391BB7E1 /* FishtankIcon-emberbarb.icns */; };
 		648E33DE5967593A3D0BCD18 /* PixelTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06838F8CB341340064B222C2 /* PixelTheme.swift */; };
 		67C4ADAA3893E5D890F0A50C /* reveal-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5881868A637F9C34BAD3FC3D /* reveal-2.wav */; };
 		69D4868DE96827D7436B091E /* reveal-4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4244B84E1C7DFDE1C989D670 /* reveal-4.wav */; };
+		6A296972DDB61EE72B8265F3 /* FishtankIcon-ray.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E2BCAD3722C249D13C1400 /* FishtankIcon-ray.png */; };
 		6C6D7358C39D55F349014C7C /* reveal-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E51A3B1B5E735AA855D1F4C /* reveal-1.wav */; };
 		6D292E08246ADC31D9AD3C1B /* DecorCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062724B13302449E27CDDB3A /* DecorCatalog.swift */; };
 		6D2C08BC4F89BF0711F5A25C /* DecorArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016AF13E416FF420333DAEC3 /* DecorArt.swift */; };
 		6D4D9ADFD860E709134DC179 /* scare.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C201E7CB2402FA29669AAC3 /* scare.wav */; };
 		711781CADBDBC6F2CBAAA7BB /* AquariumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBFD161A9DE7349BB83D887 /* AquariumStore.swift */; };
+		72F3E01A327636D6AEFFBA61 /* MenuFishArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E47A33DE85703204586E20 /* MenuFishArt.swift */; };
+		73AB1F266972D4655BCB8B9B /* AgentRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D8D7FFACD809373FCFD12B /* AgentRegistration.swift */; };
 		73F9B5A4451EFC57358F7E99 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0CFBF060D8B2B4EF7E6E5CD6 /* click.wav */; };
 		773BD9762E5F7629B306455B /* SavedGamePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043BC30D96437306BA43ED0D /* SavedGamePanel.swift */; };
 		775610C869FB6FCC9DDF88CC /* FishtankIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 138EBEDF2FDE9EC7503BCB04 /* FishtankIcon.icns */; };
 		78B6A574822980362B80FEA2 /* SavedGamePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043BC30D96437306BA43ED0D /* SavedGamePanel.swift */; };
 		794C2C913E883E038C0B92D4 /* AquariumWindowDrag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5AA549CCF05B9B722E0142 /* AquariumWindowDrag.swift */; };
+		79D97700760C87EC0081FD81 /* AgentMenuIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326B3F388CA61CA53FEF051F /* AgentMenuIndicator.swift */; };
+		7B20062079D1936992D2A0D9 /* AppIconCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7A2CC5CCD6CB999C403991 /* AppIconCatalog.swift */; };
+		7B2F92B7C45F08D6606B4C64 /* AgentBridgeProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E1E3695FEC9C1F1316E0BC /* AgentBridgeProbe.swift */; };
+		7C5F76C5F66203EBBA94891F /* FishtankIcon-mossback.png in Resources */ = {isa = PBXBuildFile; fileRef = 447AF73055208CEA8A56BA91 /* FishtankIcon-mossback.png */; };
+		7E57AC37A25AE4FCFB250195 /* FishtankIcon-crystal.icns in Resources */ = {isa = PBXBuildFile; fileRef = BF1997B942AB7C5C3F73F635 /* FishtankIcon-crystal.icns */; };
 		80794CDA9D6FC92FBE33B9E5 /* reveal-0.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5C2076F1BAFCE2C7BC0AEC4D /* reveal-0.wav */; };
+		81D793E70A2897C82D86AA85 /* FishtankIcon-banggai.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F5A5169DC2CF8D5460AEDD0 /* FishtankIcon-banggai.png */; };
+		8300D2F77C42DD9D08803EBF /* FishtankIcon-banggai.icns in Resources */ = {isa = PBXBuildFile; fileRef = A546024B20CBA2F841D2F874 /* FishtankIcon-banggai.icns */; };
 		8359A790F7497F37B872F67C /* feed.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8851DA0A974364A26FC432C /* feed.wav */; };
+		83813DA682F95036EAD36E54 /* AppIconCatalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 41737EC7904E52D831D99536 /* AppIconCatalog.json */; };
 		85DA03281A562A166FFF0386 /* breed.wav in Resources */ = {isa = PBXBuildFile; fileRef = EEE765D980B7F0B28B3A7174 /* breed.wav */; };
+		862CCA2FBF73DA6BF6B32F57 /* ClaudeToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */; };
 		87371C73B2EF3F4DD638C0EB /* PixelArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820E526EED379C270A5A079A /* PixelArt.swift */; };
 		87F671D23A5F62BE1CD2433E /* music-tide.wav in Resources */ = {isa = PBXBuildFile; fileRef = AD66598B45291DEF2F6A7435 /* music-tide.wav */; };
 		8898745DE187D2745F699F95 /* DecorCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062724B13302449E27CDDB3A /* DecorCatalog.swift */; };
+		89CB12A89E448541193AD21C /* AgentAlertSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084B62018D48709FB8FA9A3A /* AgentAlertSound.swift */; };
 		8B840A86687BBE418D06CDA4 /* merge.wav in Resources */ = {isa = PBXBuildFile; fileRef = 903860297660714FD3E26CC4 /* merge.wav */; };
+		8BFB428D8EB2C6570971ABD4 /* FishtankIcon-turtle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF19F21D069CE5ECA3F8DF55 /* FishtankIcon-turtle.png */; };
 		8D12595A2CFD2EC89D8CC8CB /* AquariumExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB13DAD500ACB7F64467B7D /* AquariumExtras.swift */; };
 		8D199D34CE9B594B72FEBD8A /* AquariumInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA9A0B3EB49CD84EC548532 /* AquariumInstallation.swift */; };
 		8D4CC360D9AE87D3BE271A74 /* FloatingAquariumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AC129EF8C25046CD887327 /* FloatingAquariumController.swift */; };
+		8D81C70D684518930679F4F8 /* AppIconStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B91E22DEA111C06A1615B6 /* AppIconStore.swift */; };
+		8D93EBCAF2CEA800F6D5D599 /* FishtankIcon-greyminnow.png in Resources */ = {isa = PBXBuildFile; fileRef = B612FBA1959050965C63DF87 /* FishtankIcon-greyminnow.png */; };
+		8DB69B5972404104BE32BE54 /* ClaudeHookValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1A5AFD1944196A2A1A4F1E /* ClaudeHookValidation.swift */; };
+		90CB8FE51B9A1EB4F1723AF8 /* ClaudeHookEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C368DC9BB68608363A84416 /* ClaudeHookEvent.swift */; };
 		920F5005A8A70F2EEC3F3C0B /* music-lofi.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0D5CBA6C34560C1B3D4A75FD /* music-lofi.wav */; };
+		94787611FBF08BFAF41BE53A /* FishtankIcon-moon.png in Resources */ = {isa = PBXBuildFile; fileRef = 949AA9DEAA860C5EB9F60CA9 /* FishtankIcon-moon.png */; };
 		953F8BBAE8446BAA301D98DB /* NativeAquariumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1D649D83FDAEDC2CB5B78F /* NativeAquariumView.swift */; };
+		957C8CE32D9438D3E94962E0 /* FishtankIcon-neon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9BAFACEDD31830F44F122DE5 /* FishtankIcon-neon.icns */; };
 		965F5BE99EFBFA430CA0A36C /* feed.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8851DA0A974364A26FC432C /* feed.wav */; };
+		97763341A4675E377697B6B1 /* FishtankIcon-ambereel.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A913F590D331AA667B53BF4 /* FishtankIcon-ambereel.png */; };
+		988CE7191175FE1B1BD07C51 /* AgentSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A780F0B451C4E069B0C510 /* AgentSettingsStore.swift */; };
+		99E0B305B299455EF3ADBFEB /* FishtankIcon-skywing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5558F2ED7FB3D9B40F35B8DC /* FishtankIcon-skywing.png */; };
+		9B38CF30D373F66E87F06A3B /* FishtankIcon-goldenseahorse.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3C8A54F499F5395F20871436 /* FishtankIcon-goldenseahorse.icns */; };
 		9D52FA3196C4AC6487AFD3A6 /* PixelTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06838F8CB341340064B222C2 /* PixelTheme.swift */; };
 		9E08915E02E3AFD3377AF041 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5F6D5B91FD2ACB3E33EEFB2C /* LICENSE */; };
+		9EE0C89EDEFFCC998310DBB8 /* AgentToastStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55BA44CD7B79DB959044F8F /* AgentToastStack.swift */; };
 		9F1E66066B36FDD2F72AED7A /* reveal-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54E2707DAAC79E66B40CFEFC /* reveal-3.wav */; };
+		9F385568F1A9B17B26EB968D /* FishtankIcon-treasure.icns in Resources */ = {isa = PBXBuildFile; fileRef = 33B4F44B67C2BB42E4ED7445 /* FishtankIcon-treasure.icns */; };
+		9F917D29BDBB336B3DE10FB3 /* PixelFormControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */; };
 		A1821CE4E53E96B9E8FFBB8A /* AquariumSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */; };
 		A1852912711693681487D6F7 /* FishtankUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936CAB86D541E5747F2BF24 /* FishtankUITests.swift */; };
 		A97B52F9917E05B722D23FF3 /* AquariumScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F1AEDA4BCA3F064F091CC9 /* AquariumScene.swift */; };
+		A9CF513C72C93C60C639883A /* FishtankIcon-koi.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5FB7BD3170D3DB822B34950D /* FishtankIcon-koi.icns */; };
 		AA510E1E0E5C38B9454883F5 /* zap.wav in Resources */ = {isa = PBXBuildFile; fileRef = B0257215479F455DC129D236 /* zap.wav */; };
+		ABA088ACDD7429A3C7557CE8 /* AgentMenuIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326B3F388CA61CA53FEF051F /* AgentMenuIndicator.swift */; };
+		AD178057C2A581893E704C11 /* FishtankIcon-volteel.png in Resources */ = {isa = PBXBuildFile; fileRef = 01E8D85EED9DFE4AAFBE4D2F /* FishtankIcon-volteel.png */; };
+		ADB9667CDA86573C61713756 /* FishtankIcon-puffer.png in Resources */ = {isa = PBXBuildFile; fileRef = A426E461CC4313AA1C44D9ED /* FishtankIcon-puffer.png */; };
 		AE69069A2973D05D98370D89 /* AquariumBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E9E4D605765D9EEE989BC /* AquariumBackup.swift */; };
+		AF362EBD278F45E4AAA6E284 /* FishtankIcon-seahorse.icns in Resources */ = {isa = PBXBuildFile; fileRef = 249E0C950F70AB4D1030E9D4 /* FishtankIcon-seahorse.icns */; };
+		B03899BB422B27217A724C61 /* FishtankIcon-skywing.icns in Resources */ = {isa = PBXBuildFile; fileRef = F95E0B78255607D22C75906D /* FishtankIcon-skywing.icns */; };
 		B2A84FD2A12E358E7A2BC61A /* AquariumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBFD161A9DE7349BB83D887 /* AquariumStore.swift */; };
 		B560D89D2C6333E8A9D5583C /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2D89F7D8650B80BF147C2FA7 /* LICENSE.txt */; };
+		B7A2D608CB1D681E9B81F742 /* FishtankIcon-blushingfire.png in Resources */ = {isa = PBXBuildFile; fileRef = F2125ECC98B9059E7039B0FD /* FishtankIcon-blushingfire.png */; };
 		BBBAB0B0002BFAA8E89B72EF /* place.wav in Resources */ = {isa = PBXBuildFile; fileRef = 474FBB96B54270BB7A5F0739 /* place.wav */; };
+		BD16E0F811D39CFE2529422E /* FishtankIcon-leviathanfry.png in Resources */ = {isa = PBXBuildFile; fileRef = C85966FA782641673BC58570 /* FishtankIcon-leviathanfry.png */; };
+		BD51BFCD67A3FED44066C6A4 /* FishtankIcon-jelly.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4C594984477500C5CD64B1 /* FishtankIcon-jelly.png */; };
 		BE0AD69B14DDCCD0FAA4A7AC /* music-tide.wav in Resources */ = {isa = PBXBuildFile; fileRef = AD66598B45291DEF2F6A7435 /* music-tide.wav */; };
+		BE8D4004C107EB8DB641354C /* AquariumRenderWatchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA9B0A3561383BB4766C2CC /* AquariumRenderWatchdog.swift */; };
 		BF36B6BCEF2228EA72362D72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C372E2F206F7600ED87FDD /* Assets.xcassets */; };
+		C062ABD5FFDA0FA90BF753CC /* claude-hook.py in Resources */ = {isa = PBXBuildFile; fileRef = C4DC29A5E7EB70AE75070410 /* claude-hook.py */; };
 		C46ED360FECDB5A630BE1BD0 /* AquariumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D61A7456088BB5038C52 /* AquariumView.swift */; };
 		C5E8411A81CFDCD2FD447B3E /* reveal-5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 40C304034CF9D3B60C53CD3C /* reveal-5.wav */; };
 		C663FEDFE12A71CC1F8BF355 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 205785638C0B1486A88A506A /* PrivacyInfo.xcprivacy */; };
+		C6786F3F023A294B4AD47438 /* FishtankIcon-blushingfire.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6004684EBE2DA843037C3973 /* FishtankIcon-blushingfire.icns */; };
 		C81DCCEFDE4E201CD642F13D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5F6D5B91FD2ACB3E33EEFB2C /* LICENSE */; };
 		C820879A20F8C05E8CC60AEE /* music-lofi.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0D5CBA6C34560C1B3D4A75FD /* music-lofi.wav */; };
+		C978C62AC84EF12EAF5CB5EC /* AppIconArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B1967027B95D9812EEFE28 /* AppIconArt.swift */; };
+		CB99E3AC359CD48898AE026D /* AgentAlertTone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */; };
 		CB9F74393595FF191CD8CA83 /* error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0AE100E6BE3DCB6E63297083 /* error.wav */; };
+		CBB5578DBD4DAD6C06608224 /* FishtankIcon-turtle.icns in Resources */ = {isa = PBXBuildFile; fileRef = 79A84EBB02C5BAD7CCED7594 /* FishtankIcon-turtle.icns */; };
+		CEF22F17DFCE42F85390F858 /* FishtankIcon-jelly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 568D8AF4A37EFC0F3E1125FA /* FishtankIcon-jelly.icns */; };
+		CFCDEF8B2883B710F03A055C /* FishtankIcon-goldenmoorish.icns in Resources */ = {isa = PBXBuildFile; fileRef = D1089014CEF5CDEC85F41C84 /* FishtankIcon-goldenmoorish.icns */; };
+		D029E3FC9881F2B13655F383 /* PixelFormControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */; };
 		D2507481B76CCCE84BA344FE /* AquariumSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FCD6FDBB8EF612FCF2E5FB /* AquariumSound.swift */; };
+		D5EA3266456CF8ECE54196B8 /* FishtankIcon-leviathanfry.icns in Resources */ = {isa = PBXBuildFile; fileRef = 92868452F3022F9A2BAF92E6 /* FishtankIcon-leviathanfry.icns */; };
 		D605774BD9038AA890368994 /* AquariumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3790DDE0A29B90A1320B25 /* AquariumRepository.swift */; };
 		D964CE24670CA2820DBABDA1 /* AquariumExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB13DAD500ACB7F64467B7D /* AquariumExtras.swift */; };
+		D97F19051BD9EFF65551DAC5 /* FishtankIcon-coral.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FB059E1C3F405E44971FCA /* FishtankIcon-coral.png */; };
 		DC45CAA723A485B153B22C03 /* AquariumInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA9A0B3EB49CD84EC548532 /* AquariumInstallation.swift */; };
 		DDFAFB643A08D113095AE451 /* AquariumScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F1AEDA4BCA3F064F091CC9 /* AquariumScene.swift */; };
 		DE8C9EACE95D1A04E3753256 /* music-chiptune.wav in Resources */ = {isa = PBXBuildFile; fileRef = E0A971F53FBBD44C0C6D9187 /* music-chiptune.wav */; };
+		DEAAE0A0B5112A3D7147A8C9 /* FishtankIcon-koi.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1A15EA31BAEF7912B48C37 /* FishtankIcon-koi.png */; };
 		DEFD873ED92D237B92D626D6 /* AquariumBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0540F126C92218A24B83B22 /* AquariumBackdrop.swift */; };
 		E16E8C50B032C64C6E9780CD /* reveal-0.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5C2076F1BAFCE2C7BC0AEC4D /* reveal-0.wav */; };
+		E29BA9AC9C629670ECE3C7F7 /* FishtankIcon-sapphire.png in Resources */ = {isa = PBXBuildFile; fileRef = 677857888F7B40087B5A0094 /* FishtankIcon-sapphire.png */; };
 		E2B7DB9E70DA62289C3A3CFD /* place.wav in Resources */ = {isa = PBXBuildFile; fileRef = 474FBB96B54270BB7A5F0739 /* place.wav */; };
+		E316D8E01EC7080161EFC27C /* FishtankIcon-auroraeel.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F092791B1FDEE8767DFE5E4 /* FishtankIcon-auroraeel.png */; };
+		E893BE32A46D8E4E0B74ED53 /* FishtankIcon-goldenseahorse.png in Resources */ = {isa = PBXBuildFile; fileRef = F528E4C7840A42CF03CCE9BB /* FishtankIcon-goldenseahorse.png */; };
 		EDBC3C81A6103C059B37C4D5 /* DecorArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016AF13E416FF420333DAEC3 /* DecorArt.swift */; };
+		EEBF8444E760C430B89A3096 /* FishtankIcon-neoncleaner.icns in Resources */ = {isa = PBXBuildFile; fileRef = 207AC08D6151D8C7BDE7497C /* FishtankIcon-neoncleaner.icns */; };
 		F046787B4E51F2BB6C04F879 /* FishCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BF8A10A32A6D67E906B64A /* FishCatalog.swift */; };
 		F0C470FDEF7D3D5406B0DFD4 /* AquariumReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C586847E6E40E237F5E08D9 /* AquariumReminder.swift */; };
 		F246B66359FA9E7951FD8623 /* FishCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BF8A10A32A6D67E906B64A /* FishCatalog.swift */; };
@@ -109,6 +205,8 @@
 		F9BCD861215EFD14D8574A5A /* AquariumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D61A7456088BB5038C52 /* AquariumView.swift */; };
 		F9BF98A2B9C9897ACF198BB5 /* AquariumWindowDrag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5AA549CCF05B9B722E0142 /* AquariumWindowDrag.swift */; };
 		FA163029F1D7CFBAD9A9BC85 /* AquariumReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C586847E6E40E237F5E08D9 /* AquariumReminder.swift */; };
+		FC9A8D70ADA12ABD0EBDE0A8 /* ClaudeHookBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D797A72EFCC848D58E8FC /* ClaudeHookBridge.swift */; };
+		FECF1BDE25D7DB765094ACBF /* AppIconCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7A2CC5CCD6CB999C403991 /* AppIconCatalog.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,10 +221,15 @@
 
 /* Begin PBXFileReference section */
 		016AF13E416FF420333DAEC3 /* DecorArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorArt.swift; sourceTree = "<group>"; };
+		01E29E5CC8EC604FB0477EAA /* AppIconSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconSettingsView.swift; sourceTree = "<group>"; };
+		01E8D85EED9DFE4AAFBE4D2F /* FishtankIcon-volteel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-volteel.png"; sourceTree = "<group>"; };
+		0395FDE5DFAE781FA58B7B3C /* FishtankIcon-auroraeel.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-auroraeel.icns"; sourceTree = "<group>"; };
 		043BC30D96437306BA43ED0D /* SavedGamePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedGamePanel.swift; sourceTree = "<group>"; };
 		062724B13302449E27CDDB3A /* DecorCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorCatalog.swift; sourceTree = "<group>"; };
 		06838F8CB341340064B222C2 /* PixelTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelTheme.swift; sourceTree = "<group>"; };
+		084B62018D48709FB8FA9A3A /* AgentAlertSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAlertSound.swift; sourceTree = "<group>"; };
 		08DDAE8D46170789C97C9B78 /* AquariumState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumState.swift; sourceTree = "<group>"; };
+		0ADBC20D606C907AA3FC4CDA /* FishtankIcon-puffer.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-puffer.icns"; sourceTree = "<group>"; };
 		0AE100E6BE3DCB6E63297083 /* error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = error.wav; sourceTree = "<group>"; };
 		0CFBF060D8B2B4EF7E6E5CD6 /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		0D5CBA6C34560C1B3D4A75FD /* music-lofi.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "music-lofi.wav"; sourceTree = "<group>"; };
@@ -134,49 +237,123 @@
 		14F1AEDA4BCA3F064F091CC9 /* AquariumScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumScene.swift; sourceTree = "<group>"; };
 		1E51A3B1B5E735AA855D1F4C /* reveal-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-1.wav"; sourceTree = "<group>"; };
 		205785638C0B1486A88A506A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		207AC08D6151D8C7BDE7497C /* FishtankIcon-neoncleaner.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-neoncleaner.icns"; sourceTree = "<group>"; };
 		22A18EDBA822FA58C94E92D6 /* FishtankMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FishtankMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		23D8D7FFACD809373FCFD12B /* AgentRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentRegistration.swift; sourceTree = "<group>"; };
+		249E0C950F70AB4D1030E9D4 /* FishtankIcon-seahorse.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-seahorse.icns"; sourceTree = "<group>"; };
+		2A913F590D331AA667B53BF4 /* FishtankIcon-ambereel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-ambereel.png"; sourceTree = "<group>"; };
 		2D89F7D8650B80BF147C2FA7 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		2F14B53C731F68D1078B92BE /* AquariumEcology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumEcology.swift; sourceTree = "<group>"; };
 		2F3790DDE0A29B90A1320B25 /* AquariumRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumRepository.swift; sourceTree = "<group>"; };
+		326B3F388CA61CA53FEF051F /* AgentMenuIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentMenuIndicator.swift; sourceTree = "<group>"; };
+		33B4F44B67C2BB42E4ED7445 /* FishtankIcon-treasure.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-treasure.icns"; sourceTree = "<group>"; };
+		33E1E3695FEC9C1F1316E0BC /* AgentBridgeProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentBridgeProbe.swift; sourceTree = "<group>"; };
+		376F59EE755E955BCF5F8626 /* FishtankIcon-sapphire.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-sapphire.icns"; sourceTree = "<group>"; };
 		3C201E7CB2402FA29669AAC3 /* scare.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = scare.wav; sourceTree = "<group>"; };
 		3C586847E6E40E237F5E08D9 /* AquariumReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumReminder.swift; sourceTree = "<group>"; };
+		3C8A54F499F5395F20871436 /* FishtankIcon-goldenseahorse.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-goldenseahorse.icns"; sourceTree = "<group>"; };
 		40C304034CF9D3B60C53CD3C /* reveal-5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-5.wav"; sourceTree = "<group>"; };
+		41737EC7904E52D831D99536 /* AppIconCatalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AppIconCatalog.json; sourceTree = "<group>"; };
 		4244B84E1C7DFDE1C989D670 /* reveal-4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-4.wav"; sourceTree = "<group>"; };
+		42B91E22DEA111C06A1615B6 /* AppIconStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconStore.swift; sourceTree = "<group>"; };
 		4315A1F3780B59F0462629F2 /* FusionPixel.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FusionPixel.otf; sourceTree = "<group>"; };
+		447AF73055208CEA8A56BA91 /* FishtankIcon-mossback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-mossback.png"; sourceTree = "<group>"; };
 		457D3BD3D3A007D6DD8F09F5 /* FishtankPad.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FishtankPad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4590315A9F6789B39D079BE8 /* FishtankIcon-volteel.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-volteel.icns"; sourceTree = "<group>"; };
+		461F7E09030105AEB2197AD3 /* FishtankIcon-ray.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-ray.icns"; sourceTree = "<group>"; };
 		474FBB96B54270BB7A5F0739 /* place.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = place.wav; sourceTree = "<group>"; };
+		488D0D63F8824B5F38A0CAB0 /* AgentSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSettingsView.swift; sourceTree = "<group>"; };
+		48977ABD32A861624E2C52F0 /* FishtankIcon-moonjelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-moonjelly.png"; sourceTree = "<group>"; };
 		49AC129EF8C25046CD887327 /* FloatingAquariumController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingAquariumController.swift; sourceTree = "<group>"; };
+		4A94A72F5D15E1FF21D35922 /* FishtankIcon-neon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-neon.png"; sourceTree = "<group>"; };
 		4EA9A0B3EB49CD84EC548532 /* AquariumInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumInstallation.swift; sourceTree = "<group>"; };
+		4FA1B9D485774F7A08EB274E /* FishtankIcon-duet.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-duet.icns"; sourceTree = "<group>"; };
+		523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeToast.swift; sourceTree = "<group>"; };
 		54E2707DAAC79E66B40CFEFC /* reveal-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-3.wav"; sourceTree = "<group>"; };
+		5558F2ED7FB3D9B40F35B8DC /* FishtankIcon-skywing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-skywing.png"; sourceTree = "<group>"; };
+		568D8AF4A37EFC0F3E1125FA /* FishtankIcon-jelly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-jelly.icns"; sourceTree = "<group>"; };
 		5881868A637F9C34BAD3FC3D /* reveal-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-2.wav"; sourceTree = "<group>"; };
+		58E2BCAD3722C249D13C1400 /* FishtankIcon-ray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-ray.png"; sourceTree = "<group>"; };
 		5C2076F1BAFCE2C7BC0AEC4D /* reveal-0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-0.wav"; sourceTree = "<group>"; };
 		5DB4F0C2CDF6E0FA4DDAD95A /* eat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eat.wav; sourceTree = "<group>"; };
+		5E56FE4534FFD512224CB1BE /* FishtankIcon-emberbarb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-emberbarb.png"; sourceTree = "<group>"; };
+		5F092791B1FDEE8767DFE5E4 /* FishtankIcon-auroraeel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-auroraeel.png"; sourceTree = "<group>"; };
 		5F6D5B91FD2ACB3E33EEFB2C /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		5FB7BD3170D3DB822B34950D /* FishtankIcon-koi.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-koi.icns"; sourceTree = "<group>"; };
+		6004684EBE2DA843037C3973 /* FishtankIcon-blushingfire.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-blushingfire.icns"; sourceTree = "<group>"; };
+		62B2D73CF578B9F9391BB7E1 /* FishtankIcon-emberbarb.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-emberbarb.icns"; sourceTree = "<group>"; };
 		63C372E2F206F7600ED87FDD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		677857888F7B40087B5A0094 /* FishtankIcon-sapphire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-sapphire.png"; sourceTree = "<group>"; };
+		69802F2B7DC4A6664D22759B /* FishtankIcon-astraljelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-astraljelly.png"; sourceTree = "<group>"; };
+		6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAlertTone.swift; sourceTree = "<group>"; };
 		6E21A11D8DBD082E9E3C3C10 /* AquariumStatusMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumStatusMenu.swift; sourceTree = "<group>"; };
+		6F5A5169DC2CF8D5460AEDD0 /* FishtankIcon-banggai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-banggai.png"; sourceTree = "<group>"; };
+		6F7A2CC5CCD6CB999C403991 /* AppIconCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconCatalog.swift; sourceTree = "<group>"; };
+		70ACE5324423C2F8FB7D7F46 /* FishtankIcon-goldenmoorish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-goldenmoorish.png"; sourceTree = "<group>"; };
+		751DFCB97C44C9DDD33C8BB7 /* FishtankIcon-duet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-duet.png"; sourceTree = "<group>"; };
 		755026CB7C674E4129BC8342 /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		7648D61A7456088BB5038C52 /* AquariumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumView.swift; sourceTree = "<group>"; };
+		79A84EBB02C5BAD7CCED7594 /* FishtankIcon-turtle.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-turtle.icns"; sourceTree = "<group>"; };
+		7C368DC9BB68608363A84416 /* ClaudeHookEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeHookEvent.swift; sourceTree = "<group>"; };
+		81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelFormControls.swift; sourceTree = "<group>"; };
 		820E526EED379C270A5A079A /* PixelArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArt.swift; sourceTree = "<group>"; };
+		8AA9B0A3561383BB4766C2CC /* AquariumRenderWatchdog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumRenderWatchdog.swift; sourceTree = "<group>"; };
 		903860297660714FD3E26CC4 /* merge.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = merge.wav; sourceTree = "<group>"; };
+		92868452F3022F9A2BAF92E6 /* FishtankIcon-leviathanfry.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-leviathanfry.icns"; sourceTree = "<group>"; };
 		93BF8A10A32A6D67E906B64A /* FishCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishCatalog.swift; sourceTree = "<group>"; };
+		949AA9DEAA860C5EB9F60CA9 /* FishtankIcon-moon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-moon.png"; sourceTree = "<group>"; };
+		95E00EDD3894E4BDE69B8FEF /* FishtankIcon-neoncleaner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-neoncleaner.png"; sourceTree = "<group>"; };
 		98AA3153D5259DC31D4CE18B /* FishtankPadUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FishtankPadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BAFACEDD31830F44F122DE5 /* FishtankIcon-neon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-neon.icns"; sourceTree = "<group>"; };
+		9C1A5AFD1944196A2A1A4F1E /* ClaudeHookValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeHookValidation.swift; sourceTree = "<group>"; };
+		9E1A15EA31BAEF7912B48C37 /* FishtankIcon-koi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-koi.png"; sourceTree = "<group>"; };
+		A1E47A33DE85703204586E20 /* MenuFishArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFishArt.swift; sourceTree = "<group>"; };
+		A32E6B92DFB9AB98C50C8D5F /* FishtankIcon-mossback.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-mossback.icns"; sourceTree = "<group>"; };
+		A426E461CC4313AA1C44D9ED /* FishtankIcon-puffer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-puffer.png"; sourceTree = "<group>"; };
+		A546024B20CBA2F841D2F874 /* FishtankIcon-banggai.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-banggai.icns"; sourceTree = "<group>"; };
+		A5FB059E1C3F405E44971FCA /* FishtankIcon-coral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-coral.png"; sourceTree = "<group>"; };
 		A78E9E4D605765D9EEE989BC /* AquariumBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumBackup.swift; sourceTree = "<group>"; };
 		AA27B224D5E187D3CD441BCC /* release.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = release.wav; sourceTree = "<group>"; };
 		AD66598B45291DEF2F6A7435 /* music-tide.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "music-tide.wav"; sourceTree = "<group>"; };
 		B0257215479F455DC129D236 /* zap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = zap.wav; sourceTree = "<group>"; };
+		B1B2BC8F55BDFBA18554B595 /* FishtankIcon-coral.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-coral.icns"; sourceTree = "<group>"; };
+		B612FBA1959050965C63DF87 /* FishtankIcon-greyminnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-greyminnow.png"; sourceTree = "<group>"; };
 		B6FCD6FDBB8EF612FCF2E5FB /* AquariumSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumSound.swift; sourceTree = "<group>"; };
+		B7A048EDF3347AC336C0AD6E /* FishtankIcon-treasure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-treasure.png"; sourceTree = "<group>"; };
 		B8851DA0A974364A26FC432C /* feed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = feed.wav; sourceTree = "<group>"; };
+		B8A780F0B451C4E069B0C510 /* AgentSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSettingsStore.swift; sourceTree = "<group>"; };
 		B936CAB86D541E5747F2BF24 /* FishtankUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishtankUITests.swift; sourceTree = "<group>"; };
 		BC57FBC64D6E1EFA75653FCD /* FishtankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishtankApp.swift; sourceTree = "<group>"; };
+		BF1997B942AB7C5C3F73F635 /* FishtankIcon-crystal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-crystal.icns"; sourceTree = "<group>"; };
+		C4DC29A5E7EB70AE75070410 /* claude-hook.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = "claude-hook.py"; sourceTree = "<group>"; };
 		C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumSave.swift; sourceTree = "<group>"; };
+		C85966FA782641673BC58570 /* FishtankIcon-leviathanfry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-leviathanfry.png"; sourceTree = "<group>"; };
+		CB5AD57DBB9FF2F1EBDF5C05 /* FishtankIcon-crystal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-crystal.png"; sourceTree = "<group>"; };
 		CEB13DAD500ACB7F64467B7D /* AquariumExtras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumExtras.swift; sourceTree = "<group>"; };
+		CF19F21D069CE5ECA3F8DF55 /* FishtankIcon-turtle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-turtle.png"; sourceTree = "<group>"; };
 		CF1D649D83FDAEDC2CB5B78F /* NativeAquariumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAquariumView.swift; sourceTree = "<group>"; };
+		D1089014CEF5CDEC85F41C84 /* FishtankIcon-goldenmoorish.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-goldenmoorish.icns"; sourceTree = "<group>"; };
+		D28EA2C44B6FCC4F68D6664F /* FishtankIcon-ambereel.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-ambereel.icns"; sourceTree = "<group>"; };
+		D55BA44CD7B79DB959044F8F /* AgentToastStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentToastStack.swift; sourceTree = "<group>"; };
+		D6B1967027B95D9812EEFE28 /* AppIconArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconArt.swift; sourceTree = "<group>"; };
 		DC5AA549CCF05B9B722E0142 /* AquariumWindowDrag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumWindowDrag.swift; sourceTree = "<group>"; };
+		DDE9DCB8F9E307E98AF84098 /* FishtankIcon-seahorse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-seahorse.png"; sourceTree = "<group>"; };
 		E0540F126C92218A24B83B22 /* AquariumBackdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumBackdrop.swift; sourceTree = "<group>"; };
 		E0A971F53FBBD44C0C6D9187 /* music-chiptune.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "music-chiptune.wav"; sourceTree = "<group>"; };
+		E46AA2B7817F464A130A91F6 /* FishtankIcon-greyminnow.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-greyminnow.icns"; sourceTree = "<group>"; };
+		E4AAEA34194F24F8DE3A7F40 /* FishtankIcon-astraljelly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-astraljelly.icns"; sourceTree = "<group>"; };
+		E78EABC33E0846D7C83C214C /* FishtankIcon-bandedkrait.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-bandedkrait.icns"; sourceTree = "<group>"; };
+		E82D797A72EFCC848D58E8FC /* ClaudeHookBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeHookBridge.swift; sourceTree = "<group>"; };
 		ECBFD161A9DE7349BB83D887 /* AquariumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumStore.swift; sourceTree = "<group>"; };
+		ED965F0BAE946487E7C8B35A /* FishtankIcon-moon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-moon.icns"; sourceTree = "<group>"; };
 		EEA12903523ACC4239C7DD86 /* select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = select.wav; sourceTree = "<group>"; };
 		EEE765D980B7F0B28B3A7174 /* breed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = breed.wav; sourceTree = "<group>"; };
+		F2125ECC98B9059E7039B0FD /* FishtankIcon-blushingfire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-blushingfire.png"; sourceTree = "<group>"; };
+		F528E4C7840A42CF03CCE9BB /* FishtankIcon-goldenseahorse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-goldenseahorse.png"; sourceTree = "<group>"; };
+		F83AC8E9F1789EC83106B7D0 /* FishtankIcon-moonjelly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-moonjelly.icns"; sourceTree = "<group>"; };
+		F95E0B78255607D22C75906D /* FishtankIcon-skywing.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-skywing.icns"; sourceTree = "<group>"; };
+		FA23F99CB4D0CE430259EFE0 /* FishtankIcon-bandedkrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-bandedkrait.png"; sourceTree = "<group>"; };
+		FD4C594984477500C5CD64B1 /* FishtankIcon-jelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-jelly.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -230,16 +407,23 @@
 		8905A0BA92C9071FF5B49738 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */,
+				326B3F388CA61CA53FEF051F /* AgentMenuIndicator.swift */,
+				23D8D7FFACD809373FCFD12B /* AgentRegistration.swift */,
+				D55BA44CD7B79DB959044F8F /* AgentToastStack.swift */,
+				6F7A2CC5CCD6CB999C403991 /* AppIconCatalog.swift */,
 				E0540F126C92218A24B83B22 /* AquariumBackdrop.swift */,
 				A78E9E4D605765D9EEE989BC /* AquariumBackup.swift */,
 				2F14B53C731F68D1078B92BE /* AquariumEcology.swift */,
 				CEB13DAD500ACB7F64467B7D /* AquariumExtras.swift */,
 				4EA9A0B3EB49CD84EC548532 /* AquariumInstallation.swift */,
 				3C586847E6E40E237F5E08D9 /* AquariumReminder.swift */,
+				8AA9B0A3561383BB4766C2CC /* AquariumRenderWatchdog.swift */,
 				2F3790DDE0A29B90A1320B25 /* AquariumRepository.swift */,
 				C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */,
 				08DDAE8D46170789C97C9B78 /* AquariumState.swift */,
 				DC5AA549CCF05B9B722E0142 /* AquariumWindowDrag.swift */,
+				7C368DC9BB68608363A84416 /* ClaudeHookEvent.swift */,
 				062724B13302449E27CDDB3A /* DecorCatalog.swift */,
 				93BF8A10A32A6D67E906B64A /* FishCatalog.swift */,
 			);
@@ -250,20 +434,99 @@
 			isa = PBXGroup;
 			children = (
 				5F6D5B91FD2ACB3E33EEFB2C /* LICENSE */,
+				AA980C08536030586E2607AC /* AppIcons */,
 				1AC62E5FDCC783AB92FBE9DE /* Audio */,
 				507FB52A92292063D65FC67F /* Fonts */,
 				C84AC3C3CE09E5C489935883 /* Resources */,
 				ED7FF8FC487CABA73C3231A7 /* Sources */,
+				A8351B84F232C268EF9D38BB /* tools */,
 				3C68DAADCB2216C248BFE225 /* UITests */,
 				ABF71D49E0806853FC0AD15A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		A8351B84F232C268EF9D38BB /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				C4DC29A5E7EB70AE75070410 /* claude-hook.py */,
+			);
+			path = tools;
+			sourceTree = "<group>";
+		};
+		AA980C08536030586E2607AC /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				41737EC7904E52D831D99536 /* AppIconCatalog.json */,
+				D28EA2C44B6FCC4F68D6664F /* FishtankIcon-ambereel.icns */,
+				2A913F590D331AA667B53BF4 /* FishtankIcon-ambereel.png */,
+				E4AAEA34194F24F8DE3A7F40 /* FishtankIcon-astraljelly.icns */,
+				69802F2B7DC4A6664D22759B /* FishtankIcon-astraljelly.png */,
+				0395FDE5DFAE781FA58B7B3C /* FishtankIcon-auroraeel.icns */,
+				5F092791B1FDEE8767DFE5E4 /* FishtankIcon-auroraeel.png */,
+				E78EABC33E0846D7C83C214C /* FishtankIcon-bandedkrait.icns */,
+				FA23F99CB4D0CE430259EFE0 /* FishtankIcon-bandedkrait.png */,
+				A546024B20CBA2F841D2F874 /* FishtankIcon-banggai.icns */,
+				6F5A5169DC2CF8D5460AEDD0 /* FishtankIcon-banggai.png */,
+				6004684EBE2DA843037C3973 /* FishtankIcon-blushingfire.icns */,
+				F2125ECC98B9059E7039B0FD /* FishtankIcon-blushingfire.png */,
+				B1B2BC8F55BDFBA18554B595 /* FishtankIcon-coral.icns */,
+				A5FB059E1C3F405E44971FCA /* FishtankIcon-coral.png */,
+				BF1997B942AB7C5C3F73F635 /* FishtankIcon-crystal.icns */,
+				CB5AD57DBB9FF2F1EBDF5C05 /* FishtankIcon-crystal.png */,
+				4FA1B9D485774F7A08EB274E /* FishtankIcon-duet.icns */,
+				751DFCB97C44C9DDD33C8BB7 /* FishtankIcon-duet.png */,
+				62B2D73CF578B9F9391BB7E1 /* FishtankIcon-emberbarb.icns */,
+				5E56FE4534FFD512224CB1BE /* FishtankIcon-emberbarb.png */,
+				D1089014CEF5CDEC85F41C84 /* FishtankIcon-goldenmoorish.icns */,
+				70ACE5324423C2F8FB7D7F46 /* FishtankIcon-goldenmoorish.png */,
+				3C8A54F499F5395F20871436 /* FishtankIcon-goldenseahorse.icns */,
+				F528E4C7840A42CF03CCE9BB /* FishtankIcon-goldenseahorse.png */,
+				E46AA2B7817F464A130A91F6 /* FishtankIcon-greyminnow.icns */,
+				B612FBA1959050965C63DF87 /* FishtankIcon-greyminnow.png */,
+				568D8AF4A37EFC0F3E1125FA /* FishtankIcon-jelly.icns */,
+				FD4C594984477500C5CD64B1 /* FishtankIcon-jelly.png */,
+				5FB7BD3170D3DB822B34950D /* FishtankIcon-koi.icns */,
+				9E1A15EA31BAEF7912B48C37 /* FishtankIcon-koi.png */,
+				92868452F3022F9A2BAF92E6 /* FishtankIcon-leviathanfry.icns */,
+				C85966FA782641673BC58570 /* FishtankIcon-leviathanfry.png */,
+				ED965F0BAE946487E7C8B35A /* FishtankIcon-moon.icns */,
+				949AA9DEAA860C5EB9F60CA9 /* FishtankIcon-moon.png */,
+				F83AC8E9F1789EC83106B7D0 /* FishtankIcon-moonjelly.icns */,
+				48977ABD32A861624E2C52F0 /* FishtankIcon-moonjelly.png */,
+				A32E6B92DFB9AB98C50C8D5F /* FishtankIcon-mossback.icns */,
+				447AF73055208CEA8A56BA91 /* FishtankIcon-mossback.png */,
+				9BAFACEDD31830F44F122DE5 /* FishtankIcon-neon.icns */,
+				4A94A72F5D15E1FF21D35922 /* FishtankIcon-neon.png */,
+				207AC08D6151D8C7BDE7497C /* FishtankIcon-neoncleaner.icns */,
+				95E00EDD3894E4BDE69B8FEF /* FishtankIcon-neoncleaner.png */,
+				0ADBC20D606C907AA3FC4CDA /* FishtankIcon-puffer.icns */,
+				A426E461CC4313AA1C44D9ED /* FishtankIcon-puffer.png */,
+				461F7E09030105AEB2197AD3 /* FishtankIcon-ray.icns */,
+				58E2BCAD3722C249D13C1400 /* FishtankIcon-ray.png */,
+				376F59EE755E955BCF5F8626 /* FishtankIcon-sapphire.icns */,
+				677857888F7B40087B5A0094 /* FishtankIcon-sapphire.png */,
+				249E0C950F70AB4D1030E9D4 /* FishtankIcon-seahorse.icns */,
+				DDE9DCB8F9E307E98AF84098 /* FishtankIcon-seahorse.png */,
+				F95E0B78255607D22C75906D /* FishtankIcon-skywing.icns */,
+				5558F2ED7FB3D9B40F35B8DC /* FishtankIcon-skywing.png */,
+				33B4F44B67C2BB42E4ED7445 /* FishtankIcon-treasure.icns */,
+				B7A048EDF3347AC336C0AD6E /* FishtankIcon-treasure.png */,
+				79A84EBB02C5BAD7CCED7594 /* FishtankIcon-turtle.icns */,
+				CF19F21D069CE5ECA3F8DF55 /* FishtankIcon-turtle.png */,
+				4590315A9F6789B39D079BE8 /* FishtankIcon-volteel.icns */,
+				01E8D85EED9DFE4AAFBE4D2F /* FishtankIcon-volteel.png */,
+			);
+			name = AppIcons;
+			path = Sources/Resources/AppIcons;
+			sourceTree = "<group>";
+		};
 		AB28CF5E85252E248A6DE5A4 /* Rendering */ = {
 			isa = PBXGroup;
 			children = (
+				D6B1967027B95D9812EEFE28 /* AppIconArt.swift */,
 				14F1AEDA4BCA3F064F091CC9 /* AquariumScene.swift */,
 				016AF13E416FF420333DAEC3 /* DecorArt.swift */,
+				A1E47A33DE85703204586E20 /* MenuFishArt.swift */,
 				CF1D649D83FDAEDC2CB5B78F /* NativeAquariumView.swift */,
 				820E526EED379C270A5A079A /* PixelArt.swift */,
 			);
@@ -273,6 +536,7 @@
 		ABB268559A6E961E6269E5BB /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				084B62018D48709FB8FA9A3A /* AgentAlertSound.swift */,
 				B6FCD6FDBB8EF612FCF2E5FB /* AquariumSound.swift */,
 			);
 			path = Audio;
@@ -313,11 +577,20 @@
 		F964CBB6A3BC3F6BAEA0D529 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				33E1E3695FEC9C1F1316E0BC /* AgentBridgeProbe.swift */,
+				B8A780F0B451C4E069B0C510 /* AgentSettingsStore.swift */,
+				488D0D63F8824B5F38A0CAB0 /* AgentSettingsView.swift */,
+				01E29E5CC8EC604FB0477EAA /* AppIconSettingsView.swift */,
+				42B91E22DEA111C06A1615B6 /* AppIconStore.swift */,
 				6E21A11D8DBD082E9E3C3C10 /* AquariumStatusMenu.swift */,
 				ECBFD161A9DE7349BB83D887 /* AquariumStore.swift */,
 				7648D61A7456088BB5038C52 /* AquariumView.swift */,
+				E82D797A72EFCC848D58E8FC /* ClaudeHookBridge.swift */,
+				9C1A5AFD1944196A2A1A4F1E /* ClaudeHookValidation.swift */,
+				523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */,
 				BC57FBC64D6E1EFA75653FCD /* FishtankApp.swift */,
 				49AC129EF8C25046CD887327 /* FloatingAquariumController.swift */,
+				81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */,
 				06838F8CB341340064B222C2 /* PixelTheme.swift */,
 				043BC30D96437306BA43ED0D /* SavedGamePanel.swift */,
 			);
@@ -464,7 +737,66 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83813DA682F95036EAD36E54 /* AppIconCatalog.json in Resources */,
 				BF36B6BCEF2228EA72362D72 /* Assets.xcassets in Resources */,
+				4606103A82BFB62596F8ABD9 /* FishtankIcon-ambereel.icns in Resources */,
+				97763341A4675E377697B6B1 /* FishtankIcon-ambereel.png in Resources */,
+				4B8321E410C482F383DC6501 /* FishtankIcon-astraljelly.icns in Resources */,
+				30D313AC7BEEC7464DEDA45B /* FishtankIcon-astraljelly.png in Resources */,
+				2C5AA9AD8C7A1A27B0086E67 /* FishtankIcon-auroraeel.icns in Resources */,
+				E316D8E01EC7080161EFC27C /* FishtankIcon-auroraeel.png in Resources */,
+				49E240BE33EA61CAD4590B6C /* FishtankIcon-bandedkrait.icns in Resources */,
+				0F9FF34B6469ED56F8DA21D5 /* FishtankIcon-bandedkrait.png in Resources */,
+				8300D2F77C42DD9D08803EBF /* FishtankIcon-banggai.icns in Resources */,
+				81D793E70A2897C82D86AA85 /* FishtankIcon-banggai.png in Resources */,
+				C6786F3F023A294B4AD47438 /* FishtankIcon-blushingfire.icns in Resources */,
+				B7A2D608CB1D681E9B81F742 /* FishtankIcon-blushingfire.png in Resources */,
+				27CC37EED8B8681120555D38 /* FishtankIcon-coral.icns in Resources */,
+				D97F19051BD9EFF65551DAC5 /* FishtankIcon-coral.png in Resources */,
+				7E57AC37A25AE4FCFB250195 /* FishtankIcon-crystal.icns in Resources */,
+				440E211C629820EDFF5B03E8 /* FishtankIcon-crystal.png in Resources */,
+				04BCBDFC3344664873E0F3CD /* FishtankIcon-duet.icns in Resources */,
+				5588BE58D0A6F79EEF156E96 /* FishtankIcon-duet.png in Resources */,
+				6476568CE3086BAB5CA2D99D /* FishtankIcon-emberbarb.icns in Resources */,
+				5041B0CC878803ACBDC660C2 /* FishtankIcon-emberbarb.png in Resources */,
+				CFCDEF8B2883B710F03A055C /* FishtankIcon-goldenmoorish.icns in Resources */,
+				25F7C63280990F9EC197704E /* FishtankIcon-goldenmoorish.png in Resources */,
+				9B38CF30D373F66E87F06A3B /* FishtankIcon-goldenseahorse.icns in Resources */,
+				E893BE32A46D8E4E0B74ED53 /* FishtankIcon-goldenseahorse.png in Resources */,
+				06C315AC0C0DBF815A75D0EE /* FishtankIcon-greyminnow.icns in Resources */,
+				8D93EBCAF2CEA800F6D5D599 /* FishtankIcon-greyminnow.png in Resources */,
+				CEF22F17DFCE42F85390F858 /* FishtankIcon-jelly.icns in Resources */,
+				BD51BFCD67A3FED44066C6A4 /* FishtankIcon-jelly.png in Resources */,
+				A9CF513C72C93C60C639883A /* FishtankIcon-koi.icns in Resources */,
+				DEAAE0A0B5112A3D7147A8C9 /* FishtankIcon-koi.png in Resources */,
+				D5EA3266456CF8ECE54196B8 /* FishtankIcon-leviathanfry.icns in Resources */,
+				BD16E0F811D39CFE2529422E /* FishtankIcon-leviathanfry.png in Resources */,
+				443F96C67EAF7C3C22EFC5FC /* FishtankIcon-moon.icns in Resources */,
+				94787611FBF08BFAF41BE53A /* FishtankIcon-moon.png in Resources */,
+				5D406B52C98E2B50FD5E8913 /* FishtankIcon-moonjelly.icns in Resources */,
+				458346FB819484A5F246A194 /* FishtankIcon-moonjelly.png in Resources */,
+				52B1A32ACEA7D99C4DFCBFAB /* FishtankIcon-mossback.icns in Resources */,
+				7C5F76C5F66203EBBA94891F /* FishtankIcon-mossback.png in Resources */,
+				957C8CE32D9438D3E94962E0 /* FishtankIcon-neon.icns in Resources */,
+				4670391292724815FF1DAE50 /* FishtankIcon-neon.png in Resources */,
+				EEBF8444E760C430B89A3096 /* FishtankIcon-neoncleaner.icns in Resources */,
+				0BBED29FF8D9E67DF89C72DE /* FishtankIcon-neoncleaner.png in Resources */,
+				2AC41D7810FEAAE035465860 /* FishtankIcon-puffer.icns in Resources */,
+				ADB9667CDA86573C61713756 /* FishtankIcon-puffer.png in Resources */,
+				5F220190E7DC15A09EDE6863 /* FishtankIcon-ray.icns in Resources */,
+				6A296972DDB61EE72B8265F3 /* FishtankIcon-ray.png in Resources */,
+				115203198EC186180D480E8B /* FishtankIcon-sapphire.icns in Resources */,
+				E29BA9AC9C629670ECE3C7F7 /* FishtankIcon-sapphire.png in Resources */,
+				AF362EBD278F45E4AAA6E284 /* FishtankIcon-seahorse.icns in Resources */,
+				2BD8BC9D5CF23CB453C3FE72 /* FishtankIcon-seahorse.png in Resources */,
+				B03899BB422B27217A724C61 /* FishtankIcon-skywing.icns in Resources */,
+				99E0B305B299455EF3ADBFEB /* FishtankIcon-skywing.png in Resources */,
+				9F385568F1A9B17B26EB968D /* FishtankIcon-treasure.icns in Resources */,
+				2112F31286D4E414D0AC6463 /* FishtankIcon-treasure.png in Resources */,
+				CBB5578DBD4DAD6C06608224 /* FishtankIcon-turtle.icns in Resources */,
+				8BFB428D8EB2C6570971ABD4 /* FishtankIcon-turtle.png in Resources */,
+				5C970079D9501C1C4AE75171 /* FishtankIcon-volteel.icns in Resources */,
+				AD178057C2A581893E704C11 /* FishtankIcon-volteel.png in Resources */,
 				775610C869FB6FCC9DDF88CC /* FishtankIcon.icns in Resources */,
 				F413F28DDAE206CEA83ABE41 /* FusionPixel.otf in Resources */,
 				9E08915E02E3AFD3377AF041 /* LICENSE in Resources */,
@@ -472,6 +804,7 @@
 				409ECC8A399E91F690C0A229 /* OFL.txt in Resources */,
 				C663FEDFE12A71CC1F8BF355 /* PrivacyInfo.xcprivacy in Resources */,
 				08A00CD6458217BA6EC07385 /* breed.wav in Resources */,
+				C062ABD5FFDA0FA90BF753CC /* claude-hook.py in Resources */,
 				2DCDA77CC026B0F99AD937E5 /* click.wav in Resources */,
 				15CD9278A372052CDB09EE80 /* eat.wav in Resources */,
 				CB9F74393595FF191CD8CA83 /* error.wav in Resources */,
@@ -501,12 +834,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89CB12A89E448541193AD21C /* AgentAlertSound.swift in Sources */,
+				CB99E3AC359CD48898AE026D /* AgentAlertTone.swift in Sources */,
+				4B0EA63E4E403A447A83C48F /* AgentBridgeProbe.swift in Sources */,
+				ABA088ACDD7429A3C7557CE8 /* AgentMenuIndicator.swift in Sources */,
+				73AB1F266972D4655BCB8B9B /* AgentRegistration.swift in Sources */,
+				988CE7191175FE1B1BD07C51 /* AgentSettingsStore.swift in Sources */,
+				2F2AB4749299F35BAB865ECB /* AgentSettingsView.swift in Sources */,
+				9EE0C89EDEFFCC998310DBB8 /* AgentToastStack.swift in Sources */,
+				4F7FF1A737FC4B10D284A2A0 /* AppIconArt.swift in Sources */,
+				FECF1BDE25D7DB765094ACBF /* AppIconCatalog.swift in Sources */,
+				16F37CA124C17EE5FF5E7C2C /* AppIconSettingsView.swift in Sources */,
+				8D81C70D684518930679F4F8 /* AppIconStore.swift in Sources */,
 				F5BE3927A6C13FDB6FB83D67 /* AquariumBackdrop.swift in Sources */,
 				46C835837A6AC1AD3B9E0DE9 /* AquariumBackup.swift in Sources */,
 				489F557FEC58883E5B40CB95 /* AquariumEcology.swift in Sources */,
 				D964CE24670CA2820DBABDA1 /* AquariumExtras.swift in Sources */,
 				8D199D34CE9B594B72FEBD8A /* AquariumInstallation.swift in Sources */,
 				F0C470FDEF7D3D5406B0DFD4 /* AquariumReminder.swift in Sources */,
+				BE8D4004C107EB8DB641354C /* AquariumRenderWatchdog.swift in Sources */,
 				1A781B97C9DE34389BCE15B0 /* AquariumRepository.swift in Sources */,
 				4DB5D4ABC40112B189D9FFEF /* AquariumSave.swift in Sources */,
 				A97B52F9917E05B722D23FF3 /* AquariumScene.swift in Sources */,
@@ -516,13 +862,19 @@
 				B2A84FD2A12E358E7A2BC61A /* AquariumStore.swift in Sources */,
 				C46ED360FECDB5A630BE1BD0 /* AquariumView.swift in Sources */,
 				F9BF98A2B9C9897ACF198BB5 /* AquariumWindowDrag.swift in Sources */,
+				FC9A8D70ADA12ABD0EBDE0A8 /* ClaudeHookBridge.swift in Sources */,
+				08C95ADC02B099701F206864 /* ClaudeHookEvent.swift in Sources */,
+				8DB69B5972404104BE32BE54 /* ClaudeHookValidation.swift in Sources */,
+				3BA0A397796E4BC81B3564F4 /* ClaudeToast.swift in Sources */,
 				6D2C08BC4F89BF0711F5A25C /* DecorArt.swift in Sources */,
 				6D292E08246ADC31D9AD3C1B /* DecorCatalog.swift in Sources */,
 				F046787B4E51F2BB6C04F879 /* FishCatalog.swift in Sources */,
 				6376EE98B2E051FD8DE32B2F /* FishtankApp.swift in Sources */,
 				0E9A823E18034352F380D3F8 /* FloatingAquariumController.swift in Sources */,
+				5DF7A45743076A365DA8CF6A /* MenuFishArt.swift in Sources */,
 				353B49362074C875A84A2142 /* NativeAquariumView.swift in Sources */,
 				F8EDB552C7B5273181141F86 /* PixelArt.swift in Sources */,
+				D029E3FC9881F2B13655F383 /* PixelFormControls.swift in Sources */,
 				648E33DE5967593A3D0BCD18 /* PixelTheme.swift in Sources */,
 				78B6A574822980362B80FEA2 /* SavedGamePanel.swift in Sources */,
 			);
@@ -540,12 +892,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C73A49CAE9094B4BA0A2392 /* AgentAlertSound.swift in Sources */,
+				5E252D884A26CD90D8CF0A91 /* AgentAlertTone.swift in Sources */,
+				7B2F92B7C45F08D6606B4C64 /* AgentBridgeProbe.swift in Sources */,
+				79D97700760C87EC0081FD81 /* AgentMenuIndicator.swift in Sources */,
+				359DF5C466A37BED0E790DE7 /* AgentRegistration.swift in Sources */,
+				327DCF29AE3DE618A32C07B4 /* AgentSettingsStore.swift in Sources */,
+				07EE8AE3A858E2301696E6E7 /* AgentSettingsView.swift in Sources */,
+				3C1F2D0A453256E66144C57F /* AgentToastStack.swift in Sources */,
+				C978C62AC84EF12EAF5CB5EC /* AppIconArt.swift in Sources */,
+				7B20062079D1936992D2A0D9 /* AppIconCatalog.swift in Sources */,
+				173D9B663E4D615940F55294 /* AppIconSettingsView.swift in Sources */,
+				40833137496470A2B4516CB9 /* AppIconStore.swift in Sources */,
 				DEFD873ED92D237B92D626D6 /* AquariumBackdrop.swift in Sources */,
 				AE69069A2973D05D98370D89 /* AquariumBackup.swift in Sources */,
 				02F7FD90B07608CDBBE40D68 /* AquariumEcology.swift in Sources */,
 				8D12595A2CFD2EC89D8CC8CB /* AquariumExtras.swift in Sources */,
 				DC45CAA723A485B153B22C03 /* AquariumInstallation.swift in Sources */,
 				FA163029F1D7CFBAD9A9BC85 /* AquariumReminder.swift in Sources */,
+				018270C9A4A97EDA49D3F22E /* AquariumRenderWatchdog.swift in Sources */,
 				D605774BD9038AA890368994 /* AquariumRepository.swift in Sources */,
 				A1821CE4E53E96B9E8FFBB8A /* AquariumSave.swift in Sources */,
 				DDFAFB643A08D113095AE451 /* AquariumScene.swift in Sources */,
@@ -555,13 +920,19 @@
 				711781CADBDBC6F2CBAAA7BB /* AquariumStore.swift in Sources */,
 				F9BCD861215EFD14D8574A5A /* AquariumView.swift in Sources */,
 				794C2C913E883E038C0B92D4 /* AquariumWindowDrag.swift in Sources */,
+				4CDBC11F8543B4916BA84FB0 /* ClaudeHookBridge.swift in Sources */,
+				90CB8FE51B9A1EB4F1723AF8 /* ClaudeHookEvent.swift in Sources */,
+				1A11DD4D3247793316616C38 /* ClaudeHookValidation.swift in Sources */,
+				862CCA2FBF73DA6BF6B32F57 /* ClaudeToast.swift in Sources */,
 				EDBC3C81A6103C059B37C4D5 /* DecorArt.swift in Sources */,
 				8898745DE187D2745F699F95 /* DecorCatalog.swift in Sources */,
 				F246B66359FA9E7951FD8623 /* FishCatalog.swift in Sources */,
 				0F5B8713D5E050E444BA92E8 /* FishtankApp.swift in Sources */,
 				8D4CC360D9AE87D3BE271A74 /* FloatingAquariumController.swift in Sources */,
+				72F3E01A327636D6AEFFBA61 /* MenuFishArt.swift in Sources */,
 				953F8BBAE8446BAA301D98DB /* NativeAquariumView.swift in Sources */,
 				87371C73B2EF3F4DD638C0EB /* PixelArt.swift in Sources */,
+				9F917D29BDBB336B3DE10FB3 /* PixelFormControls.swift in Sources */,
 				9D52FA3196C4AC6487AFD3A6 /* PixelTheme.swift in Sources */,
 				773BD9762E5F7629B306455B /* SavedGamePanel.swift in Sources */,
 			);
@@ -673,7 +1044,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -695,7 +1066,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.4.0;
+				MARKETING_VERSION = 0.5.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -799,7 +1170,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -815,7 +1186,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.4.0;
+				MARKETING_VERSION = 0.5.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

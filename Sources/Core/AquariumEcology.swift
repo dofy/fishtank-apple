@@ -138,6 +138,22 @@ struct AquariumEcology {
         return "scare"
     }
 
+    /// Visual-only startle: never changes fish, breeding RNG or saved progress.
+    mutating func shake() {
+        guard !reducedMotion else { return }
+        for id in swimmers.keys.sorted(by: { $0.uuidString < $1.uuidString }) {
+            guard swimmers[id]?.withdrawal == nil else { continue }
+            interrupt(id)
+            guard var a = swimmers[id] else { continue }
+            a.scared = 3 + random.next() * 2
+            a.shocked = 0; a.discharging = 0; a.dropping = false
+            a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.y))
+            a.direction = a.x < 65 ? 1 : a.x > 255 ? -1 : random.next() < 0.5 ? -1 : 1
+            a.zapCooldown = max(a.zapCooldown, 6)
+            swimmers[id] = a
+        }
+    }
+
     private mutating func interrupt(_ id: UUID) {
         swimmers[id]?.school = nil; swimmers[id]?.visit = nil; swimmers[id]?.sceneryCooldown = 10
         for other in Array(swimmers.keys) where swimmers[other]?.school == id {

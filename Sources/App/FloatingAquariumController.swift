@@ -9,6 +9,20 @@ final class AquariumApplicationDelegate: NSObject, NSApplicationDelegate {
     let store: AquariumStore
 
     override init() {
+        // CLI-only credential discovery runs before the store and duplicate-instance
+        // guard. The signed app reads its own sandbox; callers capture stdout privately.
+        if ProcessInfo.processInfo.arguments.contains("--export-claude-bridge") || ProcessInfo.processInfo.arguments.contains("--export-agent-bridge") {
+            let url = ClaudeHookBridge.defaultConfigurationURL
+            guard let data = try? Data(contentsOf: url), data.count <= 4096 else { exit(1) }
+            FileHandle.standardOutput.write(data)
+            exit(0)
+        }
+        #if DEBUG
+        if let index = ProcessInfo.processInfo.arguments.firstIndex(of: "--validate-claude-hooks"),
+           ProcessInfo.processInfo.arguments.count > index + 1 {
+            runClaudeHookValidation(directory: URL(fileURLWithPath: ProcessInfo.processInfo.arguments[index + 1]))
+        }
+        #endif
         // Build products may share the installed app's identity. A second copy
         // must never start another store or schedule notifications for that save.
         if let id = Bundle.main.bundleIdentifier,
@@ -31,10 +45,7 @@ final class AquariumApplicationDelegate: NSObject, NSApplicationDelegate {
         }
         // Establish the runtime app icon before the notification center creates
         // its sender record (the store registers reminders during initialization).
-        if let url = Bundle.main.url(forResource: "FishtankIcon", withExtension: "icns"),
-           let icon = NSImage(contentsOf: url) {
-            NSApplication.shared.applicationIconImage = icon
-        }
+        AppIconStore.restoreRuntime()
         store = AquariumStore()
         super.init()
         store.restoreMigratedPlacementOnce()
@@ -56,6 +67,7 @@ final class AquariumApplicationDelegate: NSObject, NSApplicationDelegate {
             return
         }
         aquarium.show()
+        aquarium.startClaudeHooks()
         statusMenu = AquariumStatusMenu(store: store, aquarium: aquarium)
         if ProcessInfo.processInfo.arguments.contains("--test-notification") {
             Task { await store.testNotification() }
@@ -100,17 +112,157 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         }
     }
     @Published private(set) var isVisible = false
+    @Published private(set) var claudeSummary = "Claude Code · 正在启动接收器"
+    let agentSettings = AgentSettingsStore()
+    lazy var appIcons = AppIconStore(discovered: { [weak self] in self?.store.state.discovered ?? [] })
+    var claudeHooksEnabled: Bool {
+        get { agentSettings.agent("claude-code")?.enabled == true }
+        set { if var agent = agentSettings.agent("claude-code") { agent.enabled = newValue; agentSettings.update(agent) } }
+    }
+    var codexHooksEnabled: Bool {
+        get { agentSettings.agent("codex")?.enabled == true }
+        set { if var agent = agentSettings.agent("codex") { agent.enabled = newValue; agentSettings.update(agent) } }
+    }
+    @Published var agentSoundVolume = UserDefaults.standard.object(forKey: "agentSounds.volume") as? Double ?? 0.32 {
+        didSet {
+            UserDefaults.standard.set(agentSoundVolume, forKey: "agentSounds.volume")
+            agentAlertSound.setVolume(Float(agentSoundVolume))
+        }
+    }
+    @Published var agentSoundsEnabled = UserDefaults.standard.object(forKey: "agentSounds.enabled") as? Bool ?? true {
+        didSet {
+            UserDefaults.standard.set(agentSoundsEnabled, forKey: "agentSounds.enabled")
+            agentAlertSound.setEnabled(agentSoundsEnabled)
+        }
+    }
+    @Published private(set) var agentSoundError: String?
+    private lazy var agentAlertSound: AgentAlertSound = {
+        let sound = AgentAlertSound()
+        sound.setEnabled(agentSoundsEnabled)
+        sound.setVolume(Float(agentSoundVolume))
+        sound.reportError = { [weak self] message in self?.agentSoundError = message }
+        return sound
+    }()
+    func previewAgentSound(status: ClaudeHookEvent.Status) {
+        guard agentSoundsEnabled else { return }
+        agentAlertSound.preview(status: status)
+    }
+
+    var codexMenuSummary: String { claudeLedger.summary(source: .codex) }
+    private var claudeLedger = ClaudeHookLedger()
+    @Published private(set) var menuIndicatorRevision = 0
+    private var menuPreview: AgentMenuIndicator.Presentation?
+    private var menuPreviewTask: Task<Void, Never>?
+    func menuIndicator(now: Date) -> AgentMenuIndicator.Presentation {
+        menuPreview ?? AgentMenuIndicator.presentation(ledger: claudeLedger, agents: agentSettings.agents,
+            paused: agentSettings.paused, disabledStates: agentSettings.disabledStates, now: now)
+    }
+    private func clearMenuPreview() {
+        menuPreviewTask?.cancel(); menuPreviewTask = nil; menuPreview = nil
+    }
+    private func previewMenuIcon(_ event: ClaudeHookEvent) {
+        guard let status = event.status else { return }
+        clearMenuPreview()
+        menuPreview = .init(state: .init(status), detail: "预览 · \(event.agentTitle) · \(status.title)")
+        menuIndicatorRevision += 1
+        menuPreviewTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: 8_000_000_000)
+            guard !Task.isCancelled, let self else { return }
+            self.menuPreview = nil; self.menuIndicatorRevision += 1
+        }
+    }
+
+    private let claudeToast = ClaudeToastPresenter()
+    private lazy var claudeBridge = ClaudeHookBridge(receive: { [weak self] event in
+        Task { @MainActor in self?.receiveClaude(event) }
+    }, report: { [weak self] message in
+        Task { @MainActor in
+            self?.claudeSummary = message
+            self?.agentSettings.receiverReady = message.contains("已就绪")
+        }
+    })
+
+    var claudeMenuSummary: String {
+        claudeLedger.sessions.isEmpty ? claudeSummary : claudeLedger.summary()
+    }
+
+    func startClaudeHooks() { claudeBridge.start() }
+
+    private func receiveClaude(_ input: ClaudeHookEvent) {
+        guard let agent = agentSettings.agent(input.agent.rawValue) else { return }
+        var event = input; event.displayName = agent.name; event.displayColor = agent.colorHex
+        guard let notify = claudeLedger.accept(event) else { return }
+        if !event.isPreview { clearMenuPreview(); menuIndicatorRevision += 1 }
+        agentSettings.record(event)
+        claudeSummary = claudeLedger.summary()
+        guard agent.enabled, !agentSettings.paused else { return }
+        let show = notify && !agentSettings.disabledStates.contains(event.status?.rawValue ?? "")
+        claudeToast.receive(event, notify: show && agent.bubbles)
+        if show, isVisible, agent.aquariumResponse { scene.showAgentSignal(event) }
+        agentAlertSound.submit(event, notify: show && agent.sound && consoleAvailable)
+    }
+
+    func previewAgent(_ id: String, status: ClaudeHookEvent.Status, multiple: Bool, sound: Bool) {
+        guard let selected = agentSettings.agent(id) else { return }
+        if !isVisible { show() }
+        let list = multiple ? Array(([selected] + agentSettings.agents.filter { $0.id != id } + [selected, selected]).prefix(3)) : [selected]
+        let states: [ClaudeHookEvent.Status] = [status, .permission, .responded]
+        for (index, agent) in list.enumerated() {
+            let state = multiple ? states[index] : status
+            let eventName: String
+            let kind: String?
+            switch state {
+            case .ready: eventName = "SessionStart"; kind = nil
+            case .working: eventName = "UserPromptSubmit"; kind = nil
+            case .permission: eventName = "PermissionRequest"; kind = nil
+            case .input: eventName = "Notification"; kind = "agent_needs_input"
+            case .responded: eventName = "Stop"; kind = nil
+            case .failed: eventName = "StopFailure"; kind = nil
+            case .interrupted: eventName = agent.source == .claudeCode ? "Stop" : "Interrupt"; kind = nil
+            case .ended: eventName = "SessionEnd"; kind = nil
+            }
+            var event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:settings-\(index)", project: "效果预览",
+                event: eventName, notificationType: kind, sentAt: Date(), source: agent.source)
+            event.previewStatus = state
+            event.displayName = agent.name; event.displayColor = agent.colorHex
+            if index == 0 { previewMenuIcon(event) }
+            claudeToast.receive(event, notify: true)
+            if agent.aquariumResponse { scene.showAgentSignal(event) }
+            if sound { agentAlertSound.submit(event, notify: true) }
+        }
+    }
+
+    func previewClaudeToast() {
+        let samples: [(ClaudeHookEvent.Source, String, String)] = [
+            (.codex, "UserPromptSubmit", "Codex · 处理预览"),
+            (.claudeCode, "PermissionRequest", "Claude · 授权预览"),
+            (.codex, "Stop", "Codex · 结束预览")
+        ]
+        for (index, sample) in samples.enumerated() {
+            let event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:\(index)",
+                project: sample.2, event: sample.1, notificationType: nil, sentAt: Date(), source: sample.0)
+            if index == 0 { previewMenuIcon(event) }
+            claudeToast.receive(event, notify: true)
+            if isVisible { scene.showAgentSignal(event) }
+            agentAlertSound.submit(event, notify: true)
+        }
+    }
+
+    func windowDidMove(_ notification: Notification) { claudeToast.position() }
+    func windowDidResize(_ notification: Notification) { claudeToast.position() }
     private let store: AquariumStore
     private let scene = AquariumScene()
     private let panel: AquariumPanel
-    private let spriteView: AquariumDesktopView
+    private var spriteView: AquariumDesktopView
     private var motionObserver: NSObjectProtocol?
     private var renderRecoveryObservers: [NSObjectProtocol] = []
     private var stateObserver: AnyCancellable?
     private var animationWatchdog: AnyCancellable?
-    private var renderingSuspended = false
-    private var lastRenderRecovery = ProcessInfo.processInfo.systemUptime
+    private var renderWatchdog = AquariumRenderWatchdog()
+    private var wakeRecoveryTask: Task<Void, Never>?
     private var managementWindow: NSWindow?
+    private var agentSettingsWindow: NSWindow?
+    private var knownAgentSources: Set<ClaudeHookEvent.Source> = Set(ClaudeHookEvent.Source.allCases)
     private var displayRecoveryTask: Task<Void, Never>?
 
     init(store: AquariumStore) {
@@ -135,6 +287,25 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
                               styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         spriteView = AquariumDesktopView(frame: NSRect(origin: .zero, size: size))
         super.init()
+        knownAgentSources = Set(agentSettings.agents.map(\.source))
+        agentSettings.changed = { [weak self] in
+            guard let self else { return }
+            self.objectWillChange.send()
+            self.agentAlertSound.discardDisabledStates(self.agentSettings.disabledStates)
+            let active = Set(self.agentSettings.agents.filter { $0.enabled && !self.agentSettings.paused }.map(\.source))
+            for source in self.knownAgentSources.union(self.agentSettings.agents.map(\.source)) {
+                let agent = self.agentSettings.agent(source.rawValue)
+                if !active.contains(source) || agent?.bubbles == false { self.claudeToast.remove(source: source) }
+                if !active.contains(source) || agent?.sound == false { self.agentAlertSound.remove(source: source) }
+            }
+            for event in self.claudeToast.visibleEvents where !event.isPreview && self.agentSettings.disabledStates.contains(event.status?.rawValue ?? "") {
+                self.claudeToast.dismiss(id: event.id)
+            }
+            let registered = Set(self.agentSettings.agents.map(\.source))
+            for removed in self.knownAgentSources.subtracting(registered) { self.claudeLedger.remove(source: removed) }
+            self.knownAgentSources = registered
+            self.clearMenuPreview(); self.menuIndicatorRevision += 1
+        }
 
         panel.title = "Fishtank · 悬浮鱼缸"
         panel.delegate = self
@@ -148,6 +319,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         // the same time as a decoration, cancelling its movement within the tank.
         panel.isMovableByWindowBackground = false
         panel.contentView = spriteView
+        claudeToast.attach(to: panel)
         panel.setFrameAutosaveName("FishtankFloatingAquarium")
         // Restore position, but keep exact integer multiples of the logical pixel canvas.
         panel.setContentSize(size)
@@ -158,8 +330,8 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         spriteView.allowsTransparency = true
         spriteView.autoresizingMask = [.width, .height]
         spriteView.preferredFramesPerSecond = 30
-        spriteView.toolTip = "拖动水面移动鱼缸，拖造景布置，双击投喂；菜单栏可调透明度、大小与置顶。"
-        spriteView.feed = { [weak self] in self?.feed() }
+        spriteView.toolTip = "拖动水面移动鱼缸，拖造景布置，单击空白处投喂，右键晃动惊鱼；菜单栏可调透明度、大小与置顶。"
+        spriteView.feed = { [weak self] x in self?.feed(at: x) }
         spriteView.setAccessibilityLabel("半透明悬浮像素鱼缸")
         scene.setWaterOpacity(CGFloat(waterOpacity))
         spriteView.presentScene(scene)
@@ -187,7 +359,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             renderRecoveryObservers.append(NSWorkspace.shared.notificationCenter.addObserver(
                 forName: name, object: nil, queue: .main
             ) { [weak self] _ in
-                Task { @MainActor in self?.recoverRendering() }
+                Task { @MainActor in self?.resumeRendering() }
             })
         }
         for name in [NSWorkspace.willSleepNotification, NSWorkspace.screensDidSleepNotification,
@@ -195,7 +367,11 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             renderRecoveryObservers.append(NSWorkspace.shared.notificationCenter.addObserver(
                 forName: name, object: nil, queue: .main
             ) { [weak self] _ in
-                Task { @MainActor in self?.renderingSuspended = true }
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.wakeRecoveryTask?.cancel()
+                    self.renderWatchdog.suspend(at: ProcessInfo.processInfo.systemUptime)
+                }
             })
         }
         animationWatchdog = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
@@ -209,11 +385,13 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         store.refresh()
         panel.orderFrontRegardless()
         isVisible = true
+        claudeToast.setVisible(true)
         recoverRendering()
     }
 
     func hide() {
         spriteView.cancelDragging()
+        claudeToast.setVisible(false)
         panel.orderOut(nil)
         isVisible = false
         updateAnimation()
@@ -222,9 +400,9 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         if managementWindow?.isVisible != true { store.sound.setSuspended(true) }
     }
 
-    func feed() {
+    func feed(at x: CGFloat? = nil) {
         store.sound.play("feed")
-        scene.feed(reducedMotion: NSWorkspace.shared.accessibilityDisplayShouldReduceMotion)
+        scene.feed(reducedMotion: NSWorkspace.shared.accessibilityDisplayShouldReduceMotion, x: x.map(Double.init) ?? 160)
     }
 
     func showManagement() {
@@ -241,7 +419,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             window.delegate = self
             window.minSize = NSSize(width: 600, height: 540)
             window.level = .normal
-            window.contentView = NSHostingView(rootView: AquariumView(store: store))
+            window.contentView = NSHostingView(rootView: AquariumView(store: store, openAgentSettings: { [weak self] in self?.showAgentSettings() }))
             window.center()
             managementWindow = window
         }
@@ -252,6 +430,31 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         managementWindow?.makeKeyAndOrderFront(nil)
         DispatchQueue.main.async { [weak self] in self?.managementWindow?.makeKeyAndOrderFront(nil) }
     }
+
+    func showAgentSettings() {
+        if agentSettingsWindow == nil {
+            let size = NSSize(width: 880, height: 660)
+            let window = AquariumManagementWindow(contentRect: NSRect(origin: .zero, size: size),
+                styleMask: [.borderless], backing: .buffered, defer: false)
+            window.title = "Fishtank · 设置"; window.isReleasedWhenClosed = false
+            window.hasShadow = true; window.isOpaque = false; window.backgroundColor = .clear
+            window.hidesOnDeactivate = false; window.becomesKeyOnlyIfNeeded = false; window.level = .normal
+            window.delegate = self
+            let content = NSHostingView(rootView: AgentSettingsView(aquarium: self, model: agentSettings, store: store)
+                .frame(width: size.width, height: size.height))
+            content.sizingOptions = [.minSize, .maxSize]
+            window.contentView = content
+            // A fixed root gives SwiftUI the same minimum and maximum after every layout pass.
+            window.contentMinSize = size; window.contentMaxSize = size
+            window.setContentSize(size)
+            window.collectionBehavior.insert(.fullScreenNone)
+            window.center(); agentSettingsWindow = window
+        }
+        NSApp.setActivationPolicy(.regular); NSApp.activate(ignoringOtherApps: true)
+        agentSettingsWindow?.makeKeyAndOrderFront(nil)
+    }
+
+    func closeAgentSettings() { agentSettingsWindow?.close() }
 
     func moveToCurrentScreen() {
         let pointer = NSEvent.mouseLocation
@@ -267,6 +470,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         panel.collectionBehavior = isPinned
             ? [.canJoinAllSpaces, .fullScreenAuxiliary, .ignoresCycle]
             : [.moveToActiveSpace, .fullScreenAuxiliary, .ignoresCycle]
+        claudeToast.position()
     }
 
     private func resize() {
@@ -289,26 +493,58 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         spriteView.preferredFramesPerSecond = scene.reducedMotion ? 10 : 30
     }
 
-    private func checkAnimationProgress() {
-        guard isVisible, panel.isVisible, !renderingSuspended else { return }
-        let uptime = ProcessInfo.processInfo.systemUptime
-        let lastProgress = max(scene.lastFrameUptime ?? lastRenderRecovery, lastRenderRecovery)
-        guard spriteView.isPaused || scene.isPaused || spriteView.scene !== scene || uptime - lastProgress > 4 else { return }
-        recoverRendering()
+    private var consoleAvailable: Bool {
+        guard let info = CGSessionCopyCurrentDictionary() as? [String: Any] else { return false }
+        // The public on-console key handles user switching. The optional lock hint
+        // avoids surface retries behind the lock screen; its absence never blocks wake.
+        return info[kCGSessionOnConsoleKey as String] as? Bool == true &&
+            info["CGSSessionScreenIsLocked"] as? Bool != true
     }
 
-    private func recoverRendering() {
-        renderingSuspended = false
+    private func checkAnimationProgress() {
+        guard let action = renderWatchdog.action(at: ProcessInfo.processInfo.systemUptime,
+            visible: isVisible && panel.isVisible, consoleAvailable: consoleAvailable,
+            lastFrame: scene.lastFrameUptime, paused: spriteView.isPaused || scene.isPaused,
+            attached: spriteView.scene === scene) else { return }
+        recoverRendering(rebuildSurface: action == .rebuild)
+    }
+
+    private func resumeRendering() {
+        wakeRecoveryTask?.cancel()
+        wakeRecoveryTask = Task { @MainActor [weak self] in
+            // AppKit can deliver wake before the compositor's surface is usable.
+            do { try await Task.sleep(nanoseconds: 350_000_000) } catch { return }
+            guard let self, !Task.isCancelled, self.consoleAvailable else { return }
+            self.recoverRendering(rebuildSurface: true)
+        }
+    }
+
+    private func recoverRendering(rebuildSurface: Bool = false) {
         guard isVisible else { return }
-        lastRenderRecovery = ProcessInfo.processInfo.systemUptime
-        spriteView.restorePresentation(of: scene)
+        renderWatchdog.recovered(at: ProcessInfo.processInfo.systemUptime)
+        scene.resetFrameClock()
+        if rebuildSurface {
+            spriteView.cancelDragging()
+            spriteView.isPaused = true
+            spriteView.presentScene(nil)
+            let replacement = AquariumDesktopView(frame: spriteView.frame)
+            replacement.allowsTransparency = true
+            replacement.autoresizingMask = [.width, .height]
+            replacement.toolTip = spriteView.toolTip
+            replacement.feed = { [weak self] x in self?.feed(at: x) }
+            replacement.setAccessibilityLabel("半透明悬浮像素鱼缸")
+            replacement.presentScene(scene)
+            spriteView = replacement
+            panel.contentView = replacement
+        } else { spriteView.restorePresentation(of: scene) }
         updateAnimation()
     }
 
     func windowWillClose(_ notification: Notification) {
-        if let window = notification.object as? NSWindow, window === managementWindow {
-            NSApp.setActivationPolicy(.accessory)
-            if !isVisible { store.sound.setSuspended(true) }
+        if let window = notification.object as? NSWindow, window === managementWindow || window === agentSettingsWindow {
+            let other = window === managementWindow ? agentSettingsWindow : managementWindow
+            if other?.isVisible != true { NSApp.setActivationPolicy(.accessory) }
+            if !isVisible && (window === managementWindow || managementWindow?.isVisible != true) { store.sound.setSuspended(true) }
         }
     }
 
@@ -357,7 +593,9 @@ private final class AquariumManagementWindow: NSPanel {
 }
 
 private final class AquariumDesktopView: AquariumRenderView {
-    var feed: (() -> Void)?
+    var feed: ((CGFloat) -> Void)?
+    private var clickAnchor: CGPoint?
+    private var didDrag = false
     private var draggingDecoration = false
     private var windowDrag: AquariumWindowDrag?
 
@@ -366,36 +604,55 @@ private final class AquariumDesktopView: AquariumRenderView {
 
     override func mouseDown(with event: NSEvent) {
         cancelDragging()
-        if let aquarium = scene as? AquariumScene,
-           aquarium.tapFish(at: aquarium.convertPoint(fromView: convert(event.locationInWindow, from: nil))) {
-            return
-        }
-        if event.clickCount == 2 {
-            feed?()
-        } else if let scene = scene as? AquariumScene,
-                  scene.beginDecorationDrag(at: scene.convertPoint(fromView: convert(event.locationInWindow, from: nil))) {
+        guard let aquarium = scene as? AquariumScene else { return }
+        let local = convert(event.locationInWindow, from: nil)
+        let point = aquarium.convertPoint(fromView: local)
+        guard aquarium.containsTankPoint(point) else { return }
+        if aquarium.tapFish(at: point) { return }
+        if aquarium.beginDecorationDrag(at: point) {
             draggingDecoration = true
         } else if let panel = window as? AquariumPanel {
-            windowDrag = AquariumWindowDrag(initialFrame: panel.frame, mouseDown: NSEvent.mouseLocation)
-            panel.isDraggingAquarium = true
+            clickAnchor = local
+            windowDrag = AquariumWindowDrag(initialFrame: panel.frame,
+                mouseDown: panel.convertPoint(toScreen: event.locationInWindow))
         }
     }
+    override func rightMouseDown(with event: NSEvent) {
+        cancelDragging()
+        guard let aquarium = scene as? AquariumScene else { return }
+        let point = aquarium.convertPoint(fromView: convert(event.locationInWindow, from: nil))
+        guard aquarium.containsTankPoint(point) else { return }
+        aquarium.reducedMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        aquarium.shake()
+    }
+    override func rightMouseUp(with event: NSEvent) {}
+
     override func mouseDragged(with event: NSEvent) {
         if let drag = windowDrag, let panel = window as? AquariumPanel {
+            let mouse = panel.convertPoint(toScreen: event.locationInWindow)
+            guard didDrag || hypot(mouse.x - drag.mouseDown.x, mouse.y - drag.mouseDown.y) >= 4 else { return }
+            didDrag = true; panel.isDraggingAquarium = true
             let displays = NSScreen.screens.map { AquariumDisplayGeometry(frame: $0.frame, visibleFrame: $0.visibleFrame) }
-            panel.setFrame(drag.frame(at: NSEvent.mouseLocation, displays: displays), display: true)
+            panel.setFrame(drag.frame(at: mouse, displays: displays), display: true)
             return
         }
         guard draggingDecoration, let scene = scene as? AquariumScene else { return }
         scene.dragDecoration(to: scene.convertPoint(fromView: convert(event.locationInWindow, from: nil)))
     }
     override func mouseUp(with event: NSEvent) {
+        if let anchor = clickAnchor, !didDrag, let aquarium = scene as? AquariumScene {
+            let local = convert(event.locationInWindow, from: nil)
+            let point = aquarium.convertPoint(fromView: local)
+            if hypot(local.x - anchor.x, local.y - anchor.y) < 4, aquarium.containsTankPoint(point) {
+                feed?(point.x)
+            }
+        }
         cancelDragging()
     }
 
     func cancelDragging() {
         if draggingDecoration { (scene as? AquariumScene)?.endDecorationDrag(); draggingDecoration = false }
-        windowDrag = nil
+        windowDrag = nil; clickAnchor = nil; didDrag = false
         (window as? AquariumPanel)?.isDraggingAquarium = false
     }
 }
