@@ -113,6 +113,7 @@
 		6476568CE3086BAB5CA2D99D /* FishtankIcon-emberbarb.icns in Resources */ = {isa = PBXBuildFile; fileRef = 62B2D73CF578B9F9391BB7E1 /* FishtankIcon-emberbarb.icns */; };
 		648E33DE5967593A3D0BCD18 /* PixelTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06838F8CB341340064B222C2 /* PixelTheme.swift */; };
 		64E90D75928026AB36D5878A /* AppLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868A9D58AAD7521CF5BEC165 /* AppLocalization.swift */; };
+		651A5D8DB1E60AB798048300 /* AquariumShakeStress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D929E741083449D20D20BD7 /* AquariumShakeStress.swift */; };
 		6565C16902190F2D9745357F /* PaintedSprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714EEDF8CC4C20CCBC77C022 /* PaintedSprites.swift */; };
 		67C4ADAA3893E5D890F0A50C /* reveal-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5881868A637F9C34BAD3FC3D /* reveal-2.wav */; };
 		69D4868DE96827D7436B091E /* reveal-4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4244B84E1C7DFDE1C989D670 /* reveal-4.wav */; };
@@ -190,6 +191,7 @@
 		A32446A519CA6363718811AC /* zh-Hans.json in Resources */ = {isa = PBXBuildFile; fileRef = 47D4AE36258950DCC7D2E1F1 /* zh-Hans.json */; };
 		A95DF3E6E62820AE17860238 /* AquariumReforge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66248DD1919DEAD43BF93F0 /* AquariumReforge.swift */; };
 		A97B52F9917E05B722D23FF3 /* AquariumScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F1AEDA4BCA3F064F091CC9 /* AquariumScene.swift */; };
+		A9A7878DEC4A8C2F9D361188 /* AquariumShakeStress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D929E741083449D20D20BD7 /* AquariumShakeStress.swift */; };
 		A9CF513C72C93C60C639883A /* FishtankIcon-koi.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5FB7BD3170D3DB822B34950D /* FishtankIcon-koi.icns */; };
 		AA510E1E0E5C38B9454883F5 /* zap.wav in Resources */ = {isa = PBXBuildFile; fileRef = B0257215479F455DC129D236 /* zap.wav */; };
 		ABA088ACDD7429A3C7557CE8 /* AgentMenuIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326B3F388CA61CA53FEF051F /* AgentMenuIndicator.swift */; };
@@ -381,6 +383,7 @@
 		823A2774B671447434CE8014 /* PixelTabStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelTabStyle.swift; sourceTree = "<group>"; };
 		868A9D58AAD7521CF5BEC165 /* AppLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalization.swift; sourceTree = "<group>"; };
 		8AA9B0A3561383BB4766C2CC /* AquariumRenderWatchdog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumRenderWatchdog.swift; sourceTree = "<group>"; };
+		8D929E741083449D20D20BD7 /* AquariumShakeStress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumShakeStress.swift; sourceTree = "<group>"; };
 		903860297660714FD3E26CC4 /* merge.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = merge.wav; sourceTree = "<group>"; };
 		928208406D37386AF5669DE2 /* music-japanese.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "music-japanese.wav"; sourceTree = "<group>"; };
 		92868452F3022F9A2BAF92E6 /* FishtankIcon-leviathanfry.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-leviathanfry.icns"; sourceTree = "<group>"; };
@@ -542,6 +545,7 @@
 				8AA9B0A3561383BB4766C2CC /* AquariumRenderWatchdog.swift */,
 				2F3790DDE0A29B90A1320B25 /* AquariumRepository.swift */,
 				C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */,
+				8D929E741083449D20D20BD7 /* AquariumShakeStress.swift */,
 				08DDAE8D46170789C97C9B78 /* AquariumState.swift */,
 				DC5AA549CCF05B9B722E0142 /* AquariumWindowDrag.swift */,
 				497FF0E9B63D7A719EA2648E /* BreedRecommendation.swift */,
@@ -1035,6 +1039,7 @@
 				1A781B97C9DE34389BCE15B0 /* AquariumRepository.swift in Sources */,
 				4DB5D4ABC40112B189D9FFEF /* AquariumSave.swift in Sources */,
 				A97B52F9917E05B722D23FF3 /* AquariumScene.swift in Sources */,
+				A9A7878DEC4A8C2F9D361188 /* AquariumShakeStress.swift in Sources */,
 				D2507481B76CCCE84BA344FE /* AquariumSound.swift in Sources */,
 				33C44C564388EA7B0BC09542 /* AquariumState.swift in Sources */,
 				5625DC4D3AA9EA926221162D /* AquariumStatusMenu.swift in Sources */,
@@ -1109,6 +1114,7 @@
 				D605774BD9038AA890368994 /* AquariumRepository.swift in Sources */,
 				A1821CE4E53E96B9E8FFBB8A /* AquariumSave.swift in Sources */,
 				DDFAFB643A08D113095AE451 /* AquariumScene.swift in Sources */,
+				651A5D8DB1E60AB798048300 /* AquariumShakeStress.swift in Sources */,
 				257E88E9528EF80D5DE7F3F4 /* AquariumSound.swift in Sources */,
 				566E2FBDA479B20B138D9CC6 /* AquariumState.swift in Sources */,
 				5A9D6BBAF66239ED8587A86F /* AquariumStatusMenu.swift in Sources */,
@@ -1251,7 +1257,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1273,7 +1279,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1377,7 +1383,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1393,7 +1399,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

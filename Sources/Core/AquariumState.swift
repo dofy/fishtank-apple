@@ -253,6 +253,18 @@ struct AquariumState: Codable, Equatable {
         if let index = fish.firstIndex(where: { $0.id == id }) { fish[index].locked = locked }
     }
 
+    /// Fish on display that a stressed tank can lose. Starter and locked fish stay.
+    var shakeCasualties: [AquariumFish] {
+        let tank = Set(tankIDs)
+        return fish.filter { tank.contains($0.id) && $0.tier > 0 && !$0.locked }
+    }
+
+    mutating func removeShakeCasualty(_ id: UUID) {
+        guard let target = fish.first(where: { $0.id == id }), target.tier > 0, !target.locked else { return }
+        fish.removeAll { $0.id == target.id }
+        syncTank()
+    }
+
     mutating func release(_ id: UUID) throws {
         guard let target = fish.first(where: { $0.id == id }), target.tier > 0, !target.locked else {
             throw AquariumError.protectedFish

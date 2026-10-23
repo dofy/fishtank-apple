@@ -223,6 +223,15 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
 
     func toggleTank(_ id: UUID) { if commit({ try $0.toggleTank(id) }) { message = L10n.text("Aquarium display updated."); sound.play("place") } }
     func setLocked(_ id: UUID, _ locked: Bool) { if commit({ $0.setLocked(id, locked) }) { message = locked ? L10n.text("Locked for protection.") : L10n.text("Unlocked."); sound.play("select") } }
+    /// A fish lost to repeated shaking. Collection records stay, like a release.
+    func loseToShaking(_ id: UUID) {
+        guard let victim = state.fish.first(where: { $0.id == id }) else { return }
+        if commit({ $0.removeShakeCasualty(id) }) {
+            message = L10n.text("\(victim.name) could not take the shaking and floated to the surface.")
+            sound.play("release")
+        }
+    }
+
     func release(_ id: UUID) { if commit({ try $0.release(id) }) { message = L10n.text("Released. Collection records were preserved."); sound.play("release") } }
     func setMergePreferences(_ preferences: MergePreferences) { _ = commit { $0.mergePreferences = preferences } }
 

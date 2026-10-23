@@ -422,16 +422,18 @@ final class AquariumScene: SKScene {
         ecology.feed(x: x)
         renderSwimmers()
     }
-    func shake() {
+    /// Returns false when the shake was throttled, so repeated-shake counting
+    /// matches the shakes the tank actually performed.
+    @discardableResult func shake() -> Bool {
         let now = ProcessInfo.processInfo.systemUptime
-        guard now - lastShakeUptime >= 0.18 else { return }
+        guard now - lastShakeUptime >= 0.18 else { return false }
         lastShakeUptime = now
         ecology.reducedMotion = reducedMotion
         ecology.shake()
         effect?("scare")
         tankRoot.removeAction(forKey: "tankShake")
         tankRoot.position = .zero
-        guard !reducedMotion else { return }
+        guard !reducedMotion else { return true }
         let duration = 0.48
         let motion = SKAction.customAction(withDuration: duration) { node, elapsed in
             let progress = min(1, Double(elapsed) / duration)
@@ -440,6 +442,28 @@ final class AquariumScene: SKScene {
                                     y: sin(progress * .pi * 6) * amplitude)
         }
         tankRoot.run(.sequence([motion, .run { [weak self] in self?.tankRoot.position = .zero }]), withKey: "tankShake")
+        return true
+    }
+
+    /// Detaches the swimmer and plays its last moments: belly up, drifting to the
+    /// surface, then gone. The node leaves `fishNodes` first so the next render
+    /// pass, which no longer knows this fish, cannot reclaim or delete it.
+    func killFish(id: UUID) {
+        guard let node = fishNodes.removeValue(forKey: id) else { return }
+        node.removeAllActions()
+        let surface = size.height - 14
+        let rise = max(8, surface - node.position.y)
+        guard !reducedMotion else {
+            node.run(.sequence([.fadeOut(withDuration: 0.4), .removeFromParent()]))
+            return
+        }
+        let flip = SKAction.rotate(toAngle: .pi, duration: 0.5, shortestUnitArc: true)
+        let float = SKAction.moveBy(x: 0, y: rise, duration: 2.4)
+        float.timingMode = .easeOut
+        let sway = SKAction.sequence([.moveBy(x: 3, y: 0, duration: 0.6), .moveBy(x: -3, y: 0, duration: 0.6)])
+        node.run(.group([flip, float, .repeat(sway, count: 2),
+                         .sequence([.wait(forDuration: 1.6), .fadeOut(withDuration: 0.8)])]))
+        node.run(.sequence([.wait(forDuration: 2.6), .removeFromParent()]))
     }
 
     /// Local status feedback only: no food, fish inventory, lighting preference or gameplay RNG changes.

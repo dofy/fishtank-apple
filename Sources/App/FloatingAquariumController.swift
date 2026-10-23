@@ -259,6 +259,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
     private let panel: AquariumPanel
     private var spriteView: AquariumDesktopView
     private let hintToast = AquariumHintPresenter()
+    private var shakeStress = AquariumShakeStress()
     private var motionObserver: NSObjectProtocol?
     private var renderRecoveryObservers: [NSObjectProtocol] = []
     private var stateObserver: AnyCancellable?
@@ -340,6 +341,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         spriteView.preferredFramesPerSecond = 30
         spriteView.feed = { [weak self] x in self?.feed(at: x) }
         spriteView.openGuide = { [weak self] in self?.showManagement() }
+        spriteView.shakeTank = { [weak self] in self?.shakeTank() }
         spriteView.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
         scene.setWaterOpacity(CGFloat(waterOpacity))
         spriteView.presentScene(scene)
@@ -427,6 +429,15 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         store.save()
         store.rescheduleReminders()
         if managementWindow?.isVisible != true { store.sound.setSuspended(true) }
+    }
+
+    /// Right-click shakes the tank. Keep shaking and one displayed fish does not survive it.
+    func shakeTank() {
+        scene.reducedMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        guard scene.shake(), shakeStress.register() else { return }
+        guard let victim = store.state.shakeCasualties.randomElement() else { return }
+        scene.killFish(id: victim.id)
+        store.loseToShaking(victim.id)
     }
 
     func feed(at x: CGFloat? = nil) {
@@ -564,6 +575,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             replacement.autoresizingMask = [.width, .height]
             replacement.feed = { [weak self] x in self?.feed(at: x) }
             replacement.openGuide = { [weak self] in self?.showManagement() }
+            replacement.shakeTank = { [weak self] in self?.shakeTank() }
             replacement.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
             replacement.presentScene(scene)
             spriteView = replacement
@@ -657,6 +669,7 @@ final class AquariumManagementWindow: NSPanel {
 private final class AquariumDesktopView: AquariumRenderView {
     var feed: ((CGFloat) -> Void)?
     var openGuide: (() -> Void)?
+    var shakeTank: (() -> Void)?
     private var clickAnchor: CGPoint?
     private var didDrag = false
     private var draggingDecoration = false
@@ -687,8 +700,7 @@ private final class AquariumDesktopView: AquariumRenderView {
         guard let aquarium = scene as? AquariumScene else { return }
         let point = aquarium.convertPoint(fromView: convert(event.locationInWindow, from: nil))
         guard aquarium.containsTankPoint(point) else { return }
-        aquarium.reducedMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
-        aquarium.shake()
+        shakeTank?()
     }
     override func rightMouseUp(with event: NSEvent) {}
 
