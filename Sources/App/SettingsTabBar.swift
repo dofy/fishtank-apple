@@ -7,8 +7,8 @@ struct SettingsTabBar: View {
     @Binding var selection: String
     @ObservedObject private var localization = AppLocalization.shared
     private var tabs: [(String, String)] {
-        [("general", L10n.text("通用")), ("appearance", L10n.text("外观")),
-         ("agents", L10n.text("Agent 接入")), ("notifications", L10n.text("提醒"))]
+        [("general", L10n.text("General")), ("appearance", L10n.text("Appearance")),
+         ("agents", L10n.text("Agents")), ("notifications", L10n.text("Alerts"))]
     }
     var body: some View {
         HStack(alignment: .bottom, spacing: 6) {
@@ -20,9 +20,9 @@ struct SettingsTabBar: View {
             }
             Spacer(minLength: 16)
             HStack(spacing: 8) {
-                Button(L10n.text("更新日志")) { NSWorkspace.shared.open(URL(string: "https://github.com/dofy/fishtank-apple/blob/main/CHANGELOG.md")!) }
+                Button(L10n.text("Changelog")) { NSWorkspace.shared.open(URL(string: "https://github.com/dofy/fishtank-apple/blob/main/CHANGELOG.md")!) }
                     .accessibilityIdentifier("settings.changelog")
-                Button(L10n.text("项目地址")) { NSWorkspace.shared.open(URL(string: "https://github.com/dofy/fishtank-apple")!) }
+                Button(L10n.text("Repository")) { NSWorkspace.shared.open(URL(string: "https://github.com/dofy/fishtank-apple")!) }
                     .accessibilityIdentifier("settings.project")
             }.padding(.bottom, 4)
 

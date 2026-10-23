@@ -59,6 +59,6 @@ final class AgentMenuIndicatorTests: XCTestCase {
         _ = ledger.accept(event("UserPromptSubmit",session:"old"),now:now)
         _ = ledger.accept(event("UserPromptSubmit",source:.claudeCode,session:"new",at:now.addingTimeInterval(1)),now:now.addingTimeInterval(1))
         var renamed=agents[0]; renamed.name="我的助手"
-        XCTAssertEqual(result(ledger,at:now.addingTimeInterval(1),registered:[renamed,agents[1]]).detail,"我的助手 · project · " + L10n.text("正在处理"))
+        XCTAssertEqual(result(ledger,at:now.addingTimeInterval(1),registered:[renamed,agents[1]]).detail,"我的助手 · project · " + L10n.text("Working"))
     }
 }

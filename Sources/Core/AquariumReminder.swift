@@ -10,16 +10,16 @@ struct AquariumReminder: Equatable {
     let fishIDs: [UUID]
     var title: String {
         switch kind {
-        case .mature: return L10n.text("小鱼长大了")
-        case .hearts: return L10n.text("爱心已回满")
-        case .cooldown: return L10n.text("亲代冷却结束")
+        case .mature: return L10n.text("A fish has grown up")
+        case .hearts: return L10n.text("Hearts are full")
+        case .cooldown: return L10n.text("Parent cooldown complete")
         }
     }
     var body: String {
         switch kind {
-        case .mature: return L10n.text("鱼缸里有小鱼成年了，回来看看吧。")
-        case .hearts: return L10n.text("5 颗爱心已经准备好。")
-        case .cooldown: return L10n.text("初始鱼可以再次参与繁育了。")
+        case .mature: return L10n.text("A fish has grown up in your aquarium. Come take a look.")
+        case .hearts: return L10n.text("All 5 hearts are ready.")
+        case .cooldown: return L10n.text("Your starter fish can breed again.")
         }
     }
     static func scheduled(in state: AquariumState, at now: Date) -> [Self] {

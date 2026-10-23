@@ -5,8 +5,18 @@ import AppKit
 #endif
 
 private enum AquariumTab: String, CaseIterable, Identifiable {
-    case tank = "鱼群", breed = "繁育", merge = "合成", decor = "装饰", book = "收藏", settings = "设置"
+    case tank, breed, merge, decor, book, settings
     var id: Self { self }
+    var title: String {
+        switch self {
+        case .tank: return L10n.text("Fish")
+        case .breed: return L10n.text("Breed")
+        case .merge: return L10n.text("Synthesize")
+        case .decor: return L10n.text("Decor")
+        case .book: return L10n.text("Collection")
+        case .settings: return L10n.text("Settings")
+        }
+    }
 }
 
 struct AquariumView: View {
@@ -136,10 +146,10 @@ struct AquariumView: View {
         .onDisappear { isVisible = false; store.save() }
         #if os(macOS)
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.willCloseNotification)) { notification in
-            if (notification.object as? NSWindow)?.title == L10n.text("Fishtank · 养成手册") { isVisible = false; store.save() }
+            if (notification.object as? NSWindow)?.title == L10n.text("Fishtank · Care Guide") { isVisible = false; store.save() }
         }
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) { notification in
-            if (notification.object as? NSWindow)?.title == L10n.text("Fishtank · 养成手册") { isVisible = true }
+            if (notification.object as? NSWindow)?.title == L10n.text("Fishtank · Care Guide") { isVisible = true }
         }
         #endif
         .onReceive(NotificationCenter.default.publisher(for: .aquariumLanguageDidChange)) { _ in
@@ -167,8 +177,8 @@ struct AquariumView: View {
                         outcomeView(outcome).frame(maxWidth: 440).padding(16)
                     } else {
                         VStack(alignment: .leading, spacing: 20) {
-                            Text(confirmMerge ? (reforgeMode ? L10n.text("确认重铸？") : L10n.text("确认合成？")) : L10n.text("确认放生？")).font(PixelTheme.font(24)).foregroundStyle(gold)
-                            Text(confirmMerge ? (reforgeMode ? L10n.text("会永久消耗所选的 3 条五星生物，产出一条继承最高品阶的五星幼体。不消耗爱心。") : L10n.text("会永久消耗所选的 10 条鱼，产出继承最高品阶。")) : L10n.text("放生后无法找回，图鉴记录会保留。"))
+                            Text(confirmMerge ? (reforgeMode ? L10n.text("Confirm reforge?") : L10n.text("Confirm Synthesis?")) : L10n.text("Release Fish?")).font(PixelTheme.font(24)).foregroundStyle(gold)
+                            Text(confirmMerge ? (reforgeMode ? L10n.text("Permanently consumes the 3 selected five-star creatures and creates a five-star juvenile inheriting the highest grade. No hearts required.") : L10n.text("Permanently consumes the 10 selected fish. The result inherits the highest grade.")) : L10n.text("Released fish cannot be recovered. Collection records will remain."))
                                 .fixedSize(horizontal: false, vertical: true)
                             ViewThatFits(in: .horizontal) {
                                 HStack(spacing: PixelTheme.metric(8, 6)) {
@@ -190,13 +200,13 @@ struct AquariumView: View {
     }
 
     private var confirmationCancelButton: some View {
-        Button(L10n.text("取消")) { releaseTarget = nil; confirmMerge = false }
+        Button(L10n.text("Cancel")) { releaseTarget = nil; confirmMerge = false }
             .buttonStyle(PixelButtonStyle(compact: PixelTheme.isPad))
             .keyboardShortcut(.cancelAction)
     }
 
     private var confirmationSubmitButton: some View {
-        Button(confirmMerge ? (reforgeMode ? L10n.text("消耗材料并重铸") : L10n.text("消耗材料并合成")) : L10n.text("确认放生")) {
+        Button(confirmMerge ? (reforgeMode ? L10n.text("Consume and Reforge") : L10n.text("Consume Materials and Synthesize")) : L10n.text("Confirm Release")) {
             if confirmMerge {
                 if reforgeMode ? store.reforge(selected) : store.merge(selected) { selected = [] }
                 confirmMerge = false
@@ -212,15 +222,15 @@ struct AquariumView: View {
             NativeAquariumView(scene: scene, paused: scenePaused || confirmObservationExit, fillsViewport: true,
                 interactionEnabled: !confirmObservationExit, onSingleTap: { point in
                     store.sound.interact()
-                    observationFeedback = scene.tapWater(at: point) ? L10n.text("已与鱼儿互动") : L10n.text("已投喂一颗鱼食")
+                    observationFeedback = scene.tapWater(at: point) ? L10n.text("Interacted with fish") : L10n.text("Fed one fish treat")
                 }, onDoubleTap: { confirmObservationExit = true })
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .accessibilityLabel(L10n.text("沉浸鱼缸，单击投喂或与鱼互动，双击退出预览"))
+                .accessibilityLabel(L10n.text("Immersive aquarium. Click to feed or interact with fish; double-click to exit the preview."))
                 .accessibilityIdentifier("aquarium.observation")
                 .accessibilityValue(observationFeedback)
                 .accessibilityAddTraits(.isButton)
-                .accessibilityAction(named: L10n.text("投喂")) { store.sound.interact(); scene.feed(reducedMotion: reducedMotion) }
-                .accessibilityAction(named: L10n.text("退出预览")) { confirmObservationExit = true }
+                .accessibilityAction(named: L10n.text("Feed")) { store.sound.interact(); scene.feed(reducedMotion: reducedMotion) }
+                .accessibilityAction(named: L10n.text("Exit Preview")) { confirmObservationExit = true }
                 .accessibilityHidden(confirmObservationExit)
                 .allowsHitTesting(!confirmObservationExit)
                 .disabled(confirmObservationExit)
@@ -235,14 +245,14 @@ struct AquariumView: View {
         ZStack {
             Color.black.opacity(0.6).contentShape(Rectangle()).onTapGesture {}
             VStack(alignment: .leading, spacing: 20) {
-                Text(L10n.text("退出全屏预览？")).font(PixelTheme.font(24)).foregroundStyle(gold)
-                Text(L10n.text("返回养成界面，鱼缸进度会保留。"))
+                Text(L10n.text("Exit Full-Screen Preview?")).font(PixelTheme.font(24)).foregroundStyle(gold)
+                Text(L10n.text("Return to the care screen. Aquarium progress will be preserved."))
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 16) {
-                    Button(L10n.text("继续观赏")) { confirmObservationExit = false }
+                    Button(L10n.text("Keep Watching")) { confirmObservationExit = false }
                         .keyboardShortcut(.cancelAction)
                     Spacer(minLength: 0)
-                    Button(L10n.text("退出预览")) { confirmObservationExit = false; immersive = false }
+                    Button(L10n.text("Exit Preview")) { confirmObservationExit = false; immersive = false }
                         .buttonStyle(PixelButtonStyle(primary: true))
                         .keyboardShortcut(.defaultAction)
                 }
@@ -259,9 +269,9 @@ struct AquariumView: View {
 
     private var observationEntry: some View {
         Button(action: beginObservation) {
-            HStack(spacing: 8) { PixelIcon("eye", color: PixelTheme.ink); Text(L10n.text("全屏预览")) }
+            HStack(spacing: 8) { PixelIcon("eye", color: PixelTheme.ink); Text(L10n.text("Full-Screen Preview")) }
         }.buttonStyle(PixelButtonStyle(primary: true))
-            .accessibilityLabel(L10n.text("沉浸观赏鱼缸"))
+            .accessibilityLabel(L10n.text("Immersive Aquarium"))
     }
 
     @ViewBuilder private func ipadTankContent(landscape: Bool, width: CGFloat) -> some View {
@@ -292,12 +302,12 @@ struct AquariumView: View {
 
     private var ipadTankActions: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(L10n.text("我的鱼缸")).font(PixelTheme.font(24)).foregroundStyle(gold)
-            Text(L10n.text("装饰 \(store.state.decorations.count)/\(store.state.capacity) · 勋章 \(store.state.displayedAchievements.count) 枚"))
+            Text(L10n.text("My Aquarium")).font(PixelTheme.font(24)).foregroundStyle(gold)
+            Text(L10n.text("Decorations \(store.state.decorations.count)/\(store.state.capacity) · Medals \(store.state.displayedAchievements.count)"))
                 .foregroundStyle(PixelTheme.muted)
             observationEntry
-            Button(L10n.text("布置鱼缸")) { tab = .decor }
-            Text(L10n.text("预览中单击投喂或与鱼互动，双击确认退出。"))
+            Button(L10n.text("Decorate Aquarium")) { tab = .decor }
+            Text(L10n.text("In preview, click to feed or interact with fish, and double-click to confirm exit."))
                 .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted).lineSpacing(6).fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -318,9 +328,9 @@ struct AquariumView: View {
             if let title = store.achievementToast {
                 HStack {
                     PixelIcon("medal", color: gold)
-                    Text(L10n.text("获得勋章：") + title)
+                    Text(L10n.text("Medal Earned: ") + title)
                     Spacer()
-                    Button(L10n.text("收好")) { store.achievementToast = nil }
+                    Button(L10n.text("Keep It")) { store.achievementToast = nil }
                 }.padding(12).pixelPanel(PixelTheme.panel, selected: true)
             }
         }.padding(.horizontal, 20).padding(.top, PixelTheme.metric(8, 12)).padding(.bottom, PixelTheme.metric(4, 0))
@@ -340,7 +350,7 @@ struct AquariumView: View {
             HStack(spacing: 12) {
                 HStack(spacing: 8) {
                     PixelIcon("fish", color: gold)
-                    Text(L10n.text("像素海洋")).font(PixelTheme.font(18)).foregroundStyle(gold)
+                    Text(L10n.text("Pixel Ocean")).font(PixelTheme.font(18)).foregroundStyle(gold)
                         .accessibilityIdentifier("aquarium.heading")
                     Text("Lv.\(store.state.level)").foregroundStyle(PixelTheme.muted)
                 }.fixedSize(horizontal: true, vertical: false)
@@ -372,10 +382,10 @@ struct AquariumView: View {
                     Text("\(store.state.exp) / \(next)").font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted)
                 }
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel(L10n.text("累计经验 \(store.state.exp) / \(next) · 下一级增加一个展示位"))
-                .help(L10n.text("累计经验 \(store.state.exp) / \(next) · 下一级增加一个展示位"))
+                .accessibilityLabel(L10n.text("Total XP \(store.state.exp) / \(next) · Next level adds a display slot"))
+                .help(L10n.text("Total XP \(store.state.exp) / \(next) · Next level adds a display slot"))
             } else {
-                Text(L10n.text("鱼缸已满级 · 累计经验 \(store.state.exp)"))
+                Text(L10n.text("Aquarium max level · Total XP \(store.state.exp)"))
                     .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted)
             }
         }.fixedSize(horizontal: true, vertical: false)
@@ -385,7 +395,7 @@ struct AquariumView: View {
     private var heading: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                HStack(spacing: 10) { PixelIcon("fish", color: gold); Text(L10n.text("像素海洋")).accessibilityIdentifier("aquarium.heading").font(PixelTheme.font(24)).foregroundStyle(gold) }
+                HStack(spacing: 10) { PixelIcon("fish", color: gold); Text(L10n.text("Pixel Ocean")).accessibilityIdentifier("aquarium.heading").font(PixelTheme.font(24)).foregroundStyle(gold) }
                 Spacer()
                 Text("Lv.\(store.state.level)").font(PixelTheme.font(24))
             }
@@ -396,9 +406,9 @@ struct AquariumView: View {
             if let next = store.state.nextLevelExp {
                 PixelMeter(value: Double(store.state.exp - FishBalance.levelThresholds[store.state.level - 1]),
                              total: Double(next - FishBalance.levelThresholds[store.state.level - 1]))
-                Text(L10n.text("累计经验 \(store.state.exp) / \(next) · 下一级增加一个展示位"))
+                Text(L10n.text("Total XP \(store.state.exp) / \(next) · Next level adds a display slot"))
                     .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted)
-            } else { Text(L10n.text("鱼缸已满级 · 累计经验 \(store.state.exp)")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted) }
+            } else { Text(L10n.text("Aquarium max level · Total XP \(store.state.exp)")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted) }
         }
     }
 
@@ -409,34 +419,23 @@ struct AquariumView: View {
                     PixelIcon(index < store.state.hearts ? "heart" : "heartEmpty", color: index < store.state.hearts ? PixelTheme.pink : PixelTheme.muted)
                 }
             }
-            Text(store.state.hearts < 5 ? L10n.text("\(countdown(store.state.nextHeartAt)) 后恢复") : L10n.text("已回满"))
+            Text(store.state.hearts < 5 ? L10n.text("Restores in \(countdown(store.state.nextHeartAt))") : L10n.text("Full"))
                 .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.pink)
         }.accessibilityElement(children: .ignore)
-            .accessibilityLabel(L10n.text("繁育爱心剩余 \(store.state.hearts) 颗，共 5 颗"))
+            .accessibilityLabel(L10n.text("\(store.state.hearts) of 5 breeding hearts remaining"))
             .accessibilityIdentifier("aquarium.hearts")
     }
-    private var collectionSummary: some View { Text(L10n.text("鱼种 \(store.state.regularDiscoveredCount)/29")).font(PixelTheme.captionFont()) }
-    private var tankSummary: some View { Text(L10n.text("展示 \(store.state.tankIDs.count)/\(store.state.capacity) · 背包 \(store.state.fish.count)")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted) }
+    private var collectionSummary: some View { Text(L10n.text("Species \(store.state.regularDiscoveredCount)/29")).font(PixelTheme.captionFont()) }
+    private var tankSummary: some View { Text(L10n.text("Displayed \(store.state.tankIDs.count)/\(store.state.capacity) · Inventory \(store.state.fish.count)")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted) }
 
     private var tankContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            GeometryReader { geometry in
-                HStack(spacing: 24) {
-                    PixelAquariumPreview(scene: scene, store: store, paused: scenePaused)
-                        .frame(width: min(192, geometry.size.width), height: min(192, geometry.size.width) * 9 / 16)
-                        #if os(macOS)
-                        .help(L10n.text("工作间隙，\n看看这一小缸海。"))
-                        #endif
-                    if geometry.size.width > 650 {
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text(L10n.text("装饰 \(store.state.decorations.count)/\(store.state.capacity) · 勋章 \(store.state.displayedAchievements.count) 枚"))
-                                .foregroundStyle(PixelTheme.muted)
-                            Button(L10n.text("布置鱼缸")) { tab = .decor }
-                        }
-                        Spacer(minLength: 0)
-                    }
-                }
-            }.frame(height: 108)
+            HStack(spacing: 16) {
+                Text(L10n.text("Decorations \(store.state.decorations.count)/\(store.state.capacity) · Medals \(store.state.displayedAchievements.count)"))
+                    .foregroundStyle(PixelTheme.muted)
+                Button(L10n.text("Decorate Aquarium")) { tab = .decor }
+                Spacer(minLength: 0)
+            }
             tankInventory
         }
     }
@@ -444,10 +443,10 @@ struct AquariumView: View {
     private var tankInventory: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text(L10n.text("我的鱼群")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
+                Text(L10n.text("My Fish")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
                 Spacer()
-                Button { scene.feed(reducedMotion: reducedMotion); store.sound.play("feed"); store.message = L10n.text("撒下鱼食，看小鱼慢慢追过来。") } label: {
-                    HStack(spacing: 6) { PixelIcon("food"); Text(L10n.text("投喂")) }
+                Button { scene.feed(reducedMotion: reducedMotion); store.sound.play("feed"); store.message = L10n.text("Drop some food and watch the fish swim over.") } label: {
+                    HStack(spacing: 6) { PixelIcon("food"); Text(L10n.text("Feed")) }
                 }
                     .buttonStyle(PixelButtonStyle())
             }
@@ -458,17 +457,26 @@ struct AquariumView: View {
     }
 
     private enum FishSort: String, CaseIterable {
-        case tier = "星级", grade = "品阶", uses = "繁育次数", displayed = "展示", acquired = "获得时间"
+        case tier, grade, uses, displayed, acquired
+        var title: String {
+            switch self {
+            case .tier: return L10n.text("Stars")
+            case .grade: return L10n.text("Grade")
+            case .uses: return L10n.text("Breedings")
+            case .displayed: return L10n.text("Display")
+            case .acquired: return L10n.text("Date Acquired")
+            }
+        }
     }
 
     private var fishSortDirection: some View {
-        Button(sortDescending ? L10n.text("降序") : L10n.text("升序")) { sortDescending.toggle() }
+        Button(sortDescending ? L10n.text("Descending") : L10n.text("Ascending")) { sortDescending.toggle() }
             .accessibilityIdentifier("fish.sort.direction")
     }
     private var stackedFishSorting: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(L10n.text("鱼群排序")).foregroundStyle(gold)
+                Text(L10n.text("Sort Fish")).foregroundStyle(gold)
                 Spacer()
                 fishSortDirection
             }
@@ -482,7 +490,7 @@ struct AquariumView: View {
         #if os(macOS)
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 12) {
-                Text(L10n.text("鱼群排序")).foregroundStyle(gold).fixedSize()
+                Text(L10n.text("Sort Fish")).foregroundStyle(gold).fixedSize()
                 HStack(spacing: 8) { fishSortButtons }.fixedSize(horizontal: true, vertical: false)
                 Spacer(minLength: 0)
                 fishSortDirection.fixedSize()
@@ -496,10 +504,10 @@ struct AquariumView: View {
 
     private var fishSortButtons: some View {
         ForEach(FishSort.allCases, id: \.self) { order in
-            Button(L10n.key(order.rawValue)) { fishSort = order }
+            Button(order.title) { fishSort = order }
                 .buttonStyle(PixelButtonStyle(primary: fishSort == order))
                 .accessibilityIdentifier("fish.sort." + String(describing: order))
-                .accessibilityValue(fishSort == order ? L10n.text("已选中") : L10n.text("未选中"))
+                .accessibilityValue(fishSort == order ? L10n.text("Selected") : L10n.text("Not Selected"))
         }
     }
 
@@ -515,11 +523,11 @@ struct AquariumView: View {
 
     private var breedContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("两条亲代，一次新的相遇。")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
-            Text(L10n.text("每次消耗 1 颗爱心。初始鱼繁育后冷却 3 分钟；其他鱼消耗繁育次数。锁定不影响繁育。"))
+            Text(L10n.text("Two parents, one new encounter.")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
+            Text(L10n.text("Each breeding costs 1 heart. Starter fish cool down for 3 minutes; other fish use a breeding count. Locking does not prevent breeding."))
                 .font(PixelTheme.font()).lineSpacing(4).foregroundStyle(PixelTheme.muted)
             VStack(alignment: .leading, spacing: 12) {
-                if PixelTheme.isPad { Text(L10n.text("亲代筛选")).foregroundStyle(gold) }
+                if PixelTheme.isPad { Text(L10n.text("Parent Filters")).foregroundStyle(gold) }
                 filters
             }.frame(maxWidth: .infinity, alignment: .leading).padding(14).pixelPanel()
             ViewThatFits(in: .horizontal) {
@@ -532,32 +540,32 @@ struct AquariumView: View {
 
     private var breedParentHeading: some View {
         HStack(spacing: 8) {
-            Text(L10n.text("选择亲代")).foregroundStyle(gold)
-            Text(L10n.text("可繁育 \(visibleFish.filter { $0.canBreed(at: store.now) }.count) 条")).foregroundStyle(PixelTheme.muted)
+            Text(L10n.text("Select Parents")).foregroundStyle(gold)
+            Text(L10n.text("\(visibleFish.filter { $0.canBreed(at: store.now) }.count) can breed")).foregroundStyle(PixelTheme.muted)
         }.fixedSize(horizontal: true, vertical: false)
     }
 
     private var breedSelectionTools: some View {
         HStack(spacing: 8) {
-            Button(L10n.text("推荐配对")) { selected = store.state.recommendedPair(at: store.now) }
+            Button(L10n.text("Suggested Pair")) { selected = store.state.recommendedPair(at: store.now) }
                 .disabled(store.state.breedRecommendation(at: store.now).parentIDs.count < 2)
-            Button(L10n.text("清空")) { selected = [] }.disabled(selected.isEmpty)
+            Button(L10n.text("Clear")) { selected = [] }.disabled(selected.isEmpty)
         }.buttonStyle(PixelButtonStyle()).fixedSize(horizontal: true, vertical: false)
     }
 
     private var breedReadout: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.text("已选择 \(selected.count)/2 条亲代")).foregroundStyle(PixelTheme.text)
+            Text(L10n.text("\(selected.count)/2 parents selected")).foregroundStyle(PixelTheme.text)
             if selected.count == 2,
                let a = store.state.fish.first(where: { $0.id == selected[0] }),
                let b = store.state.fish.first(where: { $0.id == selected[1] }),
                let odds = FishBalance.matrix["\(min(a.tier, b.tier))+\(max(a.tier, b.tier))"] {
-                Text(L10n.text("后代概率：") + odds.enumerated().filter { $0.element > 0 }.map {
+                Text(L10n.text("Offspring odds: ") + odds.enumerated().filter { $0.element > 0 }.map {
                     "\($0.offset + 1)★ \($0.element.formatted(.number.precision(.fractionLength(0...1))))%"
                 }.joined(separator: "  ")).foregroundStyle(gold)
                     .accessibilityIdentifier("breed.odds")
             } else {
-                Text(PixelTheme.isPad ? L10n.text("点击鱼卡或推荐配对，选满 2 条后繁育。") : L10n.text("请选择两条不同的亲代鱼。"))
+                Text(PixelTheme.isPad ? L10n.text("Select fish cards or use the suggested pair, then breed once 2 fish are selected.") : L10n.text("Select two different parent fish."))
                     .foregroundStyle(PixelTheme.muted)
             }
         }.font(PixelTheme.captionFont()).lineSpacing(4).fixedSize(horizontal: false, vertical: true)
@@ -567,7 +575,7 @@ struct AquariumView: View {
         Button {
             if store.breed(selected) { selected = [] }
         } label: {
-            HStack(spacing: 8) { PixelIcon("heart", color: PixelTheme.ink); Text(L10n.text("开始繁育 · 1 爱心")) }
+            HStack(spacing: 8) { PixelIcon("heart", color: PixelTheme.ink); Text(L10n.text("Breed · 1 Heart")) }
         }.buttonStyle(PixelButtonStyle(primary: true))
             .disabled(selected.count != 2 || store.state.hearts == 0 || !selected.allSatisfy { id in
                 store.state.fish.first { $0.id == id }?.canBreed(at: store.now) == true
@@ -581,10 +589,10 @@ struct AquariumView: View {
     private var mergeContent: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 8) {
-                Button(L10n.text("普通合成")) { reforgeMode = false }
+                Button(L10n.text("Normal Synthesis")) { reforgeMode = false }
                     .buttonStyle(PixelButtonStyle(primary: !reforgeMode))
                     .accessibilityIdentifier("merge.mode.normal")
-                Button(L10n.text("五星重铸")) { reforgeMode = true }
+                Button(L10n.text("Five-Star Reforge")) { reforgeMode = true }
                     .buttonStyle(PixelButtonStyle(primary: reforgeMode))
                     .accessibilityIdentifier("merge.mode.reforge")
             }.onChange(of: reforgeMode) { _ in selected = []; search = ""; tierFilter = -1 }
@@ -594,18 +602,18 @@ struct AquariumView: View {
 
     private var normalMergeContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("十条小鱼，汇成新的星光。")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
-            Text(L10n.text("消耗 10 条 1–4 星鱼，继承最高品阶；同星材料必定升一星。混星时，每条材料为自己的星级 +1 投一票。初始鱼、5 星鱼和锁定鱼不可选。"))
+            Text(L10n.text("Ten little fish become a new starlight.")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
+            Text(L10n.text("Consume 10 fish rated 1–4 stars and inherit the highest grade. Same-star materials guarantee a one-star upgrade. With mixed stars, each fish casts one vote for its own star level +1. Starter, 5-star, and locked fish cannot be selected."))
                 .font(PixelTheme.font()).lineSpacing(4).foregroundStyle(PixelTheme.muted)
             VStack(alignment: .leading, spacing: 12) {
-                Text(L10n.text("材料筛选")).foregroundStyle(gold)
+                Text(L10n.text("Material Filters")).foregroundStyle(gold)
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: 12) { mergeFilterToggles; Spacer(minLength: 0) }
                     VStack(alignment: .leading, spacing: 8) { mergeFilterToggles }
                 }
                 ViewThatFits(in: .horizontal) {
-                    HStack(spacing: 12) { Text(L10n.text("材料星级")).foregroundStyle(PixelTheme.muted); mergeTierButtons; Spacer(minLength: 0) }
-                    VStack(alignment: .leading, spacing: 8) { Text(L10n.text("材料星级")).foregroundStyle(PixelTheme.muted); mergeTierButtons }
+                    HStack(spacing: 12) { Text(L10n.text("Material Stars")).foregroundStyle(PixelTheme.muted); mergeTierButtons; Spacer(minLength: 0) }
+                    VStack(alignment: .leading, spacing: 8) { Text(L10n.text("Material Stars")).foregroundStyle(PixelTheme.muted); mergeTierButtons }
                 }
             }.frame(maxWidth: .infinity, alignment: .leading).padding(14).pixelPanel()
             ViewThatFits(in: .horizontal) {
@@ -623,10 +631,10 @@ struct AquariumView: View {
 
     private var reforgeContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("消耗 3 条已成年、次数耗尽、未锁定且未展示的五星生物，重铸为 1 条五星幼体。继承最高品阶，重新获得繁育次数，不耗爱心。"))
+            Text(L10n.text("Consume 3 adult five-star creatures with no breeding uses left, unlocked and not displayed, to create 1 five-star juvenile. It inherits the highest grade and receives fresh breeding uses. No hearts required."))
                 .font(PixelTheme.font()).foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
             VStack(alignment: .leading, spacing: 8) {
-                Text(L10n.text("80% 普通五星 · 20% 隐藏生物")).foregroundStyle(gold)
+                Text(L10n.text("80% Regular five-star · 20% Hidden creature")).foregroundStyle(gold)
                 Text(reforgePityText).foregroundStyle(PixelTheme.muted)
             }.font(PixelTheme.captionFont()).fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading).padding(14).pixelPanel()
@@ -636,7 +644,7 @@ struct AquariumView: View {
             }
             materialExclusionSummary
             if visibleFish.isEmpty {
-                Text(L10n.text("没有可重铸材料。先用完五星生物的繁育次数；展示中或已锁定的生物不会被选中。"))
+                Text(L10n.text("No eligible materials. Exhaust five-star breeding uses first. Displayed and locked creatures are protected."))
                     .foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true).padding(.vertical, 20)
             } else { fishGrid(visibleFish) }
         }
@@ -644,31 +652,31 @@ struct AquariumView: View {
 
     private var reforgePityText: String {
         if store.state.hiddenDiscoveredCount == FishCatalog.hidden.count {
-            return L10n.text("三种隐藏生物已集齐；隐藏概率仍为 20%，不再触发新物种保底。")
+            return L10n.text("All three hidden species discovered. The hidden chance stays at 20%; new-species guarantees end.")
         }
-        return L10n.text("连续 \(store.state.reforgeMisses)/9 次未发现新隐藏；再重铸 \(10 - store.state.reforgeMisses) 次内必得未发现的一种。重复隐藏不重置计数。")
+        return L10n.text("\(store.state.reforgeMisses)/9 reforges without a new hidden species. A new one is guaranteed within \(10 - store.state.reforgeMisses) more. Duplicates do not reset the count.")
     }
     private var reforgeSelectionTools: some View {
         HStack(spacing: 8) {
-            Button(L10n.text("自动选材")) { selected = store.state.autoReforgeSelection(at: store.now) }
+            Button(L10n.text("Auto-Select Materials")) { selected = store.state.autoReforgeSelection(at: store.now) }
                 .disabled(store.state.reforgeCandidates(at: store.now).count < ReforgeRules.inputCount)
-                .help(L10n.text("选择 1 条最高品阶与 2 条低品阶材料，不改变锁定或展示状态。"))
-            Button(L10n.text("清空")) { selected = [] }.disabled(selected.isEmpty)
+                .help(L10n.text("Selects one highest-grade and two low-grade materials, preserving locks and display status."))
+            Button(L10n.text("Clear")) { selected = [] }.disabled(selected.isEmpty)
         }.buttonStyle(PixelButtonStyle()).fixedSize(horizontal: true, vertical: false)
     }
     private var reforgeSelectionTitle: String {
-        L10n.text("已选择 \(selected.count)/3 条材料")
+        L10n.text("\(selected.count)/3 materials selected")
     }
     private var reforgeFooterDetail: String {
         if selected.count == 3 {
             let grade = store.state.fish.filter { selected.contains($0.id) }.map(\.grade).max() ?? 1
-            return L10n.text("继承品阶 \(grade) · 不耗爱心")
+            return L10n.text("Grade \(grade) inherited · No hearts")
         }
-        return L10n.text("请选择 3 条材料；锁定和展示中的生物受保护。")
+        return L10n.text("Choose 3 materials. Locked and displayed creatures are protected.")
     }
     private var reforgeConfirmButton: some View {
         Button { confirmMerge = true } label: {
-            HStack(spacing: 8) { PixelIcon("merge", color: PixelTheme.ink); Text(L10n.text("开始重铸 · 消耗 3 条")) }
+            HStack(spacing: 8) { PixelIcon("merge", color: PixelTheme.ink); Text(L10n.text("Reforge · Use 3")) }
         }.buttonStyle(PixelButtonStyle(primary: true)).fixedSize(horizontal: true, vertical: false)
             .disabled(selected.count != 3 || !Set(selected).isSubset(of: Set(store.state.reforgeCandidates(at: store.now).map(\.id))))
             .accessibilityIdentifier("reforge.confirm")
@@ -676,8 +684,8 @@ struct AquariumView: View {
 
     private var mergeFilterToggles: some View {
         Group {
-            Toggle(L10n.text("只选繁育次数耗尽的鱼"), isOn: mergeBinding(\.zeroUsesOnly)).fixedSize(horizontal: true, vertical: false)
-            Toggle(L10n.text("排除正在鱼缸展示的鱼"), isOn: mergeBinding(\.excludeInTank)).fixedSize(horizontal: true, vertical: false)
+            Toggle(L10n.text("Only fish with no breedings left"), isOn: mergeBinding(\.zeroUsesOnly)).fixedSize(horizontal: true, vertical: false)
+            Toggle(L10n.text("Exclude fish currently displayed"), isOn: mergeBinding(\.excludeInTank)).fixedSize(horizontal: true, vertical: false)
         }
     }
 
@@ -689,15 +697,15 @@ struct AquariumView: View {
                     if preferences.tiers.contains(tier) { preferences.tiers.remove(tier) } else { preferences.tiers.insert(tier) }
                     store.setMergePreferences(preferences); selected = []
                 }.buttonStyle(PixelButtonStyle(primary: store.state.mergePreferences.tiers.contains(tier), compact: true, fixedWidth: PixelTheme.filterButtonWidth))
-                    .accessibilityValue(store.state.mergePreferences.tiers.contains(tier) ? L10n.text("已选中") : L10n.text("未选中"))
+                    .accessibilityValue(store.state.mergePreferences.tiers.contains(tier) ? L10n.text("Selected") : L10n.text("Not Selected"))
             }
         }.fixedSize(horizontal: true, vertical: false)
     }
 
     private var mergeMaterialHeading: some View {
         HStack(spacing: 8) {
-            Text(L10n.text("选择材料")).foregroundStyle(gold)
-            Text(L10n.text("可选 \(visibleFish.count) 条")).foregroundStyle(PixelTheme.muted)
+            Text(L10n.text("Select Materials")).foregroundStyle(gold)
+            Text(L10n.text("\(visibleFish.count) available")).foregroundStyle(PixelTheme.muted)
         }.fixedSize(horizontal: true, vertical: false)
     }
 
@@ -705,7 +713,7 @@ struct AquariumView: View {
         let exclusions = store.state.materialExclusions(reforge: reforgeMode, at: store.now, tierFilter: tierFilter, search: search)
         if !exclusions.isEmpty {
             MaterialReasonLayout(spacing: 6) {
-                Text(L10n.text("已排除 \(exclusions.reduce(0) { $0 + $1.count }) 条"))
+                Text(L10n.text("\(exclusions.reduce(0) { $0 + $1.count }) excluded"))
                     .foregroundStyle(PixelTheme.muted).padding(.trailing, 4).padding(.vertical, 4)
                 ForEach(exclusions) { item in
                     HStack(spacing: 6) {
@@ -718,30 +726,30 @@ struct AquariumView: View {
                         .accessibilityElement(children: .combine)
                 }
             }.font(PixelTheme.captionFont())
-                .help(L10n.text("每条鱼仅计入一个原因；锁定保护请在“鱼群”中解除。"))
+                .help(L10n.text("Each fish is counted once. Unlock protected fish on the Fish tab."))
                 .accessibilityIdentifier("merge.exclusions")
         }
     }
 
     private var mergeSelectionTools: some View {
         HStack(spacing: 8) {
-            Button(L10n.text("自动选材")) { selected = store.state.autoMergeSelection() }
-                .help(L10n.text("优先同星材料；选择 1 条最高品阶与 9 条低消耗材料。"))
-            Button(L10n.text("清空")) { selected = [] }.disabled(selected.isEmpty)
+            Button(L10n.text("Auto-Select Materials")) { selected = store.state.autoMergeSelection() }
+                .help(L10n.text("Prioritizes same-star materials: one highest-grade fish and nine low-cost fish."))
+            Button(L10n.text("Clear")) { selected = [] }.disabled(selected.isEmpty)
         }.buttonStyle(PixelButtonStyle()).fixedSize(horizontal: true, vertical: false)
     }
 
     private var mergeReadout: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.text("已选择 \(selected.count)/10 条材料")).foregroundStyle(PixelTheme.text)
+            Text(L10n.text("\(selected.count)/10 materials selected")).foregroundStyle(PixelTheme.text)
             if selected.isEmpty {
-                Text(PixelTheme.isPad ? L10n.text("点击鱼卡或自动选材，凑齐 10 条后合成。") : L10n.text("合成需要 10 条不同的鱼。"))
+                Text(PixelTheme.isPad ? L10n.text("Select fish cards or auto-select materials, then synthesize once you have 10.") : L10n.text("Synthesis requires 10 different fish."))
                     .foregroundStyle(PixelTheme.muted)
             } else {
                 let picked = store.state.fish.filter { selected.contains($0.id) }
                 let odds = Dictionary(grouping: picked, by: { $0.tier + 1 })
-                Text(L10n.text("产出概率：") + odds.keys.sorted().map { "\($0)★ \(odds[$0]!.count * 100 / max(1, picked.count))%" }.joined(separator: "  ")
-                     + L10n.text(" · 继承品阶 \(picked.map(\.grade).max() ?? 1)"))
+                Text(L10n.text("Outcome odds: ") + odds.keys.sorted().map { "\($0)★ \(odds[$0]!.count * 100 / max(1, picked.count))%" }.joined(separator: "  ")
+                     + L10n.text(" · Inherits grade \(picked.map(\.grade).max() ?? 1)"))
                     .foregroundStyle(gold)
             }
         }.font(PixelTheme.captionFont()).lineSpacing(4).fixedSize(horizontal: false, vertical: true)
@@ -749,7 +757,7 @@ struct AquariumView: View {
 
     private var mergeConfirmButton: some View {
         Button { confirmMerge = true } label: {
-            HStack(spacing: 8) { PixelIcon("merge", color: PixelTheme.ink); Text(L10n.text("合成新鱼 · 消耗 10 条")) }
+            HStack(spacing: 8) { PixelIcon("merge", color: PixelTheme.ink); Text(L10n.text("Synthesize New Fish · Uses 10")) }
         }.buttonStyle(PixelButtonStyle(primary: true)).disabled(selected.count != 10)
             .fixedSize(horizontal: true, vertical: false)
     }
@@ -786,9 +794,9 @@ struct AquariumView: View {
     @ViewBuilder private var pageFooter: some View {
         switch tab {
         case .tank:
-            AquariumFooter(title: L10n.text("筛选结果 \(visibleFish.count) 条"), detail: tankFooterDetail) { EmptyView() }
+            AquariumFooter(title: L10n.text("\(visibleFish.count) Matching Fish"), detail: tankFooterDetail) { EmptyView() }
         case .breed:
-            AquariumFooter(title: L10n.text("已选择 \(selected.count)/2 条亲代"),
+            AquariumFooter(title: L10n.text("\(selected.count)/2 parents selected"),
                            detail: breedFooterDetail, emphasized: selected.count == 2 && store.state.hearts > 0) {
                 breedConfirmButton
             }
@@ -798,62 +806,62 @@ struct AquariumView: View {
                     reforgeConfirmButton
                 }
             } else {
-                AquariumFooter(title: (selected.isEmpty ? L10n.text("已选择 \(selected.count)/10 条材料") : L10n.text("已选择 \(selected.count)/10 条材料 · 品阶 \(store.state.fish.filter { selected.contains($0.id) }.map(\.grade).max() ?? 1)")),
+                AquariumFooter(title: (selected.isEmpty ? L10n.text("\(selected.count)/10 materials selected") : L10n.text("\(selected.count)/10 materials selected · Grade \(store.state.fish.filter { selected.contains($0.id) }.map(\.grade).max() ?? 1)")),
                            detail: mergeFooterDetail, emphasized: !selected.isEmpty) {
                 mergeConfirmButton
             }
             }
         case .decor:
-            AquariumFooter(title: L10n.text("造景 \(store.state.decorations.count)/\(store.state.capacity) 位 · 已解锁 \(DecorCatalog.all.filter { $0.unlockLevel <= store.state.level }.count)/\(DecorCatalog.all.count)"), detail: decorFooterDetail) { EmptyView() }
+            AquariumFooter(title: L10n.text("Decor \(store.state.decorations.count)/\(store.state.capacity) Slots · Unlocked \(DecorCatalog.all.filter { $0.unlockLevel <= store.state.level }.count)/\(DecorCatalog.all.count)"), detail: decorFooterDetail) { EmptyView() }
         case .book:
             if showingMedals {
-                AquariumFooter(title: L10n.text("勋章 \(store.state.earnedAchievements.count)/\(AchievementCatalog.all.count) · 展示 \(store.state.displayedAchievements.count) 枚"),
-                               detail: L10n.text("永久成就保留 · 勋章不占造景位。")) {
+                AquariumFooter(title: L10n.text("Medals \(store.state.earnedAchievements.count)/\(AchievementCatalog.all.count) · Displayed \(store.state.displayedAchievements.count)"),
+                               detail: L10n.text("Permanent records · Medals use no decor slots.")) {
                     HStack(spacing: 8) {
-                        Button(L10n.text("挂上全部")) { store.displayAchievements(AchievementCatalog.all.map(\.id).filter { store.state.earnedAchievements.contains($0) }) }
+                        Button(L10n.text("Display All")) { store.displayAchievements(AchievementCatalog.all.map(\.id).filter { store.state.earnedAchievements.contains($0) }) }
                             .disabled(store.state.earnedAchievements.isEmpty)
-                        Button(L10n.text("全部取下")) { store.displayAchievements([]) }.disabled(store.state.displayedAchievements.isEmpty)
+                        Button(L10n.text("Remove All")) { store.displayAchievements([]) }.disabled(store.state.displayedAchievements.isEmpty)
                     }
                 }
             } else {
-                AquariumFooter(title: L10n.text("鱼种 \(store.state.regularDiscoveredCount)/\(FishCatalog.regular.count) · 品阶外观 \(store.state.regularVariantCount)/\(FishCatalog.regular.reduce(0) { $0 + ($1.tier == 0 ? 1 : 5) })"),
-                               detail: L10n.text("放生和合成不会抹去收集记录。")) { EmptyView() }
+                AquariumFooter(title: L10n.text("Species \(store.state.regularDiscoveredCount)/\(FishCatalog.regular.count) · Grade Variants \(store.state.regularVariantCount)/\(FishCatalog.regular.reduce(0) { $0 + ($1.tier == 0 ? 1 : 5) })"),
+                               detail: L10n.text("Releasing and synthesizing fish never erase collection records.")) { EmptyView() }
             }
         case .settings:
-            AquariumFooter(title: L10n.text("音乐：\(store.state.audio.musicEnabled ? (AquariumMusicTrack(rawValue: store.state.audio.track) ?? .lofi).title : L10n.text("关闭")) · 灯光：\(store.state.lighting.title)"),
-                           detail: store.isPreviewOnly ? L10n.text("临时预览：原存档未改动，请先恢复有效存档。") : L10n.text("每 15 秒自动保存 · 每 5 分钟保留备份 · 建议定期导出")) {
+            AquariumFooter(title: L10n.text("Music: \(store.state.audio.musicEnabled ? (AquariumMusicTrack(rawValue: store.state.audio.track) ?? .lofi).title : L10n.text("Off")) · Lighting: \(store.state.lighting.title)"),
+                           detail: store.isPreviewOnly ? L10n.text("Temporary preview; restore a valid save to continue.") : L10n.text("Auto-save every 15s · Backup every 5min · Export regularly")) {
                 BackupExportButton(store: store)
             }
         }
     }
 
     private var tankFooterDetail: String {
-        guard !visibleFish.isEmpty else { return L10n.text("没有符合条件的鱼。") }
-        return L10n.text("点击鱼卡放入或收回")
+        guard !visibleFish.isEmpty else { return L10n.text("No fish match the criteria.") }
+        return L10n.text("Click a fish card to display or withdraw")
     }
     private var breedFooterDetail: String {
         let parents = selected.compactMap { id in store.state.fish.first { $0.id == id } }
-        guard selected.count == 2 && parents.count == 2 else { return L10n.text("请选择两条不同的亲代鱼。") }
-        if store.state.hearts == 0 { return L10n.text("爱心不足，每 7 分钟恢复一颗。") }
-        if parents.contains(where: { !$0.isAdult(at: store.now) }) { return L10n.text("幼鱼或冷却中的初始鱼暂时不能繁育。") }
-        if parents.contains(where: { !$0.canBreed(at: store.now) }) { return L10n.text("所选亲代的繁育次数已用尽。") }
-        guard let odds = FishBalance.matrix["\(min(parents[0].tier, parents[1].tier))+\(max(parents[0].tier, parents[1].tier))"] else { return L10n.text("请选择两条不同的亲代鱼。") }
-        return L10n.text("后代概率：") + odds.enumerated().filter { $0.element > 0 }.map {
+        guard selected.count == 2 && parents.count == 2 else { return L10n.text("Select two different parent fish.") }
+        if store.state.hearts == 0 { return L10n.text("Not enough hearts. One restores every 7 minutes.") }
+        if parents.contains(where: { !$0.isAdult(at: store.now) }) { return L10n.text("Juveniles and starter fish on cooldown cannot breed yet.") }
+        if parents.contains(where: { !$0.canBreed(at: store.now) }) { return L10n.text("The selected parents have no breedings left.") }
+        guard let odds = FishBalance.matrix["\(min(parents[0].tier, parents[1].tier))+\(max(parents[0].tier, parents[1].tier))"] else { return L10n.text("Select two different parent fish.") }
+        return L10n.text("Offspring odds: ") + odds.enumerated().filter { $0.element > 0 }.map {
             "\($0.offset + 1)★ \($0.element.formatted(.number.precision(.fractionLength(0...1))))%"
         }.joined(separator: "  ")
     }
     private var mergeFooterDetail: String {
-        guard !selected.isEmpty else { return L10n.text("合成需要 10 条不同的鱼。") }
+        guard !selected.isEmpty else { return L10n.text("Synthesis requires 10 different fish.") }
         let picked = store.state.fish.filter { selected.contains($0.id) }
         let odds = Dictionary(grouping: picked, by: { $0.tier + 1 })
-        return L10n.text("产出概率：") + odds.keys.sorted().map { "\($0)★\(odds[$0]!.count * 100 / max(1, picked.count))%" }.joined(separator: "  ")
+        return L10n.text("Outcome odds: ") + odds.keys.sorted().map { "\($0)★\(odds[$0]!.count * 100 / max(1, picked.count))%" }.joined(separator: "  ")
     }
     private var decorFooterDetail: String {
-        if store.state.decorations.count >= store.state.capacity { return L10n.text("造景位置已满，先收回一件再布置。") }
+        if store.state.decorations.count >= store.state.capacity { return L10n.text("Decor slots are full. Remove one before placing another.") }
         if let next = DecorCatalog.all.filter({ $0.unlockLevel > store.state.level }).map(\.unlockLevel).min() {
-            return L10n.text("拖动可调整位置 · Lv.\(next) 解锁 \(DecorCatalog.all.filter { $0.unlockLevel == next }.count) 件新造景")
+            return L10n.text("Drag to reposition · Lv.\(next) unlocks \(DecorCatalog.all.filter { $0.unlockLevel == next }.count) new decorations")
         }
-        return L10n.text("拖动造景调整位置；顶挂灯与海底造景共用槽位，勋章不占位。")
+        return L10n.text("Drag decor to reposition it. Hanging lights and seabed decor share slots; medals use none.")
     }
     #endif
 
@@ -866,7 +874,7 @@ struct AquariumView: View {
     }
 
     private var fishSearch: some View {
-        TextField(L10n.text("搜索鱼种"), text: $search).textFieldStyle(.plain)
+        TextField(L10n.text("Search Species"), text: $search).textFieldStyle(.plain)
             .padding(12).background(PixelTheme.ink).pixelPanel(PixelTheme.ink)
     }
     private var stackedFilters: some View {
@@ -893,7 +901,7 @@ struct AquariumView: View {
     }
     private var tierButtons: some View {
         ForEach(-1...5, id: \.self) { tier in
-            Button(tier == -1 ? L10n.text("全部") : tier == 0 ? L10n.text("初始") : "\(tier)★") { tierFilter = tier }
+            Button(tier == -1 ? L10n.text("All") : tier == 0 ? L10n.text("Starter") : "\(tier)★") { tierFilter = tier }
                 .buttonStyle(PixelButtonStyle(primary: tierFilter == tier, compact: true, fixedWidth: PixelTheme.filterButtonWidth))
         }
     }
@@ -915,7 +923,7 @@ struct AquariumView: View {
     @ViewBuilder
     private func fishGrid(_ fish: [AquariumFish]) -> some View {
         if fish.isEmpty {
-            Text(tab == .merge ? L10n.text("没有符合筛选条件的材料鱼。可关闭“只选繁育次数耗尽”或调整星级。") : L10n.text("没有符合条件的鱼。"))
+            Text(tab == .merge ? L10n.text("No material fish match the filters. Turn off “Only fish with no breedings left” or adjust the star level.") : L10n.text("No fish match the criteria."))
                 .foregroundStyle(PixelTheme.muted).padding(.vertical, 30)
         } else {
             LazyVGrid(columns: columns, spacing: 12) {
@@ -943,7 +951,7 @@ struct AquariumView: View {
                         .background(PixelSpecimenWell())
                     Text(fish.name).font(PixelTheme.font()).lineLimit(PixelTheme.isPad ? 1 : 2)
                         .frame(maxWidth: .infinity, alignment: .leading).frame(height: PixelTheme.metric(L10n.language == .english ? 38 : 32, 24), alignment: .topLeading)
-                    Text(L10n.text("\(fish.tier == 0 ? L10n.text("初始鱼") : String(repeating: "★", count: fish.tier)) · 品阶 \(fish.grade)"))
+                    Text(L10n.text("\(fish.tier == 0 ? L10n.text("Starter [fish]") : String(repeating: "★", count: fish.tier)) · Grade \(fish.grade)"))
                         .font(PixelTheme.captionFont()).foregroundStyle(gold)
                     breedingHearts(fish)
                     fishStatus(fish)
@@ -955,17 +963,17 @@ struct AquariumView: View {
                     .contentShape(Rectangle())
             }.buttonStyle(.plain).disabled(tab == .breed && !fish.canBreed(at: store.now))
                 .accessibilityIdentifier("fish.card." + fish.id.uuidString)
-                .accessibilityLabel(L10n.text("\(tab == .tank ? (inTank ? L10n.text("收回") : L10n.text("放入")) : (isSelected ? L10n.text("取消选择") : L10n.text("选择")))\(fish.name)，\(fish.tier) 星，品阶 \(fish.grade)"))
-                .accessibilityValue(tab == .tank ? (inTank ? L10n.text("展示中") : L10n.text("未展示")) : (isSelected ? L10n.text("已选择") : L10n.text("未选择")))
+                .accessibilityLabel(L10n.text("\(tab == .tank ? (inTank ? L10n.text("Put Away") : L10n.text("Place")) : (isSelected ? L10n.text("Deselect") : L10n.text("Select")))\(fish.name), \(fish.tier) stars, grade \(fish.grade)"))
+                .accessibilityValue(tab == .tank ? (inTank ? L10n.text("Displayed") : L10n.text("Not Displayed")) : (isSelected ? L10n.text("Selected [choice]") : L10n.text("None Selected")))
                 .accessibilityHint(status(fish))
-                .help(tab == .breed && fish.locked ? L10n.text("锁定保护不影响繁育；请在“鱼群”中解锁。") : status(fish))
+                .help(tab == .breed && fish.locked ? L10n.text("Locked fish can still breed. Unlock them on the Fish tab.") : status(fish))
             if tab == .tank {
                 HStack(spacing: 8) {
                     Spacer(minLength: 0)
                     Button { store.setLocked(fish.id, !fish.locked) } label: { PixelIcon(fish.locked ? "lock" : "unlock") }
-                        .accessibilityLabel(fish.locked ? L10n.text("解锁\(fish.name)") : L10n.text("锁定\(fish.name)"))
+                        .accessibilityLabel(fish.locked ? L10n.text("Unlock \(fish.name)") : L10n.text("Lock \(fish.name)"))
                     if fish.tier > 0 {
-                        Button(L10n.text("放生"), role: .destructive) { releaseTarget = fish }.disabled(fish.locked)
+                        Button(L10n.text("Release"), role: .destructive) { releaseTarget = fish }.disabled(fish.locked)
                     }
                 }.buttonStyle(PixelButtonStyle(compact: true)).padding(cardPadding)
             }
@@ -981,8 +989,8 @@ struct AquariumView: View {
         PixelIcon("lock", color: PixelTheme.ink).frame(width: 16, height: 16).padding(4)
             .background(PixelOutline(cut: 3).fill(gold))
             .overlay(PixelOutline(cut: 3).stroke(PixelTheme.ink, lineWidth: 1))
-            .accessibilityLabel(L10n.text("锁定保护"))
-            .help(L10n.text("锁定保护不影响繁育；请在“鱼群”中解锁。"))
+            .accessibilityLabel(L10n.text("Locked"))
+            .help(L10n.text("Locked fish can still breed. Unlock them on the Fish tab."))
             .accessibilityIdentifier("fish.locked")
     }
 
@@ -991,7 +999,7 @@ struct AquariumView: View {
             if let deadline = fish.maturesAt, deadline > store.now {
                 let color = fish.expBanked ? Color(hex: 0xB9A0E8) : PixelTheme.gold
                 HStack(spacing: 6) {
-                    Text(fish.expBanked ? L10n.text("冷却中") : L10n.text("未成年"))
+                    Text(fish.expBanked ? L10n.text("Cooldown [badge]") : L10n.text("Juvenile"))
                         .foregroundStyle(PixelTheme.ink).fixedSize(horizontal: true, vertical: false)
                         .padding(.horizontal, 6).padding(.vertical, 3)
                         .background(PixelOutline(cut: 3).fill(color))
@@ -1012,7 +1020,7 @@ struct AquariumView: View {
     private var displayedBadge: some View {
         HStack(spacing: 4) {
             PixelIcon("eye", color: PixelTheme.ink)
-            Text(L10n.text("展示中")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.ink)
+            Text(L10n.text("Displayed")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.ink)
         }.padding(.horizontal, 6).padding(.vertical, 2)
             .background(PixelOutline().fill(PixelTheme.green))
             .overlay(PixelOutline().stroke(PixelTheme.ink, lineWidth: 1))
@@ -1022,7 +1030,7 @@ struct AquariumView: View {
 
     private func breedingHearts(_ fish: AquariumFish) -> some View {
         HStack(spacing: 6) {
-            Text(L10n.text("繁育")).foregroundStyle(PixelTheme.muted)
+            Text(L10n.text("Breed")).foregroundStyle(PixelTheme.muted)
             HStack(spacing: 2) {
                 if fish.tier == 0 {
                     PixelIcon("heart", color: PixelTheme.pink)
@@ -1036,19 +1044,19 @@ struct AquariumView: View {
             }
         }.font(PixelTheme.captionFont()).frame(height: PixelTheme.metric(16, 24))
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(fish.tier == 0 ? L10n.text("繁育次数无限") : L10n.text("剩余繁育 \(fish.uses) 次，共 \(fish.maxUses) 次"))
-            .help(fish.tier == 0 ? L10n.text("繁育次数无限") : L10n.text("实心爱心为剩余次数，空心爱心为已用次数。"))
+            .accessibilityLabel(fish.tier == 0 ? L10n.text("Unlimited breedings") : L10n.text("\(fish.uses) of \(fish.maxUses) breedings remaining"))
+            .help(fish.tier == 0 ? L10n.text("Unlimited breedings") : L10n.text("Filled hearts show remaining uses; empty hearts show used ones."))
     }
 
     private var bookContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("海洋图鉴")).font(PixelTheme.font(24))
+            Text(L10n.text("Ocean Catalog")).font(PixelTheme.font(24))
             #if os(iOS)
-            Text(L10n.text("已发现 \(store.state.regularDiscoveredCount)/29 种 · 品阶外观 \(store.state.regularVariantCount)/\(FishCatalog.regular.reduce(0) { $0 + ($1.tier == 0 ? 1 : 5) })。放生和合成不会抹去收集记录。"))
+            Text(L10n.text("Discovered \(store.state.regularDiscoveredCount)/29 species · Grade variants \(store.state.regularVariantCount)/\(FishCatalog.regular.reduce(0) { $0 + ($1.tier == 0 ? 1 : 5) }). Releasing or synthesizing fish will not erase collection records."))
                 .font(PixelTheme.font()).foregroundStyle(PixelTheme.muted)
             #endif
             if store.state.hiddenDiscoveredCount > 0 {
-                Text(L10n.text("隐藏发现 \(store.state.hiddenDiscoveredCount)/3")).font(PixelTheme.captionFont()).foregroundStyle(gold)
+                Text(L10n.text("Hidden discoveries \(store.state.hiddenDiscoveredCount)/3")).font(PixelTheme.captionFont()).foregroundStyle(gold)
             }
             LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(store.state.catalogSpecies) { species in
@@ -1058,7 +1066,7 @@ struct AquariumView: View {
                         catalogPortrait(species, grade: 1, revealed: found).frame(height: 68).frame(maxWidth: .infinity)
                             .accessibilityHidden(true)
                         Text(found ? species.name : "???").font(PixelTheme.font())
-                        Text(species.tier == 0 ? L10n.text("初始鱼") : String(repeating: "★", count: species.tier))
+                        Text(species.tier == 0 ? L10n.text("Starter [fish]") : String(repeating: "★", count: species.tier))
                             .font(PixelTheme.font()).foregroundStyle(gold)
                         HStack(spacing: 5) {
                             ForEach(1...(species.tier == 0 ? 1 : 5), id: \.self) { grade in
@@ -1066,13 +1074,13 @@ struct AquariumView: View {
                                 VStack(spacing: 3) {
                                     catalogPortrait(species, grade: grade, revealed: owned).frame(height: 20).accessibilityHidden(true)
                                     Text("\(grade)").font(PixelTheme.font())
-                                }.accessibilityLabel(L10n.text("品阶 \(grade)，\(owned ? L10n.text("已收集") : L10n.text("未收集"))"))
+                                }.accessibilityLabel(L10n.text("Grade \(grade), \(owned ? L10n.text("Collected") : L10n.text("Not Collected"))"))
                             }
                         }
                         HStack(spacing: 4) {
-                            Text(L10n.text("现有 \(store.state.fish.filter { $0.speciesID == species.id }.count) 条")).foregroundStyle(PixelTheme.muted)
+                            Text(L10n.text("Owned: \(store.state.fish.filter { $0.speciesID == species.id }.count)")).foregroundStyle(PixelTheme.muted)
                             Spacer(minLength: 0)
-                            if displayedCount > 0 { Text(L10n.text("展示 \(displayedCount) 条")).foregroundStyle(PixelTheme.green) }
+                            if displayedCount > 0 { Text(L10n.text("Display \(displayedCount)")).foregroundStyle(PixelTheme.green) }
                         }.font(PixelTheme.font())
                     }.padding(14).frame(maxWidth: .infinity, alignment: .leading)
                         .background(PixelOutline().fill(Color(hex: 0x304C5B)))
@@ -1086,21 +1094,21 @@ struct AquariumView: View {
 
     private func outcomeView(_ result: FishOutcome) -> some View {
         VStack(spacing: 20) {
-            Text(result.child.species.hidden && result.novel ? L10n.text("神秘伙伴现身了") : result.novel ? L10n.text("发现新的海洋伙伴") : L10n.text("新的小鱼诞生了")).font(PixelTheme.font(24)).foregroundStyle(gold)
+            Text(result.child.species.hidden && result.novel ? L10n.text("A mysterious companion appears") : result.novel ? L10n.text("Discover a new ocean friend") : L10n.text("A new fish is born")).font(PixelTheme.font(24)).foregroundStyle(gold)
             portrait(result.child.species, grade: result.child.grade).frame(width: 192, height: 144)
-            if result.child.species.hidden { Text(L10n.text("隐藏生物")).foregroundStyle(gold) }
-            if result.guaranteed { Text(L10n.text("新隐藏保底")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.green) }
+            if result.child.species.hidden { Text(L10n.text("Hidden Creature")).foregroundStyle(gold) }
+            if result.guaranteed { Text(L10n.text("New hidden species guaranteed")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.green) }
             VStack(spacing: 10) {
                 if result.novel || result.novelVariant {
                     PixelDiscoveryBadge(newSpecies: result.novel)
                 }
                 Text(result.child.name).font(PixelTheme.font(24))
             }
-            Text(L10n.text("\(result.child.tier)★ · 品阶 \(result.child.grade)"))
+            Text(L10n.text("\(result.child.tier)★ · Grade \(result.child.grade)"))
             breedingHearts(result.child)
-            Text(L10n.text("成长时间 \(Int(FishBalance.growth[result.child.tier] / 60)) 分钟\(result.expGained > 0 ? L10n.text(" · 出生经验 +\(result.expGained)") : "")"))
+            Text(L10n.text("Grows in \(Int(FishBalance.growth[result.child.tier] / 60)) minutes\(result.expGained > 0 ? L10n.text(" · Birth XP +\(result.expGained)") : "")"))
                 .font(PixelTheme.font()).foregroundStyle(PixelTheme.muted)
-            Button(L10n.text("收下小鱼")) { store.outcome = nil }.buttonStyle(PixelButtonStyle(primary: true))
+            Button(L10n.text("Keep Fish")) { store.outcome = nil }.buttonStyle(PixelButtonStyle(primary: true))
                 .keyboardShortcut(.defaultAction)
         }.padding(32).frame(minWidth: 280)
             .font(PixelTheme.font()).foregroundStyle(PixelTheme.text)
@@ -1123,9 +1131,9 @@ struct AquariumView: View {
     }
     private func status(_ fish: AquariumFish) -> String {
         if let date = fish.maturesAt, date > store.now {
-            return L10n.text("\(fish.expBanked ? L10n.text("冷却") : L10n.text("成长"))中 · \(countdown(date))")
+            return L10n.text("\(fish.expBanked ? L10n.text("Cooldown") : L10n.text("Growth")) · \(countdown(date))")
         }
-        return fish.canBreed(at: store.now) ? L10n.text("已成年 · 可繁育") : L10n.text("已成年 · 次数耗尽")
+        return fish.canBreed(at: store.now) ? L10n.text("Adult · Can breed") : L10n.text("Adult · Used up")
     }
     private func countdown(_ date: Date) -> String {
         let seconds = max(0, Int(ceil(date.timeIntervalSince(store.now))))
@@ -1136,7 +1144,7 @@ struct AquariumView: View {
 private extension AquariumView {
     var chrome: some View {
         #if os(macOS)
-        PixelWindowChrome(title: L10n.text("Fishtank / 口袋海洋"), closeLabel: L10n.text("关闭养成手册"), bottomSpacing: 0) { NSApp.keyWindow?.close() }
+        PixelWindowChrome(title: L10n.text("Fishtank / Pocket Ocean"), closeLabel: L10n.text("Close Care Guide"), bottomSpacing: 0) { NSApp.keyWindow?.close() }
         #else
         EmptyView()
         #endif
@@ -1150,11 +1158,11 @@ private extension AquariumView {
                     HStack(spacing: 8) {
                         PixelIcon(icon(for: item), color: tab == item ? PixelTheme.green : PixelTheme.muted)
                             .frame(width: 16, height: 16)
-                        Text(L10n.key(item.rawValue))
+                        Text(item.title)
                     }
                 }.buttonStyle(PixelTabStyle(selected: tab == item, edge: .bottom))
                     .keyboardShortcut(KeyEquivalent(Character(String((AquariumTab.allCases.firstIndex(of: item) ?? 0) + 1))), modifiers: .command)
-                    .accessibilityLabel(L10n.key(item.rawValue))
+                    .accessibilityLabel(item.title)
                     .accessibilityAddTraits(tab == item ? .isSelected : [])
             }
         }
@@ -1191,11 +1199,11 @@ private extension AquariumView {
                 HStack(spacing: 6) {
                     PixelIcon(icon(for: item), color: tab == item ? PixelTheme.ink : PixelTheme.text)
                         .frame(width: PixelTheme.metric(16, 20), height: PixelTheme.metric(16, 20))
-                    Text(L10n.key(item.rawValue)).fixedSize(horizontal: true, vertical: false)
+                    Text(item.title).fixedSize(horizontal: true, vertical: false)
                 }.frame(minWidth: 48, maxWidth: .infinity)
             }.buttonStyle(PixelButtonStyle(primary: tab == item, compact: PixelTheme.isPad))
                 .keyboardShortcut(KeyEquivalent(Character(String((AquariumTab.allCases.firstIndex(of: item) ?? 0) + 1))), modifiers: .command)
-                .accessibilityLabel(L10n.key(item.rawValue))
+                .accessibilityLabel(item.title)
                 .accessibilityAddTraits(tab == item ? .isSelected : [])
         }
     }
@@ -1207,9 +1215,9 @@ private extension AquariumView {
     var collectionContent: some View {
         VStack(alignment: .leading, spacing: 18) {
             HStack {
-                Button(PixelTheme.isPad ? L10n.text("鱼种 \(store.state.regularDiscoveredCount)/29") : L10n.text("鱼种")) { showingMedals = false }
+                Button(PixelTheme.isPad ? L10n.text("Species \(store.state.regularDiscoveredCount)/29") : L10n.text("Species")) { showingMedals = false }
                     .buttonStyle(PixelButtonStyle(primary: !showingMedals))
-                Button(PixelTheme.isPad ? L10n.text("勋章 \(store.state.earnedAchievements.count)/\(AchievementCatalog.all.count)") : L10n.text("勋章")) { showingMedals = true }
+                Button(PixelTheme.isPad ? L10n.text("Medals \(store.state.earnedAchievements.count)/\(AchievementCatalog.all.count)") : L10n.text("Medals")) { showingMedals = true }
                     .buttonStyle(PixelButtonStyle(primary: showingMedals))
                 Spacer()
             }
@@ -1220,21 +1228,17 @@ private extension AquariumView {
     var decorContent: some View {
         VStack(alignment: .leading, spacing: PixelTheme.metric(14, 18)) {
             #if os(macOS)
-            HStack(alignment: .center, spacing: 20) {
-                PixelAquariumPreview(scene: scene, store: store, paused: scenePaused)
-                    .frame(width: 256, height: 144).accessibilityIdentifier("decor.preview")
-                Text(L10n.text("布置一小片海底")).font(PixelTheme.font(18)).foregroundStyle(gold)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
+            Text(L10n.text("Decorate a little seabed")).font(PixelTheme.font(18)).foregroundStyle(gold)
+                .frame(maxWidth: .infinity, alignment: .leading)
             #else
             HStack {
-                Text(L10n.text("布置一小片海底")).font(PixelTheme.font(24)).foregroundStyle(gold)
+                Text(L10n.text("Decorate a little seabed")).font(PixelTheme.font(24)).foregroundStyle(gold)
                 Spacer()
-                Text(L10n.text("\(store.state.decorations.count)/\(store.state.capacity) 位")).foregroundStyle(PixelTheme.muted)
+                Text(L10n.text("\(store.state.decorations.count)/\(store.state.capacity) slots")).foregroundStyle(PixelTheme.muted)
             }
             PixelAquariumPreview(scene: scene, store: store, paused: scenePaused)
                 .frame(maxWidth: 640).frame(maxWidth: .infinity)
-            Text(L10n.text("在鱼缸中直接拖动造景调整位置。顶挂灯与海底造景共用槽位，勋章不占位。"))
+            Text(L10n.text("Drag scenery directly in the aquarium to reposition it. Hanging lights and seabed scenery share slots; medals use none."))
                 .foregroundStyle(PixelTheme.muted)
             #endif
             LazyVGrid(columns: [GridItem(.adaptive(minimum: PixelTheme.metric(184, 232)), spacing: 12)], spacing: 12) {
@@ -1245,7 +1249,7 @@ private extension AquariumView {
                         Button { store.toggleDecoration(item.id) } label: {
                             VStack(alignment: .leading, spacing: PixelTheme.metric(8, 12)) {
                                 HStack {
-                                    Text(item.top ? L10n.text("顶挂") : L10n.text("海底")).foregroundStyle(PixelTheme.muted)
+                                    Text(item.top ? L10n.text("Hanging") : L10n.text("Seabed")).foregroundStyle(PixelTheme.muted)
                                     Spacer()
                                     if !unlocked { PixelIcon("lock") }
                                 }.frame(height: PixelTheme.metric(20, 24))
@@ -1254,7 +1258,7 @@ private extension AquariumView {
                                     .padding(6).frame(height: PixelTheme.metric(64, 76)).frame(maxWidth: .infinity).opacity(unlocked ? 1 : 0.3)
                                     .background(PixelSpecimenWell())
                                 Text(item.name).foregroundStyle(PixelTheme.text).lineLimit(2).frame(height: PixelTheme.metric(L10n.language == .english ? 38 : 28, 24), alignment: .topLeading)
-                                Text(unlocked ? (placed == nil ? L10n.text("已解锁") : L10n.text("可拖动调整位置")) : L10n.text("Lv.\(item.unlockLevel) 解锁"))
+                                Text(unlocked ? (placed == nil ? L10n.text("Unlocked") : L10n.text("Drag to reposition")) : L10n.text("Unlocks at Lv.\(item.unlockLevel)"))
                                     .foregroundStyle(unlocked ? PixelTheme.green : PixelTheme.muted)
                                     .lineLimit(1).frame(height: PixelTheme.metric(16, 24), alignment: .leading)
                                 Spacer(minLength: PixelTheme.metric(40, 52))
@@ -1262,11 +1266,11 @@ private extension AquariumView {
                                 .pixelCard(displayed: placed != nil).contentShape(Rectangle())
                         }.buttonStyle(.plain).disabled(!unlocked)
                             .accessibilityIdentifier("decor.card." + item.id)
-                            .accessibilityLabel(placed == nil ? L10n.text("放入装饰\(item.name)") : L10n.text("收回装饰\(item.name)"))
-                            .accessibilityValue(placed == nil ? L10n.text("未展示") : L10n.text("展示中"))
-                        Button(L10n.text("翻转")) { store.flipDecoration(item.id) }.disabled(placed == nil)
+                            .accessibilityLabel(placed == nil ? L10n.text("Place \(item.name)") : L10n.text("Store \(item.name)"))
+                            .accessibilityValue(placed == nil ? L10n.text("Not Displayed") : L10n.text("Displayed"))
+                        Button(L10n.text("Flip")) { store.flipDecoration(item.id) }.disabled(placed == nil)
                             .buttonStyle(PixelButtonStyle(compact: true)).padding(14)
-                            .accessibilityLabel(L10n.text("翻转\(item.name)"))
+                            .accessibilityLabel(L10n.text("Flip \(item.name)"))
                     }.overlay(alignment: .topTrailing) {
                         if placed != nil {
                             displayedBadge.padding(8).allowsHitTesting(false)
@@ -1280,16 +1284,16 @@ private extension AquariumView {
 
     var medalsContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("每一次相遇，都值得纪念。")).font(PixelTheme.font(24)).foregroundStyle(gold)
+            Text(L10n.text("Every encounter is worth remembering.")).font(PixelTheme.font(24)).foregroundStyle(gold)
             #if os(iOS)
-            Text(L10n.text("\(AchievementCatalog.all.count) 项永久成就。已获得的记录不会因合成或放生消失，可同时挂上多枚。"))
+            Text(L10n.text("\(AchievementCatalog.all.count) permanent achievements. Synthesis and release never erase earned records. Display several at once."))
                 .foregroundStyle(PixelTheme.muted)
             HStack {
-                Button(L10n.text("挂上全部")) { store.displayAchievements(AchievementCatalog.all.map(\.id).filter { store.state.earnedAchievements.contains($0) }) }
+                Button(L10n.text("Display All")) { store.displayAchievements(AchievementCatalog.all.map(\.id).filter { store.state.earnedAchievements.contains($0) }) }
                     .disabled(store.state.earnedAchievements.isEmpty)
-                Button(L10n.text("全部取下")) { store.displayAchievements([]) }.disabled(store.state.displayedAchievements.isEmpty)
+                Button(L10n.text("Remove All")) { store.displayAchievements([]) }.disabled(store.state.displayedAchievements.isEmpty)
                 Spacer()
-                Text(L10n.text("展示 \(store.state.displayedAchievements.count) 枚")).foregroundStyle(PixelTheme.muted)
+                Text(L10n.text("Display \(store.state.displayedAchievements.count) [medals]")).foregroundStyle(PixelTheme.muted)
             }
             #endif
             LazyVGrid(columns: [GridItem(.adaptive(minimum: PixelTheme.metric(184, 232)), spacing: 12)], spacing: 12) {
@@ -1309,14 +1313,14 @@ private extension AquariumView {
                             Text(item.note).foregroundStyle(PixelTheme.muted).lineSpacing(4).lineLimit(2)
                                 .frame(height: PixelTheme.metric(L10n.language == .english ? 48 : 40, 60), alignment: .topLeading)
                             PixelMeter(value: Double(progress.unlocked ? item.total : progress.current), total: Double(item.total), color: gold)
-                            Text(progress.unlocked ? L10n.text("永久获得") : "\(progress.current)/\(item.total)").foregroundStyle(PixelTheme.muted)
+                            Text(progress.unlocked ? L10n.text("Earned Permanently") : "\(progress.current)/\(item.total)").foregroundStyle(PixelTheme.muted)
                                 .frame(height: PixelTheme.metric(16, 24), alignment: .leading)
                         }.padding(14).frame(maxWidth: .infinity, alignment: .leading)
                             .pixelCard(displayed: displayed).contentShape(Rectangle())
                     }.buttonStyle(.plain).disabled(!progress.unlocked)
                         .accessibilityIdentifier("medal.card." + item.id)
-                        .accessibilityLabel(displayed ? L10n.text("取下勋章\(item.title)") : L10n.text("挂上勋章\(item.title)"))
-                        .accessibilityValue(progress.unlocked ? (displayed ? L10n.text("展示中") : L10n.text("未展示")) : L10n.text("尚未获得"))
+                        .accessibilityLabel(displayed ? L10n.text("Remove \(item.title)") : L10n.text("Display \(item.title) [medal action]"))
+                        .accessibilityValue(progress.unlocked ? (displayed ? L10n.text("Displayed") : L10n.text("Not Displayed")) : L10n.text("Not Earned"))
                         .accessibilityHint(item.note)
                         .overlay(alignment: .topTrailing) {
                             if displayed {
@@ -1333,20 +1337,20 @@ private extension AquariumView {
             #if os(macOS)
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(L10n.text("应用设置")).foregroundStyle(gold)
-                    Text(L10n.text("管理接入、气泡和提示音")).foregroundStyle(PixelTheme.muted)
+                    Text(L10n.text("App Settings")).foregroundStyle(gold)
+                    Text(L10n.text("Manage integrations, bubbles, and alert sounds")).foregroundStyle(PixelTheme.muted)
                 }
                 Spacer()
-                Button(L10n.text("打开设置…")) { openAgentSettings?() }.disabled(openAgentSettings == nil)
+                Button(L10n.text("Open Settings…")) { openAgentSettings?() }.disabled(openAgentSettings == nil)
             }.padding(16).pixelPanel()
             #endif
-            Text(L10n.text("声音与海的颜色")).font(PixelTheme.font(24)).foregroundStyle(gold)
+            Text(L10n.text("Sound and Sea Color")).font(PixelTheme.font(24)).foregroundStyle(gold)
             #if os(iOS)
             LanguageSettingsView().padding(16).pixelPanel()
             #endif
             VStack(alignment: .leading, spacing: 10) {
-                audioRow(L10n.text("操作音效"), volumeTitle: L10n.text("音效音量"), enabled: \.sfxEnabled, volume: \.sfxVolume)
-                audioRow(L10n.text("背景音乐"), volumeTitle: L10n.text("音乐音量"), enabled: \.musicEnabled, volume: \.musicVolume)
+                audioRow(L10n.text("Action Sounds"), volumeTitle: L10n.text("Sound Effects Volume"), enabled: \.sfxEnabled, volume: \.sfxVolume)
+                audioRow(L10n.text("Background Music"), volumeTitle: L10n.text("Music Volume"), enabled: \.musicEnabled, volume: \.musicVolume)
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: 8) { musicChoices; Spacer(minLength: 12); soundPreviewButton }
                     VStack(alignment: .leading, spacing: 8) {
@@ -1356,7 +1360,7 @@ private extension AquariumView {
                 }
             }.frame(maxWidth: .infinity, alignment: .leading).padding(16).pixelPanel()
             VStack(alignment: .leading, spacing: 10) {
-                Text(L10n.text("鱼缸灯光")).foregroundStyle(gold)
+                Text(L10n.text("Aquarium Lighting")).foregroundStyle(gold)
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: 8) {
                         railAnimationToggle
@@ -1374,26 +1378,26 @@ private extension AquariumView {
                         HStack { Spacer(minLength: 0); lightingModeButtons }
                     }
                 }
-                Text(L10n.text("自动模式在本地时间 19:00–07:00 使用夜景。顶挂灯在夜间显示点阵灯光。"))
+                Text(L10n.text("Auto mode uses the night scene from 19:00–07:00 local time. Hanging lights show pixel lights at night."))
                     .foregroundStyle(PixelTheme.muted)
             }.frame(maxWidth: .infinity, alignment: .leading).padding(16).pixelPanel()
             SavedGamePanel(store: store)
-            Toggle(L10n.text("成年 / 冷却 / 爱心回满提醒"), isOn: Binding(get: { store.remindersEnabled }, set: { store.setReminders($0) }))
+            Toggle(L10n.text("Growth / Cooldown / Full-Heart Alerts"), isOn: Binding(get: { store.remindersEnabled }, set: { store.setReminders($0) }))
             VStack(alignment: .leading, spacing: 12) {
-                Text(L10n.text("养成小贴士")).foregroundStyle(gold)
-                Text(L10n.text("爱心每 7 分钟恢复一颗，上限 5 颗。离线也会成长，成年经验只结算一次。投喂只影响观赏动画。"))
-                Text(L10n.text("点鱼会惊动它；河豚会鼓起，电鳗也有自己的脾气。同种鱼偶尔结群，海马会依着海草休息。"))
-                Text(L10n.text("音效和音乐独立控制；首次操作后开始播放。iPad 在后台暂停声音，尊重静音设置。"))
+                Text(L10n.text("Care Tips")).foregroundStyle(gold)
+                Text(L10n.text("One heart restores every 7 minutes, up to 5. Fish grow while offline, and adult XP is awarded only once. Feeding affects only the viewing animation."))
+                Text(L10n.text("Tap a fish to startle it. Pufferfish puff up, and electric eels have a temper of their own. Fish of the same species may school, while seahorses rest against seagrass."))
+                Text(L10n.text("Sound effects and music are controlled separately and begin after your first interaction. iPad pauses audio in the background and respects Silent Mode."))
                 #if os(iOS)
-                Text(L10n.text("进度在本机自动保存。装饰位置、音量和永久成就随存档保留。支持导入原网页版 JSON；暂不提供云同步。"))
+                Text(L10n.text("Progress is saved locally. Decoration positions, volume, and permanent achievements stay with the save. Original web JSON can be imported; cloud sync is not currently available."))
                 #endif
             }.font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted).frame(maxWidth: .infinity, alignment: .leading).padding(16).pixelPanel()
             VStack(alignment: .leading, spacing: 12) {
-                Text(L10n.text("关于这片海")).foregroundStyle(gold)
+                Text(L10n.text("About This Ocean")).foregroundStyle(gold)
                 Text("Fishtank " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""))
-                Text(L10n.text("键盘：⌘1–⌘6 切换页面；确认弹窗可用 Return，取消可用 Esc。Mac 从菜单栏隐藏鱼缸后仍会继续成长。"))
-                Text(L10n.text("本游戏不联网、不收集个人信息。进度保存在此设备；导出文件由你自行保管。通知需主动开启，可随时关闭。"))
-                Text(L10n.text("代码与原创像素图使用 MIT 许可。中文像素字体为 Fusion Pixel，遵循 SIL Open Font License 1.1。完整许可随应用附带。"))
+                Text(L10n.text("Keyboard: ⌘1–⌘6 switches pages; Return confirms dialogs and Esc cancels. On Mac, fish keep growing when the aquarium is hidden from the menu bar."))
+                Text(L10n.text("This game does not connect to the internet or collect personal data. Progress stays on this device; you are responsible for exported files. Notifications are opt-in and can be turned off anytime."))
+                Text(L10n.text("Code and original pixel art are licensed under MIT. The Fusion Pixel Chinese font is licensed under SIL Open Font License 1.1. Full licenses are included with the app."))
             }.font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted).frame(maxWidth: .infinity, alignment: .leading).padding(16).pixelPanel()
         }.frame(maxWidth: .infinity, alignment: .leading).fixedSize(horizontal: false, vertical: true)
     }
@@ -1425,11 +1429,11 @@ private extension AquariumView {
                 var config = store.state.audio; config.track = track.rawValue; store.setAudio(config)
             }.buttonStyle(PixelButtonStyle(primary: store.state.audio.track == track.rawValue, compact: true))
                 .accessibilityIdentifier("audio.track." + track.rawValue)
-                .accessibilityValue(store.state.audio.track == track.rawValue ? L10n.text("已选中") : L10n.text("未选中"))
+                .accessibilityValue(store.state.audio.track == track.rawValue ? L10n.text("Selected") : L10n.text("Not Selected"))
         }
     }
     var soundPreviewButton: some View {
-        Button(L10n.text("试听音效")) { store.sound.play("reveal", tier: 3) }.buttonStyle(PixelButtonStyle(compact: true))
+        Button(L10n.text("Preview Sound")) { store.sound.play("reveal", tier: 3) }.buttonStyle(PixelButtonStyle(compact: true))
             .fixedSize(horizontal: true, vertical: false)
     }
     var lightingModeButtons: some View {
@@ -1442,30 +1446,30 @@ private extension AquariumView {
         }
     }
     var railAnimationToggle: some View {
-        Toggle(L10n.text("串灯流光"), isOn: Binding(get: { store.state.railLights.animated }, set: {
+        Toggle(L10n.text("Twinkling Lights"), isOn: Binding(get: { store.state.railLights.animated }, set: {
             var config = store.state.railLights; config.animated = $0; store.setRailLights(config)
         })).fixedSize(horizontal: true, vertical: false)
     }
     var railSpeedControl: some View {
         HStack(spacing: 8) {
-            Text(L10n.text("流光速度")).foregroundStyle(PixelTheme.muted)
+            Text(L10n.text("Shimmer Speed")).foregroundStyle(PixelTheme.muted)
             Button("-") { var config = store.state.railLights; config.frequency = max(0.2, (config.frequency * 10 - 1).rounded() / 10); store.setRailLights(config) }
-                .accessibilityLabel(L10n.text("降低流光速度"))
+                .accessibilityLabel(L10n.text("Decrease shimmer speed"))
             Text(String(format: "%.1f Hz", store.state.railLights.frequency)).frame(width: PixelTheme.metric(48, 72))
             Button("+") { var config = store.state.railLights; config.frequency = min(2, (config.frequency * 10 + 1).rounded() / 10); store.setRailLights(config) }
-                .accessibilityLabel(L10n.text("提高流光速度"))
+                .accessibilityLabel(L10n.text("Increase shimmer speed"))
         }.buttonStyle(PixelButtonStyle(compact: true, fixedWidth: 48)).fixedSize(horizontal: true, vertical: false)
     }
     func volumeControl(_ title: String, key: WritableKeyPath<AquariumAudio, Double>) -> some View {
         HStack(spacing: 8) {
             Button("-") { var config = store.state.audio; config[keyPath: key] = max(0, config[keyPath: key] - 0.1); store.setAudio(config) }
-                .accessibilityLabel(L10n.text("降低\(title)"))
+                .accessibilityLabel(L10n.text("Decrease \(title)"))
             PixelMeter(value: store.state.audio[keyPath: key], total: 1)
                 .frame(minWidth: 24).accessibilityLabel(title)
             Text("\(Int((store.state.audio[keyPath: key] * 100).rounded()))%")
                 .frame(width: 40)
             Button("+") { var config = store.state.audio; config[keyPath: key] = min(1, config[keyPath: key] + 0.1); store.setAudio(config) }
-                .accessibilityLabel(L10n.text("提高\(title)"))
+                .accessibilityLabel(L10n.text("Increase \(title)"))
         }.buttonStyle(PixelButtonStyle(compact: true, fixedWidth: 48))
     }
 }
@@ -1522,6 +1526,6 @@ private struct PixelAquariumPreview: View {
                     scene.tapWater(at: CGPoint(x: location.x / geometry.size.width * 320, y: 180 - location.y / geometry.size.height * 180))
                 }
         }.aspectRatio(16 / 9, contentMode: .fit)
-            .accessibilityLabel(L10n.text("像素鱼缸，\(store.state.tankIDs.count) 条鱼，\(store.state.decorations.count) 件装饰。装饰可拖动。"))
+            .accessibilityLabel(L10n.text("Pixel aquarium with \(store.state.tankIDs.count) fish and \(store.state.decorations.count) decorations. Decorations can be dragged."))
     }
 }

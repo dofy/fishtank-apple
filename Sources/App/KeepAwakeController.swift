@@ -33,9 +33,9 @@ final class KeepAwakeController: ObservableObject {
 extension KeepAwakeSession.Mode {
     var title: String {
         switch self {
-        case .off: return L10n.text("关闭")
-        case .system: return L10n.text("保持电脑运行")
-        case .display: return L10n.text("同时保持屏幕常亮")
+        case .off: return L10n.text("Off")
+        case .system: return L10n.text("Keep Computer Awake")
+        case .display: return L10n.text("Keep Screen On Too")
         }
     }
 }
@@ -45,15 +45,15 @@ struct KeepAwakeSettingsView: View {
     @ObservedObject private var wake = KeepAwakeController.shared
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(L10n.text("保持唤醒")).font(PixelTheme.font(24)).foregroundStyle(PixelTheme.gold)
-            PixelChoiceField(id: "settings.keepAwake", label: L10n.text("保持唤醒"),
+            Text(L10n.text("Keep Awake")).font(PixelTheme.font(24)).foregroundStyle(PixelTheme.gold)
+            PixelChoiceField(id: "settings.keepAwake", label: L10n.text("Keep Awake"),
                 selection: Binding(get: { wake.mode.rawValue }, set: { if let m = KeepAwakeController.Mode(rawValue: $0) { wake.select(m) } }),
                 choices: KeepAwakeController.Mode.allCases.map { PixelChoice(id: $0.rawValue, title: $0.title) })
                 .frame(maxWidth: 440)
-            Text(L10n.text("允许熄屏和锁屏；屏幕常亮模式也会阻止自动熄屏。手动睡眠和合盖不受影响，退出 App 后停止保持唤醒。"))
+            Text(L10n.text("Allows the display to sleep and the screen to lock. Screen-on mode also prevents idle display sleep. Manual sleep and lid closing still work. Quitting the app ends Keep Awake."))
                 .foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
             if wake.failed {
-                Text(L10n.text("无法更改保持唤醒，已保留原模式。请重试。"))
+                Text(L10n.text("Could not change Keep Awake. The previous mode is still active. Try again."))
                     .foregroundStyle(PixelTheme.gold).fixedSize(horizontal: false, vertical: true)
             }
         }.frame(maxWidth: .infinity, alignment: .leading)

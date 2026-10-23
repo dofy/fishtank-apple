@@ -9,20 +9,20 @@ final class LocalizationTests: XCTestCase {
         let decoration = DecorCatalog.byID["kelp"]!
         let icon = AppIconCatalog.original
         let achievement = AchievementCatalog.all[0]
-        let message = L10n.message("已添加 \(3)")
+        let message = L10n.message("Added \(3)")
         for language in L10n.Language.allCases {
             L10n.activate(language)
-            XCTAssertEqual(fish.name, L10n.render("金鳍初始鱼", language: language))
-            XCTAssertEqual(decoration.name, L10n.render("翠绿海草", language: language))
-            XCTAssertEqual(icon.name, L10n.render("经典金鳍", language: language))
-            XCTAssertEqual(achievement.title, L10n.render("初次相遇", language: language))
+            XCTAssertEqual(fish.name, L10n.render("Goldfin Starter", language: language))
+            XCTAssertEqual(decoration.name, L10n.render("Emerald Seagrass", language: language))
+            XCTAssertEqual(icon.name, L10n.render("Classic Goldfin", language: language))
+            XCTAssertEqual(achievement.title, L10n.render("First Encounter", language: language))
             XCTAssertEqual(AgentMenuIndicator.Presentation.idle.detail,
-                           L10n.render("等待 Agent 事件", language: language))
+                           L10n.render("Waiting for Agent events", language: language))
             XCTAssertEqual(fish.id, "goldfin")
             XCTAssertEqual(icon.id, "classic")
             XCTAssertEqual(L10n.Preference.allCases.compactMap(\.nativeName),
                            ["简体中文", "繁體中文", "English", "日本語"])
-            XCTAssertEqual(L10n.text(message), L10n.render("已添加 {0}", arguments: ["3"], language: language))
+            XCTAssertEqual(L10n.text(message), L10n.render("Added {0}", arguments: ["3"], language: language))
         }
     }
     func testLanguagePreferenceDefaultsToSystemAndManualChoiceOverridesSystem() {
@@ -74,21 +74,23 @@ final class LocalizationTests: XCTestCase {
             }
         }
     }
-    func testEnglishValuesContainNoChineseAndUnsupportedSystemsUseEnglish() {
-        for value in L10n.catalog(for: .english).values {
-            XCTAssertNil(value.range(of:"[\\u4e00-\\u9fff]",options:.regularExpression),value)
+    func testEnglishKeysCarryTheSourceTextAndUnsupportedSystemsUseEnglish() {
+        for (key, value) in L10n.catalog(for: .english) {
+            XCTAssertNil(key.range(of:"[\\u4e00-\\u9fff]",options:.regularExpression),key)
+            XCTAssertEqual(value, key.replacingOccurrences(of:" \\[[^\\]]*\\]$",with:"",options:.regularExpression))
         }
-        XCTAssertEqual(L10n.render("设置",language:L10n.resolve(["fr-FR"])), "Settings")
+        XCTAssertEqual(L10n.render("Cooldown [badge]",language:.english), "Cooldown")
+        XCTAssertEqual(L10n.render("Settings",language:L10n.resolve(["fr-FR"])), "Settings")
         XCTAssertEqual(L10n.render("a.key.that.is.not.present",language:.japanese), "a.key.that.is.not.present")
     }
     func testInterpolatedValuesAreInsertedOnceAndNeverBecomeTranslationKeys() {
-        let literal: L10n.Message = "已添加 \("{1} 我的助手")"
-        XCTAssertEqual(literal.key, "已添加 {0}")
+        let literal: L10n.Message = "Added \("{1} 我的助手")"
+        XCTAssertEqual(literal.key, "Added {0}")
         XCTAssertEqual(literal.arguments, ["{1} 我的助手"])
         let english = L10n.render(literal.key,arguments:literal.arguments,language:.english)
         XCTAssertTrue(english.contains("{1} 我的助手"))
         XCTAssertFalse(english.contains("{0}"))
-        let sample = "{\"hook_event_name\":\"Stop\",\"session_id\":\"你的会话标识\",\"cwd\":\"/项目目录\"}"
+        let sample = "{\"hook_event_name\":\"Stop\",\"session_id\":\"your-session-id\",\"cwd\":\"/project-path\"}"
         let rendered = L10n.render(sample,language:.english)
         XCTAssertTrue(rendered.contains("your-session-id"))
         XCTAssertNotNil(try? JSONSerialization.jsonObject(with:Data(rendered.utf8)))

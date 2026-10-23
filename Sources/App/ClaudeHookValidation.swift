@@ -19,7 +19,7 @@ func runClaudeHookValidation(directory: URL) -> Never {
     }
     let presenter = ClaudeToastPresenter()
     func sample(_ event: String, session: String = "a") -> ClaudeHookEvent {
-        ClaudeHookEvent(id: UUID().uuidString, sessionID: session, project: L10n.text("fishtank-apple-长项目名称和状态在最小尺寸下也需要清晰可读"), event: event,
+        ClaudeHookEvent(id: UUID().uuidString, sessionID: session, project: L10n.text("fishtank-apple-long project names and statuses must remain readable at the smallest size"), event: event,
                         notificationType: nil, sentAt: Date())
     }
     let a = sample("PermissionRequest")

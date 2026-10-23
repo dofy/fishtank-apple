@@ -6,8 +6,8 @@ enum AgentMenuIndicator {
         case idle, paused, ready, working, permission, input, responded, failed, interrupted, ended
         init(_ status: ClaudeHookEvent.Status) { self = Self(rawValue: status.rawValue)! }
         var title: String {
-            if self == .idle { return L10n.text("等待 Agent 事件") }
-            if self == .paused { return L10n.text("Agent 提醒已暂停") }
+            if self == .idle { return L10n.text("Waiting for Agent events") }
+            if self == .paused { return L10n.text("Agent alerts paused") }
             return ClaudeHookEvent.Status(rawValue: rawValue)!.title
         }
     }

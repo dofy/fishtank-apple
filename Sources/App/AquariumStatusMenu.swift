@@ -27,7 +27,7 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
         item.menu = menu
         item.button?.image = MenuFishArt.image(.idle)
         item.button?.imagePosition = .imageLeading
-        item.button?.toolTip = L10n.text("Fishtank · 口袋海洋")
+        item.button?.toolTip = L10n.text("Fishtank · Pocket Ocean")
         observer = store.$state.combineLatest(store.$now).map { state, now in
             "\(state.fish.count) · \(state.hearts)"
         }.removeDuplicates().sink { [weak self] title in
@@ -51,7 +51,7 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
         rebuild()
     }
     private func updateTooltip() {
-        item.button?.toolTip = L10n.text("\(indicator.detail)\n\(store.state.fish.count) 条鱼 · 可用繁育爱心 \(store.state.hearts) 颗（每次繁育消耗一颗）")
+        item.button?.toolTip = L10n.text("\(indicator.detail)\n\(store.state.fish.count) fish · \(store.state.hearts) breeding hearts available (one per breeding)")
         item.button?.setAccessibilityLabel("Fishtank，" + indicator.detail)
     }
 
@@ -102,40 +102,40 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
     private func rebuild() {
         menu.removeAllItems()
         let aquarium = self.aquarium, store = self.store
-        caption(L10n.text("鱼 \(store.state.fish.count) · 爱心 \(store.state.hearts)/5"))
-        if let date = store.state.nextMaturity(after: store.now) { caption(L10n.text("下次就绪 \(date.formatted(date: .omitted, time: .shortened))")) }
+        caption(L10n.text("Fish \(store.state.fish.count) · Hearts \(store.state.hearts)/5"))
+        if let date = store.state.nextMaturity(after: store.now) { caption(L10n.text("Next ready in \(date.formatted(date: .omitted, time: .shortened))")) }
         menu.addItem(.separator())
-        action(L10n.text("养成手册"), icon: "book", key: "o") { aquarium.showManagement() }
-        action(aquarium.isVisible ? L10n.text("隐藏鱼缸") : L10n.text("显示鱼缸"), icon: "eye") {
+        action(L10n.text("Care Guide"), icon: "book", key: "o") { aquarium.showManagement() }
+        action(aquarium.isVisible ? L10n.text("Hide Aquarium") : L10n.text("Show Aquarium"), icon: "eye") {
             aquarium.isVisible ? aquarium.hide() : aquarium.show()
         }
-        action(L10n.text("置顶"), icon: "pin", checked: aquarium.isPinned) { aquarium.isPinned.toggle() }
-        let opacity = submenu(L10n.text("透明度"), icon: "drop")
-        for (title, value) in [(L10n.text("50% · 默认"), 0.5), (L10n.text("75% · 更深"), 0.75), (L10n.text("100% · 不透明"), 1.0)] {
+        action(L10n.text("Always on Top"), icon: "pin", checked: aquarium.isPinned) { aquarium.isPinned.toggle() }
+        let opacity = submenu(L10n.text("Opacity"), icon: "drop")
+        for (title, value) in [(L10n.text("50% · Default"), 0.5), (L10n.text("75% · Darker"), 0.75), (L10n.text("100% · Opaque"), 1.0)] {
             action(title, checked: aquarium.waterOpacity == value, in: opacity) { aquarium.waterOpacity = value }
         }
-        let size = submenu(L10n.text("大小"), icon: "size")
-        for (title, value) in [(L10n.text("小 · 320 × 180"), 1), (L10n.text("中 · 640 × 360"), 2), (L10n.text("大 · 960 × 540"), 3)] {
+        let size = submenu(L10n.text("Size"), icon: "size")
+        for (title, value) in [(L10n.text("Small · 320 × 180"), 1), (L10n.text("Medium · 640 × 360"), 2), (L10n.text("Large · 960 × 540"), 3)] {
             action(title, checked: aquarium.pixelScale == value, in: size) { aquarium.pixelScale = value }
         }
         let wake = KeepAwakeController.shared
-        let wakeMenu = submenu(L10n.text("保持唤醒"), icon: "power")
+        let wakeMenu = submenu(L10n.text("Keep Awake"), icon: "power")
         menu.items.last?.state = wake.mode == .off ? .off : .on
         for mode in KeepAwakeController.Mode.allCases {
             action(mode.title, checked: wake.mode == mode, in: wakeMenu) { wake.select(mode) }
         }
-        if wake.failed { caption(L10n.text("无法更改保持唤醒，已保留原模式。请重试。")) }
-        action(L10n.text("移回屏幕"), icon: "move") { aquarium.moveToCurrentScreen() }
-        action(L10n.text("投喂"), icon: "food") { aquarium.feed() }
-        action(L10n.text("养成提醒"), icon: "bell", checked: store.remindersEnabled) {
+        if wake.failed { caption(L10n.text("Could not change Keep Awake. The previous mode is still active. Try again.")) }
+        action(L10n.text("Move Back On-Screen"), icon: "move") { aquarium.moveToCurrentScreen() }
+        action(L10n.text("Feed"), icon: "food") { aquarium.feed() }
+        action(L10n.text("Care Alerts"), icon: "bell", checked: store.remindersEnabled) {
             store.setReminders(!store.remindersEnabled)
         }
         menu.addItem(.separator())
-        action(L10n.text("设置…"), icon: "gearshape", key: ",") { aquarium.showAgentSettings() }
-        action(L10n.text("暂停 Agent 提醒"), icon: "bell", checked: aquarium.agentSettings.paused) { aquarium.agentSettings.paused.toggle() }
-        action(L10n.text("提醒声音"), icon: "bell", checked: aquarium.agentSoundsEnabled) { aquarium.agentSoundsEnabled.toggle() }
+        action(L10n.text("Settings…"), icon: "gearshape", key: ",") { aquarium.showAgentSettings() }
+        action(L10n.text("Pause Agent Alerts"), icon: "bell", checked: aquarium.agentSettings.paused) { aquarium.agentSettings.paused.toggle() }
+        action(L10n.text("Alert Sounds"), icon: "bell", checked: aquarium.agentSoundsEnabled) { aquarium.agentSoundsEnabled.toggle() }
         menu.addItem(.separator())
-        action(L10n.text("退出 Fishtank"), icon: "power", key: "q") { NSApp.terminate(nil) }
+        action(L10n.text("Quit Fishtank"), icon: "power", key: "q") { NSApp.terminate(nil) }
     }
 }
 #endif

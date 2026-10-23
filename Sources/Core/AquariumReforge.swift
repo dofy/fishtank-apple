@@ -10,12 +10,12 @@ enum ReforgeError: LocalizedError {
     case wrongCount, notMythic, hasUses, locked, displayed, young
     var errorDescription: String? {
         switch self {
-        case .wrongCount: return L10n.text("重铸需要 3 条不同的五星生物。")
-        case .notMythic: return L10n.text("只有五星生物可以重铸。")
-        case .hasUses: return L10n.text("请先用完材料的繁育次数。")
-        case .locked: return L10n.text("锁定的生物不能重铸。")
-        case .displayed: return L10n.text("请先手动收回展示中的材料。")
-        case .young: return L10n.text("请等待重铸材料成年。")
+        case .wrongCount: return L10n.text("Choose 3 different five-star creatures.")
+        case .notMythic: return L10n.text("Only five-star creatures can be reforged.")
+        case .hasUses: return L10n.text("Exhaust the materials’ breeding uses first.")
+        case .locked: return L10n.text("Locked creatures cannot be reforged.")
+        case .displayed: return L10n.text("Return displayed materials to the inventory first.")
+        case .young: return L10n.text("Wait for the reforge materials to mature.")
         }
     }
 }

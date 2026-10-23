@@ -10,7 +10,7 @@ final class AgentAlertSound {
 
     init() {
         playback = AgentAlertPlayback(queue: queue)
-        playback.reportError = { [weak self] in Task { @MainActor in self?.reportError?(L10n.text("提醒音暂不可用")) } }
+        playback.reportError = { [weak self] in Task { @MainActor in self?.reportError?(L10n.text("Alert sound unavailable")) } }
     }
     func setEnabled(_ enabled: Bool) { queue.async { [playback] in playback.setEnabled(enabled) } }
     func setVolume(_ value: Float) { queue.async { [playback] in playback.setVolume(value) } }

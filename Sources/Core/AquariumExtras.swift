@@ -9,7 +9,7 @@ struct PlacedDecoration: Codable, Equatable, Identifiable {
 
 enum AquariumLighting: String, Codable, CaseIterable {
     case auto, day, night
-    var title: String { switch self { case .auto: return L10n.text("自动"); case .day: return L10n.text("白昼"); case .night: return L10n.text("夜晚") } }
+    var title: String { switch self { case .auto: return L10n.text("Auto"); case .day: return L10n.text("Day"); case .night: return L10n.text("Night") } }
     func isNight(at date: Date) -> Bool {
         if self != .auto { return self == .night }
         let hour = Calendar.current.component(.hour, from: date)
@@ -22,12 +22,12 @@ enum AquariumMusicTrack: String, CaseIterable {
 
     var title: String {
         switch self {
-        case .lofi: return L10n.text("珊瑚礁 Lo-Fi")
-        case .tide: return L10n.text("深海潮汐")
-        case .chiptune: return L10n.text("液晶八音盒")
-        case .japanese: return L10n.text("日系庭院")
-        case .taiwan: return L10n.text("台式怀旧")
-        case .jazz: return L10n.text("月光 Jazz")
+        case .lofi: return L10n.text("Coral Reef Lo-Fi")
+        case .tide: return L10n.text("Deep-Sea Tides")
+        case .chiptune: return L10n.text("LCD Music Box")
+        case .japanese: return L10n.text("Japanese Garden")
+        case .taiwan: return L10n.text("Taiwan Nostalgia")
+        case .jazz: return L10n.text("Moonlight Jazz")
         }
     }
 }
@@ -164,10 +164,10 @@ enum AquariumExtraError: String, LocalizedError {
     case decorLocked, decorFull, invalidDecoration, medalLocked
     var errorDescription: String? {
         switch self {
-        case .decorLocked: return L10n.text("鱼缸升级后会解锁这件装饰。")
-        case .decorFull: return L10n.text("装饰位已满，请先收回一件装饰。")
-        case .invalidDecoration: return L10n.text("请先放入这件装饰。")
-        case .medalLocked: return L10n.text("只能挂上已经获得的勋章。")
+        case .decorLocked: return L10n.text("This decoration unlocks when the aquarium levels up.")
+        case .decorFull: return L10n.text("Decoration slots are full. Put one decoration away first.")
+        case .invalidDecoration: return L10n.text("Place this decoration first.")
+        case .medalLocked: return L10n.text("Only earned medals can be displayed.")
         }
     }
 }

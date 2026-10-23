@@ -13,42 +13,42 @@ struct AppIconDesign: Identifiable {
 
 enum AppIconCatalog {
     static let preferenceKey = "appearance.appIcon"
-    static let original = AppIconDesign(id: "classic", nameKey: L10n.source("经典金鳍"), speciesID: "goldfin", decorationID: "kelp", companionID: "shell")
+    static let original = AppIconDesign(id: "classic", nameKey: L10n.source("Classic Goldfin"), speciesID: "goldfin", decorationID: "kelp", companionID: "shell")
     private static let existing: [AppIconDesign] = [
-        .init(id: "coral", nameKey: L10n.source("珊瑚蝶影"), speciesID: "copperband", decorationID: "coral", companionID: "shell"),
-        .init(id: "moon", nameKey: L10n.source("月角青礁"), speciesID: "moonhorn", decorationID: "kelp", companionID: "rocks"),
-        .init(id: "sapphire", nameKey: L10n.source("蓝宝石湾"), speciesID: "sapphiredamsel", decorationID: "coral", companionID: "shell"),
-        .init(id: "treasure", nameKey: L10n.source("金蝶宝藏"), speciesID: "goldbutterfly", decorationID: "kelp", companionID: "chest"),
-        .init(id: "neon", nameKey: L10n.source("霓虹海蕈"), speciesID: "neonstreak", decorationID: "mushroom", companionID: "rocks"),
-        .init(id: "puffer", nameKey: L10n.source("奶油海星"), speciesID: "creampuff", decorationID: "kelp", companionID: "starfish"),
-        .init(id: "seahorse", nameKey: L10n.source("绯色海马"), speciesID: "coralseahorse", decorationID: "coral", companionID: "starfish"),
-        .init(id: "crystal", nameKey: L10n.source("紫晶金尾"), speciesID: "royalgoldtail", decorationID: "crystal", companionID: "shell"),
-        .init(id: "jelly", nameKey: L10n.source("樱花水母"), speciesID: "crystaljelly", decorationID: "anemone", companionID: "shell"),
-        .init(id: "ray", nameKey: L10n.source("深海鳐影"), speciesID: "voidray", decorationID: "arch", companionID: "crystal"),
-        .init(id: "turtle", nameKey: L10n.source("翡翠沉木"), speciesID: "jadeturtle", decorationID: "kelp", companionID: "driftwood"),
-        .init(id: "koi", nameKey: L10n.source("锦鲤城堡"), speciesID: "prismkoi", decorationID: "castle", companionID: "shell")
+        .init(id: "coral", nameKey: L10n.source("Coral Butterfly"), speciesID: "copperband", decorationID: "coral", companionID: "shell"),
+        .init(id: "moon", nameKey: L10n.source("Moonhorn Reef"), speciesID: "moonhorn", decorationID: "kelp", companionID: "rocks"),
+        .init(id: "sapphire", nameKey: L10n.source("Sapphire Bay"), speciesID: "sapphiredamsel", decorationID: "coral", companionID: "shell"),
+        .init(id: "treasure", nameKey: L10n.source("Golden Butterfly Treasure"), speciesID: "goldbutterfly", decorationID: "kelp", companionID: "chest"),
+        .init(id: "neon", nameKey: L10n.source("Neon Sea Mushroom"), speciesID: "neonstreak", decorationID: "mushroom", companionID: "rocks"),
+        .init(id: "puffer", nameKey: L10n.source("Cream Starfish"), speciesID: "creampuff", decorationID: "kelp", companionID: "starfish"),
+        .init(id: "seahorse", nameKey: L10n.source("Crimson Seahorse"), speciesID: "coralseahorse", decorationID: "coral", companionID: "starfish"),
+        .init(id: "crystal", nameKey: L10n.source("Amethyst Goldtail"), speciesID: "royalgoldtail", decorationID: "crystal", companionID: "shell"),
+        .init(id: "jelly", nameKey: L10n.source("Cherry Blossom Jelly"), speciesID: "crystaljelly", decorationID: "anemone", companionID: "shell"),
+        .init(id: "ray", nameKey: L10n.source("Deep-Sea Ray"), speciesID: "voidray", decorationID: "arch", companionID: "crystal"),
+        .init(id: "turtle", nameKey: L10n.source("Emerald Driftwood"), speciesID: "jadeturtle", decorationID: "kelp", companionID: "driftwood"),
+        .init(id: "koi", nameKey: L10n.source("Koi Castle"), speciesID: "prismkoi", decorationID: "castle", companionID: "shell")
     ]
-    static let duet = AppIconDesign(id: "duet", nameKey: L10n.source("金银同游"), speciesID: "goldfin", decorationID: "coral", companionID: "shell", secondarySpeciesID: "greyminnow")
+    static let duet = AppIconDesign(id: "duet", nameKey: L10n.source("Gold and Silver Pair"), speciesID: "goldfin", decorationID: "coral", companionID: "shell", secondarySpeciesID: "greyminnow")
     static let variants: [AppIconDesign] = existing + [
-        .init(id: "greyminnow", nameKey: L10n.source("浅滩灰鲦"), speciesID: "greyminnow", decorationID: "kelp", companionID: "rocks"),
-        .init(id: "neoncleaner", nameKey: L10n.source("蓝线珊瑚"), speciesID: "neoncleaner", decorationID: "coral", companionID: "rocks"),
-        .init(id: "mossback", nameKey: L10n.source("苔岸精灵"), speciesID: "mossback", decorationID: "mushroom", companionID: "driftwood"),
-        .init(id: "banggai", nameKey: L10n.source("月夜天竺"), speciesID: "banggai", decorationID: "crystal", companionID: "shell"),
-        .init(id: "moonjelly", nameKey: L10n.source("海月微光"), speciesID: "moonjelly", decorationID: "anemone", companionID: "starfish"),
-        .init(id: "blushingfire", nameKey: L10n.source("绯红海葵"), speciesID: "blushingfire", decorationID: "anemone", companionID: "shell"),
-        .init(id: "bandedkrait", nameKey: L10n.source("环纹石隙"), speciesID: "bandedkrait", decorationID: "arch", companionID: "rocks"),
-        .init(id: "ambereel", nameKey: L10n.source("琥珀宝藏"), speciesID: "ambereel", decorationID: "kelp", companionID: "chest"),
-        .init(id: "skywing", nameKey: L10n.source("天翼浮礁"), speciesID: "skywing", decorationID: "coral", companionID: "starfish"),
-        .init(id: "emberbarb", nameKey: L10n.source("余烬珊瑚"), speciesID: "emberbarb", decorationID: "coral", companionID: "driftwood"),
-        .init(id: "volteel", nameKey: L10n.source("蓝弧紫晶"), speciesID: "volteel", decorationID: "crystal", companionID: "rocks"),
-        .init(id: "goldenmoorish", nameKey: L10n.source("黄金神殿"), speciesID: "goldenmoorish", decorationID: "arch", companionID: "chest"),
-        .init(id: "auroraeel", nameKey: L10n.source("极光晶湾"), speciesID: "auroraeel", decorationID: "crystal", companionID: "shell"),
-        .init(id: "goldenseahorse", nameKey: L10n.source("金叶珊瑚"), speciesID: "goldenseahorse", decorationID: "coral", companionID: "chest"),
-        .init(id: "leviathanfry", nameKey: L10n.source("海龙遗迹"), speciesID: "leviathanfry", decorationID: "castle", companionID: "crystal"),
-        .init(id: "astraljelly", nameKey: L10n.source("星冕幽光"), speciesID: "astraljelly", decorationID: "mushroom", companionID: "crystal"),
-        .init(id: "lanternangler", nameKey: L10n.source("幽灯石窟"), speciesID: "lanternangler", decorationID: "arch", companionID: "mushroom"),
-        .init(id: "glassangel", nameKey: L10n.source("琉璃星湾"), speciesID: "glassangel", decorationID: "crystal", companionID: "starfish"),
-        .init(id: "starnautilus", nameKey: L10n.source("星轮遗迹"), speciesID: "starnautilus", decorationID: "castle", companionID: "shell")
+        .init(id: "greyminnow", nameKey: L10n.source("Shallows Minnow"), speciesID: "greyminnow", decorationID: "kelp", companionID: "rocks"),
+        .init(id: "neoncleaner", nameKey: L10n.source("Blue-Line Coral"), speciesID: "neoncleaner", decorationID: "coral", companionID: "rocks"),
+        .init(id: "mossback", nameKey: L10n.source("Mossbank Sprite"), speciesID: "mossback", decorationID: "mushroom", companionID: "driftwood"),
+        .init(id: "banggai", nameKey: L10n.source("Moonlit Cardinal"), speciesID: "banggai", decorationID: "crystal", companionID: "shell"),
+        .init(id: "moonjelly", nameKey: L10n.source("Moon Jelly Glow"), speciesID: "moonjelly", decorationID: "anemone", companionID: "starfish"),
+        .init(id: "blushingfire", nameKey: L10n.source("Crimson Anemone"), speciesID: "blushingfire", decorationID: "anemone", companionID: "shell"),
+        .init(id: "bandedkrait", nameKey: L10n.source("Ringed Rock Crevice"), speciesID: "bandedkrait", decorationID: "arch", companionID: "rocks"),
+        .init(id: "ambereel", nameKey: L10n.source("Amber Treasure"), speciesID: "ambereel", decorationID: "kelp", companionID: "chest"),
+        .init(id: "skywing", nameKey: L10n.source("Skywing Reef"), speciesID: "skywing", decorationID: "coral", companionID: "starfish"),
+        .init(id: "emberbarb", nameKey: L10n.source("Ember Coral"), speciesID: "emberbarb", decorationID: "coral", companionID: "driftwood"),
+        .init(id: "volteel", nameKey: L10n.source("Blue Arc Amethyst"), speciesID: "volteel", decorationID: "crystal", companionID: "rocks"),
+        .init(id: "goldenmoorish", nameKey: L10n.source("Golden Temple"), speciesID: "goldenmoorish", decorationID: "arch", companionID: "chest"),
+        .init(id: "auroraeel", nameKey: L10n.source("Aurora Crystal Bay"), speciesID: "auroraeel", decorationID: "crystal", companionID: "shell"),
+        .init(id: "goldenseahorse", nameKey: L10n.source("Golden-Leaf Coral"), speciesID: "goldenseahorse", decorationID: "coral", companionID: "chest"),
+        .init(id: "leviathanfry", nameKey: L10n.source("Seadragon Ruins"), speciesID: "leviathanfry", decorationID: "castle", companionID: "crystal"),
+        .init(id: "astraljelly", nameKey: L10n.source("Starcrown Glow"), speciesID: "astraljelly", decorationID: "mushroom", companionID: "crystal"),
+        .init(id: "lanternangler", nameKey: L10n.source("Lantern Grotto"), speciesID: "lanternangler", decorationID: "arch", companionID: "mushroom"),
+        .init(id: "glassangel", nameKey: L10n.source("Glass Starlit Bay"), speciesID: "glassangel", decorationID: "crystal", companionID: "starfish"),
+        .init(id: "starnautilus", nameKey: L10n.source("Starwheel Ruins"), speciesID: "starnautilus", decorationID: "castle", companionID: "shell")
     ] + [duet]
     static let all: [AppIconDesign] = {
         let bySpecies = Dictionary(uniqueKeysWithValues: ([original] + variants.filter { $0.secondarySpeciesID == nil }).map { ($0.speciesID, $0) })

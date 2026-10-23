@@ -28,7 +28,7 @@ final class AgentSettingsStore: ObservableObject {
         disabledStates = Set(defaults.stringArray(forKey: "agents.disabledStates") ?? [])
         if let data = defaults.data(forKey: "agents.registrations") {
             do { agents = try AgentRegistration.decode(data) }
-            catch { agents = []; storageError = L10n.text("Agent 设置无法读取，原数据已保留。请重新打开或从备份恢复。") }
+            catch { agents = []; storageError = L10n.text("Agent settings could not be read. The original data was preserved. Reopen the app or restore a backup.") }
         } else {
             agents = [.builtIn(.claudeCode, enabled: defaults.object(forKey: "claudeHooks.enabled") as? Bool ?? true),
                       .builtIn(.codex, enabled: defaults.object(forKey: "codexHooks.enabled") as? Bool ?? true)]
@@ -66,12 +66,12 @@ final class AgentSettingsStore: ObservableObject {
         guard agent(event.agent.rawValue) != nil else { return }
         if probes[event.agent.rawValue] == event.sessionID {
             probes.removeValue(forKey: event.agent.rawValue); busy.remove(event.agent.rawValue)
-            messages[event.agent.rawValue] = L10n.message("测试事件已收到。实际 hook 是否触发，请看下方真实事件。")
+            messages[event.agent.rawValue] = L10n.message("Test event received. Check the real events below to confirm whether the actual hook triggers.")
         } else if !event.isPreview { recent[event.agent.rawValue] = event }
     }
     func lastEvent(_ id: String) -> String {
-        guard let event = recent[id] else { return L10n.text("等待真实事件") }
-        return "\(event.status?.title ?? L10n.text("状态更新")) · \(event.sentAt.formatted(date: .omitted, time: .shortened))"
+        guard let event = recent[id] else { return L10n.text("Waiting for a real event") }
+        return "\(event.status?.title ?? L10n.text("Status Update")) · \(event.sentAt.formatted(date: .omitted, time: .shortened))"
     }
     var bundledHook: URL? { Bundle.main.url(forResource: "claude-hook", withExtension: "py") }
     func command(for id: String) -> String? {
@@ -102,9 +102,9 @@ final class AgentSettingsStore: ObservableObject {
         let panel = NSOpenPanel(); panel.canChooseFiles = false; panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false; panel.showsHiddenFiles = true
         let name = agent.source == .codex ? ".codex" : ".claude"
-        panel.title = L10n.text("选择 \(agent.name) 的配置文件夹")
-        panel.message = L10n.text("请选择 \(name) 文件夹。只管理鱼缸自己的 hook，保留其他配置和信任记录。")
-        panel.directoryURL = Self.userHome.appendingPathComponent(name); panel.prompt = L10n.text("使用此文件夹")
+        panel.title = L10n.text("Select \(agent.name) Configuration Folder")
+        panel.message = L10n.text("Select the \(name) folder. Only Fishtank's hooks will be managed; other settings and trust records remain.")
+        panel.directoryURL = Self.userHome.appendingPathComponent(name); panel.prompt = L10n.text("Use This Folder")
         guard panel.runModal() == .OK, let url = panel.url else { return nil }
         guard url.lastPathComponent == name || FileManager.default.fileExists(atPath: url.appendingPathComponent(agent.source == .codex ? "hooks.json" : "settings.json").path) else { throw ConnectionError.wrongFolder(name) }
         _ = url.startAccessingSecurityScopedResource()
@@ -116,9 +116,9 @@ final class AgentSettingsStore: ObservableObject {
     enum ConnectionError: LocalizedError {
         case wrongFolder(String), unavailable, conflict
         var errorDescription: String? {
-            switch self { case .wrongFolder(let name): return L10n.text("请选择 \(name) 文件夹，未修改任何文件。")
-            case .conflict: return L10n.text("配置刚被其他进程修改，请重试；未覆盖原文件。")
-            case .unavailable: return L10n.text("接入组件不可用，请重新安装 Fishtank。") }
+            switch self { case .wrongFolder(let name): return L10n.text("Select the \(name) folder. No files were changed.")
+            case .conflict: return L10n.text("Another process just changed the configuration. Try again; the original file was not overwritten.")
+            case .unavailable: return L10n.text("The integration component is unavailable. Reinstall Fishtank.") }
         }
     }
     /// Used only from an explicit settings action; migration itself never reads/writes outside the sandbox.
@@ -142,9 +142,9 @@ final class AgentSettingsStore: ObservableObject {
                 try atomicWrite(updated, to: file, permissions: permissions)
             }
             if remove { removeLocal(id); return }
-            configurationChecks[id] = L10n.message("\(AgentHookConfiguration.events(for: agent.source).count) 项 hook 已安装")
-            messages[id] = original == updated ? L10n.message("配置完整，已有命令保持不变。") : agent.source == .codex ? L10n.message("已安装缺少的 hook。请在 Codex /hooks 审阅新项；原有信任记录保留。") : L10n.message("接入已安装，请重新打开 Claude Code 会话。")
-        } catch { messages[id] = L10n.message("操作未完成：\(safeDescription(error))") }
+            configurationChecks[id] = L10n.message("\(AgentHookConfiguration.events(for: agent.source).count) hooks installed")
+            messages[id] = original == updated ? L10n.message("Configuration complete. Existing commands were left unchanged.") : agent.source == .codex ? L10n.message("Missing hooks installed. Review the new entries in Codex /hooks; existing trust records were preserved.") : L10n.message("Integration installed. Reopen the Claude Code session.")
+        } catch { messages[id] = L10n.message("Could not complete: \(safeDescription(error))") }
     }
     func check(_ id: String) {
         guard let agent = agent(id), !busy.contains(id) else { return }
@@ -155,13 +155,13 @@ final class AgentSettingsStore: ObservableObject {
                 let file = directory.appendingPathComponent(agent.source == .codex ? "hooks.json" : "settings.json")
                 let found = try AgentHookConfiguration.inspect(Data(contentsOf: file), source: agent.source, scriptPaths: paths(for: agent))
                 let expected = AgentHookConfiguration.events(for: agent.source).count
-                configurationChecks[id] = L10n.message("\(found.count)/\(expected) 项鱼缸 hook")
-                guard found.count == expected else { messages[id] = L10n.message("接入配置不完整，点击「安装 / 修复」补齐。"); return }
+                configurationChecks[id] = L10n.message("\(found.count)/\(expected) Fishtank hooks")
+                guard found.count == expected else { messages[id] = L10n.message("Integration setup is incomplete. Select “Install / Repair” to finish it."); return }
             }
             guard receiverReady, bundledHook != nil else { throw ConnectionError.unavailable }
             let session = "fishtank-preview:check:" + UUID().uuidString
-            probes[id] = session; busy.insert(id); messages[id] = L10n.message("正在检查本机事件通路…")
-            let event = ClaudeHookEvent(id: UUID().uuidString, sessionID: session, project: L10n.text("接入检查"), event: "SessionStart", notificationType: nil, sentAt: Date(), source: agent.source)
+            probes[id] = session; busy.insert(id); messages[id] = L10n.message("Checking the local event path…")
+            let event = ClaudeHookEvent(id: UUID().uuidString, sessionID: session, project: L10n.text("Integration Check"), event: "SessionStart", notificationType: nil, sentAt: Date(), source: agent.source)
             let probe = try AgentBridgeProbe(event: event); connections[id] = probe
             probe.start { [weak self] success in
                 Task { @MainActor in
@@ -169,7 +169,7 @@ final class AgentSettingsStore: ObservableObject {
                     if self.connections[id] === probe { self.connections.removeValue(forKey: id) }
                     if !success && self.probes[id] == session {
                         self.probes.removeValue(forKey: id); self.busy.remove(id)
-                        self.messages[id] = L10n.message("接收器测试未通过，请重新打开 Fishtank 后重试。")
+                        self.messages[id] = L10n.message("The receiver test failed. Reopen Fishtank and try again.")
                     }
                 }
             }
@@ -178,9 +178,9 @@ final class AgentSettingsStore: ObservableObject {
                 guard let self, self.probes[id] == session else { return }
                 self.probes.removeValue(forKey: id); self.busy.remove(id)
                 self.connections.removeValue(forKey: id)?.cancel()
-                self.messages[id] = L10n.message("未收到测试事件。请检查接收器状态后重试。")
+                self.messages[id] = L10n.message("No test event received. Check the receiver status and try again.")
             }
-        } catch { probes.removeValue(forKey: id); busy.remove(id); messages[id] = L10n.message("检查未完成：\(safeDescription(error))") }
+        } catch { probes.removeValue(forKey: id); busy.remove(id); messages[id] = L10n.message("Check incomplete: \(safeDescription(error))") }
     }
     /// Create private temporary files with their final mode before writing sensitive configuration.
     private func atomicWrite(_ data: Data, to destination: URL, permissions: UInt16) throws {
@@ -195,8 +195,8 @@ final class AgentSettingsStore: ObservableObject {
     }
     private func safeDescription(_ error: Error) -> String {
         if let error = error as? ConnectionError { return error.localizedDescription }
-        if error is AquariumError { return L10n.text("配置格式无法安全处理，未覆盖原文件。") }
-        return L10n.text("请检查所选配置文件夹的权限和文件格式。原配置与信任记录未被重置。")
+        if error is AquariumError { return L10n.text("The configuration format could not be handled safely. The original file was not overwritten.") }
+        return L10n.text("Check the selected configuration folder's permissions and file format. Existing settings and trust records were not reset.")
     }
 }
 #endif

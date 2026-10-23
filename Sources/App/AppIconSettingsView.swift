@@ -12,7 +12,7 @@ struct AppIconSettingsView: View {
     private var selected: AppIconDesign { available.first { $0.id == selectedID } ?? available.first ?? AppIconCatalog.original }
     private func unlocked(_ design: AppIconDesign) -> Bool { AppIconCatalog.isUnlocked(design, discovered: store.state.discovered) }
     private var applyTitle: String {
-        return icons.currentID == selected.id ? L10n.text("重新应用") : L10n.text("使用此图标")
+        return icons.currentID == selected.id ? L10n.text("Apply Again") : L10n.text("Use This Icon")
     }
     var body: some View {
         ScrollView {
@@ -20,7 +20,7 @@ struct AppIconSettingsView: View {
                 if !available.isEmpty { HStack(alignment: .center, spacing: 20) {
                     artwork(selected, size: 64)
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(L10n.text("应用图标")).font(PixelTheme.font(24)).foregroundStyle(PixelTheme.gold)
+                        Text(L10n.text("App Icon")).font(PixelTheme.font(24)).foregroundStyle(PixelTheme.gold)
                         Text(selected.name).foregroundStyle(PixelTheme.text)
                     }
                     Spacer(minLength: 0)
@@ -28,7 +28,7 @@ struct AppIconSettingsView: View {
                         Button(applyTitle) { icons.apply(selected) }
                             .disabled(!unlocked(selected) || (icons.currentID == selected.id && selected.id == AppIconCatalog.original.id))
                             .accessibilityIdentifier("appearance.applyIcon")
-                        Button(L10n.text("恢复默认")) {
+                        Button(L10n.text("Restore Defaults")) {
                             selectedID = AppIconCatalog.original.id
                             if icons.currentID != selectedID { icons.apply(AppIconCatalog.original) }
                         }
@@ -36,16 +36,16 @@ struct AppIconSettingsView: View {
                         .accessibilityIdentifier("appearance.resetIcon")
                     }
                 } }
-                Text(L10n.text("获得物种后，对应图标会出现在这里。首次应用需授权；原来已使用的图标继续保留。"))
+                Text(L10n.text("Icons appear after you discover their species. The first change needs permission; your current icon is kept."))
                     .foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
                 if let error = icons.error { Text(error).foregroundStyle(PixelTheme.pink).accessibilityIdentifier("appearance.iconError") }
-                Text(L10n.text("已获得 \(available.count) 款图标")).foregroundStyle(PixelTheme.muted)
+                Text(L10n.text("\(available.count) icons discovered")).foregroundStyle(PixelTheme.muted)
                 HStack(spacing: 6) {
                     ForEach(-1...5, id: \.self) { value in
-                        Button(value == -1 ? L10n.text("全部") : value == 0 ? L10n.text("初始") : "\(value)★") { tier = value }
+                        Button(value == -1 ? L10n.text("All") : value == 0 ? L10n.text("Starter") : "\(value)★") { tier = value }
                             .buttonStyle(PixelButtonStyle(primary: tier == value, compact: true, fixedWidth: PixelTheme.filterButtonWidth))
                             .accessibilityIdentifier("appearance.iconTier.\(value)")
-                            .accessibilityValue(tier == value ? L10n.text("已选择") : L10n.text("未选择"))
+                            .accessibilityValue(tier == value ? L10n.text("Selected [choice]") : L10n.text("None Selected"))
                     }
                 }
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
@@ -63,7 +63,7 @@ struct AppIconSettingsView: View {
                         }
                         .buttonStyle(IconTileStyle(selected: selectedID == design.id))
                         .accessibilityLabel(AppIconCatalog.label(design))
-                        .accessibilityValue(icons.currentID == design.id ? L10n.text("使用中") : selectedID == design.id ? L10n.text("已选中") : L10n.text("未选择"))
+                        .accessibilityValue(icons.currentID == design.id ? L10n.text("In Use") : selectedID == design.id ? L10n.text("Selected") : L10n.text("None Selected"))
                         .accessibilityIdentifier("appearance.icon.\(design.id)")
                     }
                 }
@@ -76,7 +76,7 @@ struct AppIconSettingsView: View {
         if let image = AppIconStore.image(design) {
             Image(nsImage: image).resizable().interpolation(.none).scaledToFit().frame(width: size, height: size)
                 .accessibilityHidden(true)
-        } else { Rectangle().fill(PixelTheme.card).frame(width: size, height: size).overlay(Text(L10n.text("图标缺失"))) }
+        } else { Rectangle().fill(PixelTheme.card).frame(width: size, height: size).overlay(Text(L10n.text("Icon Missing"))) }
     }
 }
 

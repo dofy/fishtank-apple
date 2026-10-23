@@ -43,7 +43,7 @@ enum MenuFishArt {
             badge(["########","########"], y: 8)
         }
         let image = NSImage(cgImage: c.makeImage()!, size: NSSize(width: 36, height: 18))
-        image.isTemplate = true; image.accessibilityDescription = L10n.text("像素鱼 · ") + state.title
+        image.isTemplate = true; image.accessibilityDescription = L10n.text("Pixel Fish · ") + state.title
         cache[state] = image
         return image
     }

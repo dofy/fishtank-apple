@@ -18,7 +18,7 @@ struct FishtankApp: App {
         Settings { EmptyView() }
             .commands {
                 CommandGroup(replacing: .appSettings) {
-                    Button(L10n.text("设置…")) { delegate.aquarium.showAgentSettings() }.keyboardShortcut(",", modifiers: .command)
+                    Button(L10n.text("Settings…")) { delegate.aquarium.showAgentSettings() }.keyboardShortcut(",", modifiers: .command)
                 }
             }
         #else

@@ -114,7 +114,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         }
     }
     @Published private(set) var isVisible = false
-    @Published private(set) var claudeSummary = L10n.text("Claude Code · 正在启动接收器")
+    @Published private(set) var claudeSummary = L10n.text("Claude Code · Starting receiver")
     let agentSettings = AgentSettingsStore()
     lazy var appIcons = AppIconStore(discovered: { [weak self] in self?.store.state.discovered ?? [] })
     var claudeHooksEnabled: Bool {
@@ -165,7 +165,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
     private func previewMenuIcon(_ event: ClaudeHookEvent) {
         guard let status = event.status else { return }
         clearMenuPreview()
-        menuPreview = .init(state: .init(status), detail: L10n.text("预览 · \(event.agentTitle) · \(status.title)"))
+        menuPreview = .init(state: .init(status), detail: L10n.text("Preview · \(event.agentTitle) · \(status.title)"))
         menuIndicatorRevision += 1
         menuPreviewTask = Task { @MainActor [weak self] in
             try? await Task.sleep(nanoseconds: 8_000_000_000)
@@ -224,7 +224,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             case .interrupted: eventName = agent.source == .claudeCode ? "Stop" : "Interrupt"; kind = nil
             case .ended: eventName = "SessionEnd"; kind = nil
             }
-            var event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:settings-\(index)", project: L10n.text("效果预览"),
+            var event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:settings-\(index)", project: L10n.text("Effect Preview"),
                 event: eventName, notificationType: kind, sentAt: Date(), source: agent.source)
             event.previewStatus = state
             event.displayName = agent.name; event.displayColor = agent.colorHex
@@ -237,9 +237,9 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
 
     func previewClaudeToast() {
         let samples: [(ClaudeHookEvent.Source, String, String)] = [
-            (.codex, "UserPromptSubmit", L10n.text("Codex · 处理预览")),
-            (.claudeCode, "PermissionRequest", L10n.text("Claude · 授权预览")),
-            (.codex, "Stop", L10n.text("Codex · 结束预览"))
+            (.codex, "UserPromptSubmit", L10n.text("Codex · Working Preview")),
+            (.claudeCode, "PermissionRequest", L10n.text("Claude · Permission Preview")),
+            (.codex, "Stop", L10n.text("Codex · Completion Preview"))
         ]
         for (index, sample) in samples.enumerated() {
             let event = ClaudeHookEvent(id: UUID().uuidString, sessionID: "fishtank-preview:\(index)",
@@ -312,7 +312,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             self.clearMenuPreview(); self.menuIndicatorRevision += 1
         }
 
-        panel.title = L10n.text("Fishtank · 悬浮鱼缸")
+        panel.title = L10n.text("Fishtank · Floating Aquarium")
         panel.delegate = self
         panel.isReleasedWhenClosed = false
         panel.hidesOnDeactivate = false
@@ -335,9 +335,9 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         spriteView.allowsTransparency = true
         spriteView.autoresizingMask = [.width, .height]
         spriteView.preferredFramesPerSecond = 30
-        spriteView.toolTip = L10n.text("拖动水面移动鱼缸，拖造景布置，单击空白处投喂，右键晃动惊鱼；菜单栏可调透明度、大小与置顶。")
+        spriteView.toolTip = L10n.text("Drag the water surface to move the aquarium, drag scenery to arrange it, click empty water to feed, and right-click to shake and startle fish. Use the menu bar to adjust opacity, size, and always-on-top.")
         spriteView.feed = { [weak self] x in self?.feed(at: x) }
-        spriteView.setAccessibilityLabel(L10n.text("半透明悬浮像素鱼缸"))
+        spriteView.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
         scene.setWaterOpacity(CGFloat(waterOpacity))
         spriteView.presentScene(scene)
         scene.populate(with: store.state.tankFish)
@@ -351,16 +351,16 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         }
         localizationObserver = NotificationCenter.default.publisher(for: .aquariumLanguageDidChange).sink { [weak self] _ in
             guard let self else { return }
-            self.panel.title = L10n.text("Fishtank · 悬浮鱼缸")
-            self.managementWindow?.title = L10n.text("Fishtank · 养成手册")
-            self.agentSettingsWindow?.title = L10n.text("Fishtank · 设置")
-            self.spriteView.toolTip = L10n.text("拖动水面移动鱼缸，拖造景布置，单击空白处投喂，右键晃动惊鱼；菜单栏可调透明度、大小与置顶。")
-            self.spriteView.setAccessibilityLabel(L10n.text("半透明悬浮像素鱼缸"))
+            self.panel.title = L10n.text("Fishtank · Floating Aquarium")
+            self.managementWindow?.title = L10n.text("Fishtank · Care Guide")
+            self.agentSettingsWindow?.title = L10n.text("Fishtank · Settings")
+            self.spriteView.toolTip = L10n.text("Drag the water surface to move the aquarium, drag scenery to arrange it, click empty water to feed, and right-click to shake and startle fish. Use the menu bar to adjust opacity, size, and always-on-top.")
+            self.spriteView.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
             self.scene.refreshLocalizedFont()
             self.claudeToast.refreshLocalization()
             self.clearMenuPreview()
             self.claudeSummary = self.claudeLedger.sessions.isEmpty
-                ? (self.receiverStatus?.message ?? L10n.text("Claude Code · 正在启动接收器")) : self.claudeLedger.summary()
+                ? (self.receiverStatus?.message ?? L10n.text("Claude Code · Starting receiver")) : self.claudeLedger.summary()
             self.menuIndicatorRevision += 1
         }
         applyWindowLevel()
@@ -431,7 +431,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             let size = NSSize(width: 880, height: min(800, max(660, visibleHeight - 40)))
             let window = AquariumManagementWindow(contentRect: NSRect(origin: .zero, size: size),
                                   styleMask: [.borderless], backing: .buffered, defer: false)
-            window.title = L10n.text("Fishtank · 养成手册")
+            window.title = L10n.text("Fishtank · Care Guide")
             window.isReleasedWhenClosed = false
             window.hasShadow = true
             window.isOpaque = false
@@ -461,7 +461,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             let size = AquariumManagementWindow.contentSize
             let window = AquariumManagementWindow(contentRect: NSRect(origin: .zero, size: size),
                 styleMask: [.borderless], backing: .buffered, defer: false)
-            window.title = L10n.text("Fishtank · 设置"); window.isReleasedWhenClosed = false
+            window.title = L10n.text("Fishtank · Settings"); window.isReleasedWhenClosed = false
             window.hasShadow = true; window.isOpaque = false; window.backgroundColor = .clear
             window.hidesOnDeactivate = false; window.becomesKeyOnlyIfNeeded = false; window.level = .normal
             window.delegate = self
@@ -555,7 +555,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             replacement.autoresizingMask = [.width, .height]
             replacement.toolTip = spriteView.toolTip
             replacement.feed = { [weak self] x in self?.feed(at: x) }
-            replacement.setAccessibilityLabel(L10n.text("半透明悬浮像素鱼缸"))
+            replacement.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
             replacement.presentScene(scene)
             spriteView = replacement
             panel.contentView = replacement

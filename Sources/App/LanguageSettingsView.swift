@@ -7,13 +7,13 @@ struct LanguageSettingsView: View {
                 set: { if let preference = L10n.Preference(rawValue: $0) { localization.select(preference) } })
     }
     private func title(_ value: L10n.Preference) -> String {
-        value.nativeName ?? L10n.text("跟随系统")
+        value.nativeName ?? L10n.text("Follow System")
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(L10n.text("语言")).font(PixelTheme.font(24)).foregroundStyle(PixelTheme.gold)
+            Text(L10n.text("Language")).font(PixelTheme.font(24)).foregroundStyle(PixelTheme.gold)
             #if os(macOS)
-            PixelChoiceField(id: "settings.language", label: L10n.text("语言"), selection: selection,
+            PixelChoiceField(id: "settings.language", label: L10n.text("Language"), selection: selection,
                 choices: L10n.Preference.allCases.map { PixelChoice(id: $0.rawValue, title: title($0), language: L10n.Language(rawValue: $0.rawValue)) })
                 .frame(maxWidth: 320)
             #else
@@ -23,10 +23,10 @@ struct LanguageSettingsView: View {
                 }
                     .buttonStyle(PixelButtonStyle(primary: selection.wrappedValue == value.rawValue, compact: true))
                     .accessibilityIdentifier("settings.language." + value.rawValue)
-                    .accessibilityValue(selection.wrappedValue == value.rawValue ? L10n.text("已选中") : L10n.text("未选中"))
+                    .accessibilityValue(selection.wrappedValue == value.rawValue ? L10n.text("Selected") : L10n.text("Not Selected"))
             }
             #endif
-            Text(L10n.text("选择会自动保存，界面语言和像素字体立即切换。"))
+            Text(L10n.text("Your choice is saved automatically. Language and pixel font change immediately."))
                 .foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
         }.frame(maxWidth: .infinity, alignment: .leading)
     }

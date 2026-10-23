@@ -33,15 +33,15 @@ struct AgentPreset: Identifiable {
     static func find(_ id: String) -> Self? { all.first { $0.id == id } }
     static let all: [Self] = [
         .init(id: "claude-code", name: "Claude Code", colorHex: ClaudeHookEvent.Source.claudeCode.colorHex,
-              setup: L10n.text("添加后在详情页安装 hook。首次操作通过系统选择器授权配置文件夹。"), documentation: nil),
+              setup: L10n.text("After adding, install the hook from its details page. The first operation uses the system picker to authorize the configuration folder."), documentation: nil),
         .init(id: "codex", name: "Codex", colorHex: ClaudeHookEvent.Source.codex.colorHex,
-              setup: L10n.text("添加后在详情页安装 hook，新增 hook 需在 Codex 中审阅信任。"), documentation: nil),
+              setup: L10n.text("After adding, install the hook from its details page. New hooks require trust review in Codex."), documentation: nil),
         .init(id: "cursor", name: "Cursor", colorHex: 0xC3CDDF,
-              setup: L10n.text("手动配置：在 Cursor Hooks 中将原始事件转换为鱼缸标准 JSON，再调用发送命令。"), documentation: URL(string: "https://cursor.com/docs/hooks")),
+              setup: L10n.text("Manual setup: convert raw events to Fishtank's standard JSON in Cursor Hooks, then call the send command."), documentation: URL(string: "https://cursor.com/docs/hooks")),
         .init(id: "gemini-cli", name: "Gemini CLI", colorHex: 0x94ACF4,
-              setup: L10n.text("手动配置：在 Gemini CLI Hooks 中将原始事件转换为鱼缸标准 JSON，再调用发送命令。"), documentation: URL(string: "https://geminicli.com/docs/hooks/")),
+              setup: L10n.text("Manual setup: convert raw events to Fishtank's standard JSON in Gemini CLI Hooks, then call the send command."), documentation: URL(string: "https://geminicli.com/docs/hooks/")),
         .init(id: "opencode", name: "OpenCode", colorHex: 0xD7A4DA,
-              setup: L10n.text("手动配置：在 OpenCode 插件中监听事件，转换为鱼缸标准 JSON，再调用发送命令。"), documentation: URL(string: "https://opencode.ai/docs/plugins/"))
+              setup: L10n.text("Manual setup: listen for events in an OpenCode plugin, convert them to Fishtank's standard JSON, then call the send command."), documentation: URL(string: "https://opencode.ai/docs/plugins/"))
     ]
 }
 

@@ -10,9 +10,9 @@ final class ClaudeHookBridge {
         var isReady: Bool { self == .ready }
         var message: String {
             switch self {
-            case .ready: return L10n.text("Claude Code · 接收器已就绪")
-            case .configurationFailed: return L10n.text("Claude Code · 无法保存接入配置")
-            case .startupFailed: return L10n.text("Claude Code · 接收器启动失败")
+            case .ready: return L10n.text("Claude Code · Receiver ready")
+            case .configurationFailed: return L10n.text("Claude Code · Could not save integration settings")
+            case .startupFailed: return L10n.text("Claude Code · Receiver failed to start")
             }
         }
     }

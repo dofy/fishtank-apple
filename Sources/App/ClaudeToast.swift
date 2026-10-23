@@ -19,7 +19,7 @@ struct ClaudeToastView: View {
                     Text(event.project).foregroundStyle(PixelTheme.muted).lineLimit(1).truncationMode(.middle)
                     Spacer(minLength: 0)
                 }
-                Text(event.status?.title ?? L10n.text("状态更新")).foregroundStyle(PixelTheme.text).lineLimit(1)
+                Text(event.status?.title ?? L10n.text("Status Update")).foregroundStyle(PixelTheme.text).lineLimit(1)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Button(action: dismiss) {
@@ -27,7 +27,7 @@ struct ClaudeToastView: View {
                     .frame(width: 24, height: 28)
             }
             .buttonStyle(.plain).foregroundStyle(PixelTheme.muted)
-            .accessibilityLabel(L10n.text("关闭 \(event.agentTitle) 提醒"))
+            .accessibilityLabel(L10n.text("Turn Off \(event.agentTitle) Alerts"))
         }
         .font(PixelTheme.font(12))
         .padding(L10n.language == .english ? 10 : 12)
@@ -35,7 +35,7 @@ struct ClaudeToastView: View {
         .background(PixelOutline(cut: 6, steps: 2).fill(PixelTheme.panel))
         .overlay(PixelOutline(cut: 6, steps: 2).strokeBorderFallback(accent))
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("\(event.agentTitle)，\(event.project)，\(event.status?.title ?? L10n.text("状态更新"))")
+        .accessibilityLabel("\(event.agentTitle)，\(event.project)，\(event.status?.title ?? L10n.text("Status Update"))")
     }
 }
 
@@ -80,7 +80,7 @@ final class ClaudeToastPresenter {
 
     func refreshLocalization() {
         for event in stack.visible {
-            entries[event.id]?.panel.setAccessibilityLabel(L10n.text("\(event.agentTitle) 提醒气泡"))
+            entries[event.id]?.panel.setAccessibilityLabel(L10n.text("\(event.agentTitle) alert bubbles"))
         }
     }
 
@@ -118,7 +118,7 @@ final class ClaudeToastPresenter {
                 styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
             panel.isOpaque = false; panel.backgroundColor = .clear
             panel.hasShadow = false; panel.hidesOnDeactivate = false; panel.isReleasedWhenClosed = false
-            panel.setAccessibilityLabel(L10n.text("\(event.agentTitle) 提醒气泡"))
+            panel.setAccessibilityLabel(L10n.text("\(event.agentTitle) alert bubbles"))
             panel.contentView = NSHostingView(rootView: ClaudeToastView(event: event,
                 dismiss: { [weak self] in self?.dismiss(id: event.id) }))
             let entry = Entry(panel: panel)

@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
-"""Audit translated Swift literals, all four catalogs, placeholders and README navigation."""
+"""Audit English catalog keys, Swift call sites, all four catalogs, placeholders and README navigation."""
 from pathlib import Path
 import re,json
+WRAPPERS=('L10n.text(', 'L10n.source(', 'L10n.message(')
+# SwiftUI entry points whose first argument reaches the screen directly.
+DISPLAY=re.compile(r'(?:Text|Button|PixelIconButton)\($|\.(?:help|navigationTitle|accessibilityLabel|accessibilityValue|accessibilityHint)\($')
+# Decorative glyphs and identifiers that never need translation.
+EXEMPT=re.compile(r'^[\W\d_★☆]*$|^\{\d+\}$')
+# Product name and level marker read the same in every supported language.
+ALLOWED={'Fishtank ','Lv.{0}'}
 records={}
 unwrapped=[]
-def region(s, path, rewrite=False):
+chinese=[]
+def region(s, path):
  out='';i=0
  while i<len(s):
   if s.startswith('//',i):
@@ -28,25 +36,25 @@ def region(s, path, rewrite=False):
      if s[j]=='(':depth+=1
      if s[j]==')':depth-=1
      j+=1
-    expression=region(s[i+2:j-1],path,rewrite)
+    expression=region(s[i+2:j-1],path)
     raw+='\\('+expression+')';template+='{'+str(n)+'}';n+=1;i=j;continue
    if s[i]=='\\' and i+1<len(s):raw+=s[i:i+2];template+=s[i:i+2];i+=2;continue
    raw+=s[i];template+=s[i];i+=1
   literal='"'+raw+'"'
-  if re.search('[\u4e00-\u9fff]',template):
-   try:key=json.loads('"'+template+'"')
-   except Exception:raise ValueError((path,template))
-   records.setdefault(key,[]).append(str(path))
-   line=s[s.rfind('\n',0,start)+1:start]
-   enumraw=bool(re.match(r'\s*case\s+[A-Za-z_]\w*\s*=',line)) and ':' not in line
-   if not enumraw and not line.endswith(('L10n.text(', 'L10n.source(', 'L10n.message(')):unwrapped.append((str(path),key))
+  try:key=json.loads('"'+template+'"')
+  except Exception:raise ValueError((path,template))
+  if re.search('[一-鿿]',key):chinese.append((str(path),key))
+  line=s[s.rfind('\n',0,start)+1:start]
+  if line.endswith(WRAPPERS):records.setdefault(key,[]).append(str(path))
+  elif DISPLAY.search(line) and not EXEMPT.match(key) and key not in ALLOWED:unwrapped.append((str(path),key))
   out+=literal
  return out
 
 if __name__ == '__main__':
     for p in Path('Sources').rglob('*.swift'):
         if p.name != 'L10n.swift': region(p.read_text(), p)
-    assert not unwrapped, ('Unlocalized source literals', unwrapped)
+    assert not chinese, ('Chinese source literals; catalog keys are English', chinese)
+    assert not unwrapped, ('Unlocalized display literals', unwrapped)
     expected = set(records)
     expression = re.compile(r'\{\d+\}|%[0-9]*[a-zA-Z]')
     for language in ['en', 'zh-Hans', 'zh-Hant', 'ja']:
@@ -55,7 +63,8 @@ if __name__ == '__main__':
         for key, value in data.items():
             assert isinstance(value,str) and value, (language,key)
             assert sorted(expression.findall(key)) == sorted(expression.findall(value)), (language,key,'placeholder mismatch')
-            if language == 'en': assert not re.search('[\u4e00-\u9fff]',value), ('Untranslated English',key)
+            # English keys are the source text; a trailing [marker] only separates identical renderings.
+            if language == 'en': assert value == re.sub(r' \[[^\]]*\]$','',key), ('English catalog must repeat its key',key,value)
         print('PASS',language,len(data),'templates, interpolation and source coverage')
     for name in ['README.md','README.zh-Hans.md','README.zh-Hant.md','README.ja.md']:
         text=Path(name).read_text()

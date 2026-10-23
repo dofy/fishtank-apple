@@ -37,15 +37,15 @@ enum MaterialExclusionReason: CaseIterable, Hashable {
 
     var title: String {
         switch self {
-        case .locked: return L10n.text("锁定保护")
-        case .starter: return L10n.text("初始鱼")
-        case .fiveStar: return L10n.text("五星需重铸")
-        case .notFiveStar: return L10n.text("非五星")
-        case .young: return L10n.text("未成年")
-        case .hasUses: return L10n.text("尚有繁育次数")
-        case .displayed: return L10n.text("展示中")
-        case .tierFilter: return L10n.text("星级筛选")
-        case .searchFilter: return L10n.text("搜索筛选")
+        case .locked: return L10n.text("Locked")
+        case .starter: return L10n.text("Starter [fish]")
+        case .fiveStar: return L10n.text("5★ need reforge")
+        case .notFiveStar: return L10n.text("Not 5-star")
+        case .young: return L10n.text("Juvenile")
+        case .hasUses: return L10n.text("Breedings left")
+        case .displayed: return L10n.text("Displayed")
+        case .tierFilter: return L10n.text("Star filter")
+        case .searchFilter: return L10n.text("Search filter")
         }
     }
 }
@@ -69,18 +69,18 @@ enum AquariumError: String, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .needsTwo: return L10n.text("请选择两条不同的亲代鱼。")
-        case .noHearts: return L10n.text("爱心不足，每 7 分钟恢复一颗。")
-        case .notAdult: return L10n.text("幼鱼或冷却中的初始鱼暂时不能繁育。")
-        case .noUses: return L10n.text("所选亲代的繁育次数已用尽。")
-        case .wrongCount: return L10n.text("合成需要 10 条不同的鱼。")
-        case .starterMaterial: return L10n.text("初始鱼不能作为合成材料。")
-        case .maxTier: return L10n.text("5 星鱼不能继续合成。")
-        case .lockedMaterial: return L10n.text("请先解锁被保护的材料鱼。")
-        case .tankFull: return L10n.text("鱼缸展示位已满，升级或先收回一条鱼。")
-        case .protectedFish: return L10n.text("初始鱼和锁定鱼不能放生。")
-        case .inventoryFull: return L10n.text("背包已达到 20,000 条鱼的上限。")
-        case .invalidSave: return L10n.text("存档格式或内容无效。")
+        case .needsTwo: return L10n.text("Select two different parent fish.")
+        case .noHearts: return L10n.text("Not enough hearts. One restores every 7 minutes.")
+        case .notAdult: return L10n.text("Juveniles and starter fish on cooldown cannot breed yet.")
+        case .noUses: return L10n.text("The selected parents have no breedings left.")
+        case .wrongCount: return L10n.text("Synthesis requires 10 different fish.")
+        case .starterMaterial: return L10n.text("Starter fish cannot be used for synthesis.")
+        case .maxTier: return L10n.text("5-star fish cannot be synthesized further.")
+        case .lockedMaterial: return L10n.text("Unlock the protected material fish first.")
+        case .tankFull: return L10n.text("Aquarium display slots are full. Level up or put away a fish first.")
+        case .protectedFish: return L10n.text("Starter and locked fish cannot be released.")
+        case .inventoryFull: return L10n.text("The inventory limit of 20,000 fish has been reached.")
+        case .invalidSave: return L10n.text("The save format or content is invalid.")
         }
     }
 }

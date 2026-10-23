@@ -68,7 +68,7 @@ final class AgentToastStackTests: XCTestCase {
         XCTAssertEqual(ledger.accept(preview, now: now), true)
         XCTAssertNil(ledger.accept(preview, now: now))
         XCTAssertTrue(ledger.sessions.isEmpty)
-        XCTAssertEqual(ledger.summary(source: .codex, now: now), L10n.render("{0} · 等待事件", arguments: ["Codex", "1"], language: L10n.language))
+        XCTAssertEqual(ledger.summary(source: .codex, now: now), L10n.render("{0} · Waiting for events", arguments: ["Codex", "1"], language: L10n.language))
     }
     func testStackGeometryHasNoOverlapAndStaysWithinScreen() {
         let screen = CGRect(x: 0, y: 0, width: 1920, height: 1080)

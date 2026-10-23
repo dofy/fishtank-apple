@@ -141,14 +141,14 @@ struct PixelDiscoveryBadge: View {
     var body: some View {
         HStack(spacing: 6) {
             PixelIcon(newSpecies ? "fish" : "book", color: PixelTheme.ink)
-            Text(newSpecies ? L10n.text("新鱼种") : L10n.text("新外观"))
+            Text(newSpecies ? L10n.text("New Species") : L10n.text("New Variant"))
         }
         .font(PixelTheme.font()).foregroundStyle(PixelTheme.ink)
         .padding(.horizontal, 12).padding(.vertical, 6)
         .background(PixelOutline().fill(newSpecies ? PixelTheme.gold : PixelTheme.green))
         .overlay(PixelOutline().stroke(PixelTheme.ink, lineWidth: 1).allowsHitTesting(false))
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(newSpecies ? L10n.text("首次发现新鱼种") : L10n.text("首次获得此鱼种的品阶外观"))
+        .accessibilityLabel(newSpecies ? L10n.text("First new species discovered") : L10n.text("First grade variant of this species"))
     }
 }
 
@@ -264,7 +264,7 @@ private struct PixelToggleBody: View {
                 Spacer(minLength: 0)
             }
         }.buttonStyle(PixelButtonStyle())
-            .accessibilityValue(configuration.isOn ? L10n.text("已开启") : L10n.text("已关闭"))
+            .accessibilityValue(configuration.isOn ? L10n.text("On") : L10n.text("Off [toggle]"))
     }
 }
 
@@ -357,7 +357,7 @@ struct PixelWindowChrome: View {
                     PixelIcon("fish", color: PixelTheme.ink)
                     Text(title).font(PixelTheme.font(18)).foregroundStyle(PixelTheme.ink)
                 }.padding(.leading, 10).allowsHitTesting(false)
-            }.frame(height: 44).accessibilityLabel(L10n.text("拖动窗口"))
+            }.frame(height: 44).accessibilityLabel(L10n.text("Drag Window"))
                 .accessibilityIdentifier("window.dragBar")
             Button(action: close) { PixelIcon("close", color: PixelTheme.pink) }
                 .buttonStyle(PixelButtonStyle(fixedWidth: 40)).accessibilityLabel(closeLabel)

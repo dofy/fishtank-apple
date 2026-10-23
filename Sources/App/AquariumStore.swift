@@ -6,7 +6,7 @@ import UserNotifications
 final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     @Published private(set) var state: AquariumState
     @Published private(set) var now = Date()
-    @Published var message = L10n.text("养一小缸海，慢慢收集每一种颜色。")
+    @Published var message = L10n.text("Raise a tiny ocean and slowly collect every color.")
     @Published var outcome: FishOutcome?
     @Published var achievementToast: String?
     let sound = AquariumSound()
@@ -59,7 +59,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
             } catch {
                 // Preserve the unreadable file and never overwrite it with a fresh game.
                 state = .newGame(at: Date())
-                message = L10n.text("存档读取失败，已保留原文件；当前仅作临时预览。")
+                message = L10n.text("The save could not be read, so the original file was preserved. This is only a temporary preview.")
                 persistenceBlocked = true
             }
         } else {
@@ -117,7 +117,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
         do {
             try persist(state)
         } catch {
-            message = L10n.text("保存失败：\(error.localizedDescription)")
+            message = L10n.text("Save failed: \(error.localizedDescription)")
         }
     }
 
@@ -127,7 +127,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
         lastSavedAt = now
     }
 
-    var recoveryURLs: [(String, URL)] { [(L10n.text("最近自动备份"), repository.recent), (L10n.text("导入前的存档"), repository.preRestore)] }
+    var recoveryURLs: [(String, URL)] { [(L10n.text("Recent Auto-Backup"), repository.recent), (L10n.text("Save Before Import"), repository.preRestore)] }
     var isPreviewOnly: Bool { persistenceBlocked }
     func exportBackup() throws -> Data {
         guard !persistenceBlocked else { throw AquariumError.invalidSave }
@@ -149,13 +149,13 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
             state = candidate; outcome = nil; achievementToast = nil
             sound.configure(candidate.audio)
             rescheduleReminders()
-            message = L10n.text("存档已导入。替换前的原文件已保留，可从恢复入口找回。")
+            message = L10n.text("Save imported. The previous file was preserved and can be recovered from Restore.")
             return true
-        } catch { message = L10n.text("导入失败，当前进度未替换：\(error.localizedDescription)"); return false }
+        } catch { message = L10n.text("Import failed. Current progress was not replaced: \(error.localizedDescription)"); return false }
     }
 
     private func commit(_ operation: (inout AquariumState) throws -> Void) -> Bool {
-        guard !persistenceBlocked else { message = L10n.text("存档不可写，已阻止操作以保护进度。"); return false }
+        guard !persistenceBlocked else { message = L10n.text("The save file is not writable. The action was blocked to protect your progress."); return false }
         refresh()
         do {
             var candidate = state
@@ -185,7 +185,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
         }
         if success, let result {
             outcome = result
-            message = L10n.text("繁育成功：\(result.child.name)，获得 \(result.expGained) 经验。")
+            message = L10n.text("Breeding complete: \(result.child.name). Gained \(result.expGained) XP.")
             sound.play("breed")
         }
         return success
@@ -200,7 +200,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
         }
         if success, let result {
             outcome = result
-            message = L10n.text("合成成功：\(result.child.tier) 星 \(result.child.name)，继承品阶 \(result.child.grade)。")
+            message = L10n.text("Synthesis complete: \(result.child.tier)-star \(result.child.name), inheriting grade \(result.child.grade).")
             sound.play("merge")
         }
         return success
@@ -215,28 +215,28 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
         }
         if success, let result {
             outcome = result
-            message = L10n.text("重铸获得：\(result.child.name)，继承品阶 \(result.child.grade)。")
+            message = L10n.text("Reforged: \(result.child.name) · Grade \(result.child.grade) inherited.")
             sound.play("merge")
         }
         return success
     }
 
-    func toggleTank(_ id: UUID) { if commit({ try $0.toggleTank(id) }) { message = L10n.text("鱼缸展示已更新。"); sound.play("place") } }
-    func setLocked(_ id: UUID, _ locked: Bool) { if commit({ $0.setLocked(id, locked) }) { message = locked ? L10n.text("已锁定保护。") : L10n.text("已解锁。"); sound.play("select") } }
-    func release(_ id: UUID) { if commit({ try $0.release(id) }) { message = L10n.text("已放生，图鉴收集记录保留。"); sound.play("release") } }
+    func toggleTank(_ id: UUID) { if commit({ try $0.toggleTank(id) }) { message = L10n.text("Aquarium display updated."); sound.play("place") } }
+    func setLocked(_ id: UUID, _ locked: Bool) { if commit({ $0.setLocked(id, locked) }) { message = locked ? L10n.text("Locked for protection.") : L10n.text("Unlocked."); sound.play("select") } }
+    func release(_ id: UUID) { if commit({ try $0.release(id) }) { message = L10n.text("Released. Collection records were preserved."); sound.play("release") } }
     func setMergePreferences(_ preferences: MergePreferences) { _ = commit { $0.mergePreferences = preferences } }
 
     func toggleDecoration(_ id: String) {
-        if commit({ try $0.toggleDecoration(id) }) { message = L10n.text("装饰已更新。"); sound.play("place") }
+        if commit({ try $0.toggleDecoration(id) }) { message = L10n.text("Decorations updated."); sound.play("place") }
     }
     func moveDecoration(_ id: String, to x: Double) {
-        if commit({ try $0.moveDecoration(id, to: x) }) { message = L10n.text("装饰位置已保存。") }
+        if commit({ try $0.moveDecoration(id, to: x) }) { message = L10n.text("Decoration positions saved.") }
     }
     func flipDecoration(_ id: String) {
         if commit({ try $0.flipDecoration(id) }) { sound.play("select") }
     }
     func displayAchievements(_ ids: [String]) {
-        if commit({ try $0.setDisplayedAchievements(ids) }) { message = L10n.text("勋章展示已更新。"); sound.play("place") }
+        if commit({ try $0.setDisplayedAchievements(ids) }) { message = L10n.text("Medal display updated."); sound.play("place") }
     }
     func setAudio(_ config: AquariumAudio) {
         if commit({ $0.audio = config }) { sound.configure(config); sound.interact() }
@@ -265,7 +265,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
             UserDefaults.standard.set(false, forKey: "remindersEnabled")
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
             UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-            message = L10n.text("提醒已关闭")
+            message = L10n.text("Alerts Off")
             return
         }
         authorizationTask = Task {
@@ -274,10 +274,10 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
                 guard !Task.isCancelled else { return }
                 remindersEnabled = allowed
                 UserDefaults.standard.set(allowed, forKey: "remindersEnabled")
-                message = allowed ? L10n.text("已开启成年、冷却结束和爱心回满提醒") : L10n.text("通知未获授权，可在系统设置中开启")
+                message = allowed ? L10n.text("Growth, cooldown, and full-heart alerts enabled") : L10n.text("Notifications are not authorized. Enable them in System Settings.")
                 rescheduleReminders()
             } catch {
-                message = L10n.text("通知设置失败：\(error.localizedDescription)")
+                message = L10n.text("Notification setup failed: \(error.localizedDescription)")
             }
         }
     }
@@ -307,7 +307,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
         guard remindersEnabled, !persistenceBlocked, !Task.isCancelled else { return }
         do {
             guard try await ensureNotificationAuthorization() else { return }
-        } catch { message = L10n.text("通知设置失败：\(error.localizedDescription)"); return }
+        } catch { message = L10n.text("Notification setup failed: \(error.localizedDescription)"); return }
         guard !Task.isCancelled, remindersEnabled else { return }
         refresh()
         let generation = reminderGeneration
@@ -330,7 +330,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
                     return
                 }
             } catch {
-                message = L10n.text("提醒安排失败：\(error.localizedDescription)")
+                message = L10n.text("Could not schedule alert: \(error.localizedDescription)")
             }
         }
     }
@@ -390,13 +390,13 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
     /// Explicit local smoke test; never changes hearts or other game progress.
     func testNotification() async {
         let content = UNMutableNotificationContent()
-        content.title = L10n.text("鱼缸提醒测试")
-        content.body = L10n.text("这是一条图标测试提醒，不代表爱心已回满。")
+        content.title = L10n.text("Fishtank Alert Test")
+        content.body = L10n.text("This is an icon test alert. It does not mean your hearts are full.")
         content.sound = .default
         do {
             let center = UNUserNotificationCenter.current()
             let allowed = try await ensureNotificationAuthorization()
-            guard allowed else { message = L10n.text("测试提醒未获授权"); return }
+            guard allowed else { message = L10n.text("Test alert not authorized"); return }
             try await center.add(UNNotificationRequest(identifier: "fishtank.test", content: content,
                 trigger: UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)))
             let pending = await center.pendingNotificationRequests()
@@ -418,7 +418,7 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
                 FileHandle.standardOutput.write(verification)
             }
             #endif
-        } catch { message = L10n.text("测试提醒失败：\(error.localizedDescription)") }
+        } catch { message = L10n.text("Test alert failed: \(error.localizedDescription)") }
     }
 
 }
