@@ -118,6 +118,13 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
         for (title, value) in [(L10n.text("小 · 320 × 180"), 1), (L10n.text("中 · 640 × 360"), 2), (L10n.text("大 · 960 × 540"), 3)] {
             action(title, checked: aquarium.pixelScale == value, in: size) { aquarium.pixelScale = value }
         }
+        let wake = KeepAwakeController.shared
+        let wakeMenu = submenu(L10n.text("保持唤醒"), icon: "power")
+        menu.items.last?.state = wake.mode == .off ? .off : .on
+        for mode in KeepAwakeController.Mode.allCases {
+            action(mode.title, checked: wake.mode == mode, in: wakeMenu) { wake.select(mode) }
+        }
+        if wake.failed { caption(L10n.text("无法更改保持唤醒，已保留原模式。请重试。")) }
         action(L10n.text("移回屏幕"), icon: "move") { aquarium.moveToCurrentScreen() }
         action(L10n.text("投喂"), icon: "food") { aquarium.feed() }
         action(L10n.text("养成提醒"), icon: "bell", checked: store.remindersEnabled) {

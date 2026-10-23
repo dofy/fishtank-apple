@@ -508,6 +508,7 @@ struct AquariumView: View {
                 HStack { breedParentHeading; Spacer(minLength: 12); breedSelectionTools }
                 VStack(alignment: .leading, spacing: 8) { breedParentHeading; breedSelectionTools }
             }
+            recommendationReadout.font(PixelTheme.captionFont()).padding(12).pixelPanel()
             fishGrid(visibleFish)
         }
     }
@@ -522,8 +523,34 @@ struct AquariumView: View {
     private var breedSelectionTools: some View {
         HStack(spacing: 8) {
             Button(L10n.text("推荐配对")) { selected = store.state.recommendedPair(at: store.now) }
+                .disabled(store.state.breedRecommendation(at: store.now).parentIDs.count < 2)
             Button(L10n.text("清空")) { selected = [] }.disabled(selected.isEmpty)
         }.buttonStyle(PixelButtonStyle()).fixedSize(horizontal: true, vertical: false)
+    }
+
+    private var recommendationReadout: some View {
+        let r = store.state.breedRecommendation(at: store.now)
+        return VStack(alignment: .leading, spacing: 4) {
+            Text(Set(selected) == Set(r.parentIDs) && !selected.isEmpty ? L10n.text("推荐组合（已选）") : L10n.text("推荐组合（未选用）"))
+            switch r.reason {
+            case .newSpecies: Text(L10n.text("优先补新鱼种"))
+            case .newVariant:
+                Text(L10n.text("优先补品阶外观"))
+                if r.missingSpeciesCount > 0 { Text(L10n.text("现有可用亲代暂时无法获得缺失鱼种。")) }
+            case .complete: Text(L10n.text("普通图鉴已收齐，推荐高星亲代。"))
+            case .unreachable: Text(L10n.text("现有可用亲代无法补齐缺失图鉴，请等待成年或解除锁定。"))
+            case .unavailable: Text(L10n.text("需要两条未锁定的成年亲代。"))
+            }
+            if r.reason == .newSpecies || r.reason == .newVariant {
+                Text(L10n.text("新鱼种 \(recommendationPercent(r.newSpeciesProbability)) · 新外观 \(recommendationPercent(r.newVariantProbability))"))
+                Text(L10n.text("概率仅对应推荐组合的单次繁育，不保证获得。"))
+            }
+        }.foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
+            .accessibilityIdentifier("breed.recommendation")
+    }
+    private func recommendationPercent(_ value: Double) -> String {
+        if value > 0 && value < 0.001 { return L10n.text("低于 0.1%") }
+        return (value * 100).formatted(.number.precision(.fractionLength(1))) + "%"
     }
 
     private var breedReadout: some View {

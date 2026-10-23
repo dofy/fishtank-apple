@@ -94,7 +94,7 @@ struct AgentSettingsView: View {
             }.padding(.horizontal, 20).padding(.bottom, 12)
             Divider().overlay(PixelTheme.shell.opacity(0.3))
             if page == "general" {
-                ScrollView { LanguageSettingsView().padding(24) }
+                ScrollView { VStack(alignment: .leading, spacing: 28) { LanguageSettingsView(); KeepAwakeSettingsView() }.padding(24) }
             }
             else if page == "appearance" { AppIconSettingsView(icons: aquarium.appIcons, store: store) }
             else if page == "agents" { agentPage } else { notificationPage }

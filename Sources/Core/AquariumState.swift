@@ -244,12 +244,7 @@ struct AquariumState: Codable, Equatable {
     }
 
     func recommendedPair(at now: Date) -> [UUID] {
-        Array(fish.filter { $0.canBreed(at: now) }.sorted {
-            if $0.tier != $1.tier { return $0.tier > $1.tier }
-            if $0.grade != $1.grade { return $0.grade > $1.grade }
-            if $0.uses != $1.uses { return $0.uses > $1.uses }
-            return $0.bornAt < $1.bornAt
-        }.prefix(2).map(\.id))
+        breedRecommendation(at: now).parentIDs
     }
 
     func autoMergeSelection() -> [UUID] {

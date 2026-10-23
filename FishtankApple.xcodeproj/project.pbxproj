@@ -45,9 +45,11 @@
 		2BD8BC9D5CF23CB453C3FE72 /* FishtankIcon-seahorse.png in Resources */ = {isa = PBXBuildFile; fileRef = DDE9DCB8F9E307E98AF84098 /* FishtankIcon-seahorse.png */; };
 		2C5AA9AD8C7A1A27B0086E67 /* FishtankIcon-auroraeel.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0395FDE5DFAE781FA58B7B3C /* FishtankIcon-auroraeel.icns */; };
 		2C73A49CAE9094B4BA0A2392 /* AgentAlertSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084B62018D48709FB8FA9A3A /* AgentAlertSound.swift */; };
+		2CDEC18C3A747910C88910A7 /* KeepAwakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2FA871B9462863CC9EDFC4 /* KeepAwakeController.swift */; };
 		2DCDA77CC026B0F99AD937E5 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0CFBF060D8B2B4EF7E6E5CD6 /* click.wav */; };
 		2F090BE679EB274E1682956C /* select.wav in Resources */ = {isa = PBXBuildFile; fileRef = EEA12903523ACC4239C7DD86 /* select.wav */; };
 		2F2AB4749299F35BAB865ECB /* AgentSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D0D63F8824B5F38A0CAB0 /* AgentSettingsView.swift */; };
+		2F6B478E69042A82B6ADF269 /* KeepAwakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2FA871B9462863CC9EDFC4 /* KeepAwakeController.swift */; };
 		30D313AC7BEEC7464DEDA45B /* FishtankIcon-astraljelly.png in Resources */ = {isa = PBXBuildFile; fileRef = 69802F2B7DC4A6664D22759B /* FishtankIcon-astraljelly.png */; };
 		30F3828EB9F4574EDAD98778 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 205785638C0B1486A88A506A /* PrivacyInfo.xcprivacy */; };
 		327DCF29AE3DE618A32C07B4 /* AgentSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A780F0B451C4E069B0C510 /* AgentSettingsStore.swift */; };
@@ -97,6 +99,7 @@
 		5DF7A45743076A365DA8CF6A /* MenuFishArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E47A33DE85703204586E20 /* MenuFishArt.swift */; };
 		5E252D884A26CD90D8CF0A91 /* AgentAlertTone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */; };
 		5F220190E7DC15A09EDE6863 /* FishtankIcon-ray.icns in Resources */ = {isa = PBXBuildFile; fileRef = 461F7E09030105AEB2197AD3 /* FishtankIcon-ray.icns */; };
+		6062634AA5AB96741AA86173 /* KeepAwakeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CD11B3577EC7435FCEFAAD /* KeepAwakeSession.swift */; };
 		62676FF524EBD718E67FCFAF /* music-japanese.wav in Resources */ = {isa = PBXBuildFile; fileRef = 928208406D37386AF5669DE2 /* music-japanese.wav */; };
 		6376EE98B2E051FD8DE32B2F /* FishtankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC57FBC64D6E1EFA75653FCD /* FishtankApp.swift */; };
 		6476568CE3086BAB5CA2D99D /* FishtankIcon-emberbarb.icns in Resources */ = {isa = PBXBuildFile; fileRef = 62B2D73CF578B9F9391BB7E1 /* FishtankIcon-emberbarb.icns */; };
@@ -159,6 +162,7 @@
 		988CE7191175FE1B1BD07C51 /* AgentSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A780F0B451C4E069B0C510 /* AgentSettingsStore.swift */; };
 		99E0B305B299455EF3ADBFEB /* FishtankIcon-skywing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5558F2ED7FB3D9B40F35B8DC /* FishtankIcon-skywing.png */; };
 		9B38CF30D373F66E87F06A3B /* FishtankIcon-goldenseahorse.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3C8A54F499F5395F20871436 /* FishtankIcon-goldenseahorse.icns */; };
+		9CE4D7C25E26EA12BB472BD4 /* BreedRecommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497FF0E9B63D7A719EA2648E /* BreedRecommendation.swift */; };
 		9D52FA3196C4AC6487AFD3A6 /* PixelTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06838F8CB341340064B222C2 /* PixelTheme.swift */; };
 		9D7F1986405510CCABB7B699 /* ja.json in Resources */ = {isa = PBXBuildFile; fileRef = F2DE7AE648B562357ACA3EE7 /* ja.json */; };
 		9E08915E02E3AFD3377AF041 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5F6D5B91FD2ACB3E33EEFB2C /* LICENSE */; };
@@ -166,6 +170,7 @@
 		9F1E66066B36FDD2F72AED7A /* reveal-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54E2707DAAC79E66B40CFEFC /* reveal-3.wav */; };
 		9F385568F1A9B17B26EB968D /* FishtankIcon-treasure.icns in Resources */ = {isa = PBXBuildFile; fileRef = 33B4F44B67C2BB42E4ED7445 /* FishtankIcon-treasure.icns */; };
 		9F917D29BDBB336B3DE10FB3 /* PixelFormControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */; };
+		A116BFEF8FC52C54BE0EF233 /* KeepAwakeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CD11B3577EC7435FCEFAAD /* KeepAwakeSession.swift */; };
 		A1821CE4E53E96B9E8FFBB8A /* AquariumSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */; };
 		A1852912711693681487D6F7 /* FishtankUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936CAB86D541E5747F2BF24 /* FishtankUITests.swift */; };
 		A32446A519CA6363718811AC /* zh-Hans.json in Resources */ = {isa = PBXBuildFile; fileRef = 47D4AE36258950DCC7D2E1F1 /* zh-Hans.json */; };
@@ -224,6 +229,7 @@
 		E29BA9AC9C629670ECE3C7F7 /* FishtankIcon-sapphire.png in Resources */ = {isa = PBXBuildFile; fileRef = 677857888F7B40087B5A0094 /* FishtankIcon-sapphire.png */; };
 		E2B7DB9E70DA62289C3A3CFD /* place.wav in Resources */ = {isa = PBXBuildFile; fileRef = 474FBB96B54270BB7A5F0739 /* place.wav */; };
 		E316D8E01EC7080161EFC27C /* FishtankIcon-auroraeel.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F092791B1FDEE8767DFE5E4 /* FishtankIcon-auroraeel.png */; };
+		E4FBDB27ABC6B415717F1DEC /* BreedRecommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497FF0E9B63D7A719EA2648E /* BreedRecommendation.swift */; };
 		E76EFF2030870F31185F4F9C /* FishSwimProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0EAC50167C3E8F7ED5FEC9 /* FishSwimProfile.swift */; };
 		E893BE32A46D8E4E0B74ED53 /* FishtankIcon-goldenseahorse.png in Resources */ = {isa = PBXBuildFile; fileRef = F528E4C7840A42CF03CCE9BB /* FishtankIcon-goldenseahorse.png */; };
 		EDBC3C81A6103C059B37C4D5 /* DecorArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016AF13E416FF420333DAEC3 /* DecorArt.swift */; };
@@ -308,6 +314,7 @@
 		47D4AE36258950DCC7D2E1F1 /* zh-Hans.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "zh-Hans.json"; sourceTree = "<group>"; };
 		488D0D63F8824B5F38A0CAB0 /* AgentSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSettingsView.swift; sourceTree = "<group>"; };
 		48977ABD32A861624E2C52F0 /* FishtankIcon-moonjelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-moonjelly.png"; sourceTree = "<group>"; };
+		497FF0E9B63D7A719EA2648E /* BreedRecommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedRecommendation.swift; sourceTree = "<group>"; };
 		49AC129EF8C25046CD887327 /* FloatingAquariumController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingAquariumController.swift; sourceTree = "<group>"; };
 		4A94A72F5D15E1FF21D35922 /* FishtankIcon-neon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-neon.png"; sourceTree = "<group>"; };
 		4EA9A0B3EB49CD84EC548532 /* AquariumInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumInstallation.swift; sourceTree = "<group>"; };
@@ -329,6 +336,7 @@
 		6004684EBE2DA843037C3973 /* FishtankIcon-blushingfire.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-blushingfire.icns"; sourceTree = "<group>"; };
 		62B2D73CF578B9F9391BB7E1 /* FishtankIcon-emberbarb.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-emberbarb.icns"; sourceTree = "<group>"; };
 		63C372E2F206F7600ED87FDD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		65CD11B3577EC7435FCEFAAD /* KeepAwakeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepAwakeSession.swift; sourceTree = "<group>"; };
 		677857888F7B40087B5A0094 /* FishtankIcon-sapphire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-sapphire.png"; sourceTree = "<group>"; };
 		69802F2B7DC4A6664D22759B /* FishtankIcon-astraljelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-astraljelly.png"; sourceTree = "<group>"; };
 		6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAlertTone.swift; sourceTree = "<group>"; };
@@ -402,6 +410,7 @@
 		ED965F0BAE946487E7C8B35A /* FishtankIcon-moon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-moon.icns"; sourceTree = "<group>"; };
 		EEA12903523ACC4239C7DD86 /* select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = select.wav; sourceTree = "<group>"; };
 		EEE765D980B7F0B28B3A7174 /* breed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = breed.wav; sourceTree = "<group>"; };
+		EF2FA871B9462863CC9EDFC4 /* KeepAwakeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepAwakeController.swift; sourceTree = "<group>"; };
 		F2125ECC98B9059E7039B0FD /* FishtankIcon-blushingfire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-blushingfire.png"; sourceTree = "<group>"; };
 		F2DE7AE648B562357ACA3EE7 /* ja.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ja.json; sourceTree = "<group>"; };
 		F528E4C7840A42CF03CCE9BB /* FishtankIcon-goldenseahorse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-goldenseahorse.png"; sourceTree = "<group>"; };
@@ -500,10 +509,12 @@
 				C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */,
 				08DDAE8D46170789C97C9B78 /* AquariumState.swift */,
 				DC5AA549CCF05B9B722E0142 /* AquariumWindowDrag.swift */,
+				497FF0E9B63D7A719EA2648E /* BreedRecommendation.swift */,
 				7C368DC9BB68608363A84416 /* ClaudeHookEvent.swift */,
 				062724B13302449E27CDDB3A /* DecorCatalog.swift */,
 				93BF8A10A32A6D67E906B64A /* FishCatalog.swift */,
 				5F0EAC50167C3E8F7ED5FEC9 /* FishSwimProfile.swift */,
+				65CD11B3577EC7435FCEFAAD /* KeepAwakeSession.swift */,
 				5CFC0B4587226C7F979E1DA2 /* L10n.swift */,
 			);
 			path = Core;
@@ -673,6 +684,7 @@
 				523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */,
 				BC57FBC64D6E1EFA75653FCD /* FishtankApp.swift */,
 				49AC129EF8C25046CD887327 /* FloatingAquariumController.swift */,
+				EF2FA871B9462863CC9EDFC4 /* KeepAwakeController.swift */,
 				99CD523DF3D81B06C93916F9 /* LanguageSettingsView.swift */,
 				81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */,
 				06838F8CB341340064B222C2 /* PixelTheme.swift */,
@@ -973,6 +985,7 @@
 				B2A84FD2A12E358E7A2BC61A /* AquariumStore.swift in Sources */,
 				C46ED360FECDB5A630BE1BD0 /* AquariumView.swift in Sources */,
 				F9BF98A2B9C9897ACF198BB5 /* AquariumWindowDrag.swift in Sources */,
+				E4FBDB27ABC6B415717F1DEC /* BreedRecommendation.swift in Sources */,
 				FC9A8D70ADA12ABD0EBDE0A8 /* ClaudeHookBridge.swift in Sources */,
 				08C95ADC02B099701F206864 /* ClaudeHookEvent.swift in Sources */,
 				8DB69B5972404104BE32BE54 /* ClaudeHookValidation.swift in Sources */,
@@ -983,6 +996,8 @@
 				E76EFF2030870F31185F4F9C /* FishSwimProfile.swift in Sources */,
 				6376EE98B2E051FD8DE32B2F /* FishtankApp.swift in Sources */,
 				0E9A823E18034352F380D3F8 /* FloatingAquariumController.swift in Sources */,
+				2F6B478E69042A82B6ADF269 /* KeepAwakeController.swift in Sources */,
+				6062634AA5AB96741AA86173 /* KeepAwakeSession.swift in Sources */,
 				932A4B49C116D604081BE05A /* L10n.swift in Sources */,
 				921364D89849A03CC47503FE /* LanguageSettingsView.swift in Sources */,
 				5DF7A45743076A365DA8CF6A /* MenuFishArt.swift in Sources */,
@@ -1037,6 +1052,7 @@
 				711781CADBDBC6F2CBAAA7BB /* AquariumStore.swift in Sources */,
 				F9BCD861215EFD14D8574A5A /* AquariumView.swift in Sources */,
 				794C2C913E883E038C0B92D4 /* AquariumWindowDrag.swift in Sources */,
+				9CE4D7C25E26EA12BB472BD4 /* BreedRecommendation.swift in Sources */,
 				4CDBC11F8543B4916BA84FB0 /* ClaudeHookBridge.swift in Sources */,
 				90CB8FE51B9A1EB4F1723AF8 /* ClaudeHookEvent.swift in Sources */,
 				1A11DD4D3247793316616C38 /* ClaudeHookValidation.swift in Sources */,
@@ -1047,6 +1063,8 @@
 				8DC572AF23F921DD66E31A41 /* FishSwimProfile.swift in Sources */,
 				0F5B8713D5E050E444BA92E8 /* FishtankApp.swift in Sources */,
 				8D4CC360D9AE87D3BE271A74 /* FloatingAquariumController.swift in Sources */,
+				2CDEC18C3A747910C88910A7 /* KeepAwakeController.swift in Sources */,
+				A116BFEF8FC52C54BE0EF233 /* KeepAwakeSession.swift in Sources */,
 				7BF14AD1D27AE5517236168A /* L10n.swift in Sources */,
 				ABC39BA1DC2B3C1EC25CF2A5 /* LanguageSettingsView.swift in Sources */,
 				72F3E01A327636D6AEFFBA61 /* MenuFishArt.swift in Sources */,
@@ -1167,7 +1185,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1189,7 +1207,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1293,7 +1311,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1309,7 +1327,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

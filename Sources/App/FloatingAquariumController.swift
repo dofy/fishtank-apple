@@ -66,6 +66,7 @@ final class AquariumApplicationDelegate: NSObject, NSApplicationDelegate {
             NSApp.terminate(nil)
             return
         }
+        _ = KeepAwakeController.shared
         aquarium.show()
         aquarium.startClaudeHooks()
         statusMenu = AquariumStatusMenu(store: store, aquarium: aquarium)
@@ -85,6 +86,7 @@ final class AquariumApplicationDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        KeepAwakeController.shared.releaseAssertions()
         store.refresh()
         store.save()
     }

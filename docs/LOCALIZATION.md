@@ -4,7 +4,7 @@ Fishtank supports English (`en`), Simplified Chinese (`zh-Hans`), Traditional Ch
 
 All application UI, status bubbles, menu titles, accessibility descriptions, notification content, errors, species, decorations, achievements and icon names use the shared catalog in `Sources/Core/Resources/Localizations/`. Provider names, saved IDs, event names, filenames and user-entered names remain unchanged. No player-save migration is involved.
 
-`L10n.text("…\(value)…")` captures interpolation separately and inserts each argument once. This supports reordered placeholders while preserving user text containing braces. Stable enum display values use `L10n.key`. A missing translation uses the English catalog. The four catalogs currently share 545 templates.
+`L10n.text("…\(value)…")` captures interpolation separately and inserts each argument once. This supports reordered placeholders while preserving user text containing braces. Stable enum display values use `L10n.key`. A missing translation uses the English catalog. The four catalogs currently share 562 templates.
 
 ## Pixel fonts
 
