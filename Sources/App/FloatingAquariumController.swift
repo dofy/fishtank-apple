@@ -451,7 +451,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             window.becomesKeyOnlyIfNeeded = false
             window.delegate = self
             window.level = .normal
-            let content = NSHostingView(rootView: AquariumView(store: store, feedAquarium: { [weak self] in self?.feed() })
+            let content = NSHostingView(rootView: AquariumView(store: store)
                 .frame(width: size.width, height: size.height))
             content.sizingOptions = [.minSize, .maxSize]
             window.contentView = content

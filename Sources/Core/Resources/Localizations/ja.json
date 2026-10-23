@@ -192,7 +192,6 @@
   "Drag to reposition": "ドラッグで位置調整",
   "Drag to reposition · Lv.{0} unlocks {1} new decorations": "ドラッグで位置調整 · Lv.{0}で新しい飾り{1}個を解放",
   "Driftwood Arch": "流木アーチ",
-  "Drop some food and watch the fish swim over.": "エサをまいて、魚たちがゆっくり集まるのを眺めよう。",
   "Each breeding costs 1 heart. Starter fish cool down for 3 minutes; other fish use a breeding count. Locking does not prevent breeding.": "1回につきハートを1個消費します。初期魚は繁殖後3分間クールダウンし、他の魚は繁殖回数を消費します。ロックは繁殖に影響しません。",
   "Each fish is counted once. Unlock protected fish on the Fish tab.": "各個体は1つの理由にのみ数えます。ロックは「魚群」で解除できます。",
   "Each status shares one sound. Multiple sounds play in sequence; turning them off stops playback immediately, and missed sounds will not replay.": "同じ状態は同じ効果音を使います。複数は順番に再生され、オフにすると即停止し、再度オンにしても再生し直しません。",

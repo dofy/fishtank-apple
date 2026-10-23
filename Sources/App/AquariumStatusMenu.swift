@@ -127,7 +127,6 @@ final class AquariumStatusMenu: NSObject, NSMenuDelegate {
         if wake.failed { caption(L10n.text("Could not change Keep Awake. The previous mode is still active. Try again.")) }
         action(L10n.text("Move Back On-Screen"), icon: "move") { aquarium.moveToCurrentScreen() }
         action(L10n.text("Interaction Tips"), icon: "book") { aquarium.showHintAgain() }
-        action(L10n.text("Feed"), icon: "food") { aquarium.feed() }
         action(L10n.text("Care Alerts"), icon: "bell", checked: store.remindersEnabled) {
             store.setReminders(!store.remindersEnabled)
         }

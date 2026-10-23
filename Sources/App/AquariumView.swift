@@ -22,7 +22,6 @@ private enum AquariumTab: String, CaseIterable, Identifiable {
 struct AquariumView: View {
     @ObservedObject private var localization = AppLocalization.shared
     @ObservedObject var store: AquariumStore
-    var feedAquarium: (() -> Void)? = nil
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reducedMotion
     @State private var scene = AquariumScene()
@@ -451,27 +450,11 @@ struct AquariumView: View {
         #endif
     }
 
-    private var feedButton: some View {
-        Button {
-            // On Mac the fish live on the desktop; the manual has no tank of its own.
-            if let feedAquarium { feedAquarium() } else { scene.feed(reducedMotion: reducedMotion); store.sound.play("feed") }
-            store.message = L10n.text("Drop some food and watch the fish swim over.")
-        } label: {
-            HStack(spacing: 6) { PixelIcon("food"); Text(L10n.text("Feed")) }
-        }.accessibilityIdentifier("tank.feed")
-    }
-
     private var tankContent: some View { tankInventory }
 
     private var tankInventory: some View {
         VStack(alignment: .leading, spacing: 16) {
-            pageHeading(L10n.text("My Fish")) {
-                #if os(iOS)
-                feedButton
-                #else
-                EmptyView()
-                #endif
-            }
+            pageHeading(L10n.text("My Fish")) { EmptyView() }
             filters
             fishSorting
             fishGrid(visibleFish)
@@ -815,7 +798,7 @@ struct AquariumView: View {
     @ViewBuilder private var pageFooter: some View {
         switch tab {
         case .tank:
-            AquariumFooter(title: L10n.text("\(visibleFish.count) Matching Fish"), detail: tankFooterDetail) { feedButton }
+            AquariumFooter(title: L10n.text("\(visibleFish.count) Matching Fish"), detail: tankFooterDetail) { EmptyView() }
         case .breed:
             AquariumFooter(title: L10n.text("\(selected.count)/2 parents selected"),
                            detail: breedFooterDetail, emphasized: selected.count == 2 && store.state.hearts > 0) {
