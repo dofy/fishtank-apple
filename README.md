@@ -41,7 +41,7 @@ When five-star creatures have used up their breeding chances, combine three thro
 
 ## More than something to watch
 
-**Click an empty spot to feed the fish**, and food drops from the matching point on your screen. **Right-click to shake the aquarium**: a soft sound plays and every fish darts away for 3–5 seconds. You can also tap a fish to see how different species respond.
+**Click an empty spot to feed the fish**, and food drops from the matching point on your screen. **Double-click to open the care guide**, and **right-click to shake the aquarium**: a soft sound plays and every fish darts away for 3–5 seconds. You can also tap a fish to see how different species respond.
 
 Build your underwater corner with **18 decorations**, including seagrass, coral, and a treasure chest, then add day-and-night lighting and gentle music. Look closely and you may spot fish chasing food, swimming in groups, seahorses resting, or little swimmers passing through an arch.
 
