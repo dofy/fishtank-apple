@@ -79,6 +79,18 @@ enum PaintedSprites {
             var sx = Double(x), sy = Double(y)
             let tail = max(0, (40 - sx) / 40)
             switch species.form {
+            case "seaangel":
+                // Paired parapodia flap around the spindle, keeping head and organs still.
+                let wing = max(0, min(1, (abs(sx - 32) - 6) / 18))
+                sy -= sin(phase) * wing * 5
+                sx = 32 + (sx - 32) / (1 - max(0, sin(phase)) * wing * 0.22)
+                let tail = max(0, min(1, (sy - 30) / 13))
+                sx -= sin(phase - tail) * tail * 1.5
+            case "nautilus":
+                // The coiled shell stays rigid; a small fin and separate tentacles paddle.
+                let tendril = max(0, min(1, (sx - 42) / 16))
+                sy -= sin(phase * 2 - sx * 0.35) * tendril * 2
+                sx -= cos(phase) * tendril * 1.2
             case "eel", "seasnake":
                 // A traveling wave grows toward the tail; the head stays readable.
                 let along = max(0, min(1, (55 - sx) / 50))
@@ -121,7 +133,13 @@ enum PaintedSprites {
                 sy -= side * sin(phase - wing * 0.8) * wing * 4.8
                 sx -= cos(phase - wing * 0.8) * wing * 1.8
             default:
-                if species.silhouette == "glider-fish" {
+                if species.silhouette == "lantern-angler" {
+                    let tail = max(0, min(1, (24 - sx) / 18))
+                    sy -= sin(phase) * tail * 2.4
+                    let lure = max(0, min(1, (17 - sy) / 12)) * max(0, min(1, (sx - 28) / 14))
+                    sx -= sin(phase) * lure * 1.6
+                    sy -= cos(phase) * lure * 0.7
+                } else if species.silhouette == "glider-fish" {
                     // Both long pectoral fins open and fold around the body axis.
                     let spread = max(0, abs(sy - 24) - 3)
                     let wing = min(1, spread / 12)

@@ -91,19 +91,22 @@ extension AquariumState {
         var variants = discoveredVariants
         for fish in fish { species.insert(fish.speciesID); variants.insert("\(fish.speciesID):\(fish.grade)") }
         for key in variants { if let id = key.split(separator: ":").first { species.insert(String(id)) } }
-        let nonstarter = Set(FishCatalog.all.filter { $0.tier > 0 }.map(\.id))
+        let regular = FishCatalog.regular
+        let nonstarter = Set(regular.filter { $0.tier > 0 }.map(\.id))
         let validVariants = variants.filter { nonstarter.contains(String($0.split(separator: ":")[0])) }
-        func family(_ form: String) -> Int { FishCatalog.all.filter { $0.form == form && species.contains($0.id) }.count }
-        func tier(_ tier: Int) -> Int { FishCatalog.all.contains { $0.tier == tier && species.contains($0.id) } ? 1 : 0 }
+        func family(_ form: String) -> Int { regular.filter { $0.form == form && species.contains($0.id) }.count }
+        func tier(_ tier: Int) -> Int { regular.contains { $0.tier == tier && species.contains($0.id) } ? 1 : 0 }
         let count = species.intersection(nonstarter).count
         let values: [String: Int] = [
-            "first-friend": min(1, count), "tier-one": FishCatalog.all.filter { $0.tier == 1 && species.contains($0.id) }.count,
+            "first-friend": min(1, count), "tier-one": regular.filter { $0.tier == 1 && species.contains($0.id) }.count,
             "jelly-family": family("jellyfish"), "grade-five": validVariants.contains { $0.hasSuffix(":5") } ? 1 : 0,
-            "variant-collector": min(25, validVariants.count), "reef-explorer": species.count,
+            "variant-collector": min(25, validVariants.count), "reef-explorer": species.intersection(Set(regular.map(\.id))).count,
             "reef-rookie": min(5, count), "reef-naturalist": min(15, count), "rare-encounter": tier(3),
             "legend-encounter": tier(4), "mythic-encounter": tier(5), "eel-family": family("eel"),
             "color-palette": nonstarter.map { id in (1...5).filter { variants.contains("\(id):\($0)") }.count }.max() ?? 0,
-            "variant-master": min(60, validVariants.count)
+            "variant-master": min(60, validVariants.count),
+            "secret-encounter": min(1, FishCatalog.hidden.filter { species.contains($0.id) }.count),
+            "secret-trio": FishCatalog.hidden.filter { species.contains($0.id) }.count
         ]
         return AchievementCatalog.all.map { item in
             let current = min(item.total, values[item.id] ?? 0)
@@ -144,6 +147,7 @@ extension AquariumState {
                   nextHeartAt: try c.decode(Date.self, forKey: .nextHeartAt), lastUpdated: try c.decode(Date.self, forKey: .lastUpdated),
                   exp: try c.decode(Int.self, forKey: .exp), discovered: try c.decode(Set<String>.self, forKey: .discovered),
                   discoveredVariants: try c.decode(Set<String>.self, forKey: .discoveredVariants),
+                  reforgeMisses: c.contains(.reforgeMisses) ? try c.decode(Int.self, forKey: .reforgeMisses) : 0,
                   mergePreferences: try c.decode(MergePreferences.self, forKey: .mergePreferences),
                   random: try c.decode(FishRandom.self, forKey: .random),
                   decorations: try c.decodeIfPresent([PlacedDecoration].self, forKey: .decorations) ?? PlacedDecoration.starter,

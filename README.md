@@ -37,6 +37,8 @@ Not sure which fish to pair? Suggested Pair favors species you have yet to disco
 
 ![Recommended breeding pair and offspring odds](docs/screenshots/breeding.png)
 
+When five-star creatures have used up their breeding chances, combine three through **five-star reforging** to welcome a new companion. Three secret species appear only through reforging, with medals for your first discovery and the complete trio. Undiscovered regular creatures show only a silhouette in the catalog—their names stay a mystery.
+
 ## More than something to watch
 
 **Click an empty spot to feed the fish**, and food drops from the matching point on your screen. **Right-click to shake the aquarium**: a soft sound plays and every fish darts away for 3–5 seconds. You can also tap a fish to see how different species respond.
@@ -67,7 +69,7 @@ Notifications stay on your device, and your conversation content is never upload
 
 ## Discover a fish, unlock an icon
 
-Choose from **30 pixel icons**, all built around the same tiny aquarium and filled with different fish and decorations. An icon becomes available when you discover its matching species; locked icons can still be previewed, so you can choose what to collect next.
+Each creature has its own **pixel aquarium icon**, with matching fish and decorations inside the same tiny tank. Icons appear only after you discover their species—including the secret creatures found through five-star reforging. Your discoveries stay available even after a creature leaves your aquarium.
 
 ![Icon selection and breeding unlocks](docs/screenshots/icons.png)
 

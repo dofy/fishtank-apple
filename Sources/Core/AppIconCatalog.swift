@@ -45,7 +45,10 @@ enum AppIconCatalog {
         .init(id: "auroraeel", nameKey: L10n.source("极光晶湾"), speciesID: "auroraeel", decorationID: "crystal", companionID: "shell"),
         .init(id: "goldenseahorse", nameKey: L10n.source("金叶珊瑚"), speciesID: "goldenseahorse", decorationID: "coral", companionID: "chest"),
         .init(id: "leviathanfry", nameKey: L10n.source("海龙遗迹"), speciesID: "leviathanfry", decorationID: "castle", companionID: "crystal"),
-        .init(id: "astraljelly", nameKey: L10n.source("星冕幽光"), speciesID: "astraljelly", decorationID: "mushroom", companionID: "crystal")
+        .init(id: "astraljelly", nameKey: L10n.source("星冕幽光"), speciesID: "astraljelly", decorationID: "mushroom", companionID: "crystal"),
+        .init(id: "lanternangler", nameKey: L10n.source("幽灯石窟"), speciesID: "lanternangler", decorationID: "arch", companionID: "mushroom"),
+        .init(id: "glassangel", nameKey: L10n.source("琉璃星湾"), speciesID: "glassangel", decorationID: "crystal", companionID: "starfish"),
+        .init(id: "starnautilus", nameKey: L10n.source("星轮遗迹"), speciesID: "starnautilus", decorationID: "castle", companionID: "shell")
     ] + [duet]
     static let all: [AppIconDesign] = {
         let bySpecies = Dictionary(uniqueKeysWithValues: ([original] + variants.filter { $0.secondarySpeciesID == nil }).map { ($0.speciesID, $0) })
@@ -56,13 +59,11 @@ enum AppIconCatalog {
     }
     static func isUnlocked(_ design: AppIconDesign, discovered: Set<String>) -> Bool {
         guard let canonical = all.first(where: { $0.id == design.id }) else { return false }
-        let starters = Set(FishCatalog.pool(tier: 0).map(\.id))
-        let available = discovered.union(starters)
-        return available.contains(canonical.speciesID)
-            && (canonical.secondarySpeciesID.map { available.contains($0) } ?? true)
+        return discovered.contains(canonical.speciesID)
+            && (canonical.secondarySpeciesID.map { discovered.contains($0) } ?? true)
     }
-    static func filtered(tier: Int? = nil) -> [AppIconDesign] {
-        all.filter { tier == nil || FishCatalog.byID[$0.speciesID]?.tier == tier }
+    static func filtered(tier: Int? = nil, discovered: Set<String>) -> [AppIconDesign] {
+        all.filter { isUnlocked($0, discovered: discovered) && (tier == nil || FishCatalog.byID[$0.speciesID]?.tier == tier) }
             .sorted { (FishCatalog.byID[$0.speciesID]?.tier ?? 0) < (FishCatalog.byID[$1.speciesID]?.tier ?? 0) }
     }
     static func design(_ id: String?) -> AppIconDesign { all.first { $0.id == id } ?? original }

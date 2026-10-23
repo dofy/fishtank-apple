@@ -23,7 +23,7 @@ extension AquariumState {
             return (Double(pool.filter { !known.contains($0.id) }.count) / size,
                     (1...5).map { grade in Double(pool.filter { !variants.contains("\($0.id):\(grade)") }.count) / size })
         }
-        let missing = FishCatalog.all.filter { $0.tier > 0 && !known.contains($0.id) }.count
+        let missing = FishCatalog.regular.filter { $0.tier > 0 && !known.contains($0.id) }.count
         func result(_ pair: [AquariumFish], _ reason: BreedRecommendation.Reason, _ score: (Double, Double) = (0, 0)) -> BreedRecommendation {
             BreedRecommendation(parentIDs: pair.sorted(by: Self.legacyBreedOrder).map(\.id), reason: reason,
                                 newSpeciesProbability: score.0, newVariantProbability: score.1, missingSpeciesCount: missing)

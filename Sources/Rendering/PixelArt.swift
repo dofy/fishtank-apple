@@ -65,7 +65,8 @@ enum PixelArt {
         switch species.form {
         case "eel", "seasnake": return 1.6
         case "seahorse": return 2.4
-        case "turtle", "ray": return 2.8
+        case "turtle", "ray", "nautilus": return 2.8
+        case "seaangel": return 1.8
         default: return 2
         }
     }

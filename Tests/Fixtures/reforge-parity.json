@@ -1,0 +1,956 @@
+[
+  {
+    "seed": 1,
+    "history": [],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 1,
+    "history": [],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 1,
+    "history": [],
+    "misses": 9,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 9,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 1,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 9,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [],
+    "misses": 9,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 9,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 0,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 6,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 7,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 9,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 4,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [],
+    "misses": 0,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [],
+    "misses": 6,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [],
+    "misses": 9,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 0,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 6,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 9,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 0,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 6,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 0,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 6,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 42,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 9,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 12345,
+    "history": [],
+    "misses": 0,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 12345,
+    "history": [],
+    "misses": 6,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 12345,
+    "history": [],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 0,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 6,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 0,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 6,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 0,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 6,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 12345,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 9,
+    "species": "leviathanfry",
+    "grade": 5,
+    "uses": 3,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 305419896,
+    "history": [],
+    "misses": 0,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 305419896,
+    "history": [],
+    "misses": 6,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 305419896,
+    "history": [],
+    "misses": 9,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 0,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 6,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 0,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 1
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 6,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 7
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 1,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 0,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 6,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 305419896,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 9,
+    "species": "prismkoi",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [],
+    "misses": 0,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [],
+    "misses": 6,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [],
+    "misses": 9,
+    "species": "lanternangler",
+    "grade": 5,
+    "uses": 5,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 0,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 6,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler"
+    ],
+    "misses": 9,
+    "species": "glassangel",
+    "grade": 5,
+    "uses": 5,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 0,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 6,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": true,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler",
+      "glassangel"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 5,
+    "novel": true,
+    "guaranteed": true,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 0,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 6,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  },
+  {
+    "seed": 4294967295,
+    "history": [
+      "lanternangler",
+      "glassangel",
+      "starnautilus"
+    ],
+    "misses": 9,
+    "species": "starnautilus",
+    "grade": 5,
+    "uses": 2,
+    "novel": false,
+    "guaranteed": false,
+    "afterMisses": 0
+  }
+]

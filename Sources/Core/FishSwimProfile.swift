@@ -76,6 +76,9 @@ extension FishSpecies {
         case "prismkoi": p.speed = 9; p.sway = 10; p.tempo = 0.7; p.restEvery = 33
         case "leviathanfry": p.speed = 12; p.sway = 17; p.tempo = 0.7; p.depth = 0.55
         case "astraljelly": p.speed = 2.8; p.depth = 0.78; p.tempo = 0.5
+        case "lanternangler": p.speed = 5; p.sway = 3; p.depth = 0.18; p.tempo = 0.6; p.restEvery = 20; p.restDuration = 11
+        case "glassangel": p = .init(family: .jellyfish, speed: 3.8, sway: 14, depth: 0.64, tempo: 1.1, restEvery: 0)
+        case "starnautilus": p = .init(family: .ray, speed: 4.5, sway: 6, depth: 0.4, tempo: 0.6, restEvery: 32, restDuration: 8)
         default: break
         }
         return p

@@ -71,6 +71,7 @@ enum AquariumBackup {
         var state = AquariumState.newGame(at: now)
         state.fish = []; state.exp = exp; state.hearts = hearts; state.lastUpdated = now
         state.nextHeartAt = try timestamp(object["nextHeartAt"])
+        state.reforgeMisses = try optionalInteger(object["reforgeMisses"], default: 0)
         var mapping: [String: UUID] = [:]
         for item in list {
             guard let uid = item["uid"] as? String, !uid.isEmpty, uid.count <= 200, mapping[uid] == nil,
@@ -136,9 +137,9 @@ enum AquariumBackup {
         }
         if let value = object["milestones"] {
             guard let medals = value as? [String: Any] else { throw AquariumError.invalidSave }
-            state.earnedAchievements = Set(try strings(medals["unlocked"], limit: 14))
+            state.earnedAchievements = Set(try strings(medals["unlocked"], limit: AchievementCatalog.all.count))
             if let displayed = medals["displayed"] {
-                state.displayedAchievements = try strings(displayed is String ? [displayed as! String] : displayed, limit: 14)
+                state.displayedAchievements = try strings(displayed is String ? [displayed as! String] : displayed, limit: AchievementCatalog.all.count)
             }
         }
         state.webSourceSnapshot = try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys])

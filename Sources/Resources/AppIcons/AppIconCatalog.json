@@ -261,6 +261,33 @@
     "tier" : 5
   },
   {
+    "id" : "lanternangler",
+    "name" : "幽灯石窟",
+    "resourceName" : "FishtankIcon-lanternangler",
+    "secondarySpeciesID" : "",
+    "speciesID" : "lanternangler",
+    "speciesName" : "幽灯鮟鱇",
+    "tier" : 5
+  },
+  {
+    "id" : "glassangel",
+    "name" : "琉璃星湾",
+    "resourceName" : "FishtankIcon-glassangel",
+    "secondarySpeciesID" : "",
+    "speciesID" : "glassangel",
+    "speciesName" : "琉璃海天使",
+    "tier" : 5
+  },
+  {
+    "id" : "starnautilus",
+    "name" : "星轮遗迹",
+    "resourceName" : "FishtankIcon-starnautilus",
+    "secondarySpeciesID" : "",
+    "speciesID" : "starnautilus",
+    "speciesName" : "星轮鹦鹉螺",
+    "tier" : 5
+  },
+  {
     "id" : "duet",
     "name" : "金银同游",
     "resourceName" : "FishtankIcon-duet",

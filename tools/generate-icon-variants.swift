@@ -7,7 +7,12 @@ import AppKit
         let temporary = FileManager.default.temporaryDirectory.appendingPathComponent("fishtank-icons-" + UUID().uuidString)
         try FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: temporary) }
-        for design in AppIconCatalog.variants {
+        let requested = Set(CommandLine.arguments.dropFirst())
+        precondition(requested.isSubset(of: Set(AppIconCatalog.variants.map(\.id))), "Unknown icon design")
+        let designs = AppIconCatalog.variants.filter { requested.isEmpty || requested.contains($0.id) }
+        for design in designs {
+            precondition(PaintedSprites.assetURL(design.speciesID) != nil,
+                         "Missing specimen artwork; set FISHTANK_ART_ROOT=Sources/Resources/PixelSprites")
             let iconset = temporary.appendingPathComponent(design.id + ".iconset")
             try FileManager.default.createDirectory(at: iconset, withIntermediateDirectories: true)
             for size in [16,32,128,256,512] { for scale in [1,2] {
@@ -28,6 +33,6 @@ import AppKit
         }
         try JSONSerialization.data(withJSONObject: entries, options: [.prettyPrinted, .sortedKeys])
             .write(to: root.appendingPathComponent("AppIconCatalog.json"))
-        print("Generated \(AppIconCatalog.variants.count) app icon variants in \(root.path)")
+        print("Generated \(designs.count) app icon variants in \(root.path)")
     }
 }

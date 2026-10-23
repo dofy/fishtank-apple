@@ -206,6 +206,21 @@ final class AquariumStore: NSObject, ObservableObject, UNUserNotificationCenterD
         return success
     }
 
+    func reforge(_ ids: [UUID]) -> Bool {
+        var result: FishOutcome?
+        let success = commit { state in
+            var random = state.random
+            result = try state.reforge(ids, at: now, random: &random)
+            state.random = random
+        }
+        if success, let result {
+            outcome = result
+            message = L10n.text("重铸获得：\(result.child.name)，继承品阶 \(result.child.grade)。")
+            sound.play("merge")
+        }
+        return success
+    }
+
     func toggleTank(_ id: UUID) { if commit({ try $0.toggleTank(id) }) { message = L10n.text("鱼缸展示已更新。"); sound.play("place") } }
     func setLocked(_ id: UUID, _ locked: Bool) { if commit({ $0.setLocked(id, locked) }) { message = locked ? L10n.text("已锁定保护。") : L10n.text("已解锁。"); sound.play("select") } }
     func release(_ id: UUID) { if commit({ try $0.release(id) }) { message = L10n.text("已放生，图鉴收集记录保留。"); sound.play("release") } }

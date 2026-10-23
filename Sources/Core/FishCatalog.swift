@@ -17,6 +17,7 @@ struct FishSpecies: Identifiable, Equatable {
     let dorsal: Double
     let length: Double
     let electric: Bool
+    var hidden = false
 }
 
 enum FishCatalog {
@@ -50,9 +51,14 @@ enum FishCatalog {
         FishSpecies(id: "prismkoi", nameKey: L10n.source("棱镜锦鲤"), tier: 5, form: "fish", silhouette: "veil-koi", pattern: "gradient", hue: 316, saturation: 0.78, lightness: 0.62, depth: 0.62, tail: 0.52, dorsal: 0.48, length: 22, electric: false),
         FishSpecies(id: "leviathanfry", nameKey: L10n.source("利维坦海龙"), tier: 5, form: "seasnake", silhouette: "sea-dragon", pattern: "spots", hue: 186, saturation: 0.78, lightness: 0.46, depth: 0.48, tail: 0.3, dorsal: 0.8, length: 24, electric: false),
         FishSpecies(id: "astraljelly", nameKey: L10n.source("星冕帝王水母"), tier: 5, form: "jellyfish", silhouette: "crown-jelly", pattern: "spots", hue: 278, saturation: 0.86, lightness: 0.62, depth: 0.95, tail: 0.55, dorsal: 0.5, length: 19, electric: false),
+        FishSpecies(id: "lanternangler", nameKey: L10n.source("幽灯鮟鱇"), tier: 5, form: "fish", silhouette: "lantern-angler", pattern: "plain", hue: 223, saturation: 0.68, lightness: 0.34, depth: 0.8, tail: 0.22, dorsal: 0.4, length: 21, electric: false, hidden: true),
+        FishSpecies(id: "glassangel", nameKey: L10n.source("琉璃海天使"), tier: 5, form: "seaangel", silhouette: "glass-angel", pattern: "plain", hue: 176, saturation: 0.48, lightness: 0.79, depth: 0.95, tail: 0.12, dorsal: 0.1, length: 21, electric: false, hidden: true),
+        FishSpecies(id: "starnautilus", nameKey: L10n.source("星轮鹦鹉螺"), tier: 5, form: "nautilus", silhouette: "star-nautilus", pattern: "plain", hue: 266, saturation: 0.6, lightness: 0.65, depth: 0.78, tail: 0.1, dorsal: 0.1, length: 22, electric: false, hidden: true),
     ]
+    static let regular = all.filter { !$0.hidden }
+    static let hidden = all.filter(\.hidden)
     static let byID = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
-    static func pool(tier: Int) -> [FishSpecies] { all.filter { $0.tier == tier } }
+    static func pool(tier: Int) -> [FishSpecies] { regular.filter { $0.tier == tier } }
 }
 
 enum FishBalance {

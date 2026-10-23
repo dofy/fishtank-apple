@@ -7,8 +7,8 @@ for bundle in (mac, pad):
     root = bundle / 'Contents' if macos else bundle
     resources = root / 'Resources' if macos else root
     info = plistlib.loads((root / 'Info.plist').read_bytes())
-    assert info['CFBundleShortVersionString'] == '1.2.6', info
-    assert info['CFBundleVersion'] == '17', info
+    assert info['CFBundleShortVersionString'] == '1.3.0', info
+    assert info['CFBundleVersion'] == '18', info
     if macos:
         assert info['CFBundleIdentifier'] == 'net.yahaha.fishtank.mac'
         assert info['CFBundleIconFile'] == 'FishtankIcon.icns'
@@ -18,7 +18,8 @@ for bundle in (mac, pad):
         expected = {entry['resourceName'] for entry in catalog if entry['id'] != 'classic'}
         assert {icon.stem for icon in variants} == expected
         assert len({entry['speciesID'] for entry in catalog if not entry['secondarySpeciesID']}) == len(catalog) - 1
-        assert len(catalog) == 30
+        assert len(catalog) == 33
+        assert {'lanternangler', 'glassangel', 'starnautilus'}.issubset({entry['speciesID'] for entry in catalog})
         fingerprints = set()
         for icon in variants:
             data = icon.read_bytes()
@@ -30,6 +31,10 @@ for bundle in (mac, pad):
 
     else:
         assert (resources / 'Assets.car').is_file()
+    for sprite in ['lanternangler', 'glassangel', 'starnautilus', 'medal-secret-encounter', 'medal-secret-trio']:
+        data = (resources / 'PixelSprites' / (sprite + '.png')).read_bytes()
+        assert data[:8] == b'\x89PNG\r\n\x1a\n'
+        assert struct.unpack('>II', data[16:24]) == ((24, 32) if sprite.startswith('medal-') else (64, 48))
     assert info['CFBundleDevelopmentRegion'] == 'en'
     assert set(info['CFBundleLocalizations']) == {'en', 'zh-Hans', 'zh-Hant', 'ja'}
     for face in ['FusionPixel', 'FusionPixel-Latin', 'FusionPixel-Traditional', 'FusionPixel-Japanese']:

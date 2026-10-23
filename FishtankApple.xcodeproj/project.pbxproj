@@ -55,11 +55,13 @@
 		30F3828EB9F4574EDAD98778 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 205785638C0B1486A88A506A /* PrivacyInfo.xcprivacy */; };
 		327DCF29AE3DE618A32C07B4 /* AgentSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A780F0B451C4E069B0C510 /* AgentSettingsStore.swift */; };
 		32CF43E4BF4F07D9846B4430 /* SettingsTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D8D819C362950E4A9276F1 /* SettingsTabBar.swift */; };
+		331B88954F05E0AE78ADB5C0 /* AquariumReforge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66248DD1919DEAD43BF93F0 /* AquariumReforge.swift */; };
 		33C44C564388EA7B0BC09542 /* AquariumState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DDAE8D46170789C97C9B78 /* AquariumState.swift */; };
 		34ECD7D95BF0132BF0BB366B /* eat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5DB4F0C2CDF6E0FA4DDAD95A /* eat.wav */; };
 		353B49362074C875A84A2142 /* NativeAquariumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1D649D83FDAEDC2CB5B78F /* NativeAquariumView.swift */; };
 		359DF5C466A37BED0E790DE7 /* AgentRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D8D7FFACD809373FCFD12B /* AgentRegistration.swift */; };
 		35D75C099E045FE307EC2BDE /* zh-Hans.json in Resources */ = {isa = PBXBuildFile; fileRef = 47D4AE36258950DCC7D2E1F1 /* zh-Hans.json */; };
+		36B9828F56B303DBEA3833AD /* FishtankIcon-lanternangler.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9C38F59B3E6A8C6EB179B5 /* FishtankIcon-lanternangler.png */; };
 		3A6665BD88044702F179FBAD /* reveal-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54E2707DAAC79E66B40CFEFC /* reveal-3.wav */; };
 		3BA0A397796E4BC81B3564F4 /* ClaudeToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */; };
 		3C1F2D0A453256E66144C57F /* AgentToastStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55BA44CD7B79DB959044F8F /* AgentToastStack.swift */; };
@@ -116,6 +118,7 @@
 		6D292E08246ADC31D9AD3C1B /* DecorCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062724B13302449E27CDDB3A /* DecorCatalog.swift */; };
 		6D2C08BC4F89BF0711F5A25C /* DecorArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016AF13E416FF420333DAEC3 /* DecorArt.swift */; };
 		6D4D9ADFD860E709134DC179 /* scare.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C201E7CB2402FA29669AAC3 /* scare.wav */; };
+		6EBDB497037939CC14EC2A30 /* FishtankIcon-glassangel.icns in Resources */ = {isa = PBXBuildFile; fileRef = 272F22DD26BAB140364D194A /* FishtankIcon-glassangel.icns */; };
 		711781CADBDBC6F2CBAAA7BB /* AquariumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBFD161A9DE7349BB83D887 /* AquariumStore.swift */; };
 		72F3E01A327636D6AEFFBA61 /* MenuFishArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E47A33DE85703204586E20 /* MenuFishArt.swift */; };
 		73AB1F266972D4655BCB8B9B /* AgentRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D8D7FFACD809373FCFD12B /* AgentRegistration.swift */; };
@@ -172,11 +175,14 @@
 		9EE0C89EDEFFCC998310DBB8 /* AgentToastStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55BA44CD7B79DB959044F8F /* AgentToastStack.swift */; };
 		9F1E66066B36FDD2F72AED7A /* reveal-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54E2707DAAC79E66B40CFEFC /* reveal-3.wav */; };
 		9F385568F1A9B17B26EB968D /* FishtankIcon-treasure.icns in Resources */ = {isa = PBXBuildFile; fileRef = 33B4F44B67C2BB42E4ED7445 /* FishtankIcon-treasure.icns */; };
+		9F3EA2D5F9DBC79B43346694 /* FishtankIcon-starnautilus.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5C9C5A4983E02FA27EC492C7 /* FishtankIcon-starnautilus.icns */; };
 		9F917D29BDBB336B3DE10FB3 /* PixelFormControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */; };
+		A07E38CE5D8AA2D4D13237AD /* FishtankIcon-lanternangler.icns in Resources */ = {isa = PBXBuildFile; fileRef = B766AD2CB87FDE36C4DB6ACD /* FishtankIcon-lanternangler.icns */; };
 		A116BFEF8FC52C54BE0EF233 /* KeepAwakeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CD11B3577EC7435FCEFAAD /* KeepAwakeSession.swift */; };
 		A1821CE4E53E96B9E8FFBB8A /* AquariumSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F8D22CA1DF6A2F5899418 /* AquariumSave.swift */; };
 		A1852912711693681487D6F7 /* FishtankUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936CAB86D541E5747F2BF24 /* FishtankUITests.swift */; };
 		A32446A519CA6363718811AC /* zh-Hans.json in Resources */ = {isa = PBXBuildFile; fileRef = 47D4AE36258950DCC7D2E1F1 /* zh-Hans.json */; };
+		A95DF3E6E62820AE17860238 /* AquariumReforge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66248DD1919DEAD43BF93F0 /* AquariumReforge.swift */; };
 		A97B52F9917E05B722D23FF3 /* AquariumScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F1AEDA4BCA3F064F091CC9 /* AquariumScene.swift */; };
 		A9CF513C72C93C60C639883A /* FishtankIcon-koi.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5FB7BD3170D3DB822B34950D /* FishtankIcon-koi.icns */; };
 		AA510E1E0E5C38B9454883F5 /* zap.wav in Resources */ = {isa = PBXBuildFile; fileRef = B0257215479F455DC129D236 /* zap.wav */; };
@@ -185,6 +191,7 @@
 		AD178057C2A581893E704C11 /* FishtankIcon-volteel.png in Resources */ = {isa = PBXBuildFile; fileRef = 01E8D85EED9DFE4AAFBE4D2F /* FishtankIcon-volteel.png */; };
 		ADB9667CDA86573C61713756 /* FishtankIcon-puffer.png in Resources */ = {isa = PBXBuildFile; fileRef = A426E461CC4313AA1C44D9ED /* FishtankIcon-puffer.png */; };
 		AE69069A2973D05D98370D89 /* AquariumBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E9E4D605765D9EEE989BC /* AquariumBackup.swift */; };
+		AEAA6F7C76364EDCE9A36F9C /* FishtankIcon-glassangel.png in Resources */ = {isa = PBXBuildFile; fileRef = 26B5FF625CBF68DB1FF20ED8 /* FishtankIcon-glassangel.png */; };
 		AF362EBD278F45E4AAA6E284 /* FishtankIcon-seahorse.icns in Resources */ = {isa = PBXBuildFile; fileRef = 249E0C950F70AB4D1030E9D4 /* FishtankIcon-seahorse.icns */; };
 		B03899BB422B27217A724C61 /* FishtankIcon-skywing.icns in Resources */ = {isa = PBXBuildFile; fileRef = F95E0B78255607D22C75906D /* FishtankIcon-skywing.icns */; };
 		B122FD82D01534CDD98AE96E /* SettingsTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D8D819C362950E4A9276F1 /* SettingsTabBar.swift */; };
@@ -212,6 +219,7 @@
 		C81DCCEFDE4E201CD642F13D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5F6D5B91FD2ACB3E33EEFB2C /* LICENSE */; };
 		C820879A20F8C05E8CC60AEE /* music-lofi.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0D5CBA6C34560C1B3D4A75FD /* music-lofi.wav */; };
 		C978C62AC84EF12EAF5CB5EC /* AppIconArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B1967027B95D9812EEFE28 /* AppIconArt.swift */; };
+		CAC0525D31CB0ACF4F8B4AA9 /* FishtankIcon-starnautilus.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392D6CDD746DD3A66C0CE1D /* FishtankIcon-starnautilus.png */; };
 		CB99E3AC359CD48898AE026D /* AgentAlertTone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */; };
 		CB9F74393595FF191CD8CA83 /* error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0AE100E6BE3DCB6E63297083 /* error.wav */; };
 		CBB5578DBD4DAD6C06608224 /* FishtankIcon-turtle.icns in Resources */ = {isa = PBXBuildFile; fileRef = 79A84EBB02C5BAD7CCED7594 /* FishtankIcon-turtle.icns */; };
@@ -293,6 +301,8 @@
 		22A18EDBA822FA58C94E92D6 /* FishtankMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FishtankMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23D8D7FFACD809373FCFD12B /* AgentRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentRegistration.swift; sourceTree = "<group>"; };
 		249E0C950F70AB4D1030E9D4 /* FishtankIcon-seahorse.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-seahorse.icns"; sourceTree = "<group>"; };
+		26B5FF625CBF68DB1FF20ED8 /* FishtankIcon-glassangel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-glassangel.png"; sourceTree = "<group>"; };
+		272F22DD26BAB140364D194A /* FishtankIcon-glassangel.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-glassangel.icns"; sourceTree = "<group>"; };
 		2A913F590D331AA667B53BF4 /* FishtankIcon-ambereel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-ambereel.png"; sourceTree = "<group>"; };
 		2D89F7D8650B80BF147C2FA7 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		2F14B53C731F68D1078B92BE /* AquariumEcology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumEcology.swift; sourceTree = "<group>"; };
@@ -332,6 +342,7 @@
 		5881868A637F9C34BAD3FC3D /* reveal-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-2.wav"; sourceTree = "<group>"; };
 		58E2BCAD3722C249D13C1400 /* FishtankIcon-ray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-ray.png"; sourceTree = "<group>"; };
 		5C2076F1BAFCE2C7BC0AEC4D /* reveal-0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-0.wav"; sourceTree = "<group>"; };
+		5C9C5A4983E02FA27EC492C7 /* FishtankIcon-starnautilus.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-starnautilus.icns"; sourceTree = "<group>"; };
 		5CFC0B4587226C7F979E1DA2 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
 		5DB4F0C2CDF6E0FA4DDAD95A /* eat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eat.wav; sourceTree = "<group>"; };
 		5E56FE4534FFD512224CB1BE /* FishtankIcon-emberbarb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-emberbarb.png"; sourceTree = "<group>"; };
@@ -365,6 +376,7 @@
 		903860297660714FD3E26CC4 /* merge.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = merge.wav; sourceTree = "<group>"; };
 		928208406D37386AF5669DE2 /* music-japanese.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "music-japanese.wav"; sourceTree = "<group>"; };
 		92868452F3022F9A2BAF92E6 /* FishtankIcon-leviathanfry.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-leviathanfry.icns"; sourceTree = "<group>"; };
+		9392D6CDD746DD3A66C0CE1D /* FishtankIcon-starnautilus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-starnautilus.png"; sourceTree = "<group>"; };
 		93BF8A10A32A6D67E906B64A /* FishCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishCatalog.swift; sourceTree = "<group>"; };
 		949AA9DEAA860C5EB9F60CA9 /* FishtankIcon-moon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-moon.png"; sourceTree = "<group>"; };
 		95E00EDD3894E4BDE69B8FEF /* FishtankIcon-neoncleaner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-neoncleaner.png"; sourceTree = "<group>"; };
@@ -378,6 +390,7 @@
 		A426E461CC4313AA1C44D9ED /* FishtankIcon-puffer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-puffer.png"; sourceTree = "<group>"; };
 		A546024B20CBA2F841D2F874 /* FishtankIcon-banggai.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-banggai.icns"; sourceTree = "<group>"; };
 		A5FB059E1C3F405E44971FCA /* FishtankIcon-coral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-coral.png"; sourceTree = "<group>"; };
+		A66248DD1919DEAD43BF93F0 /* AquariumReforge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumReforge.swift; sourceTree = "<group>"; };
 		A78E9E4D605765D9EEE989BC /* AquariumBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumBackup.swift; sourceTree = "<group>"; };
 		AA27B224D5E187D3CD441BCC /* release.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = release.wav; sourceTree = "<group>"; };
 		AD66598B45291DEF2F6A7435 /* music-tide.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "music-tide.wav"; sourceTree = "<group>"; };
@@ -385,6 +398,7 @@
 		B1B2BC8F55BDFBA18554B595 /* FishtankIcon-coral.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-coral.icns"; sourceTree = "<group>"; };
 		B612FBA1959050965C63DF87 /* FishtankIcon-greyminnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-greyminnow.png"; sourceTree = "<group>"; };
 		B6FCD6FDBB8EF612FCF2E5FB /* AquariumSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumSound.swift; sourceTree = "<group>"; };
+		B766AD2CB87FDE36C4DB6ACD /* FishtankIcon-lanternangler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-lanternangler.icns"; sourceTree = "<group>"; };
 		B7A048EDF3347AC336C0AD6E /* FishtankIcon-treasure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-treasure.png"; sourceTree = "<group>"; };
 		B82A15D88320995B8EC5AA37 /* FusionPixel-Latin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FusionPixel-Latin.otf"; sourceTree = "<group>"; };
 		B8851DA0A974364A26FC432C /* feed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = feed.wav; sourceTree = "<group>"; };
@@ -428,6 +442,7 @@
 		F95E0B78255607D22C75906D /* FishtankIcon-skywing.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-skywing.icns"; sourceTree = "<group>"; };
 		FA23F99CB4D0CE430259EFE0 /* FishtankIcon-bandedkrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-bandedkrait.png"; sourceTree = "<group>"; };
 		FD4C594984477500C5CD64B1 /* FishtankIcon-jelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-jelly.png"; sourceTree = "<group>"; };
+		FE9C38F59B3E6A8C6EB179B5 /* FishtankIcon-lanternangler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-lanternangler.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -512,6 +527,7 @@
 				2F14B53C731F68D1078B92BE /* AquariumEcology.swift */,
 				CEB13DAD500ACB7F64467B7D /* AquariumExtras.swift */,
 				4EA9A0B3EB49CD84EC548532 /* AquariumInstallation.swift */,
+				A66248DD1919DEAD43BF93F0 /* AquariumReforge.swift */,
 				3C586847E6E40E237F5E08D9 /* AquariumReminder.swift */,
 				8AA9B0A3561383BB4766C2CC /* AquariumRenderWatchdog.swift */,
 				2F3790DDE0A29B90A1320B25 /* AquariumRepository.swift */,
@@ -578,6 +594,8 @@
 				751DFCB97C44C9DDD33C8BB7 /* FishtankIcon-duet.png */,
 				62B2D73CF578B9F9391BB7E1 /* FishtankIcon-emberbarb.icns */,
 				5E56FE4534FFD512224CB1BE /* FishtankIcon-emberbarb.png */,
+				272F22DD26BAB140364D194A /* FishtankIcon-glassangel.icns */,
+				26B5FF625CBF68DB1FF20ED8 /* FishtankIcon-glassangel.png */,
 				D1089014CEF5CDEC85F41C84 /* FishtankIcon-goldenmoorish.icns */,
 				70ACE5324423C2F8FB7D7F46 /* FishtankIcon-goldenmoorish.png */,
 				3C8A54F499F5395F20871436 /* FishtankIcon-goldenseahorse.icns */,
@@ -588,6 +606,8 @@
 				FD4C594984477500C5CD64B1 /* FishtankIcon-jelly.png */,
 				5FB7BD3170D3DB822B34950D /* FishtankIcon-koi.icns */,
 				9E1A15EA31BAEF7912B48C37 /* FishtankIcon-koi.png */,
+				B766AD2CB87FDE36C4DB6ACD /* FishtankIcon-lanternangler.icns */,
+				FE9C38F59B3E6A8C6EB179B5 /* FishtankIcon-lanternangler.png */,
 				92868452F3022F9A2BAF92E6 /* FishtankIcon-leviathanfry.icns */,
 				C85966FA782641673BC58570 /* FishtankIcon-leviathanfry.png */,
 				ED965F0BAE946487E7C8B35A /* FishtankIcon-moon.icns */,
@@ -610,6 +630,8 @@
 				DDE9DCB8F9E307E98AF84098 /* FishtankIcon-seahorse.png */,
 				F95E0B78255607D22C75906D /* FishtankIcon-skywing.icns */,
 				5558F2ED7FB3D9B40F35B8DC /* FishtankIcon-skywing.png */,
+				5C9C5A4983E02FA27EC492C7 /* FishtankIcon-starnautilus.icns */,
+				9392D6CDD746DD3A66C0CE1D /* FishtankIcon-starnautilus.png */,
 				33B4F44B67C2BB42E4ED7445 /* FishtankIcon-treasure.icns */,
 				B7A048EDF3347AC336C0AD6E /* FishtankIcon-treasure.png */,
 				79A84EBB02C5BAD7CCED7594 /* FishtankIcon-turtle.icns */,
@@ -882,6 +904,8 @@
 				5588BE58D0A6F79EEF156E96 /* FishtankIcon-duet.png in Resources */,
 				6476568CE3086BAB5CA2D99D /* FishtankIcon-emberbarb.icns in Resources */,
 				5041B0CC878803ACBDC660C2 /* FishtankIcon-emberbarb.png in Resources */,
+				6EBDB497037939CC14EC2A30 /* FishtankIcon-glassangel.icns in Resources */,
+				AEAA6F7C76364EDCE9A36F9C /* FishtankIcon-glassangel.png in Resources */,
 				CFCDEF8B2883B710F03A055C /* FishtankIcon-goldenmoorish.icns in Resources */,
 				25F7C63280990F9EC197704E /* FishtankIcon-goldenmoorish.png in Resources */,
 				9B38CF30D373F66E87F06A3B /* FishtankIcon-goldenseahorse.icns in Resources */,
@@ -892,6 +916,8 @@
 				BD51BFCD67A3FED44066C6A4 /* FishtankIcon-jelly.png in Resources */,
 				A9CF513C72C93C60C639883A /* FishtankIcon-koi.icns in Resources */,
 				DEAAE0A0B5112A3D7147A8C9 /* FishtankIcon-koi.png in Resources */,
+				A07E38CE5D8AA2D4D13237AD /* FishtankIcon-lanternangler.icns in Resources */,
+				36B9828F56B303DBEA3833AD /* FishtankIcon-lanternangler.png in Resources */,
 				D5EA3266456CF8ECE54196B8 /* FishtankIcon-leviathanfry.icns in Resources */,
 				BD16E0F811D39CFE2529422E /* FishtankIcon-leviathanfry.png in Resources */,
 				443F96C67EAF7C3C22EFC5FC /* FishtankIcon-moon.icns in Resources */,
@@ -914,6 +940,8 @@
 				2BD8BC9D5CF23CB453C3FE72 /* FishtankIcon-seahorse.png in Resources */,
 				B03899BB422B27217A724C61 /* FishtankIcon-skywing.icns in Resources */,
 				99E0B305B299455EF3ADBFEB /* FishtankIcon-skywing.png in Resources */,
+				9F3EA2D5F9DBC79B43346694 /* FishtankIcon-starnautilus.icns in Resources */,
+				CAC0525D31CB0ACF4F8B4AA9 /* FishtankIcon-starnautilus.png in Resources */,
 				9F385568F1A9B17B26EB968D /* FishtankIcon-treasure.icns in Resources */,
 				2112F31286D4E414D0AC6463 /* FishtankIcon-treasure.png in Resources */,
 				CBB5578DBD4DAD6C06608224 /* FishtankIcon-turtle.icns in Resources */,
@@ -987,6 +1015,7 @@
 				D964CE24670CA2820DBABDA1 /* AquariumExtras.swift in Sources */,
 				4319AF01C1D1BFB0728E50F5 /* AquariumFooter.swift in Sources */,
 				8D199D34CE9B594B72FEBD8A /* AquariumInstallation.swift in Sources */,
+				A95DF3E6E62820AE17860238 /* AquariumReforge.swift in Sources */,
 				F0C470FDEF7D3D5406B0DFD4 /* AquariumReminder.swift in Sources */,
 				BE8D4004C107EB8DB641354C /* AquariumRenderWatchdog.swift in Sources */,
 				1A781B97C9DE34389BCE15B0 /* AquariumRepository.swift in Sources */,
@@ -1057,6 +1086,7 @@
 				8D12595A2CFD2EC89D8CC8CB /* AquariumExtras.swift in Sources */,
 				EEFB3C4F242CE03BBAC11970 /* AquariumFooter.swift in Sources */,
 				DC45CAA723A485B153B22C03 /* AquariumInstallation.swift in Sources */,
+				331B88954F05E0AE78ADB5C0 /* AquariumReforge.swift in Sources */,
 				FA163029F1D7CFBAD9A9BC85 /* AquariumReminder.swift in Sources */,
 				018270C9A4A97EDA49D3F22E /* AquariumRenderWatchdog.swift in Sources */,
 				D605774BD9038AA890368994 /* AquariumRepository.swift in Sources */,
@@ -1203,7 +1233,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1225,7 +1255,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1329,7 +1359,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1345,7 +1375,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -90,6 +90,6 @@ import UniformTypeIdentifiers
         if FileManager.default.fileExists(atPath: template.path) {
             try Data(contentsOf: template).write(to: root.appendingPathComponent("index.html"))
         }
-        print("PASS 29 species, 18 decorations, 14 distinct medals, 145 grade appearances, distinct animation poses, 4 puff states; native renderer exports at \(root.path)")
+        print("PASS \(FishCatalog.all.count) species, \(DecorCatalog.all.count) decorations, \(AchievementCatalog.all.count) distinct medals, \(FishCatalog.all.count * 5) grade appearances, distinct animation poses, 4 puff states; native renderer exports at \(root.path)")
     }
 }

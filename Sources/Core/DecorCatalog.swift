@@ -65,6 +65,8 @@ enum AchievementCatalog {
         .init(id: "eel-family", titleKey: L10n.source("鳗舞海流"), noteKey: L10n.source("发现全部三种鳗鱼"), total: 3),
         .init(id: "color-palette", titleKey: L10n.source("五彩同游"), noteKey: L10n.source("集齐任一非初始鱼的五种品阶"), total: 5),
         .init(id: "variant-master", titleKey: L10n.source("幻彩宝库"), noteKey: L10n.source("发现 60 种非初始品阶外观"), total: 60),
+        .init(id: "secret-encounter", titleKey: L10n.source("秘海初逢"), noteKey: L10n.source("通过五星重铸首次发现隐藏生物"), total: 1),
+        .init(id: "secret-trio", titleKey: L10n.source("秘海三重奏"), noteKey: L10n.source("发现全部三种隐藏生物"), total: 3),
     ]
     static let ids = Set(all.map(\.id))
 }

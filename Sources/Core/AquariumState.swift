@@ -37,6 +37,7 @@ struct FishOutcome: Equatable {
     var novel: Bool
     var novelVariant: Bool
     var expGained: Int
+    var guaranteed = false
 }
 
 enum AquariumError: String, LocalizedError {
@@ -90,7 +91,7 @@ struct FishRandom: Codable, Equatable {
 struct AquariumState: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
         case version, fish, tankIDs, hearts, nextHeartAt, lastUpdated, exp, discovered, discoveredVariants
-        case mergePreferences, random, decorations, earnedAchievements, displayedAchievements, audio, lighting, railLights, webSourceSnapshot
+        case reforgeMisses, mergePreferences, random, decorations, earnedAchievements, displayedAchievements, audio, lighting, railLights, webSourceSnapshot
     }
     static let heartInterval = FishBalance.heartInterval
     static let heartLimit = 5
@@ -103,6 +104,7 @@ struct AquariumState: Codable, Equatable {
     var exp = 0
     var discovered: Set<String>
     var discoveredVariants: Set<String>
+    var reforgeMisses = 0
     var mergePreferences = MergePreferences()
     var random = FishRandom()
     var decorations: [PlacedDecoration] = PlacedDecoration.starter
@@ -201,7 +203,7 @@ struct AquariumState: Codable, Equatable {
         return FishOutcome(child: child, novel: novel, novelVariant: novelVariant, expGained: 0)
     }
 
-    private mutating func append(_ child: AquariumFish) {
+    mutating func append(_ child: AquariumFish) {
         fish.append(child)
         discovered.insert(child.speciesID)
         discoveredVariants.insert("\(child.speciesID):\(child.grade)")
@@ -272,7 +274,7 @@ struct AquariumState: Codable, Equatable {
     func nextMaturity(after now: Date) -> Date? { fish.compactMap(\.maturesAt).filter { $0 > now }.min() }
 
     var isValid: Bool {
-        guard version == 3, extrasAreValid, fish.count <= 20_000, Set(fish.map(\.id)).count == fish.count,
+        guard version == 3, (0..<ReforgeRules.pity).contains(reforgeMisses), extrasAreValid, fish.count <= 20_000, Set(fish.map(\.id)).count == fish.count,
               (0...5).contains(hearts), exp >= 0, exp <= 1_000_000_000,
               nextHeartAt.timeIntervalSince1970.isFinite, lastUpdated.timeIntervalSince1970.isFinite,
               mergePreferences.tiers.isSubset(of: [1, 2, 3, 4]),
