@@ -1064,7 +1064,21 @@ private extension AquariumView {
         }
         .padding(.horizontal, 12).padding(.bottom, 8)
         .overlay(alignment: .top) {
-            Rectangle().fill(PixelTheme.panel).frame(height: 2).allowsHitTesting(false)
+            ZStack(alignment: .topLeading) {
+                Rectangle().fill(PixelTheme.panel)
+                GeometryReader { geometry in
+                    let count = CGFloat(AquariumTab.allCases.count)
+                    let tabWidth = max(0, (geometry.size.width - 24 - 6 * (count - 1)) / count)
+                    let index = CGFloat(AquariumTab.allCases.firstIndex(of: tab) ?? 0)
+                    let start = 12 + index * (tabWidth + 6)
+                    Path { path in
+                        path.move(to: CGPoint(x: 0, y: 0.5))
+                        path.addLine(to: CGPoint(x: start, y: 0.5))
+                        path.move(to: CGPoint(x: start + tabWidth, y: 0.5))
+                        path.addLine(to: CGPoint(x: geometry.size.width, y: 0.5))
+                    }.stroke(PixelTheme.shell, lineWidth: 1)
+                }
+            }.frame(height: 2).allowsHitTesting(false).accessibilityHidden(true)
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("aquarium.tabs")
