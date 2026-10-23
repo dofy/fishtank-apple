@@ -18,11 +18,9 @@ Fishtank 是一款為 **Mac 和 iPad** 打造的像素養魚應用程式。在 M
 
 專案已開放原始碼，Mac 與 iPad 的正式安裝管道仍在準備中。
 
-Fishtank 支援英文、簡體中文、繁體中文與日文，預設跟隨系統，也可在設定中手動選擇。語言與對應的像素字型立即一同生效；無法匹配系統語言時使用英文。
-
 ![桌面像素魚缸](docs/screenshots/aquarium.png)
 
-## 從兩條小魚，養出一片海
+## 從幾條小魚，養出一片海
 
 收藏 **29 種魚**，從最初的小魚一路繁育出稀有品種。每次配對都可能遇見新的色彩、新的外觀，甚至一條從未見過的魚。
 
@@ -31,7 +29,13 @@ Fishtank 支援英文、簡體中文、繁體中文與日文，預設跟隨系�
 - 收集成就勳章，把喜歡的成果掛在魚缸上。
 - 進度會自動儲存，離開一會兒再回來，成長依然可能帶來驚喜。
 
+在養成手冊裡管理魚群、繁育、合成、裝飾、收藏和設定。魚群清單可以連續捲動，不必來回翻頁；數量、選擇、機率與常用操作集中在底欄，瀏覽時隨時看得到、點得到。
+
 ![養成手冊與魚群](docs/screenshots/zh-Hant/collection.png)
+
+不知道下一對該選誰？「推薦配對」會優先尋找尚未發現的魚種，再補齊新的外觀；選好後，底欄會顯示目前親代的後代星級機率，再決定是否消耗愛心。
+
+![繁育推薦與後代機率](docs/screenshots/zh-Hant/breeding.png)
 
 ## 不只是看著牠游
 
@@ -42,6 +46,14 @@ Fishtank 支援英文、簡體中文、繁體中文與日文，預設跟隨系�
 六種輕柔配樂隨心切換，包括日系庭院、臺式懷舊與月光 Jazz。
 
 Mac 魚缸提供三種大小、水體透明度和置頂開關；需要專心時，隨時都能將它隱藏。
+
+## 工作久一點，也有小魚陪著
+
+在 Mac 上執行長任務時，可以從設定或選單列開啟**保持喚醒**，選擇允許螢幕熄滅，或讓螢幕一起常亮。預設關閉，關閉或結束 Fishtank 後會恢復正常的自動睡眠，手動睡眠和闔蓋仍然有效。
+
+設定支援簡體中文、繁體中文、英文和日文，預設跟隨系統，無法匹配時使用英文。隨時切換語言，介面文字與像素字型立即一同更新。
+
+![語言與保持喚醒設定](docs/screenshots/zh-Hant/settings.png)
 
 ## 讓工作訊息也游進魚缸
 
@@ -69,10 +81,8 @@ Mac 魚缸提供三種大小、水體透明度和置頂開關；需要專心時�
 - [閱讀隱私說明](docs/PRIVACY.md)
 - [開發與執行指南](docs/DEVELOPMENT.md)
 
-螢幕截圖使用示範魚缸與合成的示範進度。
+螢幕截圖使用示範魚缸與範例進度。
 
 ## 開放原始碼授權
 
-本專案採用 [MIT License](LICENSE)。像素字體 Fusion Pixel 使用其獨立的 [SIL Open Font License](Sources/Resources/Fonts/OFL.txt)。
-
-Departure Mono: [SIL Open Font License](Sources/Resources/Fonts/DepartureMono-OFL.txt).
+本專案採用 [MIT License](LICENSE)。像素字型 [Fusion Pixel](Sources/Resources/Fonts/OFL.txt) 與 [Departure Mono](Sources/Resources/Fonts/DepartureMono-OFL.txt) 分別遵循 SIL Open Font License。

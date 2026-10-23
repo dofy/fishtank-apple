@@ -63,5 +63,5 @@ if __name__ == '__main__':
         for target in re.findall(r'(?:src|href)="([^"]+)"|\]\(([^)]+)\)',text):
             link=next(item for item in target if item)
             if not link.startswith(('https:','http:','#')): assert Path(link.split('#')[0]).exists(),(name,link)
-        assert len(re.findall(r'docs/screenshots/[^)]+',text)) == 4, name
+        assert len(re.findall(r'docs/screenshots/[^)]+',text)) == 6, name
     print('PASS four version-independent product READMEs and local links')

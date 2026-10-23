@@ -26,13 +26,11 @@ struct AquariumView: View {
     @State private var selected: [UUID] = []
     @State private var fishSort = FishSort.tier
     @State private var sortDescending = true
-    @State private var page = 0
     @State private var tierFilter = -1
     @State private var search = ""
     @State private var releaseTarget: AquariumFish?
     @State private var confirmMerge = false
     @State private var showingMedals = false
-    private let pageSize = 30
     private let gold = PixelTheme.gold
     private let columns = [GridItem(.adaptive(minimum: PixelTheme.metric(180, 232)), spacing: 12, alignment: .top)]
     private var hasModal: Bool { store.outcome != nil || releaseTarget != nil || confirmMerge }
@@ -65,7 +63,7 @@ struct AquariumView: View {
             .accessibilityIdentifier("aquarium.content")
             .id(tab)
             .onChange(of: tab) { _ in
-                selected = []; page = 0; search = ""; tierFilter = -1
+                selected = []; search = ""; tierFilter = -1
             }
             #if os(macOS)
             pageFooter
@@ -463,7 +461,7 @@ struct AquariumView: View {
     }
 
     private var fishSortDirection: some View {
-        Button(sortDescending ? L10n.text("降序") : L10n.text("升序")) { sortDescending.toggle(); page = 0 }
+        Button(sortDescending ? L10n.text("降序") : L10n.text("升序")) { sortDescending.toggle() }
             .accessibilityIdentifier("fish.sort.direction")
     }
     private var stackedFishSorting: some View {
@@ -497,7 +495,7 @@ struct AquariumView: View {
 
     private var fishSortButtons: some View {
         ForEach(FishSort.allCases, id: \.self) { order in
-            Button(L10n.key(order.rawValue)) { fishSort = order; page = 0 }
+            Button(L10n.key(order.rawValue)) { fishSort = order }
                 .buttonStyle(PixelButtonStyle(primary: fishSort == order))
                 .accessibilityIdentifier("fish.sort." + String(describing: order))
                 .accessibilityValue(fishSort == order ? L10n.text("已选中") : L10n.text("未选中"))
@@ -527,7 +525,6 @@ struct AquariumView: View {
                 HStack { breedParentHeading; Spacer(minLength: 12); breedSelectionTools }
                 VStack(alignment: .leading, spacing: 8) { breedParentHeading; breedSelectionTools }
             }
-            recommendationReadout.font(PixelTheme.captionFont()).padding(12).pixelPanel()
             fishGrid(visibleFish)
         }
     }
@@ -545,31 +542,6 @@ struct AquariumView: View {
                 .disabled(store.state.breedRecommendation(at: store.now).parentIDs.count < 2)
             Button(L10n.text("清空")) { selected = [] }.disabled(selected.isEmpty)
         }.buttonStyle(PixelButtonStyle()).fixedSize(horizontal: true, vertical: false)
-    }
-
-    private var recommendationReadout: some View {
-        let r = store.state.breedRecommendation(at: store.now)
-        return VStack(alignment: .leading, spacing: 4) {
-            Text(Set(selected) == Set(r.parentIDs) && !selected.isEmpty ? L10n.text("推荐组合（已选）") : L10n.text("推荐组合（未选用）"))
-            switch r.reason {
-            case .newSpecies: Text(L10n.text("优先补新鱼种"))
-            case .newVariant:
-                Text(L10n.text("优先补品阶外观"))
-                if r.missingSpeciesCount > 0 { Text(L10n.text("现有可用亲代暂时无法获得缺失鱼种。")) }
-            case .complete: Text(L10n.text("普通图鉴已收齐，推荐高星亲代。"))
-            case .unreachable: Text(L10n.text("现有可用亲代无法补齐缺失图鉴，请等待成年或解除锁定。"))
-            case .unavailable: Text(L10n.text("需要两条未锁定的成年亲代。"))
-            }
-            if r.reason == .newSpecies || r.reason == .newVariant {
-                Text(L10n.text("新鱼种 \(recommendationPercent(r.newSpeciesProbability)) · 新外观 \(recommendationPercent(r.newVariantProbability))"))
-                Text(L10n.text("概率仅对应推荐组合的单次繁育，不保证获得。"))
-            }
-        }.foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
-            .accessibilityIdentifier("breed.recommendation")
-    }
-    private func recommendationPercent(_ value: Double) -> String {
-        if value > 0 && value < 0.001 { return L10n.text("低于 0.1%") }
-        return (value * 100).formatted(.number.precision(.fractionLength(1))) + "%"
     }
 
     private var breedReadout: some View {
@@ -646,7 +618,7 @@ struct AquariumView: View {
                 Button("\(tier)★") {
                     var preferences = store.state.mergePreferences
                     if preferences.tiers.contains(tier) { preferences.tiers.remove(tier) } else { preferences.tiers.insert(tier) }
-                    store.setMergePreferences(preferences); selected = []; page = 0
+                    store.setMergePreferences(preferences); selected = []
                 }.buttonStyle(PixelButtonStyle(primary: store.state.mergePreferences.tiers.contains(tier), compact: true, fixedWidth: PixelTheme.filterButtonWidth))
                     .accessibilityValue(store.state.mergePreferences.tiers.contains(tier) ? L10n.text("已选中") : L10n.text("未选中"))
             }
@@ -714,36 +686,19 @@ struct AquariumView: View {
     }
 
     #if os(macOS)
-    private var footerPageCount: Int { max(1, (visibleFish.count + pageSize - 1) / pageSize) }
-    private var footerCurrentPage: Int { min(page, footerPageCount - 1) }
-    private var footerPageSuffix: String { footerPageCount > 1 ? " · \(footerCurrentPage + 1)/\(footerPageCount)" : "" }
-
-    @ViewBuilder private var footerPagination: some View {
-        if footerPageCount > 1 {
-            Button("<") { page = footerCurrentPage - 1 }
-                .buttonStyle(PixelButtonStyle(fixedWidth: 40)).disabled(footerCurrentPage == 0)
-                .accessibilityLabel(L10n.text("上一页")).help(L10n.text("上一页"))
-            Button(">") { page = footerCurrentPage + 1 }
-                .buttonStyle(PixelButtonStyle(fixedWidth: 40)).disabled(footerCurrentPage == footerPageCount - 1)
-                .accessibilityLabel(L10n.text("下一页")).help(L10n.text("下一页"))
-        }
-    }
-
     @ViewBuilder private var pageFooter: some View {
         switch tab {
         case .tank:
-            AquariumFooter(title: L10n.text("筛选结果 \(visibleFish.count) 条 · 第 \(footerCurrentPage + 1)/\(footerPageCount) 页"), detail: tankFooterDetail) {
-                HStack(spacing: 8) { footerPagination }
-            }
+            AquariumFooter(title: L10n.text("筛选结果 \(visibleFish.count) 条"), detail: tankFooterDetail) { EmptyView() }
         case .breed:
-            AquariumFooter(title: L10n.text("已选择 \(selected.count)/2 条亲代") + footerPageSuffix,
+            AquariumFooter(title: L10n.text("已选择 \(selected.count)/2 条亲代"),
                            detail: breedFooterDetail, emphasized: selected.count == 2 && store.state.hearts > 0) {
-                HStack(spacing: 8) { footerPagination; breedConfirmButton }
+                breedConfirmButton
             }
         case .merge:
-            AquariumFooter(title: (selected.isEmpty ? L10n.text("已选择 \(selected.count)/10 条材料") : L10n.text("已选择 \(selected.count)/10 条材料 · 品阶 \(store.state.fish.filter { selected.contains($0.id) }.map(\.grade).max() ?? 1)")) + footerPageSuffix,
+            AquariumFooter(title: (selected.isEmpty ? L10n.text("已选择 \(selected.count)/10 条材料") : L10n.text("已选择 \(selected.count)/10 条材料 · 品阶 \(store.state.fish.filter { selected.contains($0.id) }.map(\.grade).max() ?? 1)")),
                            detail: mergeFooterDetail, emphasized: !selected.isEmpty) {
-                HStack(spacing: 8) { footerPagination; mergeConfirmButton }
+                mergeConfirmButton
             }
         case .decor:
             AquariumFooter(title: L10n.text("造景 \(store.state.decorations.count)/\(store.state.capacity) 位 · 已解锁 \(DecorCatalog.all.filter { $0.unlockLevel <= store.state.level }.count)/\(DecorCatalog.all.count)"), detail: decorFooterDetail) { EmptyView() }
@@ -771,8 +726,7 @@ struct AquariumView: View {
 
     private var tankFooterDetail: String {
         guard !visibleFish.isEmpty else { return L10n.text("没有符合条件的鱼。") }
-        let start = footerCurrentPage * pageSize + 1, end = min(visibleFish.count, start + pageSize - 1)
-        return L10n.text("本页 \(start)–\(end) 条 · 点击鱼卡放入或收回")
+        return L10n.text("点击鱼卡放入或收回")
     }
     private var breedFooterDetail: String {
         let parents = selected.compactMap { id in store.state.fish.first { $0.id == id } }
@@ -804,14 +758,13 @@ struct AquariumView: View {
         Binding(get: { store.state.mergePreferences[keyPath: key] }, set: { value in
             var preferences = store.state.mergePreferences
             preferences[keyPath: key] = value
-            store.setMergePreferences(preferences); selected = []; page = 0
+            store.setMergePreferences(preferences); selected = []
         })
     }
 
     private var fishSearch: some View {
         TextField(L10n.text("搜索鱼种"), text: $search).textFieldStyle(.plain)
             .padding(12).background(PixelTheme.ink).pixelPanel(PixelTheme.ink)
-            .onChange(of: search) { _ in page = 0 }
     }
     private var stackedFilters: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -837,7 +790,7 @@ struct AquariumView: View {
     }
     private var tierButtons: some View {
         ForEach(-1...5, id: \.self) { tier in
-            Button(tier == -1 ? L10n.text("全部") : tier == 0 ? L10n.text("初始") : "\(tier)★") { tierFilter = tier; page = 0 }
+            Button(tier == -1 ? L10n.text("全部") : tier == 0 ? L10n.text("初始") : "\(tier)★") { tierFilter = tier }
                 .buttonStyle(PixelButtonStyle(primary: tierFilter == tier, compact: true, fixedWidth: PixelTheme.filterButtonWidth))
         }
     }
@@ -858,27 +811,14 @@ struct AquariumView: View {
 
     @ViewBuilder
     private func fishGrid(_ fish: [AquariumFish]) -> some View {
-        let pageCount = max(1, (fish.count + pageSize - 1) / pageSize)
-        let currentPage = min(page, pageCount - 1)
         if fish.isEmpty {
             Text(tab == .merge ? L10n.text("没有符合筛选条件的材料鱼。可关闭“只选繁育次数耗尽”或调整星级。") : L10n.text("没有符合条件的鱼。"))
                 .foregroundStyle(PixelTheme.muted).padding(.vertical, 30)
         } else {
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(Array(fish.dropFirst(currentPage * pageSize).prefix(pageSize))) { item in fishCard(item) }
+                ForEach(fish) { item in fishCard(item) }
             }
         }
-        #if os(iOS)
-        if pageCount > 1 {
-            HStack {
-                Button(L10n.text("上一页")) { page = currentPage - 1 }.disabled(currentPage == 0)
-                Spacer()
-                Text(L10n.text("\(currentPage + 1) / \(pageCount) · \(fish.count) 条"))
-                Spacer()
-                Button(L10n.text("下一页")) { page = currentPage + 1 }.disabled(currentPage == pageCount - 1)
-            }.buttonStyle(PixelButtonStyle())
-        }
-        #endif
     }
 
     private func fishCard(_ fish: AquariumFish) -> some View {

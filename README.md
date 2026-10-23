@@ -18,11 +18,9 @@ Fishtank is a pixel aquarium for **Mac and iPad**. On Mac, it lives quietly in a
 
 The source is available now, while official installation channels for Mac and iPad are still being prepared.
 
-Fishtank supports English, Simplified Chinese, Traditional Chinese, and Japanese. It follows your system language by default, or you can choose a language in Settings. The language and its pixel font change immediately. Unsupported system languages fall back to English.
-
 ![Pixel aquarium on the desktop](docs/screenshots/aquarium.png)
 
-## Start with two little fish, grow an ocean
+## Start with a few little fish, grow an ocean
 
 Collect **29 fish species**, breeding your first tiny swimmers into rare discoveries. Every pairing can reveal a new color, a new look, or even a fish you have never seen before.
 
@@ -31,7 +29,13 @@ Collect **29 fish species**, breeding your first tiny swimmers into rare discove
 - Earn achievement medals and display your favorites on the aquarium.
 - Progress saves automatically, so even a little time away can bring a surprise when you return.
 
+Manage your fish, breeding, synthesis, decorations, collection, and settings in the care guide. Scroll through your fish without turning pages; counts, selections, odds, and useful actions stay within reach in the bottom bar.
+
 ![Collection guide and school of fish](docs/screenshots/collection.png)
+
+Not sure which fish to pair? Suggested Pair favors species you have yet to discover, then new appearances, and the bottom bar shows the selected parents’ offspring star odds before you spend a heart.
+
+![Recommended breeding pair and offspring odds](docs/screenshots/breeding.png)
 
 ## More than something to watch
 
@@ -42,6 +46,14 @@ Build your underwater corner with **18 decorations**, including seagrass, coral,
 Choose from six gentle soundtracks, including Japanese garden, Taiwan nostalgia, and moonlight jazz.
 
 On Mac, the aquarium offers three sizes, adjustable water transparency, and an always-on-top option. Hide it anytime you need a clear desktop.
+
+## Keep working, let the aquarium keep you company
+
+For longer tasks on Mac, turn on **Keep Awake** in Settings or from the menu bar. Allow the display to sleep, or keep it lit too. It is off by default; turning it off or quitting Fishtank restores normal idle sleep. Manual sleep and closing the lid still work.
+
+Choose English, Simplified Chinese, Traditional Chinese, or Japanese in Settings. Fishtank follows your system by default and uses English for unsupported languages. Switch at any time: text and pixel fonts update immediately.
+
+![Language and Keep Awake settings](docs/screenshots/settings.png)
 
 ## Let work updates swim into the aquarium
 
@@ -69,10 +81,8 @@ No account is required, and your progress stays on your device. You can import, 
 - [Read the privacy notice](docs/PRIVACY.md)
 - [Development and run guide](docs/DEVELOPMENT.md)
 
-Screenshots use a demonstration aquarium and synthetic progress.
+Screenshots show a demonstration aquarium with sample progress.
 
 ## Open source licenses
 
-Fishtank is available under the [MIT License](LICENSE). The Fusion Pixel font is distributed under its own [SIL Open Font License](Sources/Resources/Fonts/OFL.txt).
-
-Departure Mono: [SIL Open Font License](Sources/Resources/Fonts/DepartureMono-OFL.txt).
+Fishtank is available under the [MIT License](LICENSE). Its pixel fonts, [Fusion Pixel](Sources/Resources/Fonts/OFL.txt) and [Departure Mono](Sources/Resources/Fonts/DepartureMono-OFL.txt), are distributed under the SIL Open Font License.
