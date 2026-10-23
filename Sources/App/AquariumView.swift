@@ -824,6 +824,8 @@ struct AquariumView: View {
     private func fishCard(_ fish: AquariumFish) -> some View {
         let isSelected = selected.contains(fish.id)
         let inTank = store.state.tankIDs.contains(fish.id)
+        let cardPadding = PixelTheme.metric(14, 16)
+        let actionHeight = PixelTheme.metric(40, 48)
         return ZStack(alignment: .bottomTrailing) {
             Button {
                 if tab == .tank { store.toggleTank(fish.id) }
@@ -843,9 +845,10 @@ struct AquariumView: View {
                     breedingHearts(fish)
                     Text(status(fish)).font(PixelTheme.captionFont()).foregroundStyle(fish.canBreed(at: store.now) ? PixelTheme.green : PixelTheme.muted)
                         .lineLimit(1)
-                    Spacer(minLength: tab == .tank ? PixelTheme.metric(40, 52) : 0)
-                }.padding(PixelTheme.metric(14, 16)).frame(maxWidth: .infinity, alignment: .leading)
-                    .frame(height: tab == .tank ? PixelTheme.metric(280, 300) : PixelTheme.metric(220, 248), alignment: .topLeading)
+                }
+                    // Match the overlaid action row, leaving an eight-point gap after the status.
+                    .padding(.bottom, tab == .tank ? actionHeight + 8 : 0)
+                    .padding(cardPadding).frame(maxWidth: .infinity, alignment: .leading)
                     .pixelCard(displayed: tab == .tank && inTank, selected: isSelected)
                     .overlay(alignment: .topLeading) { if isSelected { PixelIcon("check", color: gold).padding(8) } }
                     .contentShape(Rectangle())
@@ -861,7 +864,7 @@ struct AquariumView: View {
                     if fish.tier > 0 {
                         Button(L10n.text("放生"), role: .destructive) { releaseTarget = fish }.disabled(fish.locked)
                     }
-                }.buttonStyle(PixelButtonStyle(compact: true)).padding(14)
+                }.buttonStyle(PixelButtonStyle(compact: true)).padding(cardPadding)
             }
         }.overlay(alignment: .topTrailing) { if inTank { displayedBadge.padding(8).allowsHitTesting(false) } }
     }
