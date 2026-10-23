@@ -41,6 +41,7 @@ extension KeepAwakeSession.Mode {
 }
 
 struct KeepAwakeSettingsView: View {
+    @ObservedObject private var localization = AppLocalization.shared
     @ObservedObject private var wake = KeepAwakeController.shared
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {

@@ -937,10 +937,31 @@ private extension AquariumView {
     }
 
     var navigationBar: some View {
+        #if os(macOS)
+        HStack(spacing: 6) {
+            ForEach(AquariumTab.allCases) { item in
+                Button { tab = item; store.sound.interact() } label: {
+                    HStack(spacing: 8) {
+                        PixelIcon(icon(for: item), color: tab == item ? PixelTheme.green : PixelTheme.muted)
+                            .frame(width: 16, height: 16)
+                        Text(L10n.key(item.rawValue))
+                    }
+                }.buttonStyle(PixelTabStyle(selected: tab == item, edge: .bottom))
+                    .keyboardShortcut(KeyEquivalent(Character(String((AquariumTab.allCases.firstIndex(of: item) ?? 0) + 1))), modifiers: .command)
+                    .accessibilityLabel(L10n.key(item.rawValue))
+                    .accessibilityAddTraits(tab == item ? .isSelected : [])
+            }
+        }
+        .padding(.horizontal, 12).padding(.bottom, 8)
+        .background(alignment: .top) { Rectangle().fill(PixelTheme.shell.opacity(0.5)).frame(height: 1) }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("aquarium.tabs")
+        #else
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 6) { navigationItems }
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: [.english, .japanese].contains(L10n.language) ? 2 : 3), spacing: 6) { navigationItems }
         }.padding(8).background(PixelTheme.ink)
+        #endif
     }
     var navigationItems: some View {
         ForEach(AquariumTab.allCases) { item in

@@ -69,30 +69,7 @@ struct AgentSettingsView: View {
     private var settingsContent: some View {
         VStack(alignment: .leading, spacing: 0) {
             PixelWindowChrome(title: L10n.text("Fishtank / 设置"), closeLabel: L10n.text("关闭设置")) { aquarium.closeAgentSettings() }
-            HStack(spacing: 8) {
-                Button(L10n.text("通用")) { page = "general" }
-                    .buttonStyle(PixelButtonStyle(primary: page == "general", compact: true))
-                    .accessibilityIdentifier("agents.page.general")
-                    .accessibilityAddTraits(page == "general" ? .isSelected : [])
-                Button(L10n.text("外观")) { page = "appearance" }
-                    .buttonStyle(PixelButtonStyle(primary: page == "appearance", compact: true))
-                    .accessibilityIdentifier("agents.page.appearance")
-                    .accessibilityAddTraits(page == "appearance" ? .isSelected : [])
-                Button(L10n.text("Agent 接入")) { page = "agents" }
-                    .buttonStyle(PixelButtonStyle(primary: page == "agents", compact: true))
-                    .accessibilityIdentifier("agents.page.agents")
-                    .accessibilityAddTraits(page == "agents" ? .isSelected : [])
-                Button(L10n.text("提醒")) { page = "notifications" }
-                    .buttonStyle(PixelButtonStyle(primary: page == "notifications", compact: true))
-                    .accessibilityIdentifier("agents.page.notifications")
-                    .accessibilityAddTraits(page == "notifications" ? .isSelected : [])
-                Spacer()
-                Button(L10n.text("更新日志")) { NSWorkspace.shared.open(URL(string: "https://github.com/dofy/fishtank-apple/blob/main/CHANGELOG.md")!) }
-                    .buttonStyle(PixelButtonStyle(compact: true)).accessibilityIdentifier("settings.changelog")
-                Button(L10n.text("项目地址")) { NSWorkspace.shared.open(URL(string: "https://github.com/dofy/fishtank-apple")!) }
-                    .buttonStyle(PixelButtonStyle(compact: true)).accessibilityIdentifier("settings.project")
-            }.padding(.horizontal, 20).padding(.bottom, 12)
-            Divider().overlay(PixelTheme.shell.opacity(0.3))
+            SettingsTabBar(selection: $page)
             if page == "general" {
                 ScrollView { VStack(alignment: .leading, spacing: 28) { LanguageSettingsView(); KeepAwakeSettingsView() }.padding(24) }
             }

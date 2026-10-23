@@ -426,7 +426,9 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
 
     func showManagement() {
         if managementWindow == nil {
-            let size = AquariumManagementWindow.contentSize
+            // Fit once on creation; moving between displays never resizes the window.
+            let visibleHeight = NSScreen.main?.visibleFrame.height ?? 900
+            let size = NSSize(width: 880, height: min(800, max(660, visibleHeight - 40)))
             let window = AquariumManagementWindow(contentRect: NSRect(origin: .zero, size: size),
                                   styleMask: [.borderless], backing: .buffered, defer: false)
             window.title = L10n.text("Fishtank · 养成手册")
@@ -608,11 +610,14 @@ private final class AquariumPanel: NSPanel {
 final class AquariumManagementWindow: NSPanel {
     static let contentSize = NSSize(width: 880, height: 660)
     private var lockedFrameSize: NSSize?
+    private var lockedContentSize: NSSize?
 
     func lockContentSize() {
-        contentMinSize = Self.contentSize
-        contentMaxSize = Self.contentSize
-        setContentSize(Self.contentSize)
+        let size = contentRect(forFrameRect: frame).size
+        contentMinSize = size
+        contentMaxSize = size
+        setContentSize(size)
+        lockedContentSize = size
         lockedFrameSize = frame.size
         collectionBehavior.insert(.fullScreenNone)
     }
@@ -630,7 +635,7 @@ final class AquariumManagementWindow: NSPanel {
     }
 
     override func setContentSize(_ size: NSSize) {
-        super.setContentSize(lockedFrameSize == nil ? size : Self.contentSize)
+        super.setContentSize(lockedContentSize ?? size)
     }
 
     override var canBecomeKey: Bool { true }
