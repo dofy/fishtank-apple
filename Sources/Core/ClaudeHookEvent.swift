@@ -130,19 +130,25 @@ struct ClaudeHookLedger {
 
 /// Shares geometry with offscreen validation; tank coordinates and canvas stay unchanged.
 enum ClaudeToastPlacement {
-    static func frame(tank: CGRect, visibleFrame: CGRect) -> CGRect {
-        frames(tank: tank, visibleFrame: visibleFrame, count: 1)[0]
+    static let height: CGFloat = 70
+    static func frame(tank: CGRect, visibleFrame: CGRect, width: CGFloat? = nil) -> CGRect {
+        frames(tank: tank, visibleFrame: visibleFrame, widths: [width ?? tank.width])[0]
     }
-    static func frames(tank: CGRect, visibleFrame: CGRect, count: Int) -> [CGRect] {
-        let count = max(0, min(AgentToastStack.capacity, count))
-        guard count > 0 else { return [] }
-        let height: CGFloat = 70, gap: CGFloat = 8
-        let total = CGFloat(count) * height + CGFloat(count - 1) * gap
+    /// Each bubble carries its own measured width and lines up with the tank's right edge.
+    static func frames(tank: CGRect, visibleFrame: CGRect, widths: [CGFloat]) -> [CGRect] {
+        let widths = Array(widths.prefix(AgentToastStack.capacity))
+        guard !widths.isEmpty else { return [] }
+        let gap: CGFloat = 8
+        let total = CGFloat(widths.count) * height + CGFloat(widths.count - 1) * gap
         var bottom = tank.maxY + gap
         if bottom + total > visibleFrame.maxY {
             let below = tank.minY - gap - total
             bottom = below >= visibleFrame.minY ? below : max(visibleFrame.minY, min(tank.maxY - total, visibleFrame.maxY - total))
         }
-        return (0..<count).map { CGRect(x: tank.minX, y: bottom + CGFloat($0) * (height + gap), width: tank.width, height: height) }
+        return widths.enumerated().map { index, requested in
+            let width = min(max(requested, 1), visibleFrame.width)
+            let x = min(max(tank.maxX - width, visibleFrame.minX), visibleFrame.maxX - width)
+            return CGRect(x: x, y: bottom + CGFloat(index) * (height + gap), width: width, height: height)
+        }
     }
 }

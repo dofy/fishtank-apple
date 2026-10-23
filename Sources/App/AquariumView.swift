@@ -22,7 +22,7 @@ private enum AquariumTab: String, CaseIterable, Identifiable {
 struct AquariumView: View {
     @ObservedObject private var localization = AppLocalization.shared
     @ObservedObject var store: AquariumStore
-    var openAgentSettings: (() -> Void)? = nil
+    var feedAquarium: (() -> Void)? = nil
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reducedMotion
     @State private var scene = AquariumScene()
@@ -36,6 +36,7 @@ struct AquariumView: View {
     @State private var selected: [UUID] = []
     @State private var fishSort = FishSort.tier
     @State private var sortDescending = true
+    @State private var importingSave = false
     @State private var tierFilter = -1
     @State private var search = ""
     @State private var releaseTarget: AquariumFish?
@@ -62,7 +63,7 @@ struct AquariumView: View {
             chrome
             #endif
             sharedInformation
-            ScrollView {
+            pageScroll {
                 VStack(alignment: .leading, spacing: 20) {
                     pageContent(landscape: geometry.size.width > geometry.size.height,
                                 width: max(1, geometry.size.width - 40))
@@ -428,17 +429,48 @@ struct AquariumView: View {
     private var collectionSummary: some View { Text(L10n.text("Species \(store.state.regularDiscoveredCount)/29")).font(PixelTheme.captionFont()) }
     private var tankSummary: some View { Text(L10n.text("Displayed \(store.state.tankIDs.count)/\(store.state.capacity) · Inventory \(store.state.fish.count)")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted) }
 
+    /// Every tab opens with the settings window's title style and keeps its own
+    /// controls on that same row, stacking them only when the row cannot fit.
+    @ViewBuilder private func pageHeading<Trailing: View>(_ title: String,
+                                                         @ViewBuilder trailing: @escaping () -> Trailing) -> some View {
+        let heading = Text(title).font(PixelTheme.font(24)).foregroundStyle(gold)
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) { heading; Spacer(minLength: 12); trailing() }
+            VStack(alignment: .leading, spacing: 10) {
+                heading
+                HStack(spacing: 8) { trailing(); Spacer(minLength: 0) }
+            }
+        }
+    }
+
+    @ViewBuilder private func pageScroll<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        #if os(macOS)
+        PixelScrollView { content() }
+        #else
+        ScrollView { content() }
+        #endif
+    }
+
+    private var feedButton: some View {
+        Button {
+            // On Mac the fish live on the desktop; the manual has no tank of its own.
+            if let feedAquarium { feedAquarium() } else { scene.feed(reducedMotion: reducedMotion); store.sound.play("feed") }
+            store.message = L10n.text("Drop some food and watch the fish swim over.")
+        } label: {
+            HStack(spacing: 6) { PixelIcon("food"); Text(L10n.text("Feed")) }
+        }.accessibilityIdentifier("tank.feed")
+    }
+
     private var tankContent: some View { tankInventory }
 
     private var tankInventory: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text(L10n.text("My Fish")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
-                Spacer()
-                Button { scene.feed(reducedMotion: reducedMotion); store.sound.play("feed"); store.message = L10n.text("Drop some food and watch the fish swim over.") } label: {
-                    HStack(spacing: 6) { PixelIcon("food"); Text(L10n.text("Feed")) }
-                }
-                    .buttonStyle(PixelButtonStyle())
+            pageHeading(L10n.text("My Fish")) {
+                #if os(iOS)
+                feedButton
+                #else
+                EmptyView()
+                #endif
             }
             filters
             fishSorting
@@ -513,7 +545,7 @@ struct AquariumView: View {
 
     private var breedContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("Two parents, one new encounter.")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
+            pageHeading(L10n.text("Two parents, one new encounter.")) { EmptyView() }
             Text(L10n.text("Each breeding costs 1 heart. Starter fish cool down for 3 minutes; other fish use a breeding count. Locking does not prevent breeding."))
                 .font(PixelTheme.font()).lineSpacing(4).foregroundStyle(PixelTheme.muted)
             VStack(alignment: .leading, spacing: 12) {
@@ -578,7 +610,7 @@ struct AquariumView: View {
 
     private var mergeContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 8) {
+            pageHeading(reforgeMode ? L10n.text("Five-Star Reforge") : L10n.text("Ten little fish become a new starlight.")) {
                 Button(L10n.text("Normal Synthesis")) { reforgeMode = false }
                     .buttonStyle(PixelButtonStyle(primary: !reforgeMode))
                     .accessibilityIdentifier("merge.mode.normal")
@@ -592,7 +624,6 @@ struct AquariumView: View {
 
     private var normalMergeContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("Ten little fish become a new starlight.")).font(PixelTheme.font(PixelTheme.metric(18, 24)))
             Text(L10n.text("Consume 10 fish rated 1–4 stars and inherit the highest grade. Same-star materials guarantee a one-star upgrade. With mixed stars, each fish casts one vote for its own star level +1. Starter, 5-star, and locked fish cannot be selected."))
                 .font(PixelTheme.font()).lineSpacing(4).foregroundStyle(PixelTheme.muted)
             VStack(alignment: .leading, spacing: 12) {
@@ -784,7 +815,7 @@ struct AquariumView: View {
     @ViewBuilder private var pageFooter: some View {
         switch tab {
         case .tank:
-            AquariumFooter(title: L10n.text("\(visibleFish.count) Matching Fish"), detail: tankFooterDetail) { EmptyView() }
+            AquariumFooter(title: L10n.text("\(visibleFish.count) Matching Fish"), detail: tankFooterDetail) { feedButton }
         case .breed:
             AquariumFooter(title: L10n.text("\(selected.count)/2 parents selected"),
                            detail: breedFooterDetail, emphasized: selected.count == 2 && store.state.hearts > 0) {
@@ -820,7 +851,10 @@ struct AquariumView: View {
         case .settings:
             AquariumFooter(title: L10n.text("Music: \(store.state.audio.musicEnabled ? (AquariumMusicTrack(rawValue: store.state.audio.track) ?? .lofi).title : L10n.text("Off")) · Lighting: \(store.state.lighting.title)"),
                            detail: store.isPreviewOnly ? L10n.text("Temporary preview; restore a valid save to continue.") : L10n.text("Auto-save every 15s · Backup every 5min · Export regularly")) {
-                BackupExportButton(store: store)
+                HStack(spacing: 8) {
+                    Button(L10n.text("Import JSON")) { importingSave = true }
+                    BackupExportButton(store: store)
+                }
             }
         }
     }
@@ -1040,7 +1074,6 @@ struct AquariumView: View {
 
     private var bookContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("Ocean Catalog")).font(PixelTheme.font(24))
             #if os(iOS)
             Text(L10n.text("Discovered \(store.state.regularDiscoveredCount)/29 species · Grade variants \(store.state.regularVariantCount)/\(FishCatalog.regular.reduce(0) { $0 + ($1.tier == 0 ? 1 : 5) }). Releasing or synthesizing fish will not erase collection records."))
                 .font(PixelTheme.font()).foregroundStyle(PixelTheme.muted)
@@ -1204,12 +1237,11 @@ private extension AquariumView {
 
     var collectionContent: some View {
         VStack(alignment: .leading, spacing: 18) {
-            HStack {
+            pageHeading(showingMedals ? L10n.text("Every encounter is worth remembering.") : L10n.text("Ocean Catalog")) {
                 Button(PixelTheme.isPad ? L10n.text("Species \(store.state.regularDiscoveredCount)/29") : L10n.text("Species")) { showingMedals = false }
                     .buttonStyle(PixelButtonStyle(primary: !showingMedals))
                 Button(PixelTheme.isPad ? L10n.text("Medals \(store.state.earnedAchievements.count)/\(AchievementCatalog.all.count)") : L10n.text("Medals")) { showingMedals = true }
                     .buttonStyle(PixelButtonStyle(primary: showingMedals))
-                Spacer()
             }
             if showingMedals { medalsContent } else { bookContent }
         }
@@ -1218,12 +1250,9 @@ private extension AquariumView {
     var decorContent: some View {
         VStack(alignment: .leading, spacing: PixelTheme.metric(14, 18)) {
             #if os(macOS)
-            Text(L10n.text("Decorate a little seabed")).font(PixelTheme.font(18)).foregroundStyle(gold)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            pageHeading(L10n.text("Decorate a little seabed")) { EmptyView() }
             #else
-            HStack {
-                Text(L10n.text("Decorate a little seabed")).font(PixelTheme.font(24)).foregroundStyle(gold)
-                Spacer()
+            pageHeading(L10n.text("Decorate a little seabed")) {
                 Text(L10n.text("\(store.state.decorations.count)/\(store.state.capacity) slots")).foregroundStyle(PixelTheme.muted)
             }
             PixelAquariumPreview(scene: scene, store: store, paused: scenePaused)
@@ -1274,7 +1303,6 @@ private extension AquariumView {
 
     var medalsContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("Every encounter is worth remembering.")).font(PixelTheme.font(24)).foregroundStyle(gold)
             #if os(iOS)
             Text(L10n.text("\(AchievementCatalog.all.count) permanent achievements. Synthesis and release never erase earned records. Display several at once."))
                 .foregroundStyle(PixelTheme.muted)
@@ -1324,17 +1352,7 @@ private extension AquariumView {
 
     var settingsContent: some View {
         VStack(alignment: .leading, spacing: 20) {
-            #if os(macOS)
-            HStack {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(L10n.text("App Settings")).foregroundStyle(gold)
-                    Text(L10n.text("Manage integrations, bubbles, and alert sounds")).foregroundStyle(PixelTheme.muted)
-                }
-                Spacer()
-                Button(L10n.text("Open Settings…")) { openAgentSettings?() }.disabled(openAgentSettings == nil)
-            }.padding(16).pixelPanel()
-            #endif
-            Text(L10n.text("Sound and Sea Color")).font(PixelTheme.font(24)).foregroundStyle(gold)
+            pageHeading(L10n.text("Sound and Sea Color")) { EmptyView() }
             #if os(iOS)
             LanguageSettingsView().padding(16).pixelPanel()
             #endif
@@ -1371,7 +1389,7 @@ private extension AquariumView {
                 Text(L10n.text("Auto mode uses the night scene from 19:00–07:00 local time. Hanging lights show pixel lights at night."))
                     .foregroundStyle(PixelTheme.muted)
             }.frame(maxWidth: .infinity, alignment: .leading).padding(16).pixelPanel()
-            SavedGamePanel(store: store)
+            SavedGamePanel(store: store, importing: $importingSave)
             Toggle(L10n.text("Growth / Cooldown / Full-Heart Alerts"), isOn: Binding(get: { store.remindersEnabled }, set: { store.setReminders($0) }))
             VStack(alignment: .leading, spacing: 12) {
                 Text(L10n.text("Care Tips")).foregroundStyle(gold)
@@ -1501,7 +1519,6 @@ private struct MaterialReasonLayout: Layout {
 private struct PixelAquariumPreview: View {
     let scene: AquariumScene
     @ObservedObject var store: AquariumStore
-    var openAgentSettings: (() -> Void)? = nil
     var paused: Bool
     @Environment(\.accessibilityReduceMotion) private var reducedMotion
     var body: some View {

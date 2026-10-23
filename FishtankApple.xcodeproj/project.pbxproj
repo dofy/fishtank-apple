@@ -148,6 +148,7 @@
 		85DA03281A562A166FFF0386 /* breed.wav in Resources */ = {isa = PBXBuildFile; fileRef = EEE765D980B7F0B28B3A7174 /* breed.wav */; };
 		862CCA2FBF73DA6BF6B32F57 /* ClaudeToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */; };
 		87371C73B2EF3F4DD638C0EB /* PixelArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820E526EED379C270A5A079A /* PixelArt.swift */; };
+		877BD41F6C9C567283CE1B6E /* PixelScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF3AFC73329393FAC309EE5 /* PixelScrollView.swift */; };
 		87F671D23A5F62BE1CD2433E /* music-tide.wav in Resources */ = {isa = PBXBuildFile; fileRef = AD66598B45291DEF2F6A7435 /* music-tide.wav */; };
 		8898745DE187D2745F699F95 /* DecorCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062724B13302449E27CDDB3A /* DecorCatalog.swift */; };
 		89CB12A89E448541193AD21C /* AgentAlertSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084B62018D48709FB8FA9A3A /* AgentAlertSound.swift */; };
@@ -161,6 +162,7 @@
 		8DB69B5972404104BE32BE54 /* ClaudeHookValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1A5AFD1944196A2A1A4F1E /* ClaudeHookValidation.swift */; };
 		8DC572AF23F921DD66E31A41 /* FishSwimProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0EAC50167C3E8F7ED5FEC9 /* FishSwimProfile.swift */; };
 		90CB8FE51B9A1EB4F1723AF8 /* ClaudeHookEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C368DC9BB68608363A84416 /* ClaudeHookEvent.swift */; };
+		90D53D15A4372F24059AF425 /* PixelScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF3AFC73329393FAC309EE5 /* PixelScrollView.swift */; };
 		920F5005A8A70F2EEC3F3C0B /* music-lofi.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0D5CBA6C34560C1B3D4A75FD /* music-lofi.wav */; };
 		921364D89849A03CC47503FE /* LanguageSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CD523DF3D81B06C93916F9 /* LanguageSettingsView.swift */; };
 		932A4B49C116D604081BE05A /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFC0B4587226C7F979E1DA2 /* L10n.swift */; };
@@ -340,6 +342,7 @@
 		4A94A72F5D15E1FF21D35922 /* FishtankIcon-neon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-neon.png"; sourceTree = "<group>"; };
 		4EA9A0B3EB49CD84EC548532 /* AquariumInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumInstallation.swift; sourceTree = "<group>"; };
 		4FA1B9D485774F7A08EB274E /* FishtankIcon-duet.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "FishtankIcon-duet.icns"; sourceTree = "<group>"; };
+		4FF3AFC73329393FAC309EE5 /* PixelScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelScrollView.swift; sourceTree = "<group>"; };
 		523B667BB21625FDDE8AC5B1 /* ClaudeToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeToast.swift; sourceTree = "<group>"; };
 		54E2707DAAC79E66B40CFEFC /* reveal-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "reveal-3.wav"; sourceTree = "<group>"; };
 		5558F2ED7FB3D9B40F35B8DC /* FishtankIcon-skywing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-skywing.png"; sourceTree = "<group>"; };
@@ -727,6 +730,7 @@
 				EF2FA871B9462863CC9EDFC4 /* KeepAwakeController.swift */,
 				99CD523DF3D81B06C93916F9 /* LanguageSettingsView.swift */,
 				81DABBDF98D99BFC170FA1A1 /* PixelFormControls.swift */,
+				4FF3AFC73329393FAC309EE5 /* PixelScrollView.swift */,
 				823A2774B671447434CE8014 /* PixelTabStyle.swift */,
 				06838F8CB341340064B222C2 /* PixelTheme.swift */,
 				043BC30D96437306BA43ED0D /* SavedGamePanel.swift */,
@@ -1057,6 +1061,7 @@
 				6565C16902190F2D9745357F /* PaintedSprites.swift in Sources */,
 				F8EDB552C7B5273181141F86 /* PixelArt.swift in Sources */,
 				D029E3FC9881F2B13655F383 /* PixelFormControls.swift in Sources */,
+				90D53D15A4372F24059AF425 /* PixelScrollView.swift in Sources */,
 				FD28A14A4EEC7C1878C4957D /* PixelTabStyle.swift in Sources */,
 				648E33DE5967593A3D0BCD18 /* PixelTheme.swift in Sources */,
 				78B6A574822980362B80FEA2 /* SavedGamePanel.swift in Sources */,
@@ -1130,6 +1135,7 @@
 				BFB58C0B04324D77D35FAD4D /* PaintedSprites.swift in Sources */,
 				87371C73B2EF3F4DD638C0EB /* PixelArt.swift in Sources */,
 				9F917D29BDBB336B3DE10FB3 /* PixelFormControls.swift in Sources */,
+				877BD41F6C9C567283CE1B6E /* PixelScrollView.swift in Sources */,
 				0E2A2B11839BC6BD4731D5CB /* PixelTabStyle.swift in Sources */,
 				9D52FA3196C4AC6487AFD3A6 /* PixelTheme.swift in Sources */,
 				773BD9762E5F7629B306455B /* SavedGamePanel.swift in Sources */,

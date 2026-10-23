@@ -45,6 +45,20 @@ private extension PixelOutline {
     }
 }
 
+extension ClaudeToastView {
+    /// Measures the bubble in the active pixel face so it is only as wide as the
+    /// agent name, project and status it shows.
+    static func width(for event: ClaudeHookEvent) -> CGFloat {
+        let padding = (L10n.language == .english ? 10.0 : 12.0) * 2
+        let badge = PixelTheme.textWidth(event.agentTitle) + 12
+        let project = min(PixelTheme.textWidth(event.project), 220)
+        let status = PixelTheme.textWidth(event.status?.title ?? L10n.text("Status Update"))
+        let content = max(badge + 8 + project, status)
+        // Accent bar, its spacing, the close button and the outer padding.
+        return min(520, max(260, padding + 4 + 12 + content + 12 + 24))
+    }
+}
+
 /// Independent child panels keep gaps transparent to mouse input and timers isolated.
 @MainActor
 final class ClaudeToastPresenter {
@@ -95,7 +109,8 @@ final class ClaudeToastPresenter {
     func position() {
         guard let parent else { return }
         let frames = ClaudeToastPlacement.frames(tank: parent.frame,
-            visibleFrame: parent.screen?.visibleFrame ?? parent.frame, count: stack.visible.count)
+            visibleFrame: parent.screen?.visibleFrame ?? parent.frame,
+            widths: stack.visible.map { ClaudeToastView.width(for: $0) })
         for (event, frame) in zip(stack.visible, frames) {
             guard let panel = entries[event.id]?.panel else { continue }
             panel.level = parent.level

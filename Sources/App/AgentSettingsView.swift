@@ -71,7 +71,7 @@ struct AgentSettingsView: View {
             PixelWindowChrome(title: L10n.text("Fishtank / Settings"), closeLabel: L10n.text("Close Settings")) { aquarium.closeAgentSettings() }
             SettingsTabBar(selection: $page)
             if page == "general" {
-                ScrollView { VStack(alignment: .leading, spacing: 28) { LanguageSettingsView(); KeepAwakeSettingsView() }.padding(24) }
+                PixelScrollView { VStack(alignment: .leading, spacing: 28) { LanguageSettingsView(); KeepAwakeSettingsView() }.padding(24) }
             }
             else if page == "appearance" { AppIconSettingsView(icons: aquarium.appIcons, store: store) }
             else if page == "agents" { agentPage } else { notificationPage }
@@ -104,7 +104,7 @@ struct AgentSettingsView: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 12) {
                 Text(L10n.text("Added \(model.agents.count)")).foregroundStyle(PixelTheme.muted)
-                ScrollView {
+                PixelScrollView {
                     VStack(spacing: 8) {
                         ForEach(model.agents) { agent in
                             Button { selected = agent.id; copied = false } label: {
@@ -128,7 +128,7 @@ struct AgentSettingsView: View {
                 Toggle(L10n.text("Pause all"), isOn: $model.paused).accessibilityIdentifier("agents.pause")
             }.padding(20).frame(width: 216)
             Divider().overlay(PixelTheme.shell.opacity(0.3))
-            ScrollView {
+            PixelScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     if let error = model.storageError { Text(error).foregroundStyle(PixelTheme.pink) }
                     if let agent = model.agent(selected) { detail(agent) }
@@ -247,7 +247,7 @@ struct AgentSettingsView: View {
         }
     }
     private var notificationPage: some View {
-        ScrollView {
+        PixelScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 Text(L10n.text("Agent Alerts")).font(PixelTheme.font(24)).foregroundStyle(PixelTheme.gold)
                 HStack { Toggle(L10n.text("Alert Sounds"), isOn: $aquarium.agentSoundsEnabled); Spacer(); Text(L10n.text("Low Volume")).foregroundStyle(PixelTheme.muted) }

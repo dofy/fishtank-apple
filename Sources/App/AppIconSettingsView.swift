@@ -15,7 +15,7 @@ struct AppIconSettingsView: View {
         return icons.currentID == selected.id ? L10n.text("Apply Again") : L10n.text("Use This Icon")
     }
     var body: some View {
-        ScrollView {
+        PixelScrollView {
             VStack(alignment: .leading, spacing: 12) {
                 if !available.isEmpty { HStack(alignment: .center, spacing: 20) {
                     artwork(selected, size: 64)

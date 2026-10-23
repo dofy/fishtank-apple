@@ -48,7 +48,8 @@ struct AquariumHintView: View {
 @MainActor
 final class AquariumHintPresenter {
     static let preferenceKey = "aquarium.hintSilenced"
-    static let minimumWidth: CGFloat = 420
+    static let minimumWidth: CGFloat = 320
+    static let maximumWidth: CGFloat = 520
     static let minimumHeight: CGFloat = 70
     private weak var parent: NSWindow?
     private var panel: NSPanel?
@@ -84,7 +85,7 @@ final class AquariumHintPresenter {
     func present(duration: TimeInterval = 20) {
         guard !isSilenced, let parent else { return }
         dismiss()
-        let panel = HintPanel(contentRect: NSRect(x: 0, y: 0, width: Self.minimumWidth, height: Self.minimumHeight),
+        let panel = HintPanel(contentRect: NSRect(x: 0, y: 0, width: Self.maximumWidth, height: Self.minimumHeight),
                               styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         panel.isOpaque = false; panel.backgroundColor = .clear
         panel.hasShadow = false; panel.hidesOnDeactivate = false; panel.isReleasedWhenClosed = false
@@ -110,11 +111,13 @@ final class AquariumHintPresenter {
         }
     }
 
-    /// The bubble spans the tank, with a floor that keeps three sentences readable.
+    /// The longest sentence sets the bubble width, measured in the active pixel
+    /// face, capped so a long line wraps instead of spanning the screen.
     private var hintWidth: CGFloat {
-        guard let parent else { return Self.minimumWidth }
-        let visibleFrame = parent.screen?.visibleFrame ?? parent.frame
-        return min(max(Self.minimumWidth, parent.frame.width), visibleFrame.width)
+        let chrome: CGFloat = 72
+        let longest = Self.sentences.map { PixelTheme.textWidth($0) }.max() ?? 0
+        let available = (parent?.screen?.visibleFrame.width).map { $0 - 16 } ?? Self.maximumWidth
+        return min(min(Self.maximumWidth, available), max(Self.minimumWidth, longest + chrome))
     }
 
     func position() {

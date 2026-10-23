@@ -75,9 +75,15 @@ final class AgentToastStackTests: XCTestCase {
         for width in [320, 640, 960] {
         for y in [20, 500, 900] {
             let tank = CGRect(x: 100, y: y, width: width, height: width * 180 / 320)
-            let frames = ClaudeToastPlacement.frames(tank: tank, visibleFrame: screen, count: 3)
+            let widths: [CGFloat] = [260, 380, 520]
+            let frames = ClaudeToastPlacement.frames(tank: tank, visibleFrame: screen, widths: widths)
             XCTAssertEqual(frames.count, 3)
-            for frame in frames { XCTAssertEqual(frame.width, tank.width); XCTAssertTrue(screen.contains(frame)) }
+            for (frame, width) in zip(frames, widths) {
+                XCTAssertEqual(frame.width, width)
+                // Right-aligned with the tank, unless the screen edge clamps it.
+                XCTAssertEqual(frame.maxX, min(max(tank.maxX, width), screen.maxX))
+                XCTAssertTrue(screen.contains(frame))
+            }
             for pair in zip(frames, frames.dropFirst()) { XCTAssertEqual(pair.1.minY - pair.0.maxY, 8) }
         }
         }

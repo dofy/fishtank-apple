@@ -15,7 +15,8 @@ struct AquariumBackupDocument: FileDocument {
 struct SavedGamePanel: View {
     @ObservedObject private var localization = AppLocalization.shared
     @ObservedObject var store: AquariumStore
-    @State private var importing = false
+    /// The macOS footer owns the import button, so the trigger comes from the host.
+    @Binding var importing: Bool
     @State private var pending: AquariumState?
     @State private var importSource = ""
     var body: some View {
@@ -25,12 +26,12 @@ struct SavedGamePanel: View {
             Text(store.isPreviewOnly ? L10n.text("This is a temporary preview; the original save was not overwritten. Restore a backup or import a valid file.") : L10n.text("Auto-saves every 15 seconds and keeps a previous snapshot every 5 minutes. Export before changing devices."))
                 .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
             #endif
-            HStack {
-                #if os(iOS)
+            #if os(iOS)
+            HStack(spacing: 8) {
                 BackupExportButton(store: store)
-                #endif
                 Button(L10n.text("Import JSON")) { importing = true }
             }
+            #endif
             Text(L10n.text("Supports app backups and original web v1 JSON. Preview before confirming replacement; aquariums are not merged. Old web nicknames, favorites, and layout metadata remain in the original snapshot."))
                 .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
             ViewThatFits(in: .horizontal) {
