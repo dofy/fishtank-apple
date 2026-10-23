@@ -28,7 +28,7 @@ private struct PixelTabBody: View {
             .frame(width: width, height: 44)
             .frame(maxWidth: width == nil ? .infinity : nil)
             .background(PixelTabOutline(edge: edge).fill(selected ? PixelTheme.panel : PixelTheme.card.opacity(hovering || configuration.isPressed ? 1 : 0.45)))
-            .overlay(PixelTabOutline(edge: edge, open: selected).stroke(selected ? PixelTheme.shell : PixelTheme.shell.opacity(0.35), style: StrokeStyle(lineWidth: 1)))
+            .overlay(PixelTabOutline(edge: edge, open: selected || edge == .bottom).stroke(selected ? PixelTheme.shell : PixelTheme.shell.opacity(0.35), style: StrokeStyle(lineWidth: 1)))
             .overlay(alignment: edge == .top ? .top : .bottom) {
                 if selected { Rectangle().fill(PixelTheme.green).frame(height: 2).padding(.horizontal, 5) }
             }

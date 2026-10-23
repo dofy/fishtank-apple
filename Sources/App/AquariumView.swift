@@ -325,6 +325,12 @@ struct AquariumView: View {
             }
         }.padding(.horizontal, 20).padding(.top, PixelTheme.metric(8, 12)).padding(.bottom, PixelTheme.metric(4, 0))
             .frame(maxWidth: managementWidth, alignment: .leading).frame(maxWidth: .infinity)
+            #if os(macOS)
+            .overlay(alignment: .bottom) {
+                Rectangle().fill(PixelTheme.highlight.opacity(0.55)).frame(height: 1)
+                    .allowsHitTesting(false).accessibilityHidden(true)
+            }
+            #endif
             .accessibilityElement(children: .contain).accessibilityIdentifier("aquarium.status")
     }
 
@@ -953,7 +959,9 @@ private extension AquariumView {
             }
         }
         .padding(.horizontal, 12).padding(.bottom, 8)
-        .background(alignment: .top) { Rectangle().fill(PixelTheme.shell.opacity(0.5)).frame(height: 1) }
+        .overlay(alignment: .top) {
+            Rectangle().fill(PixelTheme.panel).frame(height: 2).allowsHitTesting(false)
+        }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("aquarium.tabs")
         #else
