@@ -206,8 +206,11 @@ struct PixelButtonStyle: ButtonStyle {
     var primary = false
     var compact = false
     var fixedWidth: CGFloat? = nil
+    /// Overrides the standard control height; floating bubbles need a shorter button.
+    var height: CGFloat? = nil
     func makeBody(configuration: Configuration) -> some View {
-        PixelButtonBody(configuration: configuration, primary: primary, compact: compact, fixedWidth: fixedWidth)
+        PixelButtonBody(configuration: configuration, primary: primary, compact: compact,
+                        fixedWidth: fixedWidth, height: height)
     }
 }
 
@@ -218,6 +221,7 @@ private struct PixelButtonBody: View {
     var primary: Bool
     var compact: Bool
     var fixedWidth: CGFloat?
+    var height: CGFloat?
     @ObservedObject private var localization = AppLocalization.shared
     @Environment(\.isEnabled) private var enabled
     @Environment(\.pixelClick) private var click
@@ -228,7 +232,7 @@ private struct PixelButtonBody: View {
             .fixedSize(horizontal: fixedWidth != nil, vertical: false)
             .foregroundStyle(primary ? PixelTheme.ink : PixelTheme.text)
             .padding(.horizontal, fixedWidth == nil ? (compact ? PixelTheme.metric(12, 16) : PixelTheme.metric(16, 18)) : 8)
-            .frame(width: fixedWidth.map { PixelTheme.isPad ? max(56, $0) : $0 }, height: PixelTheme.metric(40, 48))
+            .frame(width: fixedWidth.map { PixelTheme.isPad ? max(56, $0) : $0 }, height: height ?? PixelTheme.metric(40, 48))
             .frame(minWidth: fixedWidth == nil && !compact ? PixelTheme.metric(64, 84) : nil)
             .contentShape(Rectangle())
             .background(PixelOutline().fill(primary ? PixelTheme.green : PixelTheme.card))

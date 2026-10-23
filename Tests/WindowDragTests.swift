@@ -110,3 +110,36 @@ final class WindowDragTests: XCTestCase {
                        CGRect(x: 120, y: 150, width: 320, height: 180))
     }
 }
+
+final class AquariumHintPlacementTests: XCTestCase {
+    private let screen = CGRect(x: 0, y: 0, width: 1440, height: 900)
+
+    func testHintSitsUnderTheTankAndHugsTheTankEdgeNearestItsCorner() {
+        let right = CGRect(x: 1000, y: 300, width: 320, height: 180)
+        let frame = AquariumHintPlacement.frame(tank: right, visibleFrame: screen, size: CGSize(width: 420, height: 70))
+        XCTAssertEqual(frame.maxY, right.minY - 8)
+        XCTAssertEqual(frame.width, 420)
+        XCTAssertEqual(frame.maxX, right.maxX)
+        XCTAssertTrue(screen.contains(frame))
+        let left = AquariumHintPlacement.frame(tank: CGRect(x: 120, y: 300, width: 320, height: 180),
+                                               visibleFrame: screen, size: CGSize(width: 420, height: 70))
+        XCTAssertEqual(left.minX, 120)
+        let overhang = AquariumHintPlacement.frame(tank: CGRect(x: 1200, y: 300, width: 320, height: 180),
+                                                   visibleFrame: screen, size: CGSize(width: 420, height: 70))
+        XCTAssertEqual(overhang.maxX, screen.maxX)
+    }
+
+    func testHintMovesAboveTheTankWhenTheBottomEdgeHasNoRoom() {
+        let tank = CGRect(x: 200, y: 20, width: 960, height: 540)
+        let frame = AquariumHintPlacement.frame(tank: tank, visibleFrame: screen, size: CGSize(width: 420, height: 70))
+        XCTAssertEqual(frame.minY, tank.maxY + 8)
+        XCTAssertEqual(frame.width, 960)
+    }
+
+    func testHintStaysOnScreenWhenNeitherEdgeHasRoom() {
+        let tank = CGRect(x: -40, y: 20, width: 320, height: 860)
+        let frame = AquariumHintPlacement.frame(tank: tank, visibleFrame: screen, size: CGSize(width: 420, height: 70))
+        XCTAssertEqual(frame.minX, screen.minX)
+        XCTAssertEqual(frame.maxY, screen.maxY)
+    }
+}

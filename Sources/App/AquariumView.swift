@@ -333,7 +333,7 @@ struct AquariumView: View {
                     Button(L10n.text("Keep It")) { store.achievementToast = nil }
                 }.padding(12).pixelPanel(PixelTheme.panel, selected: true)
             }
-        }.padding(.horizontal, 20).padding(.top, PixelTheme.metric(8, 12)).padding(.bottom, PixelTheme.metric(4, 0))
+        }.padding(.horizontal, 20).padding(.top, PixelTheme.metric(8, 12)).padding(.bottom, PixelTheme.metric(10, 0))
             .frame(maxWidth: managementWidth, alignment: .leading).frame(maxWidth: .infinity)
             #if os(macOS)
             .overlay(alignment: .bottom) {
@@ -428,17 +428,7 @@ struct AquariumView: View {
     private var collectionSummary: some View { Text(L10n.text("Species \(store.state.regularDiscoveredCount)/29")).font(PixelTheme.captionFont()) }
     private var tankSummary: some View { Text(L10n.text("Displayed \(store.state.tankIDs.count)/\(store.state.capacity) · Inventory \(store.state.fish.count)")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted) }
 
-    private var tankContent: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 16) {
-                Text(L10n.text("Decorations \(store.state.decorations.count)/\(store.state.capacity) · Medals \(store.state.displayedAchievements.count)"))
-                    .foregroundStyle(PixelTheme.muted)
-                Button(L10n.text("Decorate Aquarium")) { tab = .decor }
-                Spacer(minLength: 0)
-            }
-            tankInventory
-        }
-    }
+    private var tankContent: some View { tankInventory }
 
     private var tankInventory: some View {
         VStack(alignment: .leading, spacing: 16) {

@@ -68,6 +68,7 @@ final class AquariumApplicationDelegate: NSObject, NSApplicationDelegate {
         }
         _ = KeepAwakeController.shared
         aquarium.show()
+        aquarium.presentHint()
         aquarium.startClaudeHooks()
         statusMenu = AquariumStatusMenu(store: store, aquarium: aquarium)
         if ProcessInfo.processInfo.arguments.contains("--test-notification") {
@@ -251,12 +252,13 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         }
     }
 
-    func windowDidMove(_ notification: Notification) { claudeToast.position() }
-    func windowDidResize(_ notification: Notification) { claudeToast.position() }
+    func windowDidMove(_ notification: Notification) { claudeToast.position(); hintToast.position() }
+    func windowDidResize(_ notification: Notification) { claudeToast.position(); hintToast.position() }
     private let store: AquariumStore
     private let scene = AquariumScene()
     private let panel: AquariumPanel
     private var spriteView: AquariumDesktopView
+    private let hintToast = AquariumHintPresenter()
     private var motionObserver: NSObjectProtocol?
     private var renderRecoveryObservers: [NSObjectProtocol] = []
     private var stateObserver: AnyCancellable?
@@ -325,6 +327,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         panel.isMovableByWindowBackground = false
         panel.contentView = spriteView
         claudeToast.attach(to: panel)
+        hintToast.attach(to: panel)
         panel.setFrameAutosaveName("FishtankFloatingAquarium")
         // Restore position, but keep exact integer multiples of the logical pixel canvas.
         panel.setContentSize(size)
@@ -335,8 +338,8 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         spriteView.allowsTransparency = true
         spriteView.autoresizingMask = [.width, .height]
         spriteView.preferredFramesPerSecond = 30
-        spriteView.toolTip = L10n.text("Drag the water surface to move the aquarium, drag scenery to arrange it, click empty water to feed, and right-click to shake and startle fish. Use the menu bar to adjust opacity, size, and always-on-top.")
         spriteView.feed = { [weak self] x in self?.feed(at: x) }
+        spriteView.openGuide = { [weak self] in self?.showManagement() }
         spriteView.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
         scene.setWaterOpacity(CGFloat(waterOpacity))
         spriteView.presentScene(scene)
@@ -354,7 +357,6 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             self.panel.title = L10n.text("Fishtank · Floating Aquarium")
             self.managementWindow?.title = L10n.text("Fishtank · Care Guide")
             self.agentSettingsWindow?.title = L10n.text("Fishtank · Settings")
-            self.spriteView.toolTip = L10n.text("Drag the water surface to move the aquarium, drag scenery to arrange it, click empty water to feed, and right-click to shake and startle fish. Use the menu bar to adjust opacity, size, and always-on-top.")
             self.spriteView.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
             self.scene.refreshLocalizedFont()
             self.claudeToast.refreshLocalization()
@@ -399,18 +401,26 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
                                               name: NSApplication.didChangeScreenParametersNotification, object: nil)
     }
 
+    /// Shows the interaction hint unless the user turned it off.
+    func presentHint() { hintToast.present() }
+
+    /// The menu entry brings the hint back after the user turned it off.
+    func showHintAgain() { hintToast.allowAgain(); hintToast.present() }
+
     func show() {
         store.sound.setSuspended(false)
         store.refresh()
         panel.orderFrontRegardless()
         isVisible = true
         claudeToast.setVisible(true)
+        hintToast.setVisible(true)
         recoverRendering()
     }
 
     func hide() {
         spriteView.cancelDragging()
         claudeToast.setVisible(false)
+        hintToast.setVisible(false)
         panel.orderOut(nil)
         isVisible = false
         updateAnimation()
@@ -425,6 +435,7 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
     }
 
     func showManagement() {
+        hintToast.dismiss()
         if managementWindow == nil {
             // Fit once on creation; moving between displays never resizes the window.
             let visibleHeight = NSScreen.main?.visibleFrame.height ?? 900
@@ -500,11 +511,9 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
         let old = panel.frame
         let size = NSSize(width: 320 * pixelScale, height: 180 * pixelScale)
         panel.setFrame(NSRect(x: old.minX, y: old.maxY - size.height, width: size.width, height: size.height), display: true)
-        if let screen = panel.screen {
-            let area = screen.visibleFrame
-            panel.setFrameOrigin(NSPoint(x: max(area.minX, min(panel.frame.minX, area.maxX - size.width)),
-                                         y: max(area.minY, min(panel.frame.minY, area.maxY - size.height))))
-        }
+        // A new size can overhang the screen it grew on, so the aquarium returns
+        // to its starting corner instead of being clamped at the overhanging edge.
+        moveToCurrentScreen()
     }
 
     private func updateAnimation() {
@@ -553,8 +562,8 @@ final class FloatingAquariumController: NSObject, ObservableObject, NSWindowDele
             let replacement = AquariumDesktopView(frame: spriteView.frame)
             replacement.allowsTransparency = true
             replacement.autoresizingMask = [.width, .height]
-            replacement.toolTip = spriteView.toolTip
             replacement.feed = { [weak self] x in self?.feed(at: x) }
+            replacement.openGuide = { [weak self] in self?.showManagement() }
             replacement.setAccessibilityLabel(L10n.text("Translucent floating pixel aquarium"))
             replacement.presentScene(scene)
             spriteView = replacement
@@ -647,6 +656,7 @@ final class AquariumManagementWindow: NSPanel {
 
 private final class AquariumDesktopView: AquariumRenderView {
     var feed: ((CGFloat) -> Void)?
+    var openGuide: (() -> Void)?
     private var clickAnchor: CGPoint?
     private var didDrag = false
     private var draggingDecoration = false
@@ -661,6 +671,8 @@ private final class AquariumDesktopView: AquariumRenderView {
         let local = convert(event.locationInWindow, from: nil)
         let point = aquarium.convertPoint(fromView: local)
         guard aquarium.containsTankPoint(point) else { return }
+        // The second click opens the care guide; the first one already fed the fish.
+        if event.clickCount >= 2 { openGuide?(); return }
         if aquarium.tapFish(at: point) { return }
         if aquarium.beginDecorationDrag(at: point) {
             draggingDecoration = true
