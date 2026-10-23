@@ -66,6 +66,7 @@
 		40833137496470A2B4516CB9 /* AppIconStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B91E22DEA111C06A1615B6 /* AppIconStore.swift */; };
 		409ECC8A399E91F690C0A229 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 755026CB7C674E4129BC8342 /* OFL.txt */; };
 		4167E018CADB234F3169A8DA /* music-taiwan.wav in Resources */ = {isa = PBXBuildFile; fileRef = 04B7F440165DB2A4F93BE7C2 /* music-taiwan.wav */; };
+		4319AF01C1D1BFB0728E50F5 /* AquariumFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CABB059110B0606AC21BF15 /* AquariumFooter.swift */; };
 		44095B54BD1C9EB4341D24C8 /* select.wav in Resources */ = {isa = PBXBuildFile; fileRef = EEA12903523ACC4239C7DD86 /* select.wav */; };
 		440E211C629820EDFF5B03E8 /* FishtankIcon-crystal.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5AD57DBB9FF2F1EBDF5C05 /* FishtankIcon-crystal.png */; };
 		443F96C67EAF7C3C22EFC5FC /* FishtankIcon-moon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ED965F0BAE946487E7C8B35A /* FishtankIcon-moon.icns */; };
@@ -237,6 +238,7 @@
 		E893BE32A46D8E4E0B74ED53 /* FishtankIcon-goldenseahorse.png in Resources */ = {isa = PBXBuildFile; fileRef = F528E4C7840A42CF03CCE9BB /* FishtankIcon-goldenseahorse.png */; };
 		EDBC3C81A6103C059B37C4D5 /* DecorArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016AF13E416FF420333DAEC3 /* DecorArt.swift */; };
 		EEBF8444E760C430B89A3096 /* FishtankIcon-neoncleaner.icns in Resources */ = {isa = PBXBuildFile; fileRef = 207AC08D6151D8C7BDE7497C /* FishtankIcon-neoncleaner.icns */; };
+		EEFB3C4F242CE03BBAC11970 /* AquariumFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CABB059110B0606AC21BF15 /* AquariumFooter.swift */; };
 		EFEDA9BFD5B47F6AE3D804EE /* FusionPixel-Japanese.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44ED6FFDEA455A4C5B45E8F5 /* FusionPixel-Japanese.otf */; };
 		F046787B4E51F2BB6C04F879 /* FishCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BF8A10A32A6D67E906B64A /* FishCatalog.swift */; };
 		F0C470FDEF7D3D5406B0DFD4 /* AquariumReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C586847E6E40E237F5E08D9 /* AquariumReminder.swift */; };
@@ -344,6 +346,7 @@
 		677857888F7B40087B5A0094 /* FishtankIcon-sapphire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-sapphire.png"; sourceTree = "<group>"; };
 		69802F2B7DC4A6664D22759B /* FishtankIcon-astraljelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-astraljelly.png"; sourceTree = "<group>"; };
 		6AA453697A453F90C98F3F4A /* AgentAlertTone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAlertTone.swift; sourceTree = "<group>"; };
+		6CABB059110B0606AC21BF15 /* AquariumFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumFooter.swift; sourceTree = "<group>"; };
 		6E21A11D8DBD082E9E3C3C10 /* AquariumStatusMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquariumStatusMenu.swift; sourceTree = "<group>"; };
 		6F5A5169DC2CF8D5460AEDD0 /* FishtankIcon-banggai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FishtankIcon-banggai.png"; sourceTree = "<group>"; };
 		6F7A2CC5CCD6CB999C403991 /* AppIconCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconCatalog.swift; sourceTree = "<group>"; };
@@ -682,6 +685,7 @@
 				01E29E5CC8EC604FB0477EAA /* AppIconSettingsView.swift */,
 				42B91E22DEA111C06A1615B6 /* AppIconStore.swift */,
 				868A9D58AAD7521CF5BEC165 /* AppLocalization.swift */,
+				6CABB059110B0606AC21BF15 /* AquariumFooter.swift */,
 				6E21A11D8DBD082E9E3C3C10 /* AquariumStatusMenu.swift */,
 				ECBFD161A9DE7349BB83D887 /* AquariumStore.swift */,
 				7648D61A7456088BB5038C52 /* AquariumView.swift */,
@@ -981,6 +985,7 @@
 				46C835837A6AC1AD3B9E0DE9 /* AquariumBackup.swift in Sources */,
 				489F557FEC58883E5B40CB95 /* AquariumEcology.swift in Sources */,
 				D964CE24670CA2820DBABDA1 /* AquariumExtras.swift in Sources */,
+				4319AF01C1D1BFB0728E50F5 /* AquariumFooter.swift in Sources */,
 				8D199D34CE9B594B72FEBD8A /* AquariumInstallation.swift in Sources */,
 				F0C470FDEF7D3D5406B0DFD4 /* AquariumReminder.swift in Sources */,
 				BE8D4004C107EB8DB641354C /* AquariumRenderWatchdog.swift in Sources */,
@@ -1050,6 +1055,7 @@
 				AE69069A2973D05D98370D89 /* AquariumBackup.swift in Sources */,
 				02F7FD90B07608CDBBE40D68 /* AquariumEcology.swift in Sources */,
 				8D12595A2CFD2EC89D8CC8CB /* AquariumExtras.swift in Sources */,
+				EEFB3C4F242CE03BBAC11970 /* AquariumFooter.swift in Sources */,
 				DC45CAA723A485B153B22C03 /* AquariumInstallation.swift in Sources */,
 				FA163029F1D7CFBAD9A9BC85 /* AquariumReminder.swift in Sources */,
 				018270C9A4A97EDA49D3F22E /* AquariumRenderWatchdog.swift in Sources */,
@@ -1197,7 +1203,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1219,7 +1225,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1323,7 +1329,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2RTHE5H9TX;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1339,7 +1345,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -16,20 +16,19 @@ struct SavedGamePanel: View {
     @ObservedObject private var localization = AppLocalization.shared
     @ObservedObject var store: AquariumStore
     @State private var importing = false
-    @State private var exporting = false
-    @State private var document = AquariumBackupDocument()
     @State private var pending: AquariumState?
     @State private var importSource = ""
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(spacing: 8) { PixelIcon("book", color: PixelTheme.gold); Text(L10n.text("存档与恢复")).foregroundStyle(PixelTheme.gold) }
+            #if os(iOS)
             Text(store.isPreviewOnly ? L10n.text("当前是临时预览，原存档未被覆盖。请从备份恢复，或导入有效文件。") : L10n.text("每 15 秒自动保存；每 5 分钟保留一份上次进度。建议在换设备前导出。"))
                 .font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true)
+            #endif
             HStack {
-                Button(L10n.text("导出 JSON")) {
-                    do { document = try AquariumBackupDocument(data: store.exportBackup()); exporting = true }
-                    catch { store.message = L10n.text("无法导出：") + error.localizedDescription }
-                }.disabled(store.isPreviewOnly)
+                #if os(iOS)
+                BackupExportButton(store: store)
+                #endif
                 Button(L10n.text("导入 JSON")) { importing = true }
             }
             Text(L10n.text("支持本应用备份和原网页版 v1 JSON。导入前先预览，再确认替换；不会合并两个鱼缸。网页版旧昵称、收藏和布局元数据保留在原始快照中。"))
@@ -62,13 +61,7 @@ struct SavedGamePanel: View {
             case .failure(let error): store.message = L10n.text("文件选择未完成：") + error.localizedDescription
             }
         }
-        .fileExporter(isPresented: $exporting, document: document, contentType: .json,
-                      defaultFilename: "Fishtank-\(Date().formatted(.iso8601.year().month().day().dateSeparator(.dash)))") { result in
-            switch result {
-            case .success: store.message = L10n.text("备份已导出。请妥善保留 JSON 文件。")
-            case .failure(let error): store.message = L10n.text("导出未完成：") + error.localizedDescription
-            }
-        }
+
     }
     private var recoveryActions: some View {
         Group {
@@ -87,5 +80,25 @@ struct SavedGamePanel: View {
     private func preview(_ url: URL, title: String) {
         do { pending = try store.previewImport(url); importSource = title }
         catch { pending = nil; store.message = L10n.text("无法读取此备份：") + error.localizedDescription }
+    }
+}
+
+struct BackupExportButton: View {
+    @ObservedObject private var localization = AppLocalization.shared
+    @ObservedObject var store: AquariumStore
+    @State private var exporting = false
+    @State private var document = AquariumBackupDocument()
+    var body: some View {
+        Button(L10n.text("导出 JSON")) {
+            do { document = try AquariumBackupDocument(data: store.exportBackup()); exporting = true }
+            catch { store.message = L10n.text("无法导出：") + error.localizedDescription }
+        }.disabled(store.isPreviewOnly)
+        .fileExporter(isPresented: $exporting, document: document, contentType: .json,
+                      defaultFilename: "Fishtank-\(Date().formatted(.iso8601.year().month().day().dateSeparator(.dash)))") { result in
+            switch result {
+            case .success: store.message = L10n.text("备份已导出。请妥善保留 JSON 文件。")
+            case .failure(let error): store.message = L10n.text("导出未完成：") + error.localizedDescription
+            }
+        }
     }
 }
