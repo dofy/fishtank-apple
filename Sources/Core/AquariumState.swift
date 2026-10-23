@@ -32,6 +32,29 @@ struct MergePreferences: Codable, Equatable {
     var tiers: Set<Int> = [1, 2, 3, 4]
 }
 
+enum MaterialExclusionReason: CaseIterable, Hashable {
+    case locked, starter, fiveStar, notFiveStar, young, hasUses, displayed, tierFilter, searchFilter
+
+    var title: String {
+        switch self {
+        case .locked: return L10n.text("锁定保护")
+        case .starter: return L10n.text("初始鱼")
+        case .fiveStar: return L10n.text("五星需重铸")
+        case .notFiveStar: return L10n.text("非五星")
+        case .young: return L10n.text("未成年")
+        case .hasUses: return L10n.text("尚有繁育次数")
+        case .displayed: return L10n.text("展示中")
+        case .tierFilter: return L10n.text("星级筛选")
+        case .searchFilter: return L10n.text("搜索筛选")
+        }
+    }
+}
+
+struct MaterialExclusionCount: Identifiable {
+    let id: MaterialExclusionReason
+    let count: Int
+}
+
 struct FishOutcome: Equatable {
     var child: AquariumFish
     var novel: Bool
@@ -240,9 +263,35 @@ struct AquariumState: Codable, Equatable {
 
     var mergeCandidates: [AquariumFish] {
         let tank = Set(tankIDs)
-        return fish.filter { (1...4).contains($0.tier) && !$0.locked && mergePreferences.tiers.contains($0.tier)
-            && (!mergePreferences.zeroUsesOnly || $0.uses == 0)
-            && (!mergePreferences.excludeInTank || !tank.contains($0.id)) }
+        return fish.filter { mergeExclusionReason(for: $0, inTank: tank.contains($0.id)) == nil }
+    }
+
+    func mergeExclusionReason(for fish: AquariumFish, inTank: Bool) -> MaterialExclusionReason? {
+        if fish.locked { return .locked }
+        if fish.tier == 0 { return .starter }
+        if fish.tier >= 5 { return .fiveStar }
+        if !mergePreferences.tiers.contains(fish.tier) { return .tierFilter }
+        if mergePreferences.zeroUsesOnly && fish.uses > 0 { return .hasUses }
+        if mergePreferences.excludeInTank && inTank { return .displayed }
+        return nil
+    }
+
+    /// Attribute each excluded fish once, prioritizing protection over filters.
+    /// Candidate lists and this readout share the same eligibility checks.
+    func materialExclusions(reforge: Bool, at now: Date, tierFilter: Int = -1, search: String = "") -> [MaterialExclusionCount] {
+        let tank = Set(tankIDs)
+        var counts: [MaterialExclusionReason: Int] = [:]
+        for item in fish {
+            let reason = reforge
+                ? reforgeExclusionReason(for: item, at: now, inTank: tank.contains(item.id))
+                : mergeExclusionReason(for: item, inTank: tank.contains(item.id))
+            if let reason { counts[reason, default: 0] += 1 }
+            else if tierFilter >= 0 && item.tier != tierFilter { counts[.tierFilter, default: 0] += 1 }
+            else if !search.isEmpty && !item.name.localizedCaseInsensitiveContains(search) { counts[.searchFilter, default: 0] += 1 }
+        }
+        return MaterialExclusionReason.allCases.compactMap { reason in
+            counts[reason].map { MaterialExclusionCount(id: reason, count: $0) }
+        }
     }
 
     func recommendedPair(at now: Date) -> [UUID] {

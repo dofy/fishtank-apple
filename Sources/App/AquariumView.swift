@@ -616,6 +616,7 @@ struct AquariumView: View {
                 }
                 VStack(alignment: .leading, spacing: 8) { mergeMaterialHeading; mergeSelectionTools }
             }
+            materialExclusionSummary
             fishGrid(visibleFish)
         }
     }
@@ -633,6 +634,7 @@ struct AquariumView: View {
                 HStack { mergeMaterialHeading; Spacer(minLength: 12); reforgeSelectionTools }
                 VStack(alignment: .leading, spacing: 8) { mergeMaterialHeading; reforgeSelectionTools }
             }
+            materialExclusionSummary
             if visibleFish.isEmpty {
                 Text(L10n.text("没有可重铸材料。先用完五星生物的繁育次数；展示中或已锁定的生物不会被选中。"))
                     .foregroundStyle(PixelTheme.muted).fixedSize(horizontal: false, vertical: true).padding(.vertical, 20)
@@ -697,6 +699,28 @@ struct AquariumView: View {
             Text(L10n.text("选择材料")).foregroundStyle(gold)
             Text(L10n.text("可选 \(visibleFish.count) 条")).foregroundStyle(PixelTheme.muted)
         }.fixedSize(horizontal: true, vertical: false)
+    }
+
+    @ViewBuilder private var materialExclusionSummary: some View {
+        let exclusions = store.state.materialExclusions(reforge: reforgeMode, at: store.now, tierFilter: tierFilter, search: search)
+        if !exclusions.isEmpty {
+            MaterialReasonLayout(spacing: 6) {
+                Text(L10n.text("已排除 \(exclusions.reduce(0) { $0 + $1.count }) 条"))
+                    .foregroundStyle(PixelTheme.muted).padding(.trailing, 4).padding(.vertical, 4)
+                ForEach(exclusions) { item in
+                    HStack(spacing: 6) {
+                        if item.id == .locked { PixelIcon("lock", color: gold).frame(width: 12, height: 12) }
+                        Text(item.id.title)
+                        Text("\(item.count)")
+                    }.foregroundStyle(item.id == .locked ? gold : PixelTheme.muted)
+                        .padding(.horizontal, 8).padding(.vertical, 4)
+                        .background(PixelOutline(cut: 3).fill(PixelTheme.ink.opacity(0.55)))
+                        .accessibilityElement(children: .combine)
+                }
+            }.font(PixelTheme.captionFont())
+                .help(L10n.text("每条鱼仅计入一个原因；锁定保护请在“鱼群”中解除。"))
+                .accessibilityIdentifier("merge.exclusions")
+        }
     }
 
     private var mergeSelectionTools: some View {
@@ -922,19 +946,19 @@ struct AquariumView: View {
                     Text(L10n.text("\(fish.tier == 0 ? L10n.text("初始鱼") : String(repeating: "★", count: fish.tier)) · 品阶 \(fish.grade)"))
                         .font(PixelTheme.captionFont()).foregroundStyle(gold)
                     breedingHearts(fish)
-                    Text(status(fish)).font(PixelTheme.captionFont()).foregroundStyle(fish.canBreed(at: store.now) ? PixelTheme.green : PixelTheme.muted)
-                        .lineLimit(1)
+                    fishStatus(fish)
                 }
                     // Match the overlaid action row, leaving an eight-point gap after the status.
                     .padding(.bottom, tab == .tank ? actionHeight + 8 : 0)
                     .padding(cardPadding).frame(maxWidth: .infinity, alignment: .leading)
                     .pixelCard(displayed: tab == .tank && inTank, selected: isSelected)
-                    .overlay(alignment: .topLeading) { if isSelected { PixelIcon("check", color: gold).padding(8) } }
                     .contentShape(Rectangle())
             }.buttonStyle(.plain).disabled(tab == .breed && !fish.canBreed(at: store.now))
                 .accessibilityIdentifier("fish.card." + fish.id.uuidString)
                 .accessibilityLabel(L10n.text("\(tab == .tank ? (inTank ? L10n.text("收回") : L10n.text("放入")) : (isSelected ? L10n.text("取消选择") : L10n.text("选择")))\(fish.name)，\(fish.tier) 星，品阶 \(fish.grade)"))
                 .accessibilityValue(tab == .tank ? (inTank ? L10n.text("展示中") : L10n.text("未展示")) : (isSelected ? L10n.text("已选择") : L10n.text("未选择")))
+                .accessibilityHint(status(fish))
+                .help(tab == .breed && fish.locked ? L10n.text("锁定保护不影响繁育；请在“鱼群”中解锁。") : status(fish))
             if tab == .tank {
                 HStack(spacing: 8) {
                     Spacer(minLength: 0)
@@ -945,7 +969,44 @@ struct AquariumView: View {
                     }
                 }.buttonStyle(PixelButtonStyle(compact: true)).padding(cardPadding)
             }
+        }.overlay(alignment: .topLeading) {
+            HStack(spacing: 6) {
+                if tab == .breed && fish.locked { lockedBadge }
+                if isSelected { PixelIcon("check", color: gold) }
+            }.padding(8).allowsHitTesting(false)
         }.overlay(alignment: .topTrailing) { if inTank { displayedBadge.padding(8).allowsHitTesting(false) } }
+    }
+
+    private var lockedBadge: some View {
+        PixelIcon("lock", color: PixelTheme.ink).frame(width: 16, height: 16).padding(4)
+            .background(PixelOutline(cut: 3).fill(gold))
+            .overlay(PixelOutline(cut: 3).stroke(PixelTheme.ink, lineWidth: 1))
+            .accessibilityLabel(L10n.text("锁定保护"))
+            .help(L10n.text("锁定保护不影响繁育；请在“鱼群”中解锁。"))
+            .accessibilityIdentifier("fish.locked")
+    }
+
+    @ViewBuilder private func fishStatus(_ fish: AquariumFish) -> some View {
+        Group {
+            if let deadline = fish.maturesAt, deadline > store.now {
+                let color = fish.expBanked ? Color(hex: 0xB9A0E8) : PixelTheme.gold
+                HStack(spacing: 6) {
+                    Text(fish.expBanked ? L10n.text("冷却中") : L10n.text("未成年"))
+                        .foregroundStyle(PixelTheme.ink).fixedSize(horizontal: true, vertical: false)
+                        .padding(.horizontal, 6).padding(.vertical, 3)
+                        .background(PixelOutline(cut: 3).fill(color))
+                        .overlay(PixelOutline(cut: 3).stroke(PixelTheme.ink, lineWidth: 1).allowsHitTesting(false))
+                    Spacer(minLength: 0)
+                    Text(countdown(deadline)).foregroundStyle(color).fixedSize(horizontal: true, vertical: false)
+                }
+            } else {
+                Text(status(fish))
+                    .foregroundStyle(fish.canBreed(at: store.now) ? PixelTheme.green : PixelTheme.muted)
+                    .lineLimit(1).frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }.font(PixelTheme.captionFont()).frame(height: PixelTheme.metric(24, 30))
+            .accessibilityElement(children: .ignore).accessibilityLabel(status(fish))
+            .accessibilityIdentifier("fish.status")
     }
 
     private var displayedBadge: some View {
@@ -1406,6 +1467,40 @@ private extension AquariumView {
             Button("+") { var config = store.state.audio; config[keyPath: key] = min(1, config[keyPath: key] + 0.1); store.setAudio(config) }
                 .accessibilityLabel(L10n.text("提高\(title)"))
         }.buttonStyle(PixelButtonStyle(compact: true, fixedWidth: 48))
+    }
+}
+
+/// Keep each reason and count together while allowing translated chips to wrap.
+private struct MaterialReasonLayout: Layout {
+    var spacing: CGFloat
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        arrangement(width: proposal.width, subviews: subviews).size
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let layout = arrangement(width: bounds.width, subviews: subviews)
+        for index in subviews.indices {
+            let rect = layout.frames[index]
+            subviews[index].place(at: CGPoint(x: bounds.minX + rect.minX, y: bounds.minY + rect.minY),
+                                  anchor: .topLeading, proposal: ProposedViewSize(rect.size))
+        }
+    }
+
+    private func arrangement(width: CGFloat?, subviews: Subviews) -> (size: CGSize, frames: [CGRect]) {
+        let limit = width.flatMap { $0.isFinite ? max(0, $0) : nil } ?? .greatestFiniteMagnitude
+        var frames: [CGRect] = []
+        var x: CGFloat = 0, y: CGFloat = 0, rowHeight: CGFloat = 0, right: CGFloat = 0
+        for item in subviews {
+            let size = item.sizeThatFits(ProposedViewSize(width: limit, height: nil))
+            if x > 0 && x + size.width > limit {
+                x = 0; y += rowHeight + spacing; rowHeight = 0
+            }
+            frames.append(CGRect(origin: CGPoint(x: x, y: y), size: size))
+            right = max(right, x + size.width)
+            x += size.width + spacing; rowHeight = max(rowHeight, size.height)
+        }
+        return (CGSize(width: min(limit, right), height: y + rowHeight), frames)
     }
 }
 

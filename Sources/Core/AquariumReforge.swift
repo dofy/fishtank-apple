@@ -32,7 +32,16 @@ extension AquariumState {
 
     func reforgeCandidates(at now: Date) -> [AquariumFish] {
         let displayed = Set(tankIDs)
-        return fish.filter { $0.tier == 5 && $0.uses == 0 && !$0.locked && !displayed.contains($0.id) && $0.isAdult(at: now) }
+        return fish.filter { reforgeExclusionReason(for: $0, at: now, inTank: displayed.contains($0.id)) == nil }
+    }
+
+    func reforgeExclusionReason(for fish: AquariumFish, at now: Date, inTank: Bool) -> MaterialExclusionReason? {
+        if fish.locked { return .locked }
+        if fish.tier != 5 { return .notFiveStar }
+        if !fish.isAdult(at: now) { return .young }
+        if fish.uses > 0 { return .hasUses }
+        if inTank { return .displayed }
+        return nil
     }
 
     func autoReforgeSelection(at now: Date) -> [UUID] {
