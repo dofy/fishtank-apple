@@ -22,9 +22,9 @@ The source is available now, while official installation channels for Mac and iP
 
 ## Start with a few little fish, grow an ocean
 
-Collect **30 fish species**, breeding your first tiny swimmers into rare discoveries. Every pairing can reveal a new color, a new look, or even a fish you have never seen before.
+Collect **30 regular species**, from your first little fish to five-star koi, jellyfish, seadragons, and cuttlefish. Every pairing can reveal a new color, a new look, or even a creature you have never seen before.
 
-- Watch young fish grow, choose the next pairing, and add each discovery to your collection.
+- Watch young fish grow, choose the next pairing, and add each discovery to your collection. Clear labels show which fish are growing, cooling down, or ready to breed.
 - Synthesize fish to advance, expand the tank, and lock the fish you want to keep.
 - Earn achievement medals and display your favorites on the aquarium.
 - Progress saves automatically, so even a little time away can bring a surprise when you return.
@@ -43,7 +43,9 @@ When five-star creatures have used up their breeding chances, combine three thro
 
 **Click an empty spot to feed the fish**, and food drops from the matching point on your screen. **Double-click to open the care guide**, and **right-click to shake the aquarium**: a soft sound plays and every fish darts away for 3–5 seconds. You can also tap a fish to see how different species respond.
 
-Build your underwater corner with **18 decorations**, including seagrass, coral, and a treasure chest, then add day-and-night lighting and gentle music. Look closely and you may spot fish chasing food, swimming in groups, seahorses resting, or little swimmers passing through an arch.
+Every creature has its own rhythm: fish sometimes rest or gather in schools, turtles paddle their flippers, jellyfish pulse through the water, and cuttlefish drift forward, swim backward, or pause to hover. Turns, starts, and stops flow gently from one movement to the next.
+
+Build your underwater corner with **18 decorations**, including seagrass, coral, and a treasure chest, then add day-and-night lighting and gentle music. Look closely and you may spot fish chasing food, seahorses lingering by the seagrass, or little swimmers passing through an arch.
 
 Choose from six gentle soundtracks, including Japanese garden, Taiwan nostalgia, and moonlight jazz.
 
