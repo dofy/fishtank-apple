@@ -18,7 +18,7 @@ final class BreedRecommendationTests: XCTestCase {
         var s = complete(high + low); s.discovered.remove("prismkoi")
         let r = s.breedRecommendation(at: now)
         XCTAssertEqual(Set(r.parentIDs), Set(high.map(\.id)))
-        XCTAssertEqual(r.newSpeciesProbability, 0.55 / 3, accuracy: 1e-12)
+        XCTAssertEqual(r.newSpeciesProbability, 0.55 / 4, accuracy: 1e-12)
         s.discovered.insert("prismkoi"); s.discovered.remove("copperband")
         let l = s.breedRecommendation(at: now)
         XCTAssertEqual(Set(l.parentIDs), Set(low.map(\.id)))
@@ -37,7 +37,7 @@ final class BreedRecommendationTests: XCTestCase {
         s.discovered.remove("prismkoi")
         s.discoveredVariants = s.discoveredVariants.filter { !$0.hasPrefix("copperband:") }
         XCTAssertEqual(s.breedRecommendation(at: now).reason,.newSpecies)
-        XCTAssertEqual(s.breedRecommendation(at: now).newSpeciesProbability,0.55/3,accuracy:1e-12)
+        XCTAssertEqual(s.breedRecommendation(at: now).newSpeciesProbability,0.55/4,accuracy:1e-12)
     }
     func testFallbacksEligibilityAndManualLock() throws {
         var s = complete([parent("goldfin"),parent("greyminnow")])

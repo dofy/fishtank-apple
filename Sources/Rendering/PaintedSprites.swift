@@ -68,7 +68,7 @@ enum PaintedSprites {
         return image(pixels, width: 24, height: 32)
     }
 
-    static func fish(_ species: FishSpecies, grade: Int, frame: Int, puffLevel: Int) -> CGImage? {
+    static func fish(_ species: FishSpecies, grade: Int, frame: Int, puffLevel: Int, jetLevel: Int = 0) -> CGImage? {
         let w = 64, h = 48
         guard let pixels = base(species.id, width: w, height: h) else { return nil }
         let count = PixelArt.animationFrameCount(for: species)
@@ -79,6 +79,18 @@ enum PaintedSprites {
             var sx = Double(x), sy = Double(y)
             let tail = max(0, (40 - sx) / 40)
             switch species.form {
+            case "cuttlefish":
+                // Broad mantle stays firm; a traveling ripple drives the skirt fins.
+                let jet = Double(max(0, min(3, jetLevel))) / 3
+                let fin = max(0, min(1, (abs(sy - 24) - 7) / 6)) * max(0, min(1, (43 - sx) / 9))
+                sy = 24 + (sy - 24) * (1 + jet * fin * 0.3)
+                sy -= sin(phase * 2 - sx * 0.35) * fin * 2.2 * (1 - jet * 0.8)
+                let arms = max(0, min(1, (sx - 43) / 16))
+                // Streamline the trailing arms during a jet; retain their small
+                // delayed flutter instead of spreading them like paddling fins.
+                sy = 24 + (sy - 24) / (1 - jet * arms * 0.65)
+                sy -= sin(phase - arms * 2.6) * arms * 2.6 * (1 - jet * 0.8)
+                sx -= cos(phase - arms) * arms * 1.5 * (1 - jet * 0.8)
             case "seaangel":
                 // Paired parapodia flap around the spindle, keeping head and organs still.
                 let wing = max(0, min(1, (abs(sx - 32) - 6) / 18))

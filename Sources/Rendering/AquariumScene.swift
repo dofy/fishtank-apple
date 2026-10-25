@@ -4,6 +4,7 @@ import SwiftUI
 final class AquariumScene: SKScene {
     private var fishNodes: [UUID: SKSpriteNode] = [:]
     private var foodNodes: [Int: SKSpriteNode] = [:]
+    private var inkNodes: [Int: SKSpriteNode] = [:]
     private var ecology = AquariumEcology()
     private var currentFish: [AquariumFish] = []
     private var currentDecor: [PlacedDecoration] = []
@@ -17,6 +18,7 @@ final class AquariumScene: SKScene {
     private var backdropTime = 0.0
     private let lampRoot = SKNode()
     private let electricRoot = SKNode()
+    private let inkRoot = SKNode()
     private var bubbles: [SKSpriteNode] = []
     var reducedMotion = false
     var effect: ((String) -> Void)?
@@ -89,6 +91,7 @@ final class AquariumScene: SKScene {
         renderBackdrop()
         lampRoot.zPosition = 3; tankRoot.addChild(lampRoot)
         electricRoot.zPosition = 8; tankRoot.addChild(electricRoot)
+        inkRoot.zPosition = 7; tankRoot.addChild(inkRoot)
         for lamp in 0..<3 {
             let x = CGFloat(65 + lamp * 95)
             let housing = SKSpriteNode(color: color(0x173449), size: CGSize(width: 14, height: 5))
@@ -225,7 +228,7 @@ final class AquariumScene: SKScene {
         renderBackdrop()
         renderSwimmers()
         bubbles.forEach { $0.speed = reducedMotion ? 0 : 1 }
-        for event in Set(ecology.events) { effect?(event) }
+        for event in Set(ecology.events) where event != "ink" { effect?(event) }
         for (index, node) in railNodes.enumerated() {
             node.alpha = railLights.brightness(time: ecology.time, index: index, reducedMotion: reducedMotion)
         }
@@ -234,6 +237,16 @@ final class AquariumScene: SKScene {
     }
 
     private func renderSwimmers() {
+        let clouds = Set(ecology.inkClouds.map(\.id))
+        for id in Array(inkNodes.keys) where !clouds.contains(id) { inkNodes.removeValue(forKey: id)?.removeFromParent() }
+        for cloud in ecology.inkClouds {
+            let node = inkNodes[cloud.id] ?? SKSpriteNode(texture: PixelArt.inkCloudTexture())
+            if node.parent == nil { inkRoot.addChild(node); inkNodes[cloud.id] = node }
+            node.name = "ink-\(cloud.id)"
+            node.position = CGPoint(x: cloud.x.rounded(), y: cloud.y.rounded())
+            node.size = CGSize(width: cloud.width, height: cloud.width * 0.75)
+            node.xScale = cloud.direction; node.alpha = cloud.alpha
+        }
         electricRoot.removeAllChildren()
         for a in ecology.swimmers.values where a.discharging > 0 || a.shocked > 0 {
             // Stepped electric bolts remain legible in both the desktop tank and iPad.
@@ -288,7 +301,8 @@ final class AquariumScene: SKScene {
             }
             node.position = CGPoint(x: a.x, y: a.y)
             let frame = reducedMotion || a.shocked > 0 ? 0 : PixelArt.animationFrame(for: a.fish.species, time: a.motionTime)
-            node.texture = PixelArt.texture(fish: a.fish, frame: frame, puffLevel: Int((a.puffAmount * 3).rounded()))
+            node.texture = PixelArt.texture(fish: a.fish, frame: frame, puffLevel: Int((a.puffAmount * 3).rounded()),
+                                           jetLevel: Int((a.inkJetAmount * 3).rounded()))
             let facing = a.fish.species.swimProfile.family == .jellyfish ? 1 : a.facing
             node.xScale = facing * a.individuality.size
             node.yScale = a.individuality.size * (a.resting > 0 && !reducedMotion ? 1 + sin(a.age * 1.7) * 0.012 : 1)

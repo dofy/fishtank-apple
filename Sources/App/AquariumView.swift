@@ -425,7 +425,7 @@ struct AquariumView: View {
             .accessibilityLabel(L10n.text("\(store.state.hearts) of 5 breeding hearts remaining"))
             .accessibilityIdentifier("aquarium.hearts")
     }
-    private var collectionSummary: some View { Text(L10n.text("Species \(store.state.regularDiscoveredCount)/29")).font(PixelTheme.captionFont()) }
+    private var collectionSummary: some View { Text(L10n.text("Species \(store.state.regularDiscoveredCount)/\(FishCatalog.regular.count)")).font(PixelTheme.captionFont()) }
     private var tankSummary: some View { Text(L10n.text("Displayed \(store.state.tankIDs.count)/\(store.state.capacity) · Inventory \(store.state.fish.count)")).font(PixelTheme.captionFont()).foregroundStyle(PixelTheme.muted) }
 
     /// Every tab opens with the settings window's title style and keeps its own
@@ -1058,7 +1058,7 @@ struct AquariumView: View {
     private var bookContent: some View {
         VStack(alignment: .leading, spacing: 16) {
             #if os(iOS)
-            Text(L10n.text("Discovered \(store.state.regularDiscoveredCount)/29 species · Grade variants \(store.state.regularVariantCount)/\(FishCatalog.regular.reduce(0) { $0 + ($1.tier == 0 ? 1 : 5) }). Releasing or synthesizing fish will not erase collection records."))
+            Text(L10n.text("Discovered \(store.state.regularDiscoveredCount)/\(FishCatalog.regular.count) species · Grade variants \(store.state.regularVariantCount)/\(FishCatalog.regular.reduce(0) { $0 + ($1.tier == 0 ? 1 : 5) }). Releasing or synthesizing fish will not erase collection records."))
                 .font(PixelTheme.font()).foregroundStyle(PixelTheme.muted)
             #endif
             if store.state.hiddenDiscoveredCount > 0 {
@@ -1221,7 +1221,7 @@ private extension AquariumView {
     var collectionContent: some View {
         VStack(alignment: .leading, spacing: 18) {
             pageHeading(showingMedals ? L10n.text("Every encounter is worth remembering.") : L10n.text("Ocean Catalog")) {
-                Button(PixelTheme.isPad ? L10n.text("Species \(store.state.regularDiscoveredCount)/29") : L10n.text("Species")) { showingMedals = false }
+                Button(PixelTheme.isPad ? L10n.text("Species \(store.state.regularDiscoveredCount)/\(FishCatalog.regular.count)") : L10n.text("Species")) { showingMedals = false }
                     .buttonStyle(PixelButtonStyle(primary: !showingMedals))
                 Button(PixelTheme.isPad ? L10n.text("Medals \(store.state.earnedAchievements.count)/\(AchievementCatalog.all.count)") : L10n.text("Medals")) { showingMedals = true }
                     .buttonStyle(PixelButtonStyle(primary: showingMedals))

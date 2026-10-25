@@ -6,6 +6,7 @@ struct AquariumEcology {
     private static let minimumZapCooldown = 300.0
     private static let zapCooldownSpread = 180.0
     private static let automaticZapRate = 0.005
+    enum CuttlefishGait { case forward, backward, hover }
 
     struct Swimmer {
         var fish: AquariumFish
@@ -18,6 +19,11 @@ struct AquariumEcology {
         var shocked = 0.0
         var discharging = 0.0
         var zapCooldown = AquariumEcology.minimumZapCooldown
+        var inkCooldown = 0.0
+        var inkJet = 0.0
+        var inkJetDirection = -1.0
+        var cuttlefishGait = CuttlefishGait.forward
+        var cuttlefishGaitIn = 4.0
         var eatCooldown = 0.0
         var withdrawal: Double?
         var withdrawalDuration = 0.55
@@ -55,8 +61,9 @@ struct AquariumEcology {
             facing = cos(heading)
         }
         var alpha: Double { withdrawal.map { max(0, $0 / withdrawalDuration) } ?? 1 }
-        var available: Bool { withdrawal == nil && !dropping && scared <= 0 && shocked <= 0 && discharging <= 0 && resting <= 0 }
+        var available: Bool { withdrawal == nil && !dropping && scared <= 0 && shocked <= 0 && discharging <= 0 && resting <= 0 && inkJet <= 0 }
         var puffAmount: Double { puff <= 0 ? 0 : min(1, min((1.8 - puff) / 0.12, puff / 0.6)) }
+        var inkJetAmount: Double { inkJet <= 0 ? 0 : max(0, min(1, min((AquariumInk.escapeDuration - inkJet) / 0.12, inkJet / 0.45))) }
     }
     struct Food: Identifiable {
         var id: Int
@@ -68,10 +75,13 @@ struct AquariumEcology {
     }
     private(set) var swimmers: [UUID: Swimmer] = [:]
     private(set) var foods: [Food] = []
+    private(set) var inkClouds: [AquariumInk.Cloud] = []
     private(set) var lampColors = [1, 4, 1]
     private(set) var time = 0.0
     private var random: FishRandom
     private var foodID = 0
+    private var inkID = 0
+    private var inkReadyAt: [UUID: Double] = [:]
     private var planktonIn = 14.0
     private var hasPopulated = false
     private var decorations: [PlacedDecoration] = []
@@ -97,6 +107,7 @@ struct AquariumEcology {
             swimmers[id] = swimmer
         }
         for index in foods.indices { foods[index].y = project(foods[index].y) }
+        for index in inkClouds.indices { inkClouds[index].y = project(inkClouds[index].y) }
         height = nextHeight
     }
 
@@ -121,10 +132,12 @@ struct AquariumEcology {
                     direction: index % 2 == 0 ? 1 : -1, zapCooldown: Self.minimumZapCooldown + random.next() * Self.zapCooldownSpread,
                     baseY: y, dropping: dropping, individuality: individuality)
                 swimmer.motionTime = individuality.phase
+                swimmer.inkCooldown = max(0, (inkReadyAt[fish.id] ?? time) - time)
                 swimmer.facing = swimmer.direction
                 swimmer.heading = swimmer.direction > 0 ? 0 : .pi
                 swimmer.restIn = profile.restEvery * (0.55 + individuality.pace * 0.45)
                 swimmer.turnIn = 12 + individuality.phase * 3
+                swimmer.cuttlefishGaitIn = 3 + individuality.phase * 0.7
                 swimmers[fish.id] = swimmer
             }
         }
@@ -158,6 +171,7 @@ struct AquariumEcology {
             interrupt(id)
             swimmers.removeValue(forKey: id)
         }
+        inkReadyAt = inkReadyAt.filter { inventory.contains($0.key) }
     }
 
     @discardableResult
@@ -190,6 +204,7 @@ struct AquariumEcology {
             a.direction = a.x < 65 ? 1 : a.x > 255 ? -1 : random.next() < 0.5 ? -1 : 1
             a.zapCooldown = max(a.zapCooldown, 6)
             swimmers[id] = a
+            releaseInk(id, trigger: .shake)
         }
     }
 
@@ -213,6 +228,7 @@ struct AquariumEcology {
         for other in Array(swimmers.keys) where other != id && swimmers[other]?.withdrawal == nil && swimmers[other]?.dropping == false {
             interrupt(other)
             swimmers[other]?.shocked = 3; swimmers[other]?.scared = 0; swimmers[other]?.puff = 0
+            releaseInk(other, trigger: .shock)
         }
         if night {
             let index = random.int(3)
@@ -220,10 +236,44 @@ struct AquariumEcology {
         }
     }
 
+    @discardableResult private mutating func releaseInk(_ id: UUID, trigger: AquariumInk.Trigger, elapsed: Double = 0.1) -> Bool {
+        guard !reducedMotion, let current = swimmers[id], current.fish.species.spraysInk,
+              current.withdrawal == nil, !current.dropping, current.inkCooldown <= 0,
+              random.next() < AquariumInk.probability(trigger, elapsed: elapsed) else { return false }
+        interrupt(id)
+        guard var a = swimmers[id] else { return false }
+        let facing = a.facing >= 0 ? 1.0 : -1.0
+        a.inkCooldown = AquariumInk.minimumCooldown + random.next() * AquariumInk.cooldownSpread
+        inkReadyAt[id] = time + a.inkCooldown
+        a.inkJet = AquariumInk.escapeDuration
+        // Mantle leads the escape. Preserve the current facing hemisphere even
+        // near the glass; braking must never turn an ink jet into a head-first dash.
+        a.inkJetDirection = -facing
+        a.direction = facing
+        a.scared = 0
+        a.resting = 0; a.restIn = max(a.restIn, 10)
+        swimmers[id] = a
+        inkID += 1
+        inkClouds.append(.init(id: inkID, sourceID: id, x: a.x + facing * 9, y: a.y - 3, direction: facing))
+        if inkClouds.count > AquariumInk.maximumClouds { inkClouds.removeFirst(inkClouds.count - AquariumInk.maximumClouds) }
+        events.append("ink")
+        return true
+    }
+
     mutating func update(_ elapsed: Double) {
         guard elapsed.isFinite, elapsed > 0 else { return }
         let dt = min(elapsed, 0.1) // No catch-up animation burst after waking from sleep.
         time += dt; events = []
+        inkReadyAt = inkReadyAt.filter { $0.value > time }
+        if reducedMotion { inkClouds.removeAll() }
+        else {
+            for index in inkClouds.indices {
+                inkClouds[index].age += dt
+                inkClouds[index].x = min(305, max(15, inkClouds[index].x + inkClouds[index].direction * 4 * dt))
+                inkClouds[index].y = min(height - 16, max(24, inkClouds[index].y + dt))
+            }
+            inkClouds.removeAll { $0.age >= AquariumInk.cloudLifetime }
+        }
         for id in Array(swimmers.keys) {
             guard var a = swimmers[id] else { continue }
             if let remaining = a.withdrawal {
@@ -236,7 +286,8 @@ struct AquariumEcology {
             a.age += dt
             let profile = a.fish.species.swimProfile
             if !reducedMotion {
-                let targetRate = a.resting > 0 ? 0.14 : a.scared > 0 ? 2.4 : 1.0
+                let hovering = profile.family == .cuttlefish && a.cuttlefishGait == .hover && a.inkJet <= 0 && a.scared <= 0
+                let targetRate = a.resting > 0 ? 0.14 : a.inkJet > 0 ? 1.8 : a.scared > 0 ? 2.4 : hovering ? 0.65 : 1.0
                 a.motionRate += (targetRate - a.motionRate) * (1 - exp(-dt / profile.accelerationTime))
                 a.motionTime += dt * profile.tempo * a.individuality.pace * a.motionRate
             }
@@ -245,6 +296,14 @@ struct AquariumEcology {
             a.scared = max(0, a.scared - dt); a.shocked = max(0, a.shocked - dt)
             a.puff = reducedMotion ? 0 : max(0, a.puff - dt)
             a.discharging = max(0, a.discharging - dt); a.zapCooldown = max(0, a.zapCooldown - dt)
+            a.inkCooldown = max(0, a.inkCooldown - dt)
+            let wasJetting = a.inkJet > 0
+            if reducedMotion { a.inkJet = 0 }
+            else if a.shocked <= 0 { a.inkJet = max(0, a.inkJet - dt) }
+            if wasJetting && a.inkJet <= 0 && !reducedMotion {
+                a.cuttlefishGait = .hover; a.cuttlefishGaitIn = 2.5 + random.next() * 2
+                a.restX = a.x; a.restY = a.y; a.scared = 0; a.turnIn = max(a.turnIn, 3)
+            }
             a.eatCooldown = max(0, a.eatCooldown - dt); a.sceneryCooldown = max(0, a.sceneryCooldown - dt)
             if reducedMotion { a.school = nil; a.visit = nil; a.resting = 0; a.dropping = false; a.y = a.baseY; a.pitch = 0; a.facing = a.direction; a.heading = a.direction > 0 ? 0 : .pi; a.velocityX = 0; a.velocityY = 0 }
             swimmers[id] = a
@@ -262,7 +321,12 @@ struct AquariumEcology {
             if a.fish.species.electric && a.available && a.zapCooldown <= 0 && activeCount > 1 && random.next() < dt * Self.automaticZapRate {
                 discharge(id); events.append("zap"); a = swimmers[id]!
             }
+            if a.fish.species.spraysInk && a.available {
+                if releaseInk(id, trigger: .spontaneous, elapsed: dt) { a = swimmers[id]! }
+            }
             let profile = a.fish.species.swimProfile
+            let cuttlefish = profile.family == .cuttlefish
+            if cuttlefish { updateCuttlefishGait(&a, dt: dt) }
             if a.turnIn <= 0 && a.available && a.school == nil && a.visit == nil {
                 a.turnIn = 15 + random.next() * 24
                 if random.next() < 0.32 { a.direction *= -1 }
@@ -270,10 +334,13 @@ struct AquariumEcology {
             }
             // Start braking before the glass rather than hitting it at full speed.
             let margin = min(35, 5 + abs(a.velocityX) * profile.accelerationTime * 1.8)
-            if a.x < 23 + margin && a.direction < 0 { a.direction = 1 }
-            if a.x > 297 - margin && a.direction > 0 { a.direction = -1 }
+            if !cuttlefish || (a.inkJet <= 0 && a.scared > 0) {
+                if a.x < 23 + margin && a.direction < 0 { a.direction = 1 }
+                if a.x > 297 - margin && a.direction > 0 { a.direction = -1 }
+            }
             var (targetX, targetY, speed) = cruise(for: a)
             var arriving = false
+            var faceTarget = !cuttlefish
             if a.dropping {
                 a.y -= 70 * dt
                 if a.y <= a.baseY { a.y = a.baseY; a.dropping = false }
@@ -283,9 +350,18 @@ struct AquariumEcology {
                 a.school = nil; a.visit = nil; a.resting = 0; a.sceneryCooldown = 10
                 a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.y + sin(time * 24) * dt * 2)); swimmers[id] = a; continue
             }
-            if a.scared > 0 {
+            if a.inkJet > 0 {
+                a.direction = -a.inkJetDirection
+                targetX = a.x + a.inkJetDirection * 30; targetY = a.y + 2
+                let room = a.inkJetDirection < 0 ? a.x - 23 : 297 - a.x
+                speed = min(48 * min(1, a.inkJet / 0.6), max(0, room) / 0.55)
+                a.school = nil; a.visit = nil; a.resting = 0
+            } else if a.scared > 0 {
+                if cuttlefish { targetX = a.x + a.direction * 30; faceTarget = true }
                 speed = 85 * min(1, a.scared * 2); a.school = nil; a.visit = nil; a.resting = 0; a.sceneryCooldown = 10
             } else if a.eatCooldown <= 0, let food = closestFood(to: a) {
+                faceTarget = true
+                if cuttlefish { a.cuttlefishGaitIn = min(a.cuttlefishGaitIn, 1); a.restX = a.x; a.restY = a.y }
                 a.school = nil; a.visit = nil; a.sceneryCooldown = 10
                 a.resting = 0; a.restIn = max(a.restIn, 8)
                 arriving = true
@@ -350,15 +426,15 @@ struct AquariumEcology {
                     let arrivalSpeed = arriving ? min(speed, distance / max(0.2, profile.accelerationTime * 2)) : speed
                     desiredX = dx / distance * arrivalSpeed
                     desiredY = dy / distance * arrivalSpeed
-                    if abs(dx) > 1.5 { a.direction = dx > 0 ? 1 : -1 }
+                    if abs(dx) > 1.5 && faceTarget && a.inkJet <= 0 { a.direction = dx > 0 ? 1 : -1 }
                 }
             }
             let slowing = hypot(desiredX, desiredY) < hypot(a.velocityX, a.velocityY)
             let response = slowing ? profile.stoppingTime : profile.accelerationTime
             a.easeVelocity(x: desiredX, y: desiredY, response: response, dt: dt)
             a.x += a.velocityX * dt; a.y += a.velocityY * dt
-            if a.x < 23 { a.x = 23; a.direction = 1; a.velocityX = max(0, a.velocityX) }
-            if a.x > 297 { a.x = 297; a.direction = -1; a.velocityX = min(0, a.velocityX) }
+            if a.x < 23 { a.x = 23; if !cuttlefish { a.direction = 1 }; a.velocityX = max(0, a.velocityX) }
+            if a.x > 297 { a.x = 297; if !cuttlefish { a.direction = -1 }; a.velocityX = min(0, a.velocityX) }
             a.y = max(AquariumFloor.height(at: a.x) + 12, min(height - 29, a.y))
             let desiredPitch = profile.family == .seahorse ? sin(a.motionTime * 2 * .pi / 2.4) * 0.065 + min(0.08, abs(a.velocityX) * 0.009)
                 : profile.family == .jellyfish ? sin(a.motionTime * 0.6) * 0.045
@@ -366,6 +442,28 @@ struct AquariumEcology {
             a.pitch += (desiredPitch - a.pitch) * min(1, dt * 5)
             a.easeFacing(duration: profile.turningTime, dt: dt)
             swimmers[id] = a
+        }
+    }
+
+    private mutating func updateCuttlefishGait(_ a: inout Swimmer, dt: Double) {
+        guard a.available, closestFood(to: a) == nil else { return }
+        a.cuttlefishGaitIn -= dt
+        let travel = a.direction * (a.cuttlefishGait == .backward ? -1 : 1)
+        let nearGlass = (a.x < 58 && travel < 0) || (a.x > 262 && travel > 0)
+        if a.cuttlefishGait != .hover && nearGlass {
+            a.cuttlefishGait = .hover; a.cuttlefishGaitIn = 2 + random.next() * 2
+            a.restX = a.x; a.restY = a.y
+        } else if a.cuttlefishGaitIn <= 0 {
+            switch a.cuttlefishGait {
+            case .forward: a.cuttlefishGait = random.next() < 0.65 ? .backward : .hover
+            case .backward: a.cuttlefishGait = random.next() < 0.65 ? .hover : .forward
+            case .hover:
+                a.cuttlefishGait = random.next() < 0.6 ? .backward : .forward
+                if a.x < 70 { a.cuttlefishGait = a.direction > 0 ? .forward : .backward }
+                if a.x > 250 { a.cuttlefishGait = a.direction > 0 ? .backward : .forward }
+            }
+            a.cuttlefishGaitIn = a.cuttlefishGait == .hover ? 2.5 + random.next() * 3.5 : 5 + random.next() * 6
+            a.restX = a.x; a.restY = a.y
         }
     }
 
@@ -401,6 +499,18 @@ struct AquariumEcology {
         case .ray:
             y += sin(a.age * 0.24 + phase) * p.sway
             speed *= 0.75 + 0.25 * sin(t * .pi) * sin(t * .pi)
+        case .cuttlefish:
+            if a.cuttlefishGait == .hover {
+                x = a.restX + sin(a.age * 0.6 + phase) * 0.6
+                y = a.restY + sin(a.age * 1.1 + phase) * 0.7
+                speed = min(3, hypot(x - a.x, y - a.y) * 1.8)
+            } else {
+                // Facing and travel are independent: mantle-first backward fin
+                // swimming never needs a mirror flip, and reversals ease through zero.
+                x = a.x + a.direction * (a.cuttlefishGait == .backward ? -30 : 30)
+                y += sin(a.age * 0.38 + phase) * p.sway
+                speed *= 0.55 + 0.45 * pow(max(0, sin(t * 2 * .pi / 2.6)), 3)
+            }
         }
         return (x, y, speed)
     }

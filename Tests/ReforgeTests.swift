@@ -15,14 +15,15 @@ final class ReforgeTests: XCTestCase {
         return (s, input.map(\.id))
     }
 
-    func testSeededReforgesMatch72IndependentWebCases() throws {
+    func testSeededReforgesMatch72ExpandedCatalogReferenceCases() throws {
         struct Sample: Decodable {
             var seed: UInt32; var history: [String]; var misses: Int
             var species: String; var grade: Int; var uses: Int
             var novel: Bool; var guaranteed: Bool; var afterMisses: Int
         }
-        let url = Bundle.module.url(forResource: "reforge-parity", withExtension: "json", subdirectory: "Fixtures")!
-        let samples = try JSONDecoder().decode([Sample].self, from: Data(contentsOf: url))
+        struct Fixtures: Decodable { var reforges: [Sample] }
+        let url = Bundle.module.url(forResource: "cuttlefish-catalog-parity", withExtension: "json", subdirectory: "Fixtures")!
+        let samples = try JSONDecoder().decode(Fixtures.self, from: Data(contentsOf: url)).reforges
         XCTAssertEqual(samples.count, 72)
         for sample in samples {
             var (s, ids) = setup()
@@ -141,7 +142,7 @@ final class ReforgeTests: XCTestCase {
 
     func testHiddenCreaturesCannotLeakIntoOrdinaryPoolsOrProgress() throws {
         let before = AquariumState.newGame(at: now)
-        XCTAssertEqual(FishCatalog.regular.count, 29);XCTAssertEqual(FishCatalog.hidden.count, 3)
+        XCTAssertEqual(FishCatalog.regular.count, 30);XCTAssertEqual(FishCatalog.hidden.count, 3)
         for tier in 0...5 { XCTAssertTrue(FishCatalog.pool(tier: tier).allSatisfy { !$0.hidden }) }
         var s = before
         for sp in FishCatalog.hidden { s.discovered.insert(sp.id);s.discoveredVariants.insert("\(sp.id):5") }
@@ -165,7 +166,7 @@ final class ReforgeTests: XCTestCase {
         let prepared = setup()
         var s = prepared.0
         let ids = prepared.1
-        XCTAssertEqual(s.catalogSpecies.count, 29)
+        XCTAssertEqual(s.catalogSpecies.count, 30)
         XCTAssertFalse(s.catalogSpecies.contains(where: \.hidden))
         s.discovered.insert("glassangel")
         XCTAssertEqual(s.catalogSpecies.filter(\.hidden).map(\.id), ["glassangel"])
@@ -221,6 +222,6 @@ final class ReforgeTests: XCTestCase {
             counts[result.child.speciesID, default:0] += 1
         }
         for sp in FishCatalog.hidden { XCTAssertEqual(Double(counts[sp.id,default:0])/12000,0.2/3,accuracy:0.012) }
-        for sp in FishCatalog.pool(tier:5) { XCTAssertEqual(Double(counts[sp.id,default:0])/12000,0.8/3,accuracy:0.018) }
+        for sp in FishCatalog.pool(tier:5) { XCTAssertEqual(Double(counts[sp.id,default:0])/12000,0.8/4,accuracy:0.018) }
     }
 }

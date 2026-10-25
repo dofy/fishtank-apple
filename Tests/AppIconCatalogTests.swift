@@ -7,7 +7,7 @@ final class AppIconCatalogTests: XCTestCase {
         XCTAssertEqual(Set(AppIconCatalog.all.map(\.id)).count, FishCatalog.all.count + 1)
         XCTAssertEqual(Set(AppIconCatalog.all.map(\.speciesID)), Set(FishCatalog.all.map(\.id)))
         XCTAssertEqual(Set(AppIconCatalog.all.filter { $0.secondarySpeciesID == nil }.map(\.speciesID)).count, FishCatalog.all.count)
-        XCTAssertEqual(AppIconCatalog.all.count, 33)
+        XCTAssertEqual(AppIconCatalog.all.count, 34)
         XCTAssertEqual(AppIconCatalog.duet.secondarySpeciesID, "greyminnow")
         for design in AppIconCatalog.all {
             XCTAssertNotNil(FishCatalog.byID[design.speciesID])
@@ -23,7 +23,7 @@ final class AppIconCatalogTests: XCTestCase {
     }
     func testUnpaginatedChoicesIncludeAllIconsInAscendingTierOrder() {
         let choices = AppIconCatalog.filtered(discovered: Set(FishCatalog.all.map(\.id)))
-        XCTAssertEqual(choices.count, 33)
+        XCTAssertEqual(choices.count, 34)
         XCTAssertEqual(Set(choices.map(\.id)), Set(AppIconCatalog.all.map(\.id)))
         let tiers = choices.map { FishCatalog.byID[$0.speciesID]!.tier }
         XCTAssertEqual(tiers, tiers.sorted())
@@ -67,7 +67,7 @@ final class AppIconCatalogTests: XCTestCase {
         XCTAssertTrue(AppIconCatalog.filtered(discovered: []).isEmpty)
         XCTAssertEqual(Set(AppIconCatalog.filtered(discovered: initial.discovered).map(\.id)), ["classic", "greyminnow", "duet"])
         let ordinary = Set(FishCatalog.regular.map(\.id))
-        XCTAssertEqual(AppIconCatalog.filtered(discovered: ordinary).count, 30)
+        XCTAssertEqual(AppIconCatalog.filtered(discovered: ordinary).count, 31)
         XCTAssertFalse(AppIconCatalog.filtered(tier: 5, discovered: ordinary).contains { FishCatalog.byID[$0.speciesID]!.hidden })
         var discovered = initial.discovered
         for species in FishCatalog.hidden {

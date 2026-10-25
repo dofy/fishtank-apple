@@ -22,7 +22,7 @@ The source is available now, while official installation channels for Mac and iP
 
 ## Start with a few little fish, grow an ocean
 
-Collect **29 fish species**, breeding your first tiny swimmers into rare discoveries. Every pairing can reveal a new color, a new look, or even a fish you have never seen before.
+Collect **30 fish species**, breeding your first tiny swimmers into rare discoveries. Every pairing can reveal a new color, a new look, or even a fish you have never seen before.
 
 - Watch young fish grow, choose the next pairing, and add each discovery to your collection.
 - Synthesize fish to advance, expand the tank, and lock the fish you want to keep.

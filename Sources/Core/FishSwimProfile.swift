@@ -2,7 +2,7 @@ import Foundation
 
 /// Visual habits only. Species IDs, breeding balance and saved progress are unchanged.
 struct FishSwimProfile: Equatable {
-    enum Family: String, CaseIterable { case fish, seaSnake, eel, jellyfish, seahorse, turtle, ray }
+    enum Family: String, CaseIterable { case fish, seaSnake, eel, jellyfish, seahorse, turtle, ray, cuttlefish }
     var family: Family
     var speed: Double
     var sway: Double
@@ -21,6 +21,7 @@ struct FishSwimProfile: Equatable {
         case .seahorse: return 0.5
         case .jellyfish: return 0.65
         case .turtle, .ray: return 0.7
+        case .cuttlefish: return 0.38
         }
     }
     var stoppingTime: Double { accelerationTime * 0.55 }
@@ -30,6 +31,7 @@ struct FishSwimProfile: Equatable {
         case .seaSnake, .eel: return 0.95
         case .seahorse: return 1.05
         case .turtle, .ray, .jellyfish: return 1.2
+        case .cuttlefish: return 0.95
         }
     }
 }
@@ -44,6 +46,7 @@ extension FishSpecies {
         case "seahorse": p = .init(family: .seahorse, speed: 4, sway: 8, depth: 0.4, tempo: 0.8, restEvery: 12, restDuration: 12)
         case "turtle": p = .init(family: .turtle, speed: 7, sway: 14, depth: 0.38, tempo: 0.55, restEvery: 38, restDuration: 10)
         case "ray": p = .init(family: .ray, speed: 9, sway: 16, depth: 0.46, tempo: 0.65, restEvery: 45, restDuration: 7)
+        case "cuttlefish": p = .init(family: .cuttlefish, speed: 9, sway: 5, depth: 0.46, tempo: 0.8, restEvery: 0)
         default: break
         }
         switch id {

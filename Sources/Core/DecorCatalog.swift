@@ -56,7 +56,7 @@ enum AchievementCatalog {
         .init(id: "jelly-family", titleKey: L10n.source("Jellyfish Drifter"), noteKey: L10n.source("Discover all three jellyfish"), total: 3),
         .init(id: "grade-five", titleKey: L10n.source("A Touch of Iridescence"), noteKey: L10n.source("First grade-5 fish discovered"), total: 1),
         .init(id: "variant-collector", titleKey: L10n.source("Iridescent Collector"), noteKey: L10n.source("Discover 25 non-starter grade variants"), total: 25),
-        .init(id: "reef-explorer", titleKey: L10n.source("Ocean Friends"), noteKey: L10n.source("Discover all 29 sea creatures"), total: 29),
+        .init(id: "reef-explorer", titleKey: L10n.source("Ocean Friends"), noteKey: L10n.source("Discover every regular sea creature"), total: FishCatalog.regular.count),
         .init(id: "reef-rookie", titleKey: L10n.source("First Reef"), noteKey: L10n.source("Discover 5 non-starter species"), total: 5),
         .init(id: "reef-naturalist", titleKey: L10n.source("Ocean Naturalist"), noteKey: L10n.source("Discover 15 non-starter species"), total: 15),
         .init(id: "rare-encounter", titleKey: L10n.source("Deep Blue Visitor"), noteKey: L10n.source("Discover your first 3★ rare fish"), total: 1),

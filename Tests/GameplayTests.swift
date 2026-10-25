@@ -19,7 +19,7 @@ final class GameplayTests: XCTestCase {
     }
 
     private func fixtures() throws -> Fixtures {
-        let url = Bundle.module.url(forResource: "web-parity", withExtension: "json", subdirectory: "Fixtures")!
+        let url = Bundle.module.url(forResource: "cuttlefish-catalog-parity", withExtension: "json", subdirectory: "Fixtures")!
         return try JSONDecoder().decode(Fixtures.self, from: Data(contentsOf: url))
     }
 
@@ -27,7 +27,7 @@ final class GameplayTests: XCTestCase {
         .make(species: FishCatalog.pool(tier: tier)[0], grade: grade, at: now, adult: true, uses: uses)
     }
 
-    func testAll105SeededBreedsMatchWebImplementation() throws {
+    func testAll105SeededBreedsMatchExpandedReferenceCatalog() throws {
         let samples = try fixtures().breeds
         XCTAssertEqual(samples.count, 105)
         for sample in samples {
@@ -58,7 +58,7 @@ final class GameplayTests: XCTestCase {
         }
     }
 
-    func test15SameAndMixedTierMergesMatchWebImplementation() throws {
+    func test15SameAndMixedTierMergesMatchExpandedReferenceCatalog() throws {
         for sample in try fixtures().merges {
             var state = AquariumState.newGame(at: now)
             state.fish = sample.tiers.enumerated().map { fish(tier: $0.element, grade: $0.offset == 0 ? 5 : 1) }

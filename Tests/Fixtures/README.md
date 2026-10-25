@@ -8,3 +8,5 @@ These JSON files are generated test data, not exports of a player's aquarium.
 - `reforge-parity.json`: `tools/export-web-reforge.mjs` exports 72 fixed-seed cases from the Web reforging rules, covering undiscovered secrets, partial/full collection and pity counters. It contains only synthetic progress and outcomes.
 
 Never replace these files with a personal save or include actual acceptance snapshots here. Run generators against a separate checkout of the Web project.
+
+- `cuttlefish-catalog-parity.json`: `tools/export-expanded-catalog-fixtures.mjs` uses the independent Web gameplay modules with the cuttlefish catalog entry injected only into Vite's in-memory module transform. It checks 105 breeds, 15 merges, 72 reforges and 7 collection histories against the expanded native catalog. Original Web source and historical parity fixtures remain unchanged.

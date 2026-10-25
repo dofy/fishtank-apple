@@ -261,6 +261,15 @@
     "tier" : 5
   },
   {
+    "id" : "cuttlefish",
+    "name" : "墨影珊瑚",
+    "resourceName" : "FishtankIcon-cuttlefish",
+    "secondarySpeciesID" : "",
+    "speciesID" : "cuttlefish",
+    "speciesName" : "乌贼",
+    "tier" : 5
+  },
+  {
     "id" : "lanternangler",
     "name" : "幽灯石窟",
     "resourceName" : "FishtankIcon-lanternangler",

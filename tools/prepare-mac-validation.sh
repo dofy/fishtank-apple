@@ -3,7 +3,7 @@
 # Only bundle identity/signature change; the executable and game resources stay identical.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-validation_source="build/distribution/1.5.0-candidate/Fishtank.app"
+validation_source="build/distribution/1.6.0-candidate/Fishtank.app"
 validation_target="build/validation/Fishtank-QA.app"
 verify_existing=false
 while [[ $# -gt 0 ]]; do

@@ -9,6 +9,26 @@ enum PixelArt {
     private static var speciesImages: [String: CGImage] = [:]
     private static var speciesTextures: [String: SKTexture] = [:]
 
+    static func inkCloudTexture() -> SKTexture {
+        if let cached = speciesTextures["ink-cloud"] { return cached }
+        let w = 32, h = 24
+        var pixels = [UInt8](repeating: 0, count: w * h * 4)
+        for y in 0..<h { for x in 0..<w {
+            let lobes = [(10.0, 12.0, 8.5, 7.0), (18, 10, 10, 8), (24, 14, 6, 6)]
+            let distance = lobes.map { pow((Double(x) - $0.0) / $0.2, 2) + pow((Double(y) - $0.1) / $0.3, 2) }.min()!
+            guard distance < 1, distance < 0.78 || (x + y * 3) % 4 != 0 else { continue }
+            let i = (y * w + x) * 4, rim = distance > 0.64
+            pixels[i] = rim ? 43 : 19; pixels[i + 1] = rim ? 40 : 20; pixels[i + 2] = rim ? 66 : 36
+            pixels[i + 3] = rim ? 155 : 230
+        } }
+        let image = CGImage(width: w, height: h, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: w * 4,
+                            space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
+                            provider: CGDataProvider(data: Data(pixels) as CFData)!, decode: nil, shouldInterpolate: false, intent: .defaultIntent)!
+        let texture = SKTexture(cgImage: image); texture.filteringMode = .nearest
+        speciesTextures["ink-cloud"] = texture
+        return texture
+    }
+
     static func lampGlowImage() -> CGImage {
         if let cached = speciesImages["lamp-glow"] { return cached }
         let width = 96, height = 144
@@ -67,6 +87,7 @@ enum PixelArt {
         case "seahorse": return 2.4
         case "turtle", "ray", "nautilus": return 2.8
         case "seaangel": return 1.8
+        case "cuttlefish": return 2.6
         default: return 2
         }
     }
@@ -79,12 +100,13 @@ enum PixelArt {
     }
 
     /// Draw on a fixed pixel grid. Each species keeps its original body family and colors.
-    static func image(species: FishSpecies, grade: Int, frame: Int = 0, puffLevel: Int = 0) -> CGImage {
+    static func image(species: FishSpecies, grade: Int, frame: Int = 0, puffLevel: Int = 0, jetLevel: Int = 0) -> CGImage {
         let frameCount = animationFrameCount(for: species)
         let frame = max(0, frame) % frameCount, puffLevel = max(0, min(3, puffLevel))
-        let key = "\(species.id):\(grade):\(frame):\(puffLevel)"
+        let jetLevel = species.spraysInk ? max(0, min(3, jetLevel)) : 0
+        let key = "\(species.id):\(grade):\(frame):\(puffLevel):\(jetLevel)"
         if let cached = speciesImages[key] { return cached }
-        if let image = PaintedSprites.fish(species, grade: grade, frame: frame, puffLevel: puffLevel) {
+        if let image = PaintedSprites.fish(species, grade: grade, frame: frame, puffLevel: puffLevel, jetLevel: jetLevel) {
             speciesImages[key] = image
             return image
         }
@@ -344,12 +366,13 @@ enum PixelArt {
         return image
     }
 
-    static func texture(fish: AquariumFish, frame: Int = 0, puffLevel: Int = 0) -> SKTexture {
+    static func texture(fish: AquariumFish, frame: Int = 0, puffLevel: Int = 0, jetLevel: Int = 0) -> SKTexture {
         let frame = max(0, frame) % animationFrameCount(for: fish.species)
         let puffLevel = max(0, min(3, puffLevel))
-        let key = "\(fish.speciesID):\(fish.grade):\(frame):\(puffLevel)"
+        let jetLevel = fish.species.spraysInk ? max(0, min(3, jetLevel)) : 0
+        let key = "\(fish.speciesID):\(fish.grade):\(frame):\(puffLevel):\(jetLevel)"
         if let texture = speciesTextures[key] { return texture }
-        let texture = SKTexture(cgImage: image(species: fish.species, grade: fish.grade, frame: frame, puffLevel: puffLevel))
+        let texture = SKTexture(cgImage: image(species: fish.species, grade: fish.grade, frame: frame, puffLevel: puffLevel, jetLevel: jetLevel))
         texture.filteringMode = .nearest; speciesTextures[key] = texture
         return texture
     }

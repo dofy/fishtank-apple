@@ -69,6 +69,16 @@ import UniformTypeIdentifiers
         }
         let puffer = FishCatalog.byID["creampuff"]!
         precondition(Set((0...3).map { bytes(PixelArt.image(species: puffer, grade: 1, puffLevel: $0)) }).count == 4)
+        let cuttlefish = FishCatalog.byID["cuttlefish"]!
+        for level in 0...3 { for frame in 0..<32 {
+            let image = PixelArt.image(species: cuttlefish, grade: 1, frame: frame, jetLevel: level)
+            precondition(bytes(image) == bytes(PaintedSprites.fish(cuttlefish, grade: 1, frame: frame, puffLevel: 0, jetLevel: level)!))
+            let pixels = [UInt8](bytes(image))
+            precondition(stride(from: 3, to: pixels.count, by: 4).filter { pixels[$0] > 0 }.count > 100)
+        } }
+        precondition(Set((0...3).map { bytes(PixelArt.image(species: cuttlefish, grade: 1, frame: 8, jetLevel: $0)) }).count == 4)
+        precondition(bytes(PixelArt.image(species: cuttlefish, grade: 1, frame: 8, jetLevel: 99)) == bytes(PixelArt.image(species: cuttlefish, grade: 1, frame: 8, jetLevel: 3)))
+        print("PASS four bounded cuttlefish jet poses with streamlined trailing arms")
         for item in DecorCatalog.all {
             guard let image = PaintedSprites.decor(item) else { fatalError("Missing decoration \(item.id)") }
             precondition(bytes(DecorArt.image(item)) == bytes(image))

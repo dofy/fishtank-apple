@@ -1,0 +1,4545 @@
+{
+  "source": "fishtank e1e90e9; unmodified gameplay with cuttlefish catalog entry injected in memory",
+  "now": 1800000000,
+  "breeds": [
+    {
+      "a": 0,
+      "b": 0,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 999,
+          "cooldown": 180000
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 999,
+          "cooldown": 180000
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 999,
+          "cooldown": 180000
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "seed": 12345,
+      "species": "neoncleaner",
+      "tier": 1,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 999,
+          "cooldown": 180000
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 999,
+          "cooldown": 180000
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "seed": 12345,
+      "species": "neoncleaner",
+      "tier": 1,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 2,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 2,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 0,
+      "b": 2,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 0,
+      "b": 2,
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 0,
+      "b": 2,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 3,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 3,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 0,
+      "b": 3,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 0,
+      "b": 3,
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 0,
+      "b": 3,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 4,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 4,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 0,
+      "b": 4,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 0,
+      "b": 4,
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 0,
+      "b": 4,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 0,
+      "b": 5,
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 0,
+      "b": 5,
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 35,
+      "exp": 35,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 70
+    },
+    {
+      "a": 0,
+      "b": 5,
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 20,
+      "exp": 20,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 40
+    },
+    {
+      "a": 0,
+      "b": 5,
+      "seed": 12345,
+      "species": "skywing",
+      "tier": 3,
+      "grade": 2,
+      "uses": 3,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 0,
+      "b": 5,
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 999,
+          "cooldown": 180000
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 4,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 1,
+      "b": 2,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 1,
+      "b": 2,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 1,
+      "b": 2,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 1,
+      "b": 2,
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 1,
+      "b": 2,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 1,
+      "b": 4,
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 1,
+      "b": 4,
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 35,
+      "exp": 35,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 70
+    },
+    {
+      "a": 1,
+      "b": 4,
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 20,
+      "exp": 20,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 40
+    },
+    {
+      "a": 1,
+      "b": 4,
+      "seed": 12345,
+      "species": "skywing",
+      "tier": 3,
+      "grade": 2,
+      "uses": 3,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 1,
+      "b": 4,
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 1,
+      "b": 5,
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 1,
+      "b": 5,
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 35,
+      "exp": 35,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 70
+    },
+    {
+      "a": 1,
+      "b": 5,
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 20,
+      "exp": 20,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 40
+    },
+    {
+      "a": 1,
+      "b": 5,
+      "seed": 12345,
+      "species": "skywing",
+      "tier": 3,
+      "grade": 2,
+      "uses": 3,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 1,
+      "b": 5,
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 4,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 2,
+      "b": 2,
+      "seed": 1,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 2,
+      "b": 2,
+      "seed": 7,
+      "species": "copperband",
+      "tier": 1,
+      "grade": 4,
+      "uses": 5,
+      "birthExp": 9,
+      "exp": 9,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 18
+    },
+    {
+      "a": 2,
+      "b": 2,
+      "seed": 42,
+      "species": "sapphiredamsel",
+      "tier": 1,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 5,
+      "exp": 5,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 10
+    },
+    {
+      "a": 2,
+      "b": 2,
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 2,
+      "uses": 4,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 2,
+      "b": 2,
+      "seed": 4294967295,
+      "species": "moonjelly",
+      "tier": 1,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 6,
+      "exp": 6,
+      "level": 1,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 3,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 13
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 35,
+      "exp": 35,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 70
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 20,
+      "exp": 20,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 40
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "seed": 12345,
+      "species": "skywing",
+      "tier": 3,
+      "grade": 2,
+      "uses": 3,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 2,
+      "b": 4,
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 2,
+      "b": 4,
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 35,
+      "exp": 35,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 70
+    },
+    {
+      "a": 2,
+      "b": 4,
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 20,
+      "exp": 20,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 40
+    },
+    {
+      "a": 2,
+      "b": 4,
+      "seed": 12345,
+      "species": "skywing",
+      "tier": 3,
+      "grade": 2,
+      "uses": 3,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 2,
+      "b": 4,
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 2,
+      "b": 5,
+      "seed": 1,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 2,
+      "uses": 1,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 2,
+      "b": 5,
+      "seed": 7,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 140,
+      "exp": 140,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 280
+    },
+    {
+      "a": 2,
+      "b": 5,
+      "seed": 42,
+      "species": "volteel",
+      "tier": 3,
+      "grade": 1,
+      "uses": 4,
+      "birthExp": 80,
+      "exp": 80,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 160
+    },
+    {
+      "a": 2,
+      "b": 5,
+      "seed": 12345,
+      "species": "voidray",
+      "tier": 4,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    },
+    {
+      "a": 2,
+      "b": 5,
+      "seed": 4294967295,
+      "species": "crystaljelly",
+      "tier": 3,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 3,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 3,
+      "b": 3,
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 3,
+      "b": 3,
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 35,
+      "exp": 35,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 70
+    },
+    {
+      "a": 3,
+      "b": 3,
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 1,
+      "uses": 5,
+      "birthExp": 20,
+      "exp": 20,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 40
+    },
+    {
+      "a": 3,
+      "b": 3,
+      "seed": 12345,
+      "species": "skywing",
+      "tier": 3,
+      "grade": 2,
+      "uses": 3,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 3,
+      "b": 3,
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 25,
+      "exp": 25,
+      "level": 2,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 2,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 50
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "seed": 1,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 2,
+      "uses": 1,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "seed": 7,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 140,
+      "exp": 140,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 280
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "seed": 42,
+      "species": "volteel",
+      "tier": 3,
+      "grade": 1,
+      "uses": 4,
+      "birthExp": 80,
+      "exp": 80,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 160
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "seed": 12345,
+      "species": "voidray",
+      "tier": 4,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "seed": 4294967295,
+      "species": "crystaljelly",
+      "tier": 3,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 3,
+      "b": 5,
+      "seed": 1,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 2,
+      "uses": 1,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 3,
+      "b": 5,
+      "seed": 7,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 140,
+      "exp": 140,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 280
+    },
+    {
+      "a": 3,
+      "b": 5,
+      "seed": 42,
+      "species": "volteel",
+      "tier": 3,
+      "grade": 1,
+      "uses": 4,
+      "birthExp": 80,
+      "exp": 80,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 160
+    },
+    {
+      "a": 3,
+      "b": 5,
+      "seed": 12345,
+      "species": "voidray",
+      "tier": 4,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    },
+    {
+      "a": 3,
+      "b": 5,
+      "seed": 4294967295,
+      "species": "crystaljelly",
+      "tier": 3,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 2,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 4,
+      "b": 4,
+      "seed": 1,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 2,
+      "uses": 1,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 4,
+      "b": 4,
+      "seed": 7,
+      "species": "royalgoldtail",
+      "tier": 3,
+      "grade": 4,
+      "uses": 4,
+      "birthExp": 140,
+      "exp": 140,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 280
+    },
+    {
+      "a": 4,
+      "b": 4,
+      "seed": 42,
+      "species": "volteel",
+      "tier": 3,
+      "grade": 1,
+      "uses": 4,
+      "birthExp": 80,
+      "exp": 80,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 160
+    },
+    {
+      "a": 4,
+      "b": 4,
+      "seed": 12345,
+      "species": "voidray",
+      "tier": 4,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    },
+    {
+      "a": 4,
+      "b": 4,
+      "seed": 4294967295,
+      "species": "crystaljelly",
+      "tier": 3,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 100,
+      "exp": 100,
+      "level": 3,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 200
+    },
+    {
+      "a": 4,
+      "b": 5,
+      "seed": 1,
+      "species": "goldenmoorish",
+      "tier": 4,
+      "grade": 2,
+      "uses": 1,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    },
+    {
+      "a": 4,
+      "b": 5,
+      "seed": 7,
+      "species": "goldenmoorish",
+      "tier": 4,
+      "grade": 4,
+      "uses": 3,
+      "birthExp": 560,
+      "exp": 560,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 1120
+    },
+    {
+      "a": 4,
+      "b": 5,
+      "seed": 42,
+      "species": "goldenseahorse",
+      "tier": 4,
+      "grade": 1,
+      "uses": 4,
+      "birthExp": 320,
+      "exp": 320,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 640
+    },
+    {
+      "a": 4,
+      "b": 5,
+      "seed": 12345,
+      "species": "leviathanfry",
+      "tier": 5,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 1600,
+      "exp": 1600,
+      "level": 5,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 3200
+    },
+    {
+      "a": 4,
+      "b": 5,
+      "seed": 4294967295,
+      "species": "jadeturtle",
+      "tier": 4,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    },
+    {
+      "a": 5,
+      "b": 5,
+      "seed": 1,
+      "species": "goldenmoorish",
+      "tier": 4,
+      "grade": 2,
+      "uses": 1,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    },
+    {
+      "a": 5,
+      "b": 5,
+      "seed": 7,
+      "species": "goldenmoorish",
+      "tier": 4,
+      "grade": 4,
+      "uses": 3,
+      "birthExp": 560,
+      "exp": 560,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 1120
+    },
+    {
+      "a": 5,
+      "b": 5,
+      "seed": 42,
+      "species": "goldenseahorse",
+      "tier": 4,
+      "grade": 1,
+      "uses": 4,
+      "birthExp": 320,
+      "exp": 320,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 640
+    },
+    {
+      "a": 5,
+      "b": 5,
+      "seed": 12345,
+      "species": "leviathanfry",
+      "tier": 5,
+      "grade": 2,
+      "uses": 2,
+      "birthExp": 1600,
+      "exp": 1600,
+      "level": 5,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 3200
+    },
+    {
+      "a": 5,
+      "b": 5,
+      "seed": 4294967295,
+      "species": "jadeturtle",
+      "tier": 4,
+      "grade": 2,
+      "uses": 5,
+      "birthExp": 400,
+      "exp": 400,
+      "level": 4,
+      "parents": [
+        {
+          "uses": 1,
+          "cooldown": 0
+        },
+        {
+          "uses": 1,
+          "cooldown": 0
+        }
+      ],
+      "matureExp": 800
+    }
+  ],
+  "merges": [
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 5,
+      "uses": 4,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 5,
+      "uses": 5,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 5,
+      "uses": 2,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 5,
+      "uses": 4,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 5,
+      "uses": 4,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "seed": 1,
+      "species": "prismkoi",
+      "tier": 5,
+      "grade": 5,
+      "uses": 3,
+      "matureExp": 5120
+    },
+    {
+      "tiers": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "seed": 7,
+      "species": "prismkoi",
+      "tier": 5,
+      "grade": 5,
+      "uses": 4,
+      "matureExp": 5120
+    },
+    {
+      "tiers": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "seed": 42,
+      "species": "astraljelly",
+      "tier": 5,
+      "grade": 5,
+      "uses": 1,
+      "matureExp": 5120
+    },
+    {
+      "tiers": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "seed": 12345,
+      "species": "leviathanfry",
+      "tier": 5,
+      "grade": 5,
+      "uses": 3,
+      "matureExp": 5120
+    },
+    {
+      "tiers": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "seed": 4294967295,
+      "species": "cuttlefish",
+      "tier": 5,
+      "grade": 5,
+      "uses": 2,
+      "matureExp": 5120
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4
+      ],
+      "seed": 1,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 5,
+      "uses": 4,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4
+      ],
+      "seed": 7,
+      "species": "goldbutterfly",
+      "tier": 2,
+      "grade": 5,
+      "uses": 5,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4
+      ],
+      "seed": 42,
+      "species": "coralseahorse",
+      "tier": 2,
+      "grade": 5,
+      "uses": 2,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4
+      ],
+      "seed": 12345,
+      "species": "blushingfire",
+      "tier": 2,
+      "grade": 5,
+      "uses": 4,
+      "matureExp": 80
+    },
+    {
+      "tiers": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4
+      ],
+      "seed": 4294967295,
+      "species": "ambereel",
+      "tier": 2,
+      "grade": 5,
+      "uses": 4,
+      "matureExp": 80
+    }
+  ],
+  "reforges": [
+    {
+      "seed": 1,
+      "history": [],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 1,
+      "history": [],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 1,
+      "history": [],
+      "misses": 9,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 9,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 1,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 9,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [],
+      "misses": 9,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 9,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 0,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 6,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 7,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 9,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 4,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [],
+      "misses": 0,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [],
+      "misses": 6,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [],
+      "misses": 9,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 0,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 6,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 9,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 0,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 6,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 0,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 6,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 42,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 9,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 12345,
+      "history": [],
+      "misses": 0,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 12345,
+      "history": [],
+      "misses": 6,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 12345,
+      "history": [],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 0,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 6,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 0,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 6,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 0,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 6,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 12345,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 9,
+      "species": "leviathanfry",
+      "grade": 5,
+      "uses": 3,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 305419896,
+      "history": [],
+      "misses": 0,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 305419896,
+      "history": [],
+      "misses": 6,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 305419896,
+      "history": [],
+      "misses": 9,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 0,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 6,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 0,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 1
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 6,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 7
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 1,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 0,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 6,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 305419896,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 9,
+      "species": "prismkoi",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [],
+      "misses": 0,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [],
+      "misses": 6,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [],
+      "misses": 9,
+      "species": "lanternangler",
+      "grade": 5,
+      "uses": 5,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 0,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 6,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler"
+      ],
+      "misses": 9,
+      "species": "glassangel",
+      "grade": 5,
+      "uses": 5,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 0,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 6,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": true,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler",
+        "glassangel"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 5,
+      "novel": true,
+      "guaranteed": true,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 0,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 6,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    },
+    {
+      "seed": 4294967295,
+      "history": [
+        "lanternangler",
+        "glassangel",
+        "starnautilus"
+      ],
+      "misses": 9,
+      "species": "starnautilus",
+      "grade": 5,
+      "uses": 2,
+      "novel": false,
+      "guaranteed": false,
+      "afterMisses": 0
+    }
+  ],
+  "achievements": [
+    {
+      "variants": [],
+      "progress": [
+        {
+          "id": "first-friend",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "tier-one",
+          "total": 7,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "jelly-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "grade-five",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "variant-collector",
+          "total": 25,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "reef-explorer",
+          "total": 30,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "reef-rookie",
+          "total": 5,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "reef-naturalist",
+          "total": 15,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "rare-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "legend-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "mythic-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "eel-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "color-palette",
+          "total": 5,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "variant-master",
+          "total": 60,
+          "current": 0,
+          "unlocked": false
+        }
+      ],
+      "unlocked": []
+    },
+    {
+      "variants": [
+        "copperband:1"
+      ],
+      "progress": [
+        {
+          "id": "first-friend",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "tier-one",
+          "total": 7,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "jelly-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "grade-five",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "variant-collector",
+          "total": 25,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "reef-explorer",
+          "total": 30,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "reef-rookie",
+          "total": 5,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "reef-naturalist",
+          "total": 15,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "rare-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "legend-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "mythic-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "eel-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "color-palette",
+          "total": 5,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "variant-master",
+          "total": 60,
+          "current": 1,
+          "unlocked": false
+        }
+      ],
+      "unlocked": [
+        "first-friend"
+      ]
+    },
+    {
+      "variants": [
+        "moonjelly:1",
+        "crystaljelly:2",
+        "astraljelly:5"
+      ],
+      "progress": [
+        {
+          "id": "first-friend",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "tier-one",
+          "total": 7,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "jelly-family",
+          "total": 3,
+          "current": 3,
+          "unlocked": true
+        },
+        {
+          "id": "grade-five",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "variant-collector",
+          "total": 25,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "reef-explorer",
+          "total": 30,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "reef-rookie",
+          "total": 5,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "reef-naturalist",
+          "total": 15,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "rare-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "legend-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "mythic-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "eel-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "color-palette",
+          "total": 5,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "variant-master",
+          "total": 60,
+          "current": 3,
+          "unlocked": false
+        }
+      ],
+      "unlocked": [
+        "first-friend",
+        "jelly-family",
+        "grade-five",
+        "rare-encounter",
+        "mythic-encounter"
+      ]
+    },
+    {
+      "variants": [
+        "ambereel:1",
+        "volteel:2",
+        "auroraeel:3"
+      ],
+      "progress": [
+        {
+          "id": "first-friend",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "tier-one",
+          "total": 7,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "jelly-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "grade-five",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "variant-collector",
+          "total": 25,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "reef-explorer",
+          "total": 30,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "reef-rookie",
+          "total": 5,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "reef-naturalist",
+          "total": 15,
+          "current": 3,
+          "unlocked": false
+        },
+        {
+          "id": "rare-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "legend-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "mythic-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "eel-family",
+          "total": 3,
+          "current": 3,
+          "unlocked": true
+        },
+        {
+          "id": "color-palette",
+          "total": 5,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "variant-master",
+          "total": 60,
+          "current": 3,
+          "unlocked": false
+        }
+      ],
+      "unlocked": [
+        "first-friend",
+        "rare-encounter",
+        "legend-encounter",
+        "eel-family"
+      ]
+    },
+    {
+      "variants": [
+        "copperband:1",
+        "copperband:2",
+        "copperband:3",
+        "copperband:4",
+        "copperband:5"
+      ],
+      "progress": [
+        {
+          "id": "first-friend",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "tier-one",
+          "total": 7,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "jelly-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "grade-five",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "variant-collector",
+          "total": 25,
+          "current": 5,
+          "unlocked": false
+        },
+        {
+          "id": "reef-explorer",
+          "total": 30,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "reef-rookie",
+          "total": 5,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "reef-naturalist",
+          "total": 15,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "rare-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "legend-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "mythic-encounter",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "eel-family",
+          "total": 3,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "color-palette",
+          "total": 5,
+          "current": 5,
+          "unlocked": true
+        },
+        {
+          "id": "variant-master",
+          "total": 60,
+          "current": 5,
+          "unlocked": false
+        }
+      ],
+      "unlocked": [
+        "first-friend",
+        "grade-five",
+        "color-palette"
+      ]
+    },
+    {
+      "variants": [
+        "goldfin:1",
+        "greyminnow:1",
+        "copperband:1",
+        "moonhorn:1",
+        "neoncleaner:1",
+        "mossback:1",
+        "sapphiredamsel:1",
+        "banggai:1",
+        "moonjelly:1",
+        "goldbutterfly:1",
+        "neonstreak:1",
+        "blushingfire:1",
+        "creampuff:1",
+        "coralseahorse:1",
+        "bandedkrait:1",
+        "ambereel:1",
+        "royalgoldtail:1",
+        "skywing:1",
+        "emberbarb:1",
+        "volteel:1",
+        "crystaljelly:1",
+        "goldenmoorish:1",
+        "voidray:1",
+        "auroraeel:1",
+        "goldenseahorse:1",
+        "jadeturtle:1",
+        "prismkoi:1",
+        "leviathanfry:1",
+        "astraljelly:1"
+      ],
+      "progress": [
+        {
+          "id": "first-friend",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "tier-one",
+          "total": 7,
+          "current": 7,
+          "unlocked": true
+        },
+        {
+          "id": "jelly-family",
+          "total": 3,
+          "current": 3,
+          "unlocked": true
+        },
+        {
+          "id": "grade-five",
+          "total": 1,
+          "current": 0,
+          "unlocked": false
+        },
+        {
+          "id": "variant-collector",
+          "total": 25,
+          "current": 25,
+          "unlocked": true
+        },
+        {
+          "id": "reef-explorer",
+          "total": 30,
+          "current": 29,
+          "unlocked": false
+        },
+        {
+          "id": "reef-rookie",
+          "total": 5,
+          "current": 5,
+          "unlocked": true
+        },
+        {
+          "id": "reef-naturalist",
+          "total": 15,
+          "current": 15,
+          "unlocked": true
+        },
+        {
+          "id": "rare-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "legend-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "mythic-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "eel-family",
+          "total": 3,
+          "current": 3,
+          "unlocked": true
+        },
+        {
+          "id": "color-palette",
+          "total": 5,
+          "current": 1,
+          "unlocked": false
+        },
+        {
+          "id": "variant-master",
+          "total": 60,
+          "current": 27,
+          "unlocked": false
+        }
+      ],
+      "unlocked": [
+        "first-friend",
+        "tier-one",
+        "jelly-family",
+        "variant-collector",
+        "reef-rookie",
+        "reef-naturalist",
+        "rare-encounter",
+        "legend-encounter",
+        "mythic-encounter",
+        "eel-family"
+      ]
+    },
+    {
+      "variants": [
+        "goldfin:1",
+        "goldfin:2",
+        "goldfin:3",
+        "goldfin:4",
+        "goldfin:5",
+        "greyminnow:1",
+        "greyminnow:2",
+        "greyminnow:3",
+        "greyminnow:4",
+        "greyminnow:5",
+        "copperband:1",
+        "copperband:2",
+        "copperband:3",
+        "copperband:4",
+        "copperband:5",
+        "moonhorn:1",
+        "moonhorn:2",
+        "moonhorn:3",
+        "moonhorn:4",
+        "moonhorn:5",
+        "neoncleaner:1",
+        "neoncleaner:2",
+        "neoncleaner:3",
+        "neoncleaner:4",
+        "neoncleaner:5",
+        "mossback:1",
+        "mossback:2",
+        "mossback:3",
+        "mossback:4",
+        "mossback:5",
+        "sapphiredamsel:1",
+        "sapphiredamsel:2",
+        "sapphiredamsel:3",
+        "sapphiredamsel:4",
+        "sapphiredamsel:5",
+        "banggai:1",
+        "banggai:2",
+        "banggai:3",
+        "banggai:4",
+        "banggai:5",
+        "moonjelly:1",
+        "moonjelly:2",
+        "moonjelly:3",
+        "moonjelly:4",
+        "moonjelly:5",
+        "goldbutterfly:1",
+        "goldbutterfly:2",
+        "goldbutterfly:3",
+        "goldbutterfly:4",
+        "goldbutterfly:5",
+        "neonstreak:1",
+        "neonstreak:2",
+        "neonstreak:3",
+        "neonstreak:4",
+        "neonstreak:5",
+        "blushingfire:1",
+        "blushingfire:2",
+        "blushingfire:3",
+        "blushingfire:4",
+        "blushingfire:5",
+        "creampuff:1",
+        "creampuff:2",
+        "creampuff:3",
+        "creampuff:4",
+        "creampuff:5",
+        "coralseahorse:1",
+        "coralseahorse:2",
+        "coralseahorse:3",
+        "coralseahorse:4",
+        "coralseahorse:5",
+        "bandedkrait:1",
+        "bandedkrait:2",
+        "bandedkrait:3",
+        "bandedkrait:4",
+        "bandedkrait:5",
+        "ambereel:1",
+        "ambereel:2",
+        "ambereel:3",
+        "ambereel:4",
+        "ambereel:5",
+        "royalgoldtail:1",
+        "royalgoldtail:2",
+        "royalgoldtail:3",
+        "royalgoldtail:4",
+        "royalgoldtail:5",
+        "skywing:1",
+        "skywing:2",
+        "skywing:3",
+        "skywing:4",
+        "skywing:5",
+        "emberbarb:1",
+        "emberbarb:2",
+        "emberbarb:3",
+        "emberbarb:4",
+        "emberbarb:5",
+        "volteel:1",
+        "volteel:2",
+        "volteel:3",
+        "volteel:4",
+        "volteel:5",
+        "crystaljelly:1",
+        "crystaljelly:2",
+        "crystaljelly:3",
+        "crystaljelly:4",
+        "crystaljelly:5",
+        "goldenmoorish:1",
+        "goldenmoorish:2",
+        "goldenmoorish:3",
+        "goldenmoorish:4",
+        "goldenmoorish:5",
+        "voidray:1",
+        "voidray:2",
+        "voidray:3",
+        "voidray:4",
+        "voidray:5",
+        "auroraeel:1",
+        "auroraeel:2",
+        "auroraeel:3",
+        "auroraeel:4",
+        "auroraeel:5",
+        "goldenseahorse:1",
+        "goldenseahorse:2",
+        "goldenseahorse:3",
+        "goldenseahorse:4",
+        "goldenseahorse:5",
+        "jadeturtle:1",
+        "jadeturtle:2",
+        "jadeturtle:3",
+        "jadeturtle:4",
+        "jadeturtle:5",
+        "prismkoi:1",
+        "prismkoi:2",
+        "prismkoi:3",
+        "prismkoi:4",
+        "prismkoi:5",
+        "leviathanfry:1",
+        "leviathanfry:2",
+        "leviathanfry:3",
+        "leviathanfry:4",
+        "leviathanfry:5",
+        "astraljelly:1",
+        "astraljelly:2",
+        "astraljelly:3",
+        "astraljelly:4",
+        "astraljelly:5"
+      ],
+      "progress": [
+        {
+          "id": "first-friend",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "tier-one",
+          "total": 7,
+          "current": 7,
+          "unlocked": true
+        },
+        {
+          "id": "jelly-family",
+          "total": 3,
+          "current": 3,
+          "unlocked": true
+        },
+        {
+          "id": "grade-five",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "variant-collector",
+          "total": 25,
+          "current": 25,
+          "unlocked": true
+        },
+        {
+          "id": "reef-explorer",
+          "total": 30,
+          "current": 29,
+          "unlocked": false
+        },
+        {
+          "id": "reef-rookie",
+          "total": 5,
+          "current": 5,
+          "unlocked": true
+        },
+        {
+          "id": "reef-naturalist",
+          "total": 15,
+          "current": 15,
+          "unlocked": true
+        },
+        {
+          "id": "rare-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "legend-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "mythic-encounter",
+          "total": 1,
+          "current": 1,
+          "unlocked": true
+        },
+        {
+          "id": "eel-family",
+          "total": 3,
+          "current": 3,
+          "unlocked": true
+        },
+        {
+          "id": "color-palette",
+          "total": 5,
+          "current": 5,
+          "unlocked": true
+        },
+        {
+          "id": "variant-master",
+          "total": 60,
+          "current": 60,
+          "unlocked": true
+        }
+      ],
+      "unlocked": [
+        "first-friend",
+        "tier-one",
+        "jelly-family",
+        "grade-five",
+        "variant-collector",
+        "reef-rookie",
+        "reef-naturalist",
+        "rare-encounter",
+        "legend-encounter",
+        "mythic-encounter",
+        "eel-family",
+        "color-palette",
+        "variant-master"
+      ]
+    }
+  ]
+}

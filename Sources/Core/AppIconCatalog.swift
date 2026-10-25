@@ -46,6 +46,7 @@ enum AppIconCatalog {
         .init(id: "goldenseahorse", nameKey: L10n.source("Golden-Leaf Coral"), speciesID: "goldenseahorse", decorationID: "coral", companionID: "chest"),
         .init(id: "leviathanfry", nameKey: L10n.source("Seadragon Ruins"), speciesID: "leviathanfry", decorationID: "castle", companionID: "crystal"),
         .init(id: "astraljelly", nameKey: L10n.source("Starcrown Glow"), speciesID: "astraljelly", decorationID: "mushroom", companionID: "crystal"),
+        .init(id: "cuttlefish", nameKey: L10n.source("Cuttlefish Ink Reef"), speciesID: "cuttlefish", decorationID: "coral", companionID: "shell"),
         .init(id: "lanternangler", nameKey: L10n.source("Lantern Grotto"), speciesID: "lanternangler", decorationID: "arch", companionID: "mushroom"),
         .init(id: "glassangel", nameKey: L10n.source("Glass Starlit Bay"), speciesID: "glassangel", decorationID: "crystal", companionID: "starfish"),
         .init(id: "starnautilus", nameKey: L10n.source("Starwheel Ruins"), speciesID: "starnautilus", decorationID: "castle", companionID: "shell")

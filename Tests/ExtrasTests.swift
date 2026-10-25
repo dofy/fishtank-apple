@@ -17,8 +17,10 @@ final class ExtrasTests: XCTestCase {
         let url = Bundle.module.url(forResource: "extras-parity", withExtension: "json", subdirectory: "Fixtures")!
         return try JSONDecoder().decode(Fixtures.self, from: Data(contentsOf: url))
     }
-    func testSevenAchievementHistoriesMatchWeb() throws {
-        let scenarios = try fixtures().achievements
+    func testSevenAchievementHistoriesMatchExpandedReferenceCatalog() throws {
+        struct CatalogFixtures: Decodable { var achievements: [Fixtures.Scenario] }
+        let url = Bundle.module.url(forResource: "cuttlefish-catalog-parity", withExtension: "json", subdirectory: "Fixtures")!
+        let scenarios = try JSONDecoder().decode(CatalogFixtures.self, from: Data(contentsOf: url)).achievements
         XCTAssertEqual(scenarios.count, 7)
         for sample in scenarios {
             var state = AquariumState.newGame(at: now)
