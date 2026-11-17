@@ -5,7 +5,7 @@ mkdir -p build/validation
 xcodegen generate > build/validation/project.log
 swift test > build/validation/core-tests.log 2>&1
 xcodebuild -project FishtankApple.xcodeproj -scheme FishtankMac -configuration Release \
-  -derivedDataPath build/release-mac ARCHS='arm64 x86_64' ONLY_ACTIVE_ARCH=NO \
+  -derivedDataPath build/release-mac ARCHS='arm64' ONLY_ACTIVE_ARCH=NO \
   CODE_SIGNING_ALLOWED=NO build > build/validation/mac-release.log 2>&1
 xcodebuild -project FishtankApple.xcodeproj -scheme FishtankPad -configuration Release \
   -destination 'generic/platform=iOS' -derivedDataPath build/release-pad \

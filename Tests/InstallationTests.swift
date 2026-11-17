@@ -34,6 +34,19 @@ final class InstallationTests: XCTestCase {
             XCTAssertTrue(FileManager.default.fileExists(atPath: directory.appendingPathComponent("installation-transfer.json").path))
         }
     }
+    func testPreviousMacIdentityCanTransferWithoutOverwritingDestination() throws {
+        try withDefaults { source, target in
+            var snapshot = fixture(source)
+            snapshot.sourceBundleID = AquariumInstallation.previousMacBundleID
+            let decoded = try AquariumInstallation.decode(JSONEncoder().encode(snapshot))
+            let parent = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+            defer { try? FileManager.default.removeItem(at: parent) }
+            let directory = parent.appendingPathComponent("tank")
+            try decoded.install(into: directory, defaults: target)
+            XCTAssertEqual(try AquariumSave.decode(Data(contentsOf: directory.appendingPathComponent("aquarium-v1.json"))), snapshot.state)
+            XCTAssertThrowsError(try decoded.install(into: directory, defaults: target))
+        }
+    }
     func testOlderTransferWithoutLanguagePreferenceStillDecodes() throws {
         try withDefaults { source, _ in
             let snapshot = fixture(source)

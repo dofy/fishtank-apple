@@ -1325,6 +1325,7 @@
 		ACDB6EB88B1BA8E4D29CB745 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = Configuration/FishtankMac.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1337,7 +1338,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yahaha.fishtank.mac;
+				MARKETING_VERSION = 1.6.1;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.fishtank;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -1345,6 +1347,7 @@
 		DE1741B79E301459E86BB874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = Configuration/FishtankMac.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1357,7 +1360,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yahaha.fishtank.mac;
+				MARKETING_VERSION = 1.6.1;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.phpz.app.fishtank;
 				SDKROOT = macosx;
 			};
 			name = Debug;

@@ -20,6 +20,26 @@ The source is available now, while official installation channels for Mac and iP
 
 ![Pixel aquarium on the desktop](docs/screenshots/aquarium.png)
 
+## Upgrading from the previous Mac preview
+
+The Mac bundle ID changed from `net.yahaha.fishtank.mac` to `xyz.phpz.app.fishtank`. macOS gives the new app a separate sandbox; your old aquarium remains in the old sandbox. Transfer it **before opening the new app for the first time**:
+
+1. Quit Fishtank. Keep a copy of the old app at `~/Desktop/Fishtank-old.app`, then install the new app in `/Applications`.
+2. In Terminal, export a private transfer file with a unique name:
+
+   ```sh
+   transfer_file=$(mktemp "${TMPDIR:-/tmp/}fishtank-transfer.XXXXXXXX")
+   ~/Desktop/Fishtank-old.app/Contents/MacOS/FishtankMac --export-installation-state --verify-update > "$transfer_file"
+   ```
+
+3. If export succeeded, import it into the new app before its first normal launch:
+
+   ```sh
+   /Applications/Fishtank.app/Contents/MacOS/FishtankMac --migrate-installation-state < "$transfer_file"
+   ```
+
+The import refuses to overwrite an existing new sandbox save. Keep the old app, its sandbox and the transfer file until you have verified your aquarium. Some permissions and settings, including security-scoped bookmarks, may need to be configured again. The transfer file contains your aquarium data; keep it private.
+
 ## Start with a few little fish, grow an ocean
 
 Collect **30 regular species**, from your first little fish to five-star koi, jellyfish, seadragons, and cuttlefish. Every pairing can reveal a new color, a new look, or even a creature you have never seen before.

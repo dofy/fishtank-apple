@@ -4,7 +4,8 @@ import Foundation
 /// The original sandbox remains intact; installation never overwrites a destination.
 struct AquariumInstallation: Codable {
     static let legacyBundleID = "net.yahaha.fishtank.apple.mac"
-    static let macBundleID = "net.yahaha.fishtank.mac"
+    static let previousMacBundleID = "net.yahaha.fishtank.mac"
+    static let macBundleID = "xyz.phpz.app.fishtank"
     static let maximumBytes = AquariumBackup.maximumBytes * 6
     static let recoveryNames: Set<String> = [
         "aquarium-v1.json.recent.json", "aquarium-v1.json.pre-restore.json",
@@ -53,7 +54,7 @@ struct AquariumInstallation: Codable {
         guard data.count <= maximumBytes else { throw AquariumError.invalidSave }
         let value = try JSONDecoder().decode(Self.self, from: data)
         guard value.format == "fishtank-installation-transfer", value.version == 1,
-              value.sourceBundleID == legacyBundleID, value.state.isValid, value.preferences.isValid,
+              [legacyBundleID, previousMacBundleID].contains(value.sourceBundleID), value.state.isValid, value.preferences.isValid,
               Set(value.recovery.keys).isSubset(of: recoveryNames),
               value.recovery.values.allSatisfy({ $0.count <= AquariumBackup.maximumBytes }) else { throw AquariumError.invalidSave }
         return value

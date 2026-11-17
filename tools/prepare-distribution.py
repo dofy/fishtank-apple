@@ -31,7 +31,7 @@ def main():
             plistlib.dump(value, output, sort_keys=True)
     plan = {
         "version": "1.6.0", "build": "22", "teamID": args.team_id,
-        "macOS": {"bundleID": "net.yahaha.fishtank.mac", "channel": "direct-download",
+        "macOS": {"bundleID": "xyz.phpz.app.fishtank", "channel": "direct-download",
                   "requires": ["Developer ID Application", "notarization", "stapling", "Gatekeeper acceptance"]},
         "iPadOS": {"bundleID": "net.yahaha.fishtank.apple.pad", "channel": "TestFlight",
                    "requires": ["signed device archive", "distribution provisioning", "App Store Connect record", "physical iPad acceptance"]},

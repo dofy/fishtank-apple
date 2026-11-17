@@ -44,7 +44,9 @@ targets:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: ""
         INFOPLIST_FILE: Configuration/FishtankMac-Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: net.yahaha.fishtank.mac
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.phpz.app.fishtank
+        MARKETING_VERSION: '1.6.1'
+        ARCHS: arm64
         INFOPLIST_KEY_CFBundleDisplayName: Fishtank
         INFOPLIST_KEY_LSUIElement: YES
         ENABLE_APP_SANDBOX: YES

@@ -7,10 +7,10 @@ for bundle in (mac, pad):
     root = bundle / 'Contents' if macos else bundle
     resources = root / 'Resources' if macos else root
     info = plistlib.loads((root / 'Info.plist').read_bytes())
-    assert info['CFBundleShortVersionString'] == '1.6.0', info
+    assert info['CFBundleShortVersionString'] == ('1.6.1' if macos else '1.6.0'), info
     assert info['CFBundleVersion'] == '22', info
     if macos:
-        assert info['CFBundleIdentifier'] == 'net.yahaha.fishtank.mac'
+        assert info['CFBundleIdentifier'] == 'xyz.phpz.app.fishtank'
         assert info['CFBundleIconFile'] == 'FishtankIcon.icns'
         assert (resources / info['CFBundleIconFile']).stat().st_size > 50_000
         variants = sorted(resources.glob('FishtankIcon-*.icns'))
@@ -52,7 +52,7 @@ for bundle in (mac, pad):
     if macos:
         assert info['LSUIElement'] is True
         arches = subprocess.check_output(['lipo', '-archs', str(root / 'MacOS' / info['CFBundleExecutable'])], text=True).split()
-        assert set(arches) == {'arm64', 'x86_64'}, arches
+        assert set(arches) == {'arm64'}, arches
     else:
         assert info['UIDeviceFamily'] == [2]
         assert len(info['UISupportedInterfaceOrientations']) == 4

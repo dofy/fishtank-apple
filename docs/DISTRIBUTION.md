@@ -4,7 +4,7 @@
 
 | 平台 | 目标标识 | 正式交付 |
 | --- | --- | --- |
-| macOS | `net.yahaha.fishtank.mac` | arm64/x86_64 通用应用，Developer ID Application 签名、公证并装订后压缩为 ZIP |
+| macOS | `xyz.phpz.app.fishtank` | Apple Silicon（arm64）；目前可分发未经 Apple 公证的预览包 |
 | iPadOS | `net.yahaha.fishtank.apple.pad` | 发行签名的设备 Archive，经 App Store Connect 处理后通过 TestFlight 安装 |
 
 ## 现有材料和待补信息
@@ -37,7 +37,7 @@ python3 tools/prepare-distribution.py --team-id 2RTHE5H9TX --output build/distri
 
 ## Mac 正式包
 
-1. 在 Xcode 为 FishtankMac 选择发布者团队，使用 Release 对通用目标 Archive。检查包含 arm64、x86_64，目标 Bundle ID 和沙箱权限与候选一致。
+1. 在 Xcode 为 FishtankMac 选择发布者团队，使用 Release 对 Apple Silicon 目标 Archive。检查仅包含 arm64，目标 Bundle ID 和沙箱权限与候选一致。
 2. 在 Organizer 中选择 Developer ID 分发。先导出并核对签名、版本、隐私清单和已验收的资源；当前 ad-hoc 试玩包不能直接冒充正式包。
 3. 将准确的候选版本、文件哈希、签名团队、待上传目标交给发布者审核。确认上传后再通过 Organizer 或已配置的 `notarytool` 提交 Apple 公证。
 4. 公证通过后装订票据，检查 `codesign --verify --deep --strict`、`xcrun stapler validate` 和 `spctl --assess --type execute`。重新压缩最终应用并生成 SHA-256。
